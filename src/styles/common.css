@@ -1,0 +1,151 @@
+/* Font */
+
+@import url('https://rsms.me/inter/inter.css');
+
+html { font-family: 'Inter', sans-serif; }
+
+@supports (font-variation-settings: normal) {
+    html { font-family: 'Inter var', sans-serif; }
+}
+
+/* Basic CSS */
+
+:root {
+    --bgcolor: #202020;
+    --primary: #0d6efd;
+    --spacer-1: .25rem;
+    --spacer-2: .5rem;
+    --spacer-3: .75rem;
+    --spacer-4: 1rem;
+
+    --mobile: 768px;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    
+    background: var(--bgcolor);
+}
+
+/* index */
+
+.p-index-banner {
+    position: relative;
+    top: 10rem;
+}
+
+.p-index-banner > h1 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    color: white;
+}
+
+.p-index-banner > a {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: white;
+
+    margin-top: 5rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
+/* pill CSS */
+
+.pill-container {
+    max-width: 75%;
+    min-height: 100vh;
+    position: relative;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pill-container * {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: white;
+}
+
+.pill-header {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row;
+    align-items: center;
+
+    padding-top: var(--spacer-4);
+    padding-bottom: var(--spacer-4);
+}
+
+.pill-header svg text {
+    /* Profile */
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.pill-header * {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: white;
+}
+
+.pill-footer {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    padding-top: var(--spacer-2);
+    padding-bottom: var(--spacer-2);
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pill-profile {
+    border: 2px solid white;
+    border-radius: 50%;
+
+    position: relative;
+}
+
+.noselect {
+    user-select: none;
+}
+
+.pill-profile-spec {
+    position: absolute;
+
+    top: 54px;
+    right: 0px;
+
+    width: 300px;
+    height: 200px;
+
+    background-color: white;
+    border-radius: 20px;
+
+    padding: 1.5rem;
+
+    display: none;
+
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.pill-profile-spec * {
+    color: var(--bgcolor);
+}
