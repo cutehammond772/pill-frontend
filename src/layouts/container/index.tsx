@@ -1,11 +1,12 @@
 import { PropsWithChildren } from "react";
+import { ContainerContent } from "./container.style";
 
 const Container = ({ children }: PropsWithChildren) => {
     return (
-        <div className="pill-container">
+        <ContainerContent>
             {children}
-        </div>
+        </ContainerContent>
     );
 };
 
-export default Container;
+export { Container };

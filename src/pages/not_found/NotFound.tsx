@@ -1,6 +1,6 @@
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Container from "../components/Container";
+import { Header } from "../../layouts/header";
+import { Footer } from "../../layouts/footer";
+import { Container } from "../../layouts/container";
 
 import { Link } from "react-router-dom";
 import Button from '@mui/material/Button';
@@ -20,4 +20,4 @@ const NotFound = () => {
     );
 };
 
-export default NotFound;
+export { NotFound };
