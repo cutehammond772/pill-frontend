@@ -1,7 +1,6 @@
-import request from '../../utils/Request';
+import request from '../../utils/request';
 import React, { useEffect, useRef, useState } from 'react';
 import { Tooltip } from '@mui/material';
-import ProfileSpec from './ProfileSpec';
 import * as config from '../../config';
 
 interface ProfileData {
@@ -54,12 +53,12 @@ const Profile = () => {
                     const user: UserProfile = response.data as UserProfile;
                     setProfile(!user ? GUEST_PROFILE : getUserProfile(user));
 
-                    console.log('[Profile.js] Fetched Profile successfully.');
+                    console.log('[Profile] Fetched Profile successfully.');
                 } else {
                     throw new Error();
                 }
             } catch (e) {
-                console.log('[Profile.js] Failed loading profile.');
+                console.log('[Profile] Failed loading profile.');
                 setProfile(GUEST_PROFILE);
             }
         };
@@ -90,7 +89,6 @@ const Profile = () => {
                     { !profile.image ? GUEST_PROFILE.image : profile.image }
                 </div>
             </Tooltip>
-            <ProfileSpec userName={profile.displayName} ref={ref}/>
         </div>
     );
 };
