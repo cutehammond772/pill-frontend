@@ -1,5 +1,5 @@
 import { Logo } from "../../components/logo";
-import Profile from "../../components/profile/Profile";
+import Profile from "../../components/profile";
 import { HeaderContent } from "./header.style";
 
 const Header = ({ title }: { title?: string }) => {

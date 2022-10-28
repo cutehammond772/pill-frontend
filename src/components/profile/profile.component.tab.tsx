@@ -1,0 +1,5 @@
+const ProfileTab = () => {
+
+};
+
+export { ProfileTab };

@@ -1,6 +1,11 @@
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
+
+import { rootReducer } from "./utils/reducers";
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+
 import { deepmerge } from "@mui/utils";
 import { experimental_extendTheme as extendMuiTheme } from "@mui/material/styles";
 import colors from "@mui/joy/colors";
@@ -86,11 +91,15 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
+const store = configureStore({ reducer: rootReducer });
+
 root.render(
   <BrowserRouter>
     <CssVarsProvider theme={theme}>
       <GlobalStyles />
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </CssVarsProvider>
   </BrowserRouter>
 );

@@ -1,4 +1,4 @@
-const ERequestError = {
+const RequestErrorType = {
     ERR_NETWORK: 'ERR_NETWORK',
     ERR_BAD_REQUEST: 'ERR_BAD_REQUEST',
     EMPTY: 'EMPTY',
@@ -6,22 +6,22 @@ const ERequestError = {
     UNKNOWN: 'UNKNOWN'
 } as const;
 
-type TRequestError = typeof ERequestError[keyof typeof ERequestError];
+type RequestError = typeof RequestErrorType[keyof typeof RequestErrorType];
 
-const resolve = (error: TRequestError, subject: string) => {
+const resolve = (error: RequestError, subject: string) => {
     switch (error) {
-        case ERequestError.ERR_NETWORK:
+        case RequestErrorType.ERR_NETWORK:
             console.log(`[${subject}] Cannot fetch Access Token: failed to connect with Back-end Server.`);
             break;
-        case ERequestError.ERR_BAD_REQUEST:
+        case RequestErrorType.ERR_BAD_REQUEST:
             // 404 Not Found
             console.log(`[${subject}] Cannot fetch Access Token: cannot find Refresh Token (need to login.)`);
             break;
-        case ERequestError.EMPTY:
+        case RequestErrorType.EMPTY:
             // Token is empty
             console.log(`[${subject}] Cannot fetch Access Token: token is empty.`);
             break;
-        case ERequestError.SUCCESS:
+        case RequestErrorType.SUCCESS:
             console.log(`[${subject}] Fetched Access Token successfully.`);
             break;
         default:
@@ -32,13 +32,13 @@ const resolve = (error: TRequestError, subject: string) => {
 
 const convert = (error: string) => {
     switch(error) {
-        case ERequestError.ERR_NETWORK:
-            return ERequestError.ERR_NETWORK;
-        case ERequestError.ERR_BAD_REQUEST:
-            return ERequestError.ERR_BAD_REQUEST;
+        case RequestErrorType.ERR_NETWORK:
+            return RequestErrorType.ERR_NETWORK;
+        case RequestErrorType.ERR_BAD_REQUEST:
+            return RequestErrorType.ERR_BAD_REQUEST;
         default:
-            return ERequestError.UNKNOWN;
+            return RequestErrorType.UNKNOWN;
     }
 };
 
-export { convert, resolve, ERequestError as Type };
+export { convert, resolve, RequestErrorType as Type };
