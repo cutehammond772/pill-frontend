@@ -4,12 +4,13 @@ import { Container } from "../../layouts/container";
 
 import { Login, Logout } from "../../components/auth";
 import * as config from "../../config";
-import response from "../../utils/response";
+import { useQueryResponse } from "../../utils/hooks/query_response";
 
 
 const Home = () => {
-    const json = response();
-
+    const response = useQueryResponse();
+    const json = response.rawJsonString();
+    
     return (
         <Container>
             <Header />
