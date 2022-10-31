@@ -1,6 +1,7 @@
 interface ProfileData {
     displayName: string,
-    profileUrl?: string
+    profileUrl?: string,
+    userName?: string
 };
 
 /** 프로파일을 불러오는 중일 때 사용되는 임시 프로파일이다. */
