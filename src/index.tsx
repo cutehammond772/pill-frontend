@@ -7,7 +7,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 
 import { deepmerge } from "@mui/utils";
-import { experimental_extendTheme as extendMuiTheme } from "@mui/material/styles";
+import {
+  experimental_extendTheme as extendMuiTheme,
+  StyledEngineProvider,
+} from "@mui/material/styles";
 import colors from "@mui/joy/colors";
 import {
   extendTheme as extendJoyTheme,
@@ -95,11 +98,13 @@ const store = configureStore({ reducer: rootReducer });
 
 root.render(
   <BrowserRouter>
-    <CssVarsProvider theme={theme}>
-      <GlobalStyles />
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </CssVarsProvider>
+    <StyledEngineProvider injectFirst>
+      <CssVarsProvider theme={theme}>
+        <GlobalStyles />
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CssVarsProvider>
+    </StyledEngineProvider>
   </BrowserRouter>
 );

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const FooterContent = styled.header`
+const FooterContent = styled.footer`
     position: absolute;
     bottom: 0;
     z-index: 1;
@@ -14,6 +14,8 @@ const FooterContent = styled.header`
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+
+    box-sizing: border-box;
 
     background-color: #303030;
 `;

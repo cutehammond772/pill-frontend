@@ -2,7 +2,7 @@
 import { Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import "@fontsource/inter/700.css";
+import "@fontsource/inter/500.css";
 
 const style = css`
   html {
@@ -26,6 +26,9 @@ const style = css`
   body {
     width: 100%;
     height: 100%;
+
+    margin: 0;
+
 
     background: var(--bgcolor);
   }
