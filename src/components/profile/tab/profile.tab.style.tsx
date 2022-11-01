@@ -21,8 +21,8 @@ const ProfileTabTitleContent = styled.span`
   font-size: 1.5rem;
   user-select: none;
 
-  padding-top: 4px;
-  padding-bottom: 4px;
+  position: relative;
+  top: 0.5rem;
 `;
 
 const ProfileTabDividerLine = styled(Divider)`
@@ -47,10 +47,39 @@ const ProfileTabMenu = styled.div`
   justify-content: center;
 `;
 
+const GuestProfileBanner = styled.div`
+  height: 200px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 15px;
+  background: linear-gradient(
+    90deg,
+    hsla(339, 50%, 55%, 1) 0%,
+    hsla(197, 50%, 64%, 1) 100%
+  );
+  padding: 1rem;
+  margin-top: 40px;
+
+  & > svg {
+    font-size: 60px;
+  }
+
+  & > span {
+    font-family: Inter;
+    color: #202020;
+    text-align: center;
+    font-size: 1rem;
+    user-select: none;
+  }
+`;
+
 export {
   ProfileTabContent,
   ProfileTabTitleContent,
   ProfileTabDividerLine,
   ProfileTabDividerContent,
   ProfileTabMenu,
+  GuestProfileBanner
 };

@@ -7,8 +7,10 @@ const HeaderContent = styled.header`
 
     display: flex;
     justify-content: space-between;
-    flex-flow: row;
+    flex-flow: row nowrap;
     align-items: center;
+
+    margin-top: 3rem;
 
     padding-top: 2rem;
     padding-bottom: 2rem;

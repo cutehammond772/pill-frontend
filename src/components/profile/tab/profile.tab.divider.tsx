@@ -5,7 +5,7 @@ const ProfileTabDivider = ({ title }: { title: string }) => {
   return (
     <ProfileTabDividerLine>
       <ProfileTabDividerContent>
-        Received Comment
+        {title}
       </ProfileTabDividerContent>
     </ProfileTabDividerLine>
   );
