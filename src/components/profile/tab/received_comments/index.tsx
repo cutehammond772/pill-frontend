@@ -5,18 +5,13 @@ import {
   ReceivedCommentsContent,
   ReceivedCommentsFooter,
 } from "./profile.tab.rc.style";
+
+import {
+  ReceivedCommentData,
+  ReceivedCommentsStats,
+} from "./profile.tab.rc.type";
+
 import { ReceivedComment } from "./profile.tab.rc.comment";
-
-interface ReceivedCommentData {
-  title: string;
-  userName: string;
-  comment: string;
-}
-
-interface ReceivedCommentsStats {
-  timeUnit: string;
-  commentsCount: number;
-}
 
 const ReceivedComments = ({
   receivedComments,
@@ -26,28 +21,30 @@ const ReceivedComments = ({
   stats?: ReceivedCommentsStats;
 }) => {
   return (
-    <ReceivedCommentsContent>
+    <ReceivedCommentsContent variant="soft" color="info">
       {!receivedComments ? (
         <></>
       ) : (
         <>
-          {receivedComments.map((data, index) => (
-            <>
-              {index !== 0 && <ListDivider inset="gutter" />}
+          {receivedComments.map((data) => (
+            <div key={data.key}>
+              {data.key !== 0 && <ListDivider inset="gutter" />}
               <ReceivedComment
                 title={data.title}
                 userName={data.userName}
                 comment={data.comment}
-                key={index}
               />
-            </>
+            </div>
           ))}
         </>
       )}
 
       {!!receivedComments && !!stats && (
         <ReceivedCommentsFooter>
-          <ReceivedCommentsHistory unit={stats.timeUnit} comments={stats.commentsCount} />
+          <ReceivedCommentsHistory
+            unit={stats.timeUnit}
+            comments={stats.commentsCount}
+          />
 
           <Button size="sm" variant="solid" color="info">
             More...
@@ -58,4 +55,8 @@ const ReceivedComments = ({
   );
 };
 
-export { ReceivedComments, type ReceivedCommentData, type ReceivedCommentsStats };
+export {
+  ReceivedComments,
+  type ReceivedCommentData,
+  type ReceivedCommentsStats,
+};

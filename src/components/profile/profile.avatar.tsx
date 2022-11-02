@@ -3,7 +3,7 @@ import { Avatar } from "@mui/joy";
 import { Tooltip } from "@mui/material";
 
 import { useProfile } from "../../utils/hooks/profile";
-import { DefaultProfile, ProfileData } from "./profile.type";
+import { DefaultProfile, ProfileData, AvatarProps } from "./profile.type";
 
 const ProfileAvatar = ({ onClick }: { onClick: () => void }) => {
   const profile = useProfile();
@@ -55,10 +55,5 @@ const UserAvatarContent = React.forwardRef<HTMLDivElement, AvatarProps>(
       <DefaultAvatarContent onClick={props.onClick} />
     )
 );
-
-interface AvatarProps {
-  profile?: ProfileData;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
-}
 
 export { ProfileAvatar };

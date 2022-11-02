@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import * as config from "../../config";
 
 import { ProfileData } from "./profile.type";
-import { ProfileAvatar } from "./profile.component.avatar";
-import { ProfileInfo } from "./profile.component.info";
+import { ProfileAvatar } from "./profile.avatar";
+import { ProfilePointInfo } from "./profile.point_info";
 import { ProfileTab } from "./tab";
 
 import { useProfile } from "../../utils/hooks/profile";
@@ -50,7 +50,7 @@ const Profile = () => {
   return (
     <>
       <ProfileLayout>
-        {!!profile.data.profile && <ProfileInfo />}
+        {!!profile.data.profile && <ProfilePointInfo point={30000}/>}
         <ProfileAvatar
           onClick={() => {
             if (profile.data.inited) {

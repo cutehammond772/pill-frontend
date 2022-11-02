@@ -1,13 +1,11 @@
 
-import { ProfileTabDividerContent, ProfileTabDividerLine } from "./profile.tab.style";
+import { ProfileTabDividerContent } from "./profile.tab.style";
 
 const ProfileTabDivider = ({ title }: { title: string }) => {
   return (
-    <ProfileTabDividerLine>
-      <ProfileTabDividerContent>
+    <ProfileTabDividerContent>
         {title}
-      </ProfileTabDividerContent>
-    </ProfileTabDividerLine>
+    </ProfileTabDividerContent>
   );
 };
 

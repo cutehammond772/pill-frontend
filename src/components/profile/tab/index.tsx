@@ -31,6 +31,7 @@ import { AuthRequest } from "../../auth/auth.type";
 
 const GuestProfileTabContent = React.forwardRef<HTMLDivElement>(
   (props, ref) => {
+    
     const request: AuthRequest = {
       redirect: config.INDEX,
       provider: "google",
@@ -68,11 +69,13 @@ const ProfileTab = ({
       userName: "cutehammond",
       comment:
         "I'll be in your neighborhood doing errands this Tuesday. I'll be in your...",
+      key: 0
     },
     {
       title: "Summer BBQ",
       userName: "udonehn",
       comment: "Wish I could come, but I'm out of town.",
+      key: 1
     },
   ];
 

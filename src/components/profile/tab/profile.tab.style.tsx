@@ -25,12 +25,10 @@ const ProfileTabTitleContent = styled.span`
   top: 0.5rem;
 `;
 
-const ProfileTabDividerLine = styled(Divider)`
+const ProfileTabDividerContent = styled(Divider)`
   padding-top: 20px;
   padding-bottom: 10px;
-`;
 
-const ProfileTabDividerContent = styled.span`
   letter-spacing: 0.15rem;
   font-size: 0.5rem;
   color: grey;
@@ -78,7 +76,6 @@ const GuestProfileBanner = styled.div`
 export {
   ProfileTabContent,
   ProfileTabTitleContent,
-  ProfileTabDividerLine,
   ProfileTabDividerContent,
   ProfileTabMenu,
   GuestProfileBanner

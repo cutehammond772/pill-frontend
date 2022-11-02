@@ -1,20 +1,11 @@
-import * as React from "react";
 import styled from "@emotion/styled";
-import { Chip, List, ListItem, Typography } from "@mui/joy";
+import { List, ListItem } from "@mui/joy";
 
-const ReceivedCommentsContent = ({ children }: React.PropsWithChildren) => (
-  <List
-    variant="soft"
-    color="info"
-    sx={{
-      minWidth: 240,
-      borderRadius: "sm",
-      userSelect: "none",
-    }}
-  >
-    {children}
-  </List>
-);
+const ReceivedCommentsContent = styled(List)`
+  min-width: 240;
+  border-radius: sm;
+  user-select: none;
+`;
 
 const ReceivedCommentHeader = styled.div`
   display: flex;
@@ -36,35 +27,18 @@ const ReceivedCommentButtons = styled.div`
   align-items: center;
 `;
 
-const ReceivedCommentContent = ({
-  userName,
-  comment,
-}: {
-  userName: string;
-  comment: string;
-}) => {
-  return (
-    <Typography
-      sx={{
-        color: "grey",
-        fontFamily: "Inter",
-        fontSize: "0.8rem",
-      }}
-    >
-      <Chip
-        size="sm"
-        color="info"
-        sx={{
-          left: "-5px",
-          fontSize: "0.7rem",
-        }}
-      >
-        {userName}
-      </Chip>
-      {comment}
-    </Typography>
-  );
-};
+const ReceivedCommentContent = styled.div`
+  color: grey;
+  font-family: Inter;
+  font-size: 0.8rem;
+
+  // Username Chip
+  & > div:nth-of-type(1) {
+    position: relative;
+    left: -5px;
+    font-size: 0.7rem;
+  }
+`;
 
 const ReceivedCommentsHistoryContent = styled.div`
   display: flex;
