@@ -1,6 +1,6 @@
-import { Header } from "../../layouts/header";
-import { Footer } from "../../layouts/footer";
-import { Container } from "../../layouts/container";
+import { Header } from "../../../layouts/header";
+import { Footer } from "../../../layouts/footer";
+import { Container } from "../../../layouts/container";
 
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/joy";
@@ -14,7 +14,7 @@ import {
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const NotFound = () => {
+const NotFoundPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -42,4 +42,4 @@ const NotFound = () => {
   );
 };
 
-export { NotFound };
+export { NotFoundPage };

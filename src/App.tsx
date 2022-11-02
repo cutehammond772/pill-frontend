@@ -1,13 +1,19 @@
 import { Route, Routes } from "react-router-dom"; 
+import { CreatePage } from "./pages/create";
 
-import { Home } from './pages/home/';
-import { NotFound } from './pages/not_found';
+import { HomePage } from './pages/home/';
+import { NotFoundPage } from './pages/error/not_found';
 
 function App() {
   return (
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='*' element={<NotFound/>}/>
+        <Route path='/' element={<HomePage/>}/>
+        <Route path='/create' element={<CreatePage />}/>
+        <Route path='/user/:userid' element={<CreatePage />}/>
+        <Route path='/manage' element={<CreatePage />}/>
+        <Route path='/board' element={<CreatePage />}/>
+        <Route path='/pill/:pillid' element={<CreatePage />}/>
+        <Route path='*' element={<NotFoundPage/>}/>
       </Routes>
   );
 }

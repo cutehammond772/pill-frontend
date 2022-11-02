@@ -7,8 +7,7 @@ import { useAuth } from "../../utils/hooks/auth";
 import { UserHome } from "./user";
 import { GuestHome } from "./guest";
 
-
-const Home = () => {
+const HomePage = () => {
   const auth = useAuth();
 
   return (
@@ -20,4 +19,4 @@ const Home = () => {
   );
 };
 
-export { Home };
+export { HomePage };

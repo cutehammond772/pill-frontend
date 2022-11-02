@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import { Logo } from "../../components/logo";
 import Profile from "../../components/profile";
 import { HeaderContent } from "./header.style";
@@ -12,11 +14,31 @@ const Header = ({
   title?: string;
   noSearchBar?: boolean;
 }) => {
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      window.addEventListener("scroll", handleScroll);
+    }, 100);
+
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
+
+  const handleScroll = () => {
+    if (!!headerRef.current) {
+      const percentage = Math.min(window.scrollY, 100);
+      headerRef.current.style.background = `rgba(32, 32, 32, ${percentage}%)`;
+    }
+  }
+
   return (
-    <HeaderContent>
+    <HeaderContent ref={headerRef}>
       {!!title ? (
         // Header Title이 존재하면 title 표시
-        <h1>{title}</h1>
+        <span>{title}</span>
       ) : (
         // Header Title이 존재하지 않으면 Logo 표시
         <Logo />
