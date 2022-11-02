@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
 
-const ProfileLayout = styled.div`
+const ContainerStyle = styled.div`
   display: flex;
   flex-flow: row;
   column-gap: 3px;
   float: right;
 `;
 
-const ProfilePointInfoContent = styled.div`
+const InfoStyle = styled.div`
   display: flex;
   column-gap: 30px;
   flex-flow: row;
@@ -22,4 +22,4 @@ const ProfilePointInfoContent = styled.div`
   }
 `;
 
-export { ProfileLayout, ProfilePointInfoContent };
+export { ContainerStyle, InfoStyle };

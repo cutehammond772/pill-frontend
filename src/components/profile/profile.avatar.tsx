@@ -22,16 +22,16 @@ const ProfileAvatar = ({ onClick }: { onClick: () => void }) => {
   return (
     <Tooltip title={data.userName} disableInteractive>
       {!state.profile ? (
-        <DefaultAvatarContent onClick={onClick} />
+        <DefaultAvatar onClick={onClick} />
       ) : (
-        <UserAvatarContent profile={data} onClick={onClick} />
+        <UserAvatar profile={data} onClick={onClick} />
       )}
     </Tooltip>
   );
 };
 
 // 기본 아바타 (Guest, Loading)
-const DefaultAvatarContent = React.forwardRef<HTMLDivElement, AvatarProps>(
+const DefaultAvatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   (props, ref) => (
     <div ref={ref} {...props}>
       <Avatar color="primary" variant="solid" size="md" sx={{ zIndex: 6 }} />
@@ -40,7 +40,7 @@ const DefaultAvatarContent = React.forwardRef<HTMLDivElement, AvatarProps>(
 );
 
 // 유저 아바타
-const UserAvatarContent = React.forwardRef<HTMLDivElement, AvatarProps>(
+const UserAvatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   (props, ref) =>
     !!props.profile ? (
       <div ref={ref} {...props}>
@@ -52,7 +52,7 @@ const UserAvatarContent = React.forwardRef<HTMLDivElement, AvatarProps>(
         />
       </div>
     ) : (
-      <DefaultAvatarContent onClick={props.onClick} />
+      <DefaultAvatar onClick={props.onClick} />
     )
 );
 

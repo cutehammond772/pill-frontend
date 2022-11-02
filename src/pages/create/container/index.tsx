@@ -4,14 +4,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 
 import { ContainerStyle, ContainerTitleStyle } from "./container.style";
-import { ContainerProps } from "./container.type";
+import { CreatingPillContainerProps } from "./container.type";
 
 const Container = ({
   title,
   complete,
   layout,
   children,
-}: React.PropsWithChildren<ContainerProps>) => {
+}: React.PropsWithChildren<CreatingPillContainerProps>) => {
   return (
     <ContainerStyle layout={layout}>
       <ContainerTitleStyle>

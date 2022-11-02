@@ -6,11 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/joy";
 
 import { Box } from "@mui/material";
-import {
-  GoToHomeButton,
-  NotFoundButtons,
-  NotFoundContentText,
-} from "./not_found.style";
+import { GoToHomeButton, ContainerStyle, TitleStyle } from "./not_found.style";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -21,9 +17,9 @@ const NotFoundPage = () => {
     <Container>
       <Header noSearchBar />
       <Box sx={{ height: "2048px" }}>
-        <NotFoundContentText>404 Not Found.</NotFoundContentText>
+        <TitleStyle>404 Not Found.</TitleStyle>
 
-        <NotFoundButtons>
+        <ContainerStyle>
           <GoToHomeButton>Go to Home</GoToHomeButton>
 
           <Button
@@ -35,7 +31,7 @@ const NotFoundPage = () => {
           >
             Go to Previous Page
           </Button>
-        </NotFoundButtons>
+        </ContainerStyle>
       </Box>
       <Footer />
     </Container>

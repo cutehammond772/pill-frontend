@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 
-const UserHomeContent = styled.div`
+const ContentStyle = styled.div`
   height: 2048px;
 `;
 
@@ -65,4 +65,4 @@ const BehaviorButton = styled(Button)<{ bordercolor: string }>`
   }
 `;
 
-export { UserHomeContent, BehaviorButton, PageSubjectText, PageBehaviorsContent };
+export { ContentStyle, BehaviorButton, PageSubjectText, PageBehaviorsContent };

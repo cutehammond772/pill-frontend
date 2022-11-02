@@ -1,10 +1,10 @@
 import * as React from "react";
 import {
   BehaviorButton,
-  UserHomeContent,
+  ContentStyle,
   PageSubjectText,
   PageBehaviorsContent
-} from "./user.home.style";
+} from "./user.style";
 
 import AddIcon from "@mui/icons-material/Add";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -14,8 +14,7 @@ const UserHome = () => {
   const navigate = useNavigate();
 
   return (
-    <UserHomeContent>
-
+    <ContentStyle>
       <PageSubjectText>Behaviors</PageSubjectText>
       <PageBehaviorsContent>
         <BehaviorButton color="info" variant="outlined" bordercolor="violet" onClick={() => {navigate("/create")}}>
@@ -33,7 +32,7 @@ const UserHome = () => {
 
       <PageSubjectText>Recent Pills</PageSubjectText>
       <PageSubjectText>Most Liked</PageSubjectText>
-    </UserHomeContent>
+    </ContentStyle>
   );
 };
 

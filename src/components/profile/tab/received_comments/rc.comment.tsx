@@ -4,11 +4,11 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import {
-  ReceivedCommentButtons,
-  ReceivedCommentContent,
-  ReceivedCommentHeader,
-  ReceivedCommentTitle,
-} from "./profile.tab.rc.style";
+  ButtonsStyle,
+  ContentStyle,
+  HeaderStyle,
+  TitleStyle,
+} from "./rc.style";
 
 const ReceivedComment = ({
   title,
@@ -22,21 +22,21 @@ const ReceivedComment = ({
   return (
     <ListItem>
       <ListItemContent>
-        <ReceivedCommentHeader>
-          <ReceivedCommentTitle>{title}</ReceivedCommentTitle>
+        <HeaderStyle>
+          <TitleStyle>{title}</TitleStyle>
 
-          <ReceivedCommentButtons>
+          <ButtonsStyle>
             <ArrowForwardIcon />
             <ThumbUpIcon />
-          </ReceivedCommentButtons>
-        </ReceivedCommentHeader>
+          </ButtonsStyle>
+        </HeaderStyle>
 
-        <ReceivedCommentContent>
+        <ContentStyle>
           <Chip size="sm" color="info">
             {userName}
           </Chip>
           {comment}
-        </ReceivedCommentContent>
+        </ContentStyle>
       </ListItemContent>
     </ListItem>
   );

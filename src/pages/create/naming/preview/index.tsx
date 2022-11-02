@@ -8,13 +8,13 @@ import {
   PreviewBadgeStyle,
 } from "./preview.style";
 
-import * as Type from "./preview.type";
+import { PillPreviewProps } from "./preview.type";
 
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Chip } from "@mui/joy";
 
-const PillPreview = ({ title, author, likes, time }: Type.Props) => (
+const PillPreview = ({ title, author, likes, time }: PillPreviewProps) => (
   <ContainerStyle>
     <BannerStyle>
       <span>{title}</span>

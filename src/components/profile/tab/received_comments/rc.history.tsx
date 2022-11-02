@@ -1,7 +1,7 @@
 import HistoryIcon from "@mui/icons-material/History";
-import { ReceivedCommentsHistoryContent } from "./profile.tab.rc.style";
+import { HistoryStyle } from "./rc.style";
 
-const ReceivedCommentsHistory = ({
+const History = ({
   unit,
   comments,
 }: {
@@ -9,13 +9,13 @@ const ReceivedCommentsHistory = ({
   comments: number;
 }) => {
   return (
-    <ReceivedCommentsHistoryContent>
+    <HistoryStyle>
       <HistoryIcon />
       <span>
         Recent {unit} (+{comments})
       </span>
-    </ReceivedCommentsHistoryContent>
+    </HistoryStyle>
   );
 };
 
-export { ReceivedCommentsHistory };
+export { History };

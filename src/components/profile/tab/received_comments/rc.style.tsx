@@ -1,33 +1,33 @@
 import styled from "@emotion/styled";
 import { List, ListItem } from "@mui/joy";
 
-const ReceivedCommentsContent = styled(List)`
+const ContainerStyle = styled(List)`
   min-width: 240;
   border-radius: sm;
   user-select: none;
 `;
 
-const ReceivedCommentHeader = styled.div`
+const HeaderStyle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 5px;
 `;
 
-const ReceivedCommentTitle = styled.span`
+const TitleStyle = styled.span`
   font-family: Inter;
   font-weight: 700;
   font-size: 1rem;
 `;
 
-const ReceivedCommentButtons = styled.div`
+const ButtonsStyle = styled.div`
   display: flex;
   justify-content: space-between;
   column-gap: 10px;
   align-items: center;
 `;
 
-const ReceivedCommentContent = styled.div`
+const ContentStyle = styled.div`
   color: grey;
   font-family: Inter;
   font-size: 0.8rem;
@@ -40,7 +40,7 @@ const ReceivedCommentContent = styled.div`
   }
 `;
 
-const ReceivedCommentsHistoryContent = styled.div`
+const HistoryStyle = styled.div`
   display: flex;
   column-gap: 4px;
   align-items: center;
@@ -54,17 +54,17 @@ const ReceivedCommentsHistoryContent = styled.div`
   }
 `;
 
-const ReceivedCommentsFooter = styled(ListItem)`
+const FooterStyle = styled(ListItem)`
   display: flex;
   justify-content: space-between;
 `;
 
 export {
-  ReceivedCommentsContent,
-  ReceivedCommentContent,
-  ReceivedCommentHeader,
-  ReceivedCommentTitle,
-  ReceivedCommentButtons,
-  ReceivedCommentsHistoryContent,
-  ReceivedCommentsFooter,
+  ContainerStyle,
+  ContentStyle,
+  HeaderStyle,
+  TitleStyle,
+  ButtonsStyle,
+  HistoryStyle,
+  FooterStyle,
 };

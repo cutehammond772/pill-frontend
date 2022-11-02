@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 
 import HomeIcon from "@mui/icons-material/Home";
 
-const NotFoundButtons = styled.div`
+const ContainerStyle = styled.div`
   display: flex;
   column-gap: 10px;
 `;
 
-const NotFoundContentText = styled.h1`
+const TitleStyle = styled.h1`
   color: white;
   padding-top: 128px;
   font-size: 5rem;
@@ -32,4 +32,4 @@ const GoToHomeButton = ({ children }: React.PropsWithChildren) => {
   );
 };
 
-export { NotFoundButtons, NotFoundContentText, GoToHomeButton };
+export { ContainerStyle, TitleStyle, GoToHomeButton };

@@ -1,12 +1,12 @@
 import { Chip } from "@mui/joy";
 
-import { ProfilePointInfoContent } from "./profile.style";
+import { InfoStyle } from "./profile.style";
 
 import CopyrightIcon from "@mui/icons-material/Copyright";
 
 const ProfilePointInfo = ({ point }: { point: number }) => {
   return (
-    <ProfilePointInfoContent>
+    <InfoStyle>
       <Chip
         variant="solid"
         color="success"
@@ -15,7 +15,7 @@ const ProfilePointInfo = ({ point }: { point: number }) => {
       >
         {point}
       </Chip>
-    </ProfilePointInfoContent>
+    </InfoStyle>
   );
 };
 

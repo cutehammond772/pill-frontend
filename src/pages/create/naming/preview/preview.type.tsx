@@ -1,8 +1,8 @@
-interface Props {
+interface PillPreviewProps {
   title: string;
   author: string;
   likes: number;
   time: string;
 }
 
-export type { Props };
+export type { PillPreviewProps };

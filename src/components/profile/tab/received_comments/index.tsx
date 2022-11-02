@@ -1,17 +1,11 @@
 import { Button, ListDivider } from "@mui/joy";
 
-import { ReceivedCommentsHistory } from "./profile.tab.rc.history";
-import {
-  ReceivedCommentsContent,
-  ReceivedCommentsFooter,
-} from "./profile.tab.rc.style";
+import { History } from "./rc.history";
+import { ContainerStyle, FooterStyle } from "./rc.style";
 
-import {
-  ReceivedCommentData,
-  ReceivedCommentsStats,
-} from "./profile.tab.rc.type";
+import { ReceivedCommentData, ReceivedCommentsStats } from "./rc.type";
 
-import { ReceivedComment } from "./profile.tab.rc.comment";
+import { ReceivedComment } from "./rc.comment";
 
 const ReceivedComments = ({
   receivedComments,
@@ -21,7 +15,7 @@ const ReceivedComments = ({
   stats?: ReceivedCommentsStats;
 }) => {
   return (
-    <ReceivedCommentsContent variant="soft" color="info">
+    <ContainerStyle variant="soft" color="info">
       {!receivedComments ? (
         <></>
       ) : (
@@ -40,18 +34,15 @@ const ReceivedComments = ({
       )}
 
       {!!receivedComments && !!stats && (
-        <ReceivedCommentsFooter>
-          <ReceivedCommentsHistory
-            unit={stats.timeUnit}
-            comments={stats.commentsCount}
-          />
+        <FooterStyle>
+          <History unit={stats.timeUnit} comments={stats.commentsCount} />
 
           <Button size="sm" variant="solid" color="info">
             More...
           </Button>
-        </ReceivedCommentsFooter>
+        </FooterStyle>
       )}
-    </ReceivedCommentsContent>
+    </ContainerStyle>
   );
 };
 

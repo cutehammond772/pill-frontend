@@ -5,7 +5,7 @@ import { Button, Link } from "@mui/joy";
 
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { DefaultText } from "../../styles/GlobalStyles";
+import { DefaultText } from "../../GlobalStyles";
 
 const Login: AuthNode = (request: AuthRequest) => {
     return (

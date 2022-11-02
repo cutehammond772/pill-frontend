@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Divider } from "@mui/joy";
 
-const ProfileTabContent = styled.div`
+const ContainerStyle = styled.div`
   width: 300px;
   height: auto;
   background: #303030;
@@ -14,7 +14,7 @@ const ProfileTabContent = styled.div`
   z-index: 5;
 `;
 
-const ProfileTabTitleContent = styled.span`
+const TitleStyle = styled.span`
   color: white;
   font-family: Inter;
   font-weight: 500;
@@ -25,7 +25,7 @@ const ProfileTabTitleContent = styled.span`
   top: 0.5rem;
 `;
 
-const ProfileTabDividerContent = styled(Divider)`
+const DividerStyle = styled(Divider)`
   padding-top: 20px;
   padding-bottom: 10px;
 
@@ -37,7 +37,7 @@ const ProfileTabDividerContent = styled(Divider)`
   user-select: none;
 `;
 
-const ProfileTabMenu = styled.div`
+const MenuStyle = styled.div`
   display: flex;
   flex-wrap: wrap;
   column-gap: 5px;
@@ -45,7 +45,7 @@ const ProfileTabMenu = styled.div`
   justify-content: center;
 `;
 
-const GuestProfileBanner = styled.div`
+const GuestBannerStyle = styled.div`
   height: 200px;
   display: flex;
   flex-flow: column;
@@ -74,9 +74,9 @@ const GuestProfileBanner = styled.div`
 `;
 
 export {
-  ProfileTabContent,
-  ProfileTabTitleContent,
-  ProfileTabDividerContent,
-  ProfileTabMenu,
-  GuestProfileBanner
+  ContainerStyle,
+  TitleStyle,
+  DividerStyle,
+  MenuStyle,
+  GuestBannerStyle
 };

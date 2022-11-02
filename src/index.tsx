@@ -17,7 +17,7 @@ import {
   CssVarsProvider,
 } from "@mui/joy/styles";
 
-import { GlobalStyles } from "./styles/GlobalStyles";
+import { GlobalStyles } from "./GlobalStyles";
 
 const muiTheme = extendMuiTheme({
   // This is required to point to `var(--joy-*)` because we are using `CssVarsProvider` from Joy UI.

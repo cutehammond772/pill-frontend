@@ -3,13 +3,13 @@ import { Grow } from "@mui/material";
 import * as React from "react";
 import * as config from "../../../config";
 
-import { ProfileTabTitle } from "./profile.tab.title";
-import { ProfileTabDivider } from "./profile.tab.divider";
+import { Divider } from "./tab.divider";
 import {
-  GuestProfileBanner,
-  ProfileTabContent,
-  ProfileTabMenu,
-} from "./profile.tab.style";
+  GuestBannerStyle,
+  ContainerStyle,
+  MenuStyle,
+  TitleStyle,
+} from "./tab.style";
 
 import {
   ReceivedCommentData,
@@ -24,39 +24,36 @@ import {
   LogoutButton,
   ManageProfileButton,
   MyPillButton,
-} from "./profile.tab.menu";
+} from "./tab.menu";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { AuthRequest } from "../../auth/auth.type";
 
-const GuestProfileTabContent = React.forwardRef<HTMLDivElement>(
-  (props, ref) => {
-    
-    const request: AuthRequest = {
-      redirect: config.INDEX,
-      provider: "google",
-    };
+const GuestProfileTab = React.forwardRef<HTMLDivElement>((props, ref) => {
+  const request: AuthRequest = {
+    redirect: config.INDEX,
+    provider: "google",
+  };
 
-    return (
-      <ProfileTabContent ref={ref} {...props}>
-        <ProfileTabTitle title="Welcome, Guest!" />
+  return (
+    <ContainerStyle ref={ref} {...props}>
+      <TitleStyle>Welcome, Guest!</TitleStyle>
 
-        <GuestProfileBanner>
-          <ThumbUpIcon />
-          <span>
-            Join with just one click without complicated registration and enjoy
-            useful information!
-          </span>
-        </GuestProfileBanner>
+      <GuestBannerStyle>
+        <ThumbUpIcon />
+        <span>
+          Join with just one click without complicated registration and enjoy
+          useful information!
+        </span>
+      </GuestBannerStyle>
 
-        <ProfileTabDivider title="Menu" />
-        <ProfileTabMenu>
-          <LoginButton request={request} />
-        </ProfileTabMenu>
-      </ProfileTabContent>
-    );
-  }
-);
+      <Divider title="Menu" />
+      <MenuStyle>
+        <LoginButton request={request} />
+      </MenuStyle>
+    </ContainerStyle>
+  );
+});
 
 const ProfileTab = ({
   checked,
@@ -69,13 +66,13 @@ const ProfileTab = ({
       userName: "cutehammond",
       comment:
         "I'll be in your neighborhood doing errands this Tuesday. I'll be in your...",
-      key: 0
+      key: 0,
     },
     {
       title: "Summer BBQ",
       userName: "udonehn",
       comment: "Wish I could come, but I'm out of town.",
-      key: 1
+      key: 1,
     },
   ];
 
@@ -96,21 +93,21 @@ const ProfileTab = ({
       }}
     >
       {!(!!profile.data.profile && !!profile.data.profile.userName) ? (
-        <GuestProfileTabContent />
+        <GuestProfileTab />
       ) : (
-        <ProfileTabContent>
-          <ProfileTabTitle title={profile.data.profile.userName} />
+        <ContainerStyle>
+          <TitleStyle>{profile.data.profile.userName}</TitleStyle>
 
-          <ProfileTabDivider title="Received Comment" />
+          <Divider title="Received Comment" />
           <ReceivedComments receivedComments={comments} stats={stats} />
 
-          <ProfileTabDivider title="Menu" />
-          <ProfileTabMenu>
+          <Divider title="Menu" />
+          <MenuStyle>
             <MyPillButton onClick={() => {}} />
             <ManageProfileButton onClick={() => {}} />
             <LogoutButton />
-          </ProfileTabMenu>
-        </ProfileTabContent>
+          </MenuStyle>
+        </ContainerStyle>
       )}
     </Grow>
   );

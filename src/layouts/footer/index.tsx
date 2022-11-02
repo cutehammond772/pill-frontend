@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { DefaultText } from "../../styles/GlobalStyles";
+import { DefaultText } from "../../GlobalStyles";
 import { FooterContent } from "./footer.style";
 
 const Footer = () => {
