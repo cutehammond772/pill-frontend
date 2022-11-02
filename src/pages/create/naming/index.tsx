@@ -1,33 +1,29 @@
-import { CreatingPillContainer } from "../container";
+import { Container } from "../container";
 import { TextField } from "@mui/joy";
 
-import { LayoutNamingPill, NamingPillTitleContent, NamingPillCategoriesContent } from "./create.naming.style";
-import { PreviewPill } from "./create.naming.preview";
+import { Layout, TitleStyle, CategoriesStyle } from "./naming.style";
+import { PillPreview } from "./preview";
 
-const NamingPillContent = () => {
+const Content = () => {
   return (
-    <CreatingPillContainer
-      title="1. Naming Pill"
-      complete={false}
-      layout={LayoutNamingPill}
-    >
-      <PreviewPill
+    <Container title="1. Naming Pill" complete={false} layout={Layout}>
+      <PillPreview
         title="How to make a nuturious food"
         author="cutehammond"
         likes={256}
         time="3 hours"
       />
 
-      <NamingPillTitleContent>
+      <TitleStyle>
         <span>Title</span>
         <TextField placeholder="Type in here..." fullWidth />
-      </NamingPillTitleContent>
+      </TitleStyle>
 
-      <NamingPillCategoriesContent>
+      <CategoriesStyle>
         <span>Categories</span>
-      </NamingPillCategoriesContent>
-    </CreatingPillContainer>
+      </CategoriesStyle>
+    </Container>
   );
 };
 
-export { NamingPillContent };
+export { Content };

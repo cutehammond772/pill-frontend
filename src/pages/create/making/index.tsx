@@ -1,17 +1,16 @@
-import { CreatingPillContainer } from "../container";
-import { LayoutMakingPill } from "./create.making.style";
-import { MakingPillIndex } from "./create.making.index";
+import { Container } from "../container";
+import { Layout } from "./making.style";
+import { AddIndex, IndexContainer } from "./making.index";
 
-const MakingPillContent = () => {
+import * as React from "react";
+
+const Content = () => {
   return (
-    <CreatingPillContainer
-      title="2. Making Pill"
-      complete={false}
-      layout={LayoutMakingPill}
-    >
-      <MakingPillIndex />
-    </CreatingPillContainer>
+    <Container title="2. Making Pill" complete={false} layout={Layout}>
+      <IndexContainer />
+      <AddIndex />
+    </Container>
   );
 };
 
-export { MakingPillContent };
+export { Content };

@@ -1,9 +1,9 @@
 import { SerializedStyles } from "@emotion/serialize";
 
-interface CreatingPillContainerProps {
+interface ContainerProps {
     title: string;
     complete: boolean;
     layout: SerializedStyles;
 }
 
-export type { CreatingPillContainerProps };
+export type { ContainerProps };

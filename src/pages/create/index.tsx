@@ -3,14 +3,14 @@ import { Footer } from "../../layouts/footer";
 import { Container } from "../../layouts/container";
 
 import { useAuth } from "../../utils/hooks/auth";
-import { CreatePageContent } from "./create.style";
+import { ContentStyle } from "./create.style";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import * as React from "react";
 
-import { NamingPillContent } from "./naming";
-import { MakingPillContent } from "./making";
+import * as NamingPill from "./naming";
+import * as MakingPill from "./making";
 
 const CreatePage = () => {
   const auth = useAuth();
@@ -27,10 +27,10 @@ const CreatePage = () => {
   return (
     <Container>
       <Header title="Create" noSearchBar />
-      <CreatePageContent>
-        <NamingPillContent />
-        <MakingPillContent />
-      </CreatePageContent>
+      <ContentStyle>
+        <NamingPill.Content />
+        <MakingPill.Content />
+      </ContentStyle>
       <Footer />
     </Container>
   );

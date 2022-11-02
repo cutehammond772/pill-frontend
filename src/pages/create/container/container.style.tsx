@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 import { SerializedStyles } from "@emotion/serialize";
 
-const CreatingPillContainerContent = styled.div<{ layout: SerializedStyles }>`
+const ContainerStyle = styled.div<{ layout: SerializedStyles }>`
   width: auto;
   height: auto;
 
@@ -16,7 +16,7 @@ const CreatingPillContainerContent = styled.div<{ layout: SerializedStyles }>`
   ${(props) => props.layout};
 `;
 
-const CreatingPillContainerTitle = styled.div`
+const ContainerTitleStyle = styled.div`
   display: flex;
   flex-flow: row;
   column-gap: 15px;
@@ -43,4 +43,4 @@ const CreatingPillContainerTitle = styled.div`
   }
 `;
 
-export { CreatingPillContainerContent, CreatingPillContainerTitle };
+export { ContainerStyle, ContainerTitleStyle };

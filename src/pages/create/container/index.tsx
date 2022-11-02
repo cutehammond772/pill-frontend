@@ -3,18 +3,18 @@ import { Chip } from "@mui/joy";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 
-import { CreatingPillContainerContent, CreatingPillContainerTitle } from "./create.container.style";
-import { CreatingPillContainerProps } from "./create.container.type";
+import { ContainerStyle, ContainerTitleStyle } from "./container.style";
+import { ContainerProps } from "./container.type";
 
-const CreatingPillContainer = ({
+const Container = ({
   title,
   complete,
   layout,
   children,
-}: React.PropsWithChildren<CreatingPillContainerProps>) => {
+}: React.PropsWithChildren<ContainerProps>) => {
   return (
-    <CreatingPillContainerContent layout={layout}>
-      <CreatingPillContainerTitle>
+    <ContainerStyle layout={layout}>
+      <ContainerTitleStyle>
         <span>{title}</span>
 
         {complete ? (
@@ -26,10 +26,10 @@ const CreatingPillContainer = ({
             Not complete
           </Chip>
         )}
-      </CreatingPillContainerTitle>
+      </ContainerTitleStyle>
       {children}
-    </CreatingPillContainerContent>
+    </ContainerStyle>
   );
 };
 
-export { CreatingPillContainer };
+export { Container };
