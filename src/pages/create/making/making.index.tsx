@@ -1,8 +1,9 @@
 import { Box, TextField, Typography } from "@mui/joy";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import ImageIcon from "@mui/icons-material/Image";
-
 import AddIcon from "@mui/icons-material/Add";
+
 import {
   AddIndexStyle,
   IndexContainerStyle,
@@ -10,32 +11,41 @@ import {
   AddContentContainerStyle,
 } from "./making.style";
 
-const AddIndex = () => (
-  <AddIndexStyle>
-    <AddIcon />
-    <span>Add Index</span>
-  </AddIndexStyle>
-);
+import { Collapse } from "@mui/material";
 
+const AddIndex = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <AddIndexStyle color="info" variant="contained" onClick={onClick}>
+      <AddIcon />
+      <span>Add Index</span>
+    </AddIndexStyle>
+  );
+};
 
 const IndexContainer = () => (
-  <IndexContainerStyle>
-    <IndexContainerTitle />
+  <Collapse in={true}>
+    <IndexContainerStyle>
+      <IndexContainerTitle />
 
-    <AddContentContainer>
-      <PtIndexContentButton />
-      <PtIndexContentButton />
-    </AddContentContainer>
-  </IndexContainerStyle>
+      <AddContentContainer>
+        <PtIndexContentButton />
+        <PtIndexContentButton />
+      </AddContentContainer>
+    </IndexContainerStyle>
+  </Collapse>
 );
 
-const IndexContainerTitle = () => (
-  <IndexContainerTitleStyle>
-    <span>#1</span>
-    <TextField placeholder="type a name of index." fullWidth />
-    <MenuIcon />
-  </IndexContainerTitleStyle>
-);
+const IndexContainerTitle = ({ index, title }: { index: number, title?: string }) => {
+  // const creating = useCreating();
+  // creating.update(index, text);
+  return (
+    <IndexContainerTitleStyle>
+      <span>#{index}</span>
+      <TextField placeholder="type a name of index." fullWidth />
+      <MenuIcon />
+    </IndexContainerTitleStyle>
+  );
+};
 
 const AddContentContainer = ({ children }: React.PropsWithChildren) => (
   <AddContentContainerStyle>

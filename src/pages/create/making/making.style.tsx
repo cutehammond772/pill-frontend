@@ -2,13 +2,15 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+import { Button } from "@mui/material";
+
 const Layout = css`
   display: flex;
   flex-flow: column;
   row-gap: 15px;
 `;
 
-const AddIndexStyle = styled.div`
+const AddIndexStyle = styled(Button)`
   width: auto;
   height: auto;
   background: grey;
@@ -24,12 +26,16 @@ const AddIndexStyle = styled.div`
   // Add Icon
   & > svg {
     font-size: 50px;
+    color: #202020;
   }
 
   & > span {
     font-family: Inter;
     font-weight: 700;
     font-size: 30px;
+
+    color: #202020;
+
     user-select: none;
   }
 `;
