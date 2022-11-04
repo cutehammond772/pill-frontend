@@ -1,6 +1,7 @@
 import { Container } from "../container";
 import { Layout } from "./making.style";
-import { AddIndex, IndexContainer } from "./index/index";
+import { IndexContainer } from "./index/index";
+import { AddIndex } from "./add_index";
 
 import * as React from "react";
 import { useEffect } from "react";
