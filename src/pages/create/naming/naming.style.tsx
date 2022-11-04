@@ -18,15 +18,18 @@ const TitleStyle = styled.div`
   justify-content: space-between;
   row-gap: 15px;
 
-  background: grey;
+  background: #303030;
 
   // Title Text
   & > span {
     font-family: Inter;
-    font-weight: 700;
-    color: #202020;
-    font-size: 2rem;
+    font-weight: 500;
+    color: white;
+    font-size: 1.5rem;
     line-height: 100%;
+
+    text-transform: uppercase;
+    user-select: none;
   }
 `;
 
@@ -41,15 +44,18 @@ const CategoriesStyle = styled.div`
   justify-content: space-between;
   row-gap: 15px;
 
-  background: grey;
+  background: #303030;
 
   // Categories Text
   & > span {
     font-family: Inter;
-    font-weight: 700;
-    color: #202020;
-    font-size: 2rem;
+    font-weight: 500;
+    color: white;
+    font-size: 1.5rem;
     line-height: 100%;
+
+    text-transform: uppercase;
+    user-select: none;
   }
 `;
 

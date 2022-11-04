@@ -24,6 +24,14 @@ const RemoveType = {
 
 type Remove = typeof RemoveType[keyof typeof RemoveType];
 
+const UpdateOrderType = {
+  CATEGORY: "update.order.CATEGORY",
+  INDEX: "update.order.INDEX",
+  INDEX_CONTENT: "update.order.INDEX_CONTENT",
+} as const;
+
+type UpdateOrder = typeof UpdateOrderType[keyof typeof UpdateOrderType];
+
 const ResetType = {
   PILL: "reset.PILL",
   CATEGORY: "reset.CATEGORY",
@@ -50,5 +58,5 @@ interface ExtraProps {
   title?: string;
 }
 
-export type { Update, Add, Remove, Rollback, Reset, ExtraProps };
-export { UpdateType, AddType, RemoveType, RollbackType, ResetType };
+export type { Update, Add, Remove, UpdateOrder, Rollback, Reset, ExtraProps };
+export { UpdateType, AddType, RemoveType, UpdateOrderType, RollbackType, ResetType };

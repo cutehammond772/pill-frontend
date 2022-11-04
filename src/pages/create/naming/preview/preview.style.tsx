@@ -36,6 +36,8 @@ const BannerStyle = styled.div`
     font-family: Inter;
     font-weight: 700;
     color: #202020;
+
+    overflow-wrap: break-word;
   }
 `;
 

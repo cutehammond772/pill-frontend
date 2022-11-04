@@ -20,7 +20,7 @@ const ProfileAvatar = ({ onClick }: { onClick: () => void }) => {
   }
 
   return (
-    <Tooltip title={data.userName} disableInteractive>
+    <Tooltip title={!data.userName ? "Guest" : data.userName} disableInteractive>
       {!state.profile ? (
         <DefaultAvatar onClick={onClick} />
       ) : (

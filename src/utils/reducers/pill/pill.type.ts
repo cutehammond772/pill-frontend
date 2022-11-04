@@ -7,15 +7,20 @@ const DefaultReducingType = {
 /* Category */
 const CategoryReducingType = {
   ADD: "reducer.pill.category.add",
-  REMOVE: "reducer.pill.category.remove",
   RESET: "reducer.pill.category.reset",
+
+  REMOVE: "reducer.pill.category.remove",
+  UPDATE_ORDER: "reducer.pill.category.update.order",
+
 } as const;
 
 /* Index */
 const IndexReducingType = {
   ADD: "reducer.pill.index.add",
   UPDATE_TITLE: "reducer.pill.index.update.title",
+
   REMOVE: "reducer.pill.index.remove",
+  UPDATE_ORDER: "reducer.pill.index.update.order",
 
   // tbd
   ROLLBACK: "reducer.pill.index.rollback",
@@ -25,7 +30,9 @@ const IndexReducingType = {
 const IndexContentReducingType = {
   ADD: "reducer.pill.index.content.add",
   UPDATE: "reducer.pill.index.content.update",
+
   REMOVE: "reducer.pill.index.content.remove",
+  UPDATE_ORDER: "reducer.pill.index.content.update.order",
 
   // tbd
   ROLLBACK: "reducer.pill.index.content.rollback",
@@ -40,6 +47,7 @@ interface PillData {
 
 interface CategoryData {
   name: string;
+  key: number;
 }
 
 interface PillIndexData {

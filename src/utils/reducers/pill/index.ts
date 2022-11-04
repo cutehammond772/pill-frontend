@@ -41,6 +41,10 @@ const removeCategory = (category: string) => ({
   category: category,
 });
 
+const updateCategoryOrder = () => ({
+  type: CategoryReducingType.UPDATE_ORDER,
+});
+
 // 카테고리 초기화
 const resetCategory = () => ({
   type: CategoryReducingType.RESET,
@@ -64,6 +68,10 @@ const updateIndexTitle = (index: number, title: string) => ({
 const removeIndex = (index: number) => ({
   type: IndexReducingType.REMOVE,
   index: index,
+});
+
+const updateIndexOrder = () => ({
+  type: IndexReducingType.UPDATE_ORDER,
 });
 
 // 인덱스 삭제 취소
@@ -99,6 +107,11 @@ const removeIndexContent = (index: number, contentIndex: number) => ({
   contentIndex: contentIndex,
 });
 
+const updateIndexContentOrder = (index: number) => ({
+  type: IndexContentReducingType.UPDATE_ORDER,
+  index: index,
+});
+
 // 컨텐츠 삭제 복구
 const rollbackIndexContent = (index: number) => ({
   type: IndexContentReducingType.ROLLBACK,
@@ -111,14 +124,17 @@ type PillReducingAction =
   | ReturnType<typeof updateTitle>
   | ReturnType<typeof addCategory>
   | ReturnType<typeof removeCategory>
+  | ReturnType<typeof updateCategoryOrder>
   | ReturnType<typeof resetCategory>
   | ReturnType<typeof addIndex>
   | ReturnType<typeof updateIndexTitle>
   | ReturnType<typeof removeIndex>
+  | ReturnType<typeof updateIndexOrder>
   | ReturnType<typeof rollbackIndex>
   | ReturnType<typeof addIndexContent>
   | ReturnType<typeof updateIndexContent>
   | ReturnType<typeof removeIndexContent>
+  | ReturnType<typeof updateIndexContentOrder>
   | ReturnType<typeof rollbackIndexContent>;
 
 /* Reducer */
@@ -139,14 +155,25 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
       // 카테고리 문자열 Validation 처리가 필요하다.
       return {
         ...state,
-        categories: state.categories.concat({ name: action.category }),
+        categories: state.categories.concat({
+          name: action.category,
+          key: state.categories.length,
+        }),
       };
     case CategoryReducingType.REMOVE:
       return {
         ...state,
         categories: state.categories.filter(
-          (categry) => categry.name !== action.category
+          (category) => category.name !== action.category
         ),
+      };
+    case CategoryReducingType.UPDATE_ORDER:
+      return {
+        ...state,
+        categories: state.categories.map((category, index) => ({
+          ...category,
+          key: index,
+        })),
       };
     case CategoryReducingType.RESET:
       return {
@@ -167,12 +194,17 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
       // 인덱스 관련 Validation 처리가 따로 필요하다.
       return {
         ...state,
-        indexes: state.indexes
-          .filter((indexObj) => indexObj.key !== action.index) /* 인덱스 삭제 */
-          .map((indexObj, index) => ({
-            ...indexObj,
-            key: index,
-          })) /* 인덱스 순서 재조정 */,
+        indexes: state.indexes.filter(
+          (indexObj) => indexObj.key !== action.index
+        ) /* 인덱스 삭제 */,
+      };
+    case IndexReducingType.UPDATE_ORDER:
+      return {
+        ...state,
+        indexes: state.indexes.map((indexObj, index) => ({
+          ...indexObj,
+          key: index,
+        })) /* 인덱스 순서 재조정 */,
       };
     case IndexReducingType.UPDATE_TITLE:
       // 제목 문자열 Validation 처리가 필요하다.
@@ -222,6 +254,21 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
             : indexObj
         ),
       };
+    case IndexContentReducingType.UPDATE_ORDER:
+      return {
+        ...state,
+        indexes: state.indexes.map((indexObj) =>
+          indexObj.key === action.index
+            ? {
+                ...indexObj,
+                contents: indexObj.contents.map((content, index) => ({
+                  ...content,
+                  key: index,
+                })) /* 컨텐츠 순서 재조정 */,
+              }
+            : indexObj
+        ),
+      };
     case IndexContentReducingType.UPDATE:
       return {
         ...state,
@@ -251,14 +298,17 @@ export {
   updateTitle,
   addCategory,
   removeCategory,
+  updateCategoryOrder,
   resetCategory,
   addIndex,
   updateIndexTitle,
   removeIndex,
+  updateIndexOrder,
   rollbackIndex,
   addIndexContent,
   updateIndexContent,
   removeIndexContent,
+  updateIndexContentOrder,
   rollbackIndexContent,
   pillReducer,
 };
