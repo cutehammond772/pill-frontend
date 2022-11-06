@@ -1,11 +1,11 @@
 import { PropsWithChildren } from "react";
-import { ContainerContent } from "./container.style";
+import { ContainerStyle } from "./container.style";
 
 const Container = ({ children }: PropsWithChildren) => {
     return (
-        <ContainerContent>
+        <ContainerStyle>
             {children}
-        </ContainerContent>
+        </ContainerStyle>
     );
 };
 

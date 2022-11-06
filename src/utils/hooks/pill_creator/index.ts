@@ -62,7 +62,14 @@ const usePillCreator = () => {
           if (!props || props.index === undefined || !props.contentType) {
             throw new Error();
           }
-          dispatch(addIndexContent(props.index, props.contentType));
+          dispatch(
+            addIndexContent(
+              props.index,
+              props.contentType,
+              props.content,
+              props.subContent
+            )
+          );
           break;
       }
     },
@@ -153,7 +160,12 @@ const usePillCreator = () => {
             throw new Error();
           }
           dispatch(
-            updateIndexContent(props.index, props.contentIndex, props.content)
+            updateIndexContent(
+              props.index,
+              props.contentIndex,
+              props.content,
+              props.subContent
+            )
           );
           break;
       }

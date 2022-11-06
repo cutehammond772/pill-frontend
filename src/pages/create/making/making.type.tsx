@@ -1,7 +1,7 @@
-interface IndexWithTransition {
+interface ElementWithTransition {
   transition: boolean;
   removed: boolean;
   key: number;
 }
 
-export type { IndexWithTransition };
+export type { ElementWithTransition };

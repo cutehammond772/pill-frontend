@@ -20,7 +20,6 @@ const AddContentButtonStyle = styled(Button)`
   height: auto;
   border-radius: 5px;
   padding: 15px;
-  background: lightgrey;
 
   display: grid;
   grid-template-columns: 60px 1fr;
@@ -28,10 +27,7 @@ const AddContentButtonStyle = styled(Button)`
   align-items: center;
 
   & > * {
-    color: "#202020";
     text-align: left;
-    padding-top: 5px;
-    padding-bottom: 5px;
   }
 
   & > svg:nth-of-type(1) {
@@ -46,11 +42,12 @@ const AddContentButtonStyle = styled(Button)`
     font-size: 20px;
   }
 
-  // Subscription
+  // Description
   & > span:nth-of-type(2) {
     font-family: Inter;
     font-weight: 500;
     font-size: 18px;
+    padding-top: 10px;
   }
 `;
 

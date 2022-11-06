@@ -53,13 +53,22 @@ interface CategoryData {
 interface PillIndexData {
   title: string;
   contents: Array<PillContentData>;
+
   key: number;
 }
 
-interface PillContentData {
+interface PillContentData extends PillContentRequest {
+  key: number;
+}
+
+interface PillContentRequest {
   type: PillContent;
   content: string;
-  key: number;
+  subContent?: string;
+}
+
+interface AddFunction {
+  (data: PillContentRequest): void
 }
 
 const PillContentType = {
@@ -75,6 +84,8 @@ export type {
   PillIndexData,
   PillContentData,
   PillContent,
+  PillContentRequest,
+  AddFunction
 };
 
 export {

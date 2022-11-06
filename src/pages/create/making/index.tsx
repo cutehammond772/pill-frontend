@@ -15,7 +15,7 @@ import {
 
 import { Collapse } from "@mui/material";
 import { useState } from "react";
-import { IndexWithTransition } from "./making.type";
+import { ElementWithTransition } from "./making.type";
 
 // 인덱스 제거 후 순서가 업데이트되도록 한다.
 const Content = () => {
@@ -24,7 +24,7 @@ const Content = () => {
   const [removeIndex, setRemoveIndex] = useState<number>(-1);
 
   /* Wrapped Indexes for 'Transition' */
-  const [indexes, setIndexes] = useState<Array<IndexWithTransition>>([]);
+  const [indexes, setIndexes] = useState<Array<ElementWithTransition>>([]);
 
   const handleAdd = () => {
     // dispatch 후 바로 반영되지 않음에 유의한다.
@@ -43,12 +43,7 @@ const Content = () => {
   const handleRemove = (index: number) => {
     setIndexes(
       indexes.map((indexObj) =>
-        indexObj.key === index
-          ? { ...indexObj, removed: true }
-          : {
-              ...indexObj,
-              initialTitle: creator.data.indexes[indexObj.key].title,
-            }
+        indexObj.key === index ? { ...indexObj, removed: true } : indexObj
       )
     );
 
@@ -109,7 +104,7 @@ const Content = () => {
   }, [indexes]);
 
   return (
-    <Container title="2. Making Pill" complete={false} layout={Layout}>
+    <Container title="Make" complete={false} layout={Layout}>
       {indexes.map((index) => {
         const container = (
           <IndexContainer

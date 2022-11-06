@@ -32,7 +32,7 @@ import {
   PaletteTableCell,
   PaletteTooltip,
   Shadows,
-  ZIndex
+  ZIndex,
 } from "@mui/material/styles";
 import colors from "@mui/joy/colors";
 
@@ -41,12 +41,12 @@ import {
   CssVarsProvider,
   Theme as JoyTheme,
   ThemeCssVar as JoyThemeCssVar,
-  StyledEngineProvider
 } from "@mui/joy/styles";
 
 // Joy UI components
 import { CommonColors } from "@mui/material/styles/createPalette";
 import { TypeBackground } from "@mui/material";
+import { SnackbarProvider } from "notistack";
 
 // extends Joy theme to include tokens from Material UI
 declare module "@mui/joy/styles" {
@@ -106,62 +106,62 @@ const muiTheme = extendMuiTheme({
     light: {
       palette: {
         primary: {
-          main: colors.blue[500]
+          main: colors.blue[500],
         },
         grey: colors.grey,
         error: {
-          main: colors.red[500]
+          main: colors.red[500],
         },
         info: {
-          main: colors.purple[500]
+          main: colors.purple[500],
         },
         success: {
-          main: colors.green[500]
+          main: colors.green[500],
         },
         warning: {
-          main: colors.yellow[200]
+          main: colors.yellow[200],
         },
         common: {
           white: "#FFF",
-          black: "#09090D"
+          black: "#09090D",
         },
         divider: colors.grey[200],
         text: {
           primary: colors.grey[800],
-          secondary: colors.grey[600]
-        }
-      }
+          secondary: colors.grey[600],
+        },
+      },
     },
     dark: {
       palette: {
         primary: {
-          main: colors.blue[600]
+          main: colors.blue[600],
         },
         grey: colors.grey,
         error: {
-          main: colors.red[600]
+          main: colors.red[600],
         },
         info: {
-          main: colors.purple[600]
+          main: colors.purple[600],
         },
         success: {
-          main: colors.green[600]
+          main: colors.green[600],
         },
         warning: {
-          main: colors.yellow[300]
+          main: colors.yellow[300],
         },
         common: {
           white: "#FFF",
-          black: "#09090D"
+          black: "#09090D",
         },
         divider: colors.grey[800],
         text: {
           primary: colors.grey[100],
-          secondary: colors.grey[300]
-        }
-      }
-    }
-  }
+          secondary: colors.grey[300],
+        },
+      },
+    },
+  },
 });
 
 const joyTheme = extendJoyTheme();
@@ -178,13 +178,13 @@ const store = configureStore({ reducer: rootReducer });
 
 root.render(
   <BrowserRouter>
-    <StyledEngineProvider injectFirst>
-      <CssVarsProvider theme={theme}>
+    <CssVarsProvider theme={theme}>
+      <SnackbarProvider maxSnack={3}>
         <GlobalStyles />
         <Provider store={store}>
           <App />
         </Provider>
-      </CssVarsProvider>
-    </StyledEngineProvider>
+      </SnackbarProvider>
+    </CssVarsProvider>
   </BrowserRouter>
 );

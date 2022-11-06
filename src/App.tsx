@@ -4,7 +4,12 @@ import { CreatePage } from "./pages/create";
 import { HomePage } from './pages/home/';
 import { NotFoundPage } from './pages/error/not_found';
 
+import { useColorScheme } from '@mui/joy/styles';
+
 function App() {
+  const { setMode } = useColorScheme();
+  setMode('dark');
+
   return (
       <Routes>
         <Route path='/' element={<HomePage/>}/>

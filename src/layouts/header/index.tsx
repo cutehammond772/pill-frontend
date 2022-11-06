@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { Logo } from "../../components/logo";
 import Profile from "../../components/profile";
-import { HeaderContent } from "./header.style";
+import { HeaderStyle } from "./header.style";
 
 import { TextField } from "@mui/joy";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,7 +19,7 @@ const Header = ({
   useEffect(() => {
     const timer = setInterval(() => {
       window.addEventListener("scroll", handleScroll);
-    }, 100);
+    }, 50);
 
     return () => {
       clearInterval(timer);
@@ -29,13 +29,13 @@ const Header = ({
 
   const handleScroll = () => {
     if (!!headerRef.current) {
-      const percentage = Math.min(window.scrollY, 100);
-      headerRef.current.style.background = `rgba(32, 32, 32, ${percentage}%)`;
+      const percentage = Math.min(window.scrollY, 300) / 3;
+      headerRef.current.style.background = `rgba(0, 0, 0, ${percentage}%)`;
     }
   }
 
   return (
-    <HeaderContent ref={headerRef}>
+    <HeaderStyle ref={headerRef}>
       {!!title ? (
         // Header Title이 존재하면 title 표시
         <span>{title}</span>
@@ -56,7 +56,7 @@ const Header = ({
       )}
 
       <Profile />
-    </HeaderContent>
+    </HeaderStyle>
   );
 };
 

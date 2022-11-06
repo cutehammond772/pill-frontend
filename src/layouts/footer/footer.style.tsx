@@ -1,23 +1,30 @@
 import styled from "@emotion/styled";
 
 const FooterContent = styled.footer`
-    position: absolute;
-    bottom: 0;
-    z-index: 1;
+  position: relative;
+  bottom: 0;
+  z-index: 1;
 
-    width: 100%;
-    height: 100px;
+  // Background는 전체 적용, 컨테이너 범위는 중앙 1024px가 되도록 한다.
+  padding-left: calc(50% - 512px);
+  padding-right: calc(50% - 512px);
 
-    padding: 2rem 1rem 2rem 1rem;
+  @media screen and (max-width: 1280px) {
+    // Background는 전체 적용, 컨테이너 범위는 중앙 80%가 되도록 한다.
+    padding-left: 10%;
+    padding-right: 10%;
+  }
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+  height: 100px;
 
-    box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 
-    background-color: #303030;
+  box-sizing: border-box;
+
+  background-color: black;
 `;
 
 export { FooterContent };

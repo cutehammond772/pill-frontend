@@ -82,22 +82,33 @@ const rollbackIndex = () => ({
 /* Content */
 
 // 컨텐츠 추가
-const addIndexContent = (index: number, contentType: PillContent) => ({
+const addIndexContent = (
+  index: number,
+  contentType: PillContent,
+  content?: string,
+  subContent?: string
+) => ({
   type: IndexContentReducingType.ADD,
   index: index,
   contentType: contentType,
+
+  content: content,
+  subContent: subContent,
 });
 
 // 컨텐츠 내용 변경
 const updateIndexContent = (
   index: number,
   contentIndex: number,
-  content: string
+  content: string,
+  subContent?: string
 ) => ({
   type: IndexContentReducingType.UPDATE,
   index: index,
   contentIndex: contentIndex,
   content: content,
+
+  subContent: subContent,
 });
 
 // 컨텐츠 삭제
@@ -228,7 +239,9 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
                 ...indexObj,
                 contents: indexObj.contents.concat({
                   type: action.contentType,
-                  content: "",
+                  content: !!action.content ? action.content : "",
+                  subContent: action.subContent,
+
                   key: indexObj.contents.length,
                 }),
               }
@@ -278,7 +291,13 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
                 ...indexObj,
                 contents: indexObj.contents.map((content) =>
                   content.key === action.contentIndex
-                    ? { ...content, content: action.content }
+                    ? {
+                        ...content,
+                        content: action.content,
+                        subContent: !!action.subContent
+                          ? action.subContent
+                          : content.subContent,
+                      }
                     : content
                 ),
               }

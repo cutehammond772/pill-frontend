@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 
-const ContentStyle = styled.div`
-  min-height: 2048px;
+const ContentsStyle = styled.div`
+  min-height: 1536px;
+  padding-top: 128px;
   padding-bottom: 256px;
 `;
 
-export { ContentStyle };
+export { ContentsStyle };

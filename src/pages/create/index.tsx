@@ -3,7 +3,7 @@ import { Footer } from "../../layouts/footer";
 import { Container } from "../../layouts/container";
 
 import { useAuth } from "../../utils/hooks/auth";
-import { ContentStyle } from "./create.style";
+import { ContentsStyle } from "./create.style";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -25,14 +25,16 @@ const CreatePage = () => {
   }, [auth, navigate]);
 
   return (
-    <Container>
-      <Header title="Create" noSearchBar />
-      <ContentStyle>
-        <NamingPill.Content />
-        <MakingPill.Content />
-      </ContentStyle>
+    <>
+      <Header title="Create Pill" noSearchBar />
+      <Container>
+        <ContentsStyle>
+          <NamingPill.Content />
+          <MakingPill.Content />
+        </ContentsStyle>
+      </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 

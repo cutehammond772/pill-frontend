@@ -41,7 +41,7 @@ const ContentContainerTitleStyle = styled.div<{ layout?: SerializedStyles }>`
   }
 
   // Buttons
-  & > div:nth-of-type(2) {
+  & > div:nth-last-of-type(1) {
     display: flex;
     flex-flow: row;
     column-gap: 10px;

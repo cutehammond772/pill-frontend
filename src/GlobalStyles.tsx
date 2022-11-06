@@ -28,8 +28,7 @@ const style = css`
     height: 100%;
 
     margin: 0;
-
-
+    
     background: var(--bgcolor);
   }
 `;

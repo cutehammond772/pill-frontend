@@ -21,7 +21,7 @@ const Content = () => {
   };
 
   return (
-    <Container title="1. Naming Pill" complete={false} layout={Layout}>
+    <Container title="Name" complete={false} layout={Layout}>
       <PillPreview
         title={!text ? "Untitled" : text}
         author="cutehammond"

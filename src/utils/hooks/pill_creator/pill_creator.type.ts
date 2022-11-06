@@ -54,6 +54,7 @@ interface ExtraProps {
   contentType?: PillContent;
   contentIndex?: number;
   content?: string;
+  subContent?: string;
 
   title?: string;
 }
