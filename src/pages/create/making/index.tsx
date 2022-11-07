@@ -104,7 +104,7 @@ const Content = () => {
   }, [indexes]);
 
   return (
-    <Container title="Make" complete={false} layout={Layout}>
+    <Container title="Pill your contents." complete={false} layout={Layout}>
       {indexes.map((index) => {
         const container = (
           <IndexContainer

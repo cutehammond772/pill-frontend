@@ -1,18 +1,17 @@
 import HistoryIcon from "@mui/icons-material/History";
 import { HistoryStyle } from "./rc.style";
 
-const History = ({
-  unit,
-  comments,
-}: {
+interface HistoryProps {
   unit: string;
   comments: number;
-}) => {
+}
+
+const History = (props: HistoryProps) => {
   return (
     <HistoryStyle>
       <HistoryIcon />
       <span>
-        Recent {unit} (+{comments})
+        Recent {props.unit} (+{props.comments})
       </span>
     </HistoryStyle>
   );

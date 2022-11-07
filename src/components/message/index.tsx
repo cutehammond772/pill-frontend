@@ -1,36 +1,40 @@
+import * as React from "react";
+
 import { Snackbar } from "@mui/material";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 
 import { useEffect } from "react";
-import { MessageCallback } from "./message.type";
 
-// 일반적으로 notistack를 사용하지만, modal같이 특수한 상황에서 이를 사용할 수 있습니다.
-const Message = ({
-  message,
-  type,
-  callback,
-  duration = 2000,
-}: {
+interface MessageProps {
   message: string;
   type: AlertColor;
   callback: MessageCallback;
   duration?: number;
-}) => {
+}
+
+// useState Hook에서 제공하는 변수와 변경 함수를 모두 포함해야 합니다.
+interface MessageCallback {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean;
+}
+
+// 일반적으로 notistack를 사용하지만, modal같이 특수한 상황에서 이를 사용할 수 있습니다.
+const Message = (props: MessageProps) => {
 
   // auto close
   useEffect(() => {
-    if (callback.open) {
-      setTimeout(() => callback.setOpen(false), duration);
+    if (props.callback.open) {
+      setTimeout(() => props.callback.setOpen(false), props.duration || 2000);
     }
-  }, [callback, duration]);
+  }, [props.callback, props.duration]);
 
   return (
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      open={callback.open}
+      open={props.callback.open}
     >
-      <MuiAlert elevation={6} variant="filled" severity={type}>
-        {message}
+      <MuiAlert elevation={6} variant="filled" severity={props.type}>
+        {props.message}
       </MuiAlert>
     </Snackbar>
   );

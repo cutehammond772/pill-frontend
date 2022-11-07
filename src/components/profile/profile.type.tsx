@@ -19,9 +19,4 @@ const DefaultProfile = {
   GUEST: GUEST_PROFILE,
 } as const;
 
-interface AvatarProps {
-  profile?: ProfileData;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
-}
-
-export { type ProfileData, type AvatarProps, DefaultProfile };
+export { type ProfileData, DefaultProfile };

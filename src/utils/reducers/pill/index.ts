@@ -123,6 +123,18 @@ const updateIndexContentOrder = (index: number) => ({
   index: index,
 });
 
+// 컨텐츠 위치 변경
+const exchangeIndexContent = (
+  index: number,
+  contentIndex: number,
+  exchangeContentIndex: number
+) => ({
+  type: IndexContentReducingType.EXCHANGE,
+  index: index,
+  contentIndex: contentIndex,
+  exchangeContentIndex: exchangeContentIndex,
+});
+
 // 컨텐츠 삭제 복구
 const rollbackIndexContent = (index: number) => ({
   type: IndexContentReducingType.ROLLBACK,
@@ -146,6 +158,7 @@ type PillReducingAction =
   | ReturnType<typeof updateIndexContent>
   | ReturnType<typeof removeIndexContent>
   | ReturnType<typeof updateIndexContentOrder>
+  | ReturnType<typeof exchangeIndexContent>
   | ReturnType<typeof rollbackIndexContent>;
 
 /* Reducer */
@@ -304,6 +317,42 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
             : indexObj
         ),
       };
+    case IndexContentReducingType.EXCHANGE:
+      const targetIndex = state.indexes.find(
+        (indexObj) => indexObj.key === action.index
+      );
+
+      if (!targetIndex) {
+        throw new Error();
+      }
+
+      const from = {
+        ...targetIndex.contents[action.contentIndex],
+        key: action.exchangeContentIndex,
+      };
+
+      const to = {
+        ...targetIndex.contents[action.exchangeContentIndex],
+        key: action.contentIndex,
+      };
+
+      return {
+        ...state,
+        indexes: state.indexes.map((indexObj) =>
+          indexObj.key === action.index
+            ? {
+                ...targetIndex,
+                contents: targetIndex.contents.map((content, arrIndex) =>
+                  arrIndex === action.contentIndex
+                    ? to
+                    : arrIndex === action.exchangeContentIndex
+                    ? from
+                    : content
+                ),
+              }
+            : indexObj
+        ),
+      };
     case IndexContentReducingType.ROLLBACK:
       // 미구현
       return INITIAL_PILL;
@@ -329,5 +378,6 @@ export {
   removeIndexContent,
   updateIndexContentOrder,
   rollbackIndexContent,
+  exchangeIndexContent,
   pillReducer,
 };

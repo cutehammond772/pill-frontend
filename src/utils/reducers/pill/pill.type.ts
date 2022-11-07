@@ -34,6 +34,8 @@ const IndexContentReducingType = {
   REMOVE: "reducer.pill.index.content.remove",
   UPDATE_ORDER: "reducer.pill.index.content.update.order",
 
+  EXCHANGE: "reducer.pill.index.content.exchange",
+
   // tbd
   ROLLBACK: "reducer.pill.index.content.rollback",
 } as const;

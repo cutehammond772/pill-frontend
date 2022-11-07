@@ -8,7 +8,8 @@ import { useColorScheme } from '@mui/joy/styles';
 
 function App() {
   const { setMode } = useColorScheme();
-  setMode('dark');
+  // default: light mode
+  setMode('light');
 
   return (
       <Routes>

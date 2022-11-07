@@ -10,20 +10,18 @@ import {
   TitleStyle,
 } from "./rc.style";
 
-const ReceivedComment = ({
-  title,
-  userName,
-  comment,
-}: {
+interface ReceivedCommentProps {
   title: string;
   userName: string;
   comment: string;
-}) => {
+}
+
+const ReceivedComment = (props: ReceivedCommentProps) => {
   return (
     <ListItem>
       <ListItemContent>
         <HeaderStyle>
-          <TitleStyle>{title}</TitleStyle>
+          <TitleStyle>{props.title}</TitleStyle>
 
           <ButtonsStyle>
             <ArrowForwardIcon />
@@ -33,9 +31,9 @@ const ReceivedComment = ({
 
         <ContentStyle>
           <Chip size="sm" color="info">
-            {userName}
+            {props.userName}
           </Chip>
-          {comment}
+          {props.comment}
         </ContentStyle>
       </ListItemContent>
     </ListItem>

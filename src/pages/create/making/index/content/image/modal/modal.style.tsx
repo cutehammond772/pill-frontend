@@ -1,8 +1,25 @@
+/** @jsxImportSource '@emotion/react' */
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 import { IconButton, Modal, ModalDialog } from "@mui/joy";
-import { Visible, Invisible, Blur, NoBlur } from "./modal.type";
 import { TransitionStatus } from "react-transition-group/Transition";
+
+const Visible = css`
+  opacity: 1;
+`;
+
+const Invisible = css`
+  opacity: 0;
+`;
+
+const Blur = css`
+  backdrop-filter: blur(8px);
+`;
+
+const NoBlur = css`
+  backdrop-filter: none;
+`;
 
 const backDropStyle = (state: TransitionStatus) =>
   ({
@@ -56,7 +73,7 @@ const ImagePreview = styled.div`
     max-width: 600px;
     max-height: 600px;
 
-    background: #202020;
+    background: var(--light);
     border-radius: 5px;
     object-fit: scale-down;
   }
@@ -74,23 +91,27 @@ const ImagePreview = styled.div`
     max-width: 400px;
     max-height: 400px;
 
-    background: #202020;
+    background: var(--light);
     border-radius: 5px;
   }
 
   // Background Icon
   & > div > svg {
     font-size: 40px;
+    color: var(--dark);
   }
 
   // Background Message
   & > div > span {
-    font-family: Inter;
     text-align: center;
-
     align-self: center;
+
     padding-left: 20px;
     padding-right: 20px;
+
+    color: var(--dark);
+
+    user-select: none;
   }
 `;
 
@@ -112,11 +133,11 @@ const FormStyle = styled.div`
   }
 
   & > div:nth-of-type(1) > span {
-    font-family: Inter;
     font-weight: 700;
     font-size: 1.5rem;
-    user-select: none;
     line-height: 100%;
+
+    user-select: none;
   }
 `;
 
@@ -133,4 +154,15 @@ const CloseButton = styled(IconButton)`
   top: 15px;
 `;
 
-export { ModalStyle, ModalDialogStyle, ImagePreview, FormStyle, ImageInputFormStyle, CloseButton };
+export {
+  ModalStyle,
+  ModalDialogStyle,
+  ImagePreview,
+  FormStyle,
+  ImageInputFormStyle,
+  CloseButton,
+  Visible,
+  Invisible,
+  Blur,
+  NoBlur,
+};

@@ -1,10 +1,14 @@
 
 import { DividerStyle } from "./tab.style";
 
-const Divider = ({ title }: { title: string }) => {
+interface DividerProps {
+  title: string;
+}
+
+const Divider = (props: DividerProps) => {
   return (
     <DividerStyle>
-        {title}
+        {props.title}
     </DividerStyle>
   );
 };

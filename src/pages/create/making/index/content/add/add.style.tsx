@@ -18,7 +18,7 @@ const AddContentTitleLayout = css`
 const AddContentButtonStyle = styled(Button)`
   width: auto;
   height: auto;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 15px;
 
   display: grid;
@@ -37,14 +37,12 @@ const AddContentButtonStyle = styled(Button)`
 
   // Title
   & > span:nth-of-type(1) {
-    font-family: Inter;
     font-weight: 600;
     font-size: 20px;
   }
 
   // Description
   & > span:nth-of-type(2) {
-    font-family: Inter;
     font-weight: 500;
     font-size: 18px;
     padding-top: 10px;

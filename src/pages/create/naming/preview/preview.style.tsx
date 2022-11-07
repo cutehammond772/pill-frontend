@@ -65,13 +65,6 @@ const LikeButtonContentStyle = styled.div`
   column-gap: 5px;
 `;
 
-const PreviewBadgeStyle = styled(Chip)`
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  user-select: none;
-`;
-
 const HistoryStyle = styled.div`
   position: absolute;
   left: 15px;
@@ -94,5 +87,4 @@ export {
   HistoryStyle,
   LikeButtonStyle,
   LikeButtonContentStyle,
-  PreviewBadgeStyle,
 };

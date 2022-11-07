@@ -4,8 +4,8 @@ import { SerializedStyles } from "@emotion/serialize";
 const ContentContainerStyle = styled.div<{ layout: SerializedStyles }>`
   width: auto;
   height: auto;
-  border-radius: 5px;
   padding: 10px;
+  border-radius: 12px;
 
   background: white;
   column-gap: 10px;
@@ -34,9 +34,9 @@ const ContentContainerTitleStyle = styled.div<{ layout?: SerializedStyles }>`
   }
 
   & > div:nth-of-type(1) > span {
-    font-family: Inter;
     font-weight: 600;
     font-size: 20px;
+
     user-select: none;
   }
 
@@ -44,8 +44,8 @@ const ContentContainerTitleStyle = styled.div<{ layout?: SerializedStyles }>`
   & > div:nth-last-of-type(1) {
     display: flex;
     flex-flow: row;
-    column-gap: 10px;
     align-items: center;
+    column-gap: 10px;
   }
 
   ${(props) => props.layout};

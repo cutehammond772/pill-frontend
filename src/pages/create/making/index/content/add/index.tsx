@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import {
   ContentContainerStyle,
   ContentContainerTitleStyle,
@@ -16,30 +18,38 @@ import { AddType } from "../../../../../../utils/hooks/pill_creator/pill_creator
 import { AddImageButton } from "../image";
 import { AddTextButton } from "../text";
 
-// 이후에는 컨텐츠 타입 확장을 고려할 필요가 있다.
-const AddContent = ({
-  index,
-  addWrapper,
-}: {
+interface AddContentProps {
   index: number;
+
   addWrapper: () => void;
-}) => {
-  const creator = usePillCreator();
+}
 
-  const addData: AddFunction = (data) => {
-    creator.add(AddType.INDEX_CONTENT, {
-      index: index,
-      content: data.content,
-      subContent: data.subContent,
-      contentType: data.type,
-    });
+interface AddContentButtonProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
 
-    addWrapper();
-  };
+  onClick: () => void;
+}
 
-  return (
-    <>
-      <ContentContainerStyle layout={AddContentLayout}>
+// 이후에는 컨텐츠 타입 확장을 고려할 필요가 있다.
+const AddContent = React.forwardRef<HTMLDivElement, AddContentProps>(
+  (props, ref) => {
+    const creator = usePillCreator();
+
+    const addData: AddFunction = (data) => {
+      creator.add(AddType.INDEX_CONTENT, {
+        index: props.index,
+        content: data.content,
+        subContent: data.subContent,
+        contentType: data.type,
+      });
+
+      props.addWrapper();
+    };
+
+    return (
+      <ContentContainerStyle layout={AddContentLayout} ref={ref} {...props}>
         <ContentContainerTitleStyle layout={AddContentTitleLayout}>
           <div>
             <AddIcon />
@@ -50,27 +60,21 @@ const AddContent = ({
         <AddImageButton onAdd={addData} />
         <AddTextButton onAdd={addData} />
       </ContentContainerStyle>
-    </>
-  );
-};
-
-const AddContentButton = ({
-  icon,
-  title,
-  description,
-
-  onClick,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  onClick: () => void;
-}) => (
-  <AddContentButtonStyle color="neutral" variant="soft" onClick={onClick}>
-    {icon}
-    <span>{title}</span>
-    <span>{description}</span>
-  </AddContentButtonStyle>
+    );
+  }
 );
+
+const AddContentButton = React.forwardRef<
+  HTMLButtonElement,
+  AddContentButtonProps
+>((props, ref) => {
+  return (
+      <AddContentButtonStyle color="neutral" variant="soft" ref={ref} {...props}>
+        {props.icon}
+        <span>{props.title}</span>
+        <span>{props.description}</span>
+      </AddContentButtonStyle>
+  );
+});
 
 export { AddContent, AddContentButton };

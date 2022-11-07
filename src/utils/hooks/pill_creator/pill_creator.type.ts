@@ -46,6 +46,12 @@ const RollbackType = {
 
 type Rollback = typeof RollbackType[keyof typeof RollbackType];
 
+const ExchangeType = {
+  INDEX_CONTENT: "exchange.INDEX_CONTENT",
+} as const;
+
+type Exchange = typeof ExchangeType[keyof typeof ExchangeType];
+
 interface ExtraProps {
   category?: string;
 
@@ -53,11 +59,12 @@ interface ExtraProps {
 
   contentType?: PillContent;
   contentIndex?: number;
+  exchangeContentIndex?: number;
   content?: string;
   subContent?: string;
 
   title?: string;
 }
 
-export type { Update, Add, Remove, UpdateOrder, Rollback, Reset, ExtraProps };
-export { UpdateType, AddType, RemoveType, UpdateOrderType, RollbackType, ResetType };
+export type { Update, Add, Remove, UpdateOrder, Rollback, Reset, Exchange, ExtraProps };
+export { UpdateType, AddType, RemoveType, UpdateOrderType, RollbackType, ResetType, ExchangeType };

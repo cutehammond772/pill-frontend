@@ -5,42 +5,42 @@ import {
   HistoryStyle,
   LikeButtonStyle,
   LikeButtonContentStyle,
-  PreviewBadgeStyle,
 } from "./preview.style";
-
-import { PillPreviewProps } from "./preview.type";
 
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Chip } from "@mui/joy";
 
-const PillPreview = ({ title, author, likes, time }: PillPreviewProps) => (
+interface PillPreviewProps {
+  title: string;
+  author: string;
+  likes: number;
+  time: string;
+}
+
+const PillPreview = (props: PillPreviewProps) => (
   <ContainerStyle>
     <BannerStyle>
-      <span>{title}</span>
+      <span>{props.title}</span>
 
       <BannerAuthorStyle>
         by{" "}
         <Chip size="sm" color="info">
-          {author}
+          {props.author}
         </Chip>
       </BannerAuthorStyle>
 
       <LikeButtonStyle>
         <LikeButtonContentStyle>
           <FavoriteIcon color="error" />
-          <span>{likes}</span>
+          <span>{props.likes}</span>
         </LikeButtonContentStyle>
       </LikeButtonStyle>
     </BannerStyle>
 
-    <PreviewBadgeStyle color="success" size="sm">
-      Preview
-    </PreviewBadgeStyle>
-
     <HistoryStyle>
       <HistoryIcon />
-      {time} ago
+      {props.time} ago
     </HistoryStyle>
   </ContainerStyle>
 );

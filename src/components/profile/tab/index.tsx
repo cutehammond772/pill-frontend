@@ -55,9 +55,11 @@ const GuestProfileTab = React.forwardRef<HTMLDivElement>((props, ref) => {
   );
 });
 
-const ProfileTab = ({
-  checked,
-}: React.PropsWithChildren<{ checked: boolean }>) => {
+interface ProfileTabProps {
+  checked: boolean;
+}
+
+const ProfileTab = (props: ProfileTabProps) => {
   // Dummy
 
   const comments: Array<ReceivedCommentData> = [
@@ -82,12 +84,11 @@ const ProfileTab = ({
   };
 
   // Code
-
   const profile = useProfile();
 
   return (
     <Grow
-      in={checked}
+      in={props.checked}
       style={{
         transformOrigin: "250px 50px",
       }}

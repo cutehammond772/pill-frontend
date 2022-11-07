@@ -4,7 +4,11 @@ import { InfoStyle } from "./profile.style";
 
 import CopyrightIcon from "@mui/icons-material/Copyright";
 
-const ProfilePointInfo = ({ point }: { point: number }) => {
+interface ProfilePointInfoProps {
+  point: number;
+}
+
+const ProfilePointInfo = (props: ProfilePointInfoProps) => {
   return (
     <InfoStyle>
       <Chip
@@ -13,7 +17,7 @@ const ProfilePointInfo = ({ point }: { point: number }) => {
         size="md"
         startDecorator={<CopyrightIcon />}
       >
-        {point}
+        {props.point}
       </Chip>
     </InfoStyle>
   );

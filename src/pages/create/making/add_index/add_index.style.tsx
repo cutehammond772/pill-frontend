@@ -4,28 +4,26 @@ import { Button } from "@mui/material";
 const AddIndexStyle = styled(Button)`
 width: auto;
 height: auto;
-background: grey;
-border-radius: 10px;
-
-padding: 15px;
+border-radius: 15px;
+padding: 10px;
 
 display: flex;
 align-items: center;
 justify-content: center;
-column-gap: 20px;
+column-gap: 30px;
+
+box-shadow: 0px 0px 5px var(--light);
 
 // Add Icon
 & > svg {
-  font-size: 50px;
-  color: #202020;
+  font-size: 40px;
+  color: var(--dark);
 }
 
 & > span {
-  font-family: Inter;
   font-weight: 700;
   font-size: 30px;
-
-  color: #202020;
+  color: var(--dark);
 
   user-select: none;
 }

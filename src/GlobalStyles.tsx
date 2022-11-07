@@ -2,17 +2,17 @@
 import { Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
 
+// default font
 import "@fontsource/inter/500.css";
 
 const style = css`
-  html {
-    font-family: "Inter", sans-serif;
+  html * {
+    font-family: Inter, sans-serif !important;
   }
 
-  /* Basic CSS */
-
   :root {
-    --bgcolor: #202020;
+    --light: #dddddd;
+    --dark: #202020;
   }
 
   html {
@@ -28,8 +28,6 @@ const style = css`
     height: 100%;
 
     margin: 0;
-    
-    background: var(--bgcolor);
   }
 `;
 
@@ -38,7 +36,6 @@ const GlobalStyles = () => {
 };
 
 const DefaultText = styled.span`
-  font-family: "Inter", sans-serif;
   font-weight: 500;
   color: ${(props) => !!props.color ? props.color : "white"};
 `;

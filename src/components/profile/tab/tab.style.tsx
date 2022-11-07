@@ -8,7 +8,7 @@ const ContainerStyle = styled.div`
   border-radius: 20px;
   position: absolute;
   top: 1rem;
-  right: calc(300px + 1rem);
+  right: 0;
 
   padding: 1rem;
   z-index: 5;

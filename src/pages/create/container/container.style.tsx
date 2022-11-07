@@ -5,35 +5,26 @@ import { SerializedStyles } from "@emotion/serialize";
 const ContainerStyle = styled.div<{ layout: SerializedStyles }>`
   width: auto;
   height: auto;
-
-  border-radius: 20px;
-  border: 2px solid grey;
-
   position: relative;
-  margin-top: 128px;
-  padding: 15px;
 
   ${(props) => props.layout};
 `;
 
 const ContainerTitleStyle = styled.div`
   display: flex;
-  flex-flow: row;
-  column-gap: 15px;
-  align-items: center;
+  flex-flow: column;
+  align-items: flex-start;
+  row-gap: 15px;
 
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform: translate(0%, -150%);
+  margin-bottom: 30px;
 
   // Title
   & > span:nth-of-type(1) {
-    color: white;
-    font-family: Inter;
+    color: var(--dark);
     font-weight: 700;
-    font-size: 25px;
+    font-size: 40px;
 
+    line-height: 100%;
     user-select: none;
   }
 

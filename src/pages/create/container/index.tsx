@@ -1,23 +1,26 @@
 import { Chip } from "@mui/joy";
+import { SerializedStyles } from "@emotion/serialize";
 
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 
 import { ContainerStyle, ContainerTitleStyle } from "./container.style";
-import { CreatingPillContainerProps } from "./container.type";
 
-const Container = ({
-  title,
-  complete,
-  layout,
-  children,
-}: React.PropsWithChildren<CreatingPillContainerProps>) => {
+interface CreatingPillContainerProps {
+  title: string;
+  complete: boolean;
+  layout: SerializedStyles;
+}
+
+const Container = (
+  props: React.PropsWithChildren<CreatingPillContainerProps>
+) => {
   return (
-    <ContainerStyle layout={layout}>
+    <div>
       <ContainerTitleStyle>
-        <span>{title}</span>
+        <span>{props.title}</span>
 
-        {complete ? (
+        {props.complete ? (
           <Chip variant="solid" color="success" startDecorator={<CheckIcon />}>
             Complete
           </Chip>
@@ -27,8 +30,8 @@ const Container = ({
           </Chip>
         )}
       </ContainerTitleStyle>
-      {children}
-    </ContainerStyle>
+      <ContainerStyle layout={props.layout}>{props.children}</ContainerStyle>
+    </div>
   );
 };
 

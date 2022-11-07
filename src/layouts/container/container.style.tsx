@@ -1,8 +1,8 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const ContainerStyle = styled.div`
-  position: relative;
-
+const DefaultLayout = css`
   // Background는 전체 적용, 컨테이너 범위는 중앙 1024px가 되도록 한다.
   padding-left: calc(50% - 512px);
   padding-right: calc(50% - 512px);
@@ -14,4 +14,10 @@ const ContainerStyle = styled.div`
   }
 `;
 
-export { ContainerStyle };
+const ContainerStyle = styled.div`
+  position: relative;
+
+  ${DefaultLayout};
+`;
+
+export { ContainerStyle, DefaultLayout };

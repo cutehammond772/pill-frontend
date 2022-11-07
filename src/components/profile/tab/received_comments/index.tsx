@@ -7,20 +7,19 @@ import { ReceivedCommentData, ReceivedCommentsStats } from "./rc.type";
 
 import { ReceivedComment } from "./rc.comment";
 
-const ReceivedComments = ({
-  receivedComments,
-  stats,
-}: {
+interface ReceivedCommentsProps {
   receivedComments?: Array<ReceivedCommentData>;
   stats?: ReceivedCommentsStats;
-}) => {
+}
+
+const ReceivedComments = (props: ReceivedCommentsProps) => {
   return (
     <ContainerStyle variant="soft" color="info">
-      {!receivedComments ? (
+      {!props.receivedComments ? (
         <></>
       ) : (
         <>
-          {receivedComments.map((data) => (
+          {props.receivedComments.map((data) => (
             <div key={data.key}>
               {data.key !== 0 && <ListDivider inset="gutter" />}
               <ReceivedComment
@@ -33,9 +32,9 @@ const ReceivedComments = ({
         </>
       )}
 
-      {!!receivedComments && !!stats && (
+      {!!props.receivedComments && !!props.stats && (
         <FooterStyle>
-          <History unit={stats.timeUnit} comments={stats.commentsCount} />
+          <History unit={props.stats.timeUnit} comments={props.stats.commentsCount} />
 
           <Button size="sm" variant="solid" color="info">
             More...

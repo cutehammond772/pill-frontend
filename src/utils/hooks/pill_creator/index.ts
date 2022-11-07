@@ -18,6 +18,7 @@ import {
   updateIndexContent,
   removeIndexContent,
   updateIndexContentOrder,
+  exchangeIndexContent,
   rollbackIndexContent,
 } from "../../reducers/pill";
 
@@ -35,6 +36,8 @@ import {
   UpdateOrderType,
   RollbackType,
   ResetType,
+  Exchange,
+  ExchangeType,
 } from "./pill_creator.type";
 
 // props 내  number, string prop의 존재 여부는 undefined와 비교하여 결정한다.
@@ -190,7 +193,31 @@ const usePillCreator = () => {
     [dispatch]
   );
 
-  return { data, add, reset, remove, updateOrder, update, rollback };
+  const exchange = useCallback(
+    (type: Exchange, props: ExtraProps) => {
+      switch (type) {
+        case ExchangeType.INDEX_CONTENT:
+          if (
+            props.index === undefined ||
+            props.contentIndex === undefined ||
+            props.exchangeContentIndex === undefined
+          ) {
+            throw new Error();
+          }
+          dispatch(
+            exchangeIndexContent(
+              props.index,
+              props.contentIndex,
+              props.exchangeContentIndex
+            )
+          );
+          break;
+      }
+    },
+    [dispatch]
+  );
+
+  return { data, add, reset, remove, updateOrder, update, rollback, exchange };
 };
 
 export { usePillCreator };

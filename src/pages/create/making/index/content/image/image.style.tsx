@@ -7,8 +7,7 @@ const ImageContentLayout = css`
   justify-content: center;
 
   & > img {
-    border: 4px solid #505050;
-    border-radius: 5px;
+    border-radius: 10px;
     background: #505050;
 
     width: auto;

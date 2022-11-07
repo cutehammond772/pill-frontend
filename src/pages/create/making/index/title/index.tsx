@@ -12,38 +12,46 @@ import { UpdateType } from "../../../../../utils/hooks/pill_creator/pill_creator
 
 import { TitleStyle, TitleEditButtonStyle } from "./title.style";
 
-const Title = ({
-  index,
-  onRemove,
-}: {
+interface TitleProps {
   index: number;
   onRemove: () => void;
-}) => {
+}
+
+const Title = React.forwardRef<HTMLDivElement, TitleProps>((props, ref) => {
   const creator = usePillCreator();
 
-  const [title, setTitle] = useState<string>(creator.data.indexes[index].title);
+  const [title, setTitle] = useState<string>(
+    creator.data.indexes[props.index].title
+  );
   const [edit, setEdit] = useState<boolean>(false);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setTitle(value);
+    if (value.length <= 40) {
+      setTitle(value);
+    }
   };
 
   const closeEdit = () => {
     setEdit(false);
-    creator.update(UpdateType.INDEX_TITLE, { index: index, title: title });
+    creator.update(UpdateType.INDEX_TITLE, {
+      index: props.index,
+      title: title,
+    });
   };
 
+  const { onRemove, ...refProps } = props;
+
   return (
-    <TitleStyle>
-      <span>#{index + 1}</span>
+    <TitleStyle ref={ref} {...refProps}>
+      <span>#{props.index + 1}</span>
       {!edit ? (
         <TitleEditButtonStyle
-          color="info"
+          color="neutral"
           variant="plain"
           onClick={() => setEdit(true)}
           endDecorator={
-            <Chip size="sm" color="info">
+            <Chip size="sm" color="neutral" variant="solid">
               Click to Edit
             </Chip>
           }
@@ -53,16 +61,16 @@ const Title = ({
       ) : (
         <>
           <TextField
-            placeholder="type in here...."
+            placeholder="~40 characters"
             fullWidth
             // only way to bring text
             onChange={handleTitle}
             onBlur={closeEdit}
-            defaultValue={title}
+            value={title || ""}
           />
 
           <Tooltip title="Done">
-            <IconButton variant="soft" color="success" onClick={closeEdit}>
+            <IconButton variant="solid" color="success" onClick={closeEdit}>
               <CheckIcon />
             </IconButton>
           </Tooltip>
@@ -70,12 +78,12 @@ const Title = ({
       )}
 
       <Tooltip title="Remove">
-        <IconButton variant="soft" color="danger" onClick={onRemove}>
+        <IconButton variant="solid" color="danger" onClick={props.onRemove}>
           <DeleteIcon />
         </IconButton>
       </Tooltip>
     </TitleStyle>
   );
-};
+});
 
 export { Title };
