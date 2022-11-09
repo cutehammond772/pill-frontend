@@ -1,14 +1,7 @@
 import * as React from "react";
 
-import {
-  ContentContainerStyle,
-  ContentContainerTitleStyle,
-} from "../content.style";
-import {
-  AddContentButtonStyle,
-  AddContentLayout,
-  AddContentTitleLayout,
-} from "./add.style";
+import * as ContentStyle from "../content.style";
+import * as Style from "./add.style";
 
 import AddIcon from "@mui/icons-material/Add";
 import { AddFunction } from "../../../../../../utils/reducers/pill/pill.type";
@@ -49,17 +42,21 @@ const AddContent = React.forwardRef<HTMLDivElement, AddContentProps>(
     };
 
     return (
-      <ContentContainerStyle layout={AddContentLayout} ref={ref} {...props}>
-        <ContentContainerTitleStyle layout={AddContentTitleLayout}>
+      <ContentStyle.Container
+        layout={Style.ContainerLayout}
+        ref={ref}
+        {...props}
+      >
+        <ContentStyle.Title layout={Style.TitleLayout}>
           <div>
             <AddIcon />
             <span>Add Content</span>
           </div>
-        </ContentContainerTitleStyle>
+        </ContentStyle.Title>
 
         <AddImageButton onAdd={addData} />
         <AddTextButton onAdd={addData} />
-      </ContentContainerStyle>
+      </ContentStyle.Container>
     );
   }
 );
@@ -69,11 +66,11 @@ const AddContentButton = React.forwardRef<
   AddContentButtonProps
 >((props, ref) => {
   return (
-      <AddContentButtonStyle color="neutral" variant="soft" ref={ref} {...props}>
-        {props.icon}
-        <span>{props.title}</span>
-        <span>{props.description}</span>
-      </AddContentButtonStyle>
+    <Style.AddContentButton color="neutral" variant="soft" ref={ref} {...props}>
+      {props.icon}
+      <span>{props.title}</span>
+      <span>{props.description}</span>
+    </Style.AddContentButton>
   );
 });
 

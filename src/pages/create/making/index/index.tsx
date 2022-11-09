@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { IndexContainerStyle } from "./index.style";
+import * as Style from "./index.style";
 
 import { Title } from "./title";
 import { AddContent } from "./content/add";
@@ -31,9 +31,16 @@ const IndexContainer = React.forwardRef<HTMLDivElement, IndexContainerProps>(
   (props, ref) => {
     const creator = usePillCreator();
 
-    // 아래의 변수들은 컨텐츠 삭제 시에만 이용하므로 위의 유의에 대비할 필요가 없다.
+    // 아래의 변수들은 컨텐츠 삭제 시에만 사용되므로 위의 유의에 대비할 필요가 없다.
     const [afterRemove, setAfterRemove] = useState<boolean>(false);
     const [removeContentIndex, setRemoveContentIndex] = useState<number>(-1);
+
+    // 리프레시에 사용되는 변수이며, 컨텐츠 추가 또는 삭제가 일어날 시 변경된다.
+    const [refreshContents, setRefreshContents] = useState<Array<boolean>>(
+      Array<boolean>(creator.data.indexes[props.index].contents.length).fill(
+        false
+      )
+    );
 
     // 아래와 같이 Transition을 위한 Wrapper는 실질적으로 render에 관련된 변수이므로 대비가 필요하다.
     const [contents, setContents] = useState<Array<ElementWithTransition>>(
@@ -54,6 +61,7 @@ const IndexContainer = React.forwardRef<HTMLDivElement, IndexContainerProps>(
         })
       );
 
+      setRefreshContents(refreshContents.concat(false));
       setAfterRemove(false);
     };
 
@@ -89,6 +97,10 @@ const IndexContainer = React.forwardRef<HTMLDivElement, IndexContainerProps>(
           .map((content, contentIndex) => ({ ...content, key: contentIndex }))
       );
 
+      setRefreshContents(
+        refreshContents.filter((_, index) => index !== removeContentIndex)
+      );
+
       setRemoveContentIndex(-1);
       setAfterRemove(true);
     };
@@ -100,8 +112,35 @@ const IndexContainer = React.forwardRef<HTMLDivElement, IndexContainerProps>(
           contentIndex: contentIndex,
           exchangeContentIndex: exchangeContentIndex,
         });
+
+        setRefreshContents(
+          refreshContents.map(
+            (refresh, index) =>
+              index === contentIndex ||
+              index === exchangeContentIndex ||
+              refresh
+          )
+        );
       },
-      [creator, props.index]
+      [creator, props.index, refreshContents]
+    );
+
+    const refreshEvent = useCallback(
+      (contentIndex: number) => {
+        const completeRefresh = () => {
+          setRefreshContents(
+            refreshContents.map(
+              (refresh, index) => index !== contentIndex && refresh
+            )
+          );
+        };
+
+        return {
+          refresh: refreshContents[contentIndex],
+          completeRefresh: completeRefresh,
+        };
+      },
+      [refreshContents]
     );
 
     const resolve = useCallback(
@@ -114,6 +153,7 @@ const IndexContainer = React.forwardRef<HTMLDivElement, IndexContainerProps>(
                 key={data.key}
                 access={{ index: index, contentIndex: data.key }}
                 onExchange={handleExchange}
+                refreshEvent={refreshEvent(data.key)}
               />
             );
           case PillContentType.TEXT:
@@ -123,11 +163,12 @@ const IndexContainer = React.forwardRef<HTMLDivElement, IndexContainerProps>(
                 key={data.key}
                 access={{ index: index, contentIndex: data.key }}
                 onExchange={handleExchange}
+                refreshEvent={refreshEvent(data.key)}
               />
             );
         }
       },
-      [handleRemoveContent, handleExchange]
+      [handleRemoveContent, handleExchange, refreshEvent]
     );
 
     useEffect(() => {
@@ -165,7 +206,7 @@ const IndexContainer = React.forwardRef<HTMLDivElement, IndexContainerProps>(
     const { onRemove, ...refProps } = props;
 
     return (
-      <IndexContainerStyle ref={ref} {...refProps}>
+      <Style.IndexContainer ref={ref} {...refProps}>
         <Title index={props.index} onRemove={props.onRemove} />
 
         {contents.map((content) => {
@@ -190,7 +231,7 @@ const IndexContainer = React.forwardRef<HTMLDivElement, IndexContainerProps>(
         })}
 
         <AddContent addWrapper={handleAddContent} index={props.index} />
-      </IndexContainerStyle>
+      </Style.IndexContainer>
     );
   }
 );

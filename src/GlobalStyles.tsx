@@ -4,15 +4,18 @@ import styled from "@emotion/styled";
 
 // default font
 import "@fontsource/inter/500.css";
+import "@fontsource/noto-sans-kr/500.css";
 
 const style = css`
   html * {
-    font-family: Inter, sans-serif !important;
+    font-family: "Inter", "Noto Sans KR", sans-serif !important;
+    user-select: none;
   }
 
   :root {
-    --light: #dddddd;
-    --dark: #202020;
+    --light: white;
+    --dark: #303030;
+    --shadow: #aaaaaa;
   }
 
   html {
@@ -37,7 +40,7 @@ const GlobalStyles = () => {
 
 const DefaultText = styled.span`
   font-weight: 500;
-  color: ${(props) => !!props.color ? props.color : "white"};
+  color: ${(props) => !!props.color ? props.color : "var(--light)"};
 `;
 
 export { GlobalStyles, DefaultText };

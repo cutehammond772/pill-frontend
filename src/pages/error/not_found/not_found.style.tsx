@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 
 import HomeIcon from "@mui/icons-material/Home";
 
-const ContainerStyle = styled.div`
+const Container = styled.div`
   display: flex;
   column-gap: 10px;
 `;
 
-const TitleStyle = styled.h1`
-  color: white;
+const Title = styled.h1`
+  color: var(--dark);
   padding-top: 128px;
   font-size: 5rem;
 `;
@@ -25,11 +25,11 @@ const GoToHomeButton = ({ children }: React.PropsWithChildren) => {
       color="primary"
       startDecorator={<HomeIcon />}
     >
-      <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+      <Link to="/" style={{ textDecoration: "none", color: "var(--light)" }}>
         {children}
       </Link>
     </Button>
   );
 };
 
-export { ContainerStyle, TitleStyle, GoToHomeButton };
+export { Container, Title, GoToHomeButton };

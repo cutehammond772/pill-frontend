@@ -8,7 +8,7 @@ const ImageContentLayout = css`
 
   & > img {
     border-radius: 10px;
-    background: #505050;
+    background: var(--light);
 
     width: auto;
     max-height: 512px;

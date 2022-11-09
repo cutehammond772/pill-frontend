@@ -1,10 +1,12 @@
 import { Container } from "../container";
-import { TextField } from "@mui/joy";
+import { TextField, Chip } from "@mui/joy";
 
-import { Layout, TitleStyle, CategoriesStyle } from "./naming.style";
-import { PillPreview } from "./preview";
+import * as Style from "./naming.style";
+import { PillPreview } from "../../../components/preview";
 import { usePillCreator } from "../../../utils/hooks/pill_creator";
 import { UpdateType } from "../../../utils/hooks/pill_creator/pill_creator.type";
+
+import CheckIcon from "@mui/icons-material/Check";
 
 import * as React from "react";
 import { useState } from "react";
@@ -21,7 +23,7 @@ const Content = () => {
   };
 
   return (
-    <Container title="Pill your cover." complete={false} layout={Layout}>
+    <Container title="Pill your cover." complete={false} layout={Style.Layout}>
       <PillPreview
         title={!text ? "Untitled" : text}
         author="cutehammond"
@@ -29,14 +31,20 @@ const Content = () => {
         time="less than a minute"
       />
 
-      <TitleStyle>
+      <Style.Title>
         <span>Title</span>
         <TextField placeholder="Type in here..." color="neutral" variant="soft" fullWidth onChange={handleText} />
-      </TitleStyle>
+      </Style.Title>
 
-      <CategoriesStyle>
+      <Style.Categories>
         <span>Categories</span>
-      </CategoriesStyle>
+        <div>
+          <Chip color="neutral" variant="solid">Recipe</Chip>
+          <Chip color="success" variant="solid" endDecorator={<CheckIcon/>} onClick={() => {}} sx={{
+            userSelect: "none"
+          }}>Food</Chip>
+        </div>
+      </Style.Categories>
     </Container>
   );
 };

@@ -1,38 +1,62 @@
 import * as React from "react";
-import {
-  BehaviorButton,
-  ContentStyle,
-  PageSubjectText,
-  PageBehaviorsContent
-} from "./user.style";
+import * as Style from "./user.style";
 
 import AddIcon from "@mui/icons-material/Add";
 import ExploreIcon from "@mui/icons-material/Explore";
 import { useNavigate } from "react-router-dom";
+import { PillPreview } from "../../../components/preview";
 
 const UserHome = () => {
   const navigate = useNavigate();
 
   return (
-    <ContentStyle>
-      <PageSubjectText>Behaviors</PageSubjectText>
-      <PageBehaviorsContent>
-        <BehaviorButton color="info" variant="outlined" bordercolor="violet" onClick={() => {navigate("/create")}}>
+    <Style.Container>
+      <Style.PageSubjectText>Behaviors</Style.PageSubjectText>
+      <Style.PageBehaviorsContent>
+        <Style.BehaviorButton
+          color="info"
+          variant="solid"
+          onClick={() => {
+            navigate("/create");
+          }}
+        >
           <AddIcon />
-          <span>Create Pill</span>
+          <span>Create a Pill</span>
           <span>'Pill' with useful information that only you have.</span>
-        </BehaviorButton>
+        </Style.BehaviorButton>
 
-        <BehaviorButton color="success" variant="outlined" bordercolor="green">
+        <Style.BehaviorButton color="success" variant="solid">
           <ExploreIcon />
           <span>Explore Pills</span>
           <span>Explore various Pills made by good users.</span>
-        </BehaviorButton>
-      </PageBehaviorsContent>
+        </Style.BehaviorButton>
+      </Style.PageBehaviorsContent>
 
-      <PageSubjectText>Recent Pills</PageSubjectText>
-      <PageSubjectText>Most Liked</PageSubjectText>
-    </ContentStyle>
+      <Style.PageSubjectText>Recent Pills</Style.PageSubjectText>
+      <Style.PageRecentPillsContent>
+        <PillPreview
+          title="Test01"
+          author="udonehn"
+          likes={99}
+          time="1 hours"
+        />
+        <PillPreview
+          title="Test02"
+          author="cutehammond"
+          likes={43}
+          time="1 hours"
+        />
+        <PillPreview
+          title="Test03"
+          author="pcmaster0228"
+          likes={22}
+          time="1 hours"
+        />
+        <PillPreview title="Test04" author="hekate" likes={9} time="1 hours" />
+      </Style.PageRecentPillsContent>
+
+      <Style.PageSubjectText>Most Liked</Style.PageSubjectText>
+    </Style.Container>
   );
 };
 

@@ -3,18 +3,28 @@ import { Footer } from "../../layouts/footer";
 import { Container } from "../../layouts/container";
 
 import { useAuth } from "../../utils/hooks/auth";
-import { ContentsStyle } from "./create.style";
+import * as Style from "./create.style";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 import * as React from "react";
+import { useRef } from "react";
 
 import * as NamingPill from "./naming";
 import * as MakingPill from "./making";
+import { HeaderMenu, MenuItemRef } from "../../layouts/header/menu";
+
+const MenuType = {
+  EDITOR: "Editor",
+  SAVE: "Save",
+  PREVIEW: "Preview",
+  HOME: "Home",
+} as const;
 
 const CreatePage = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+  const refs = useRef<MenuItemRef[]>([]);
 
   // Guest 권한으로 접근할 경우 돌려보낸다.
   useEffect(() => {
@@ -26,12 +36,20 @@ const CreatePage = () => {
 
   return (
     <>
-      <Header title="Create Pill" noSearchBar />
-      <Container>
-        <ContentsStyle>
+      <Header
+        component={{
+          component: (
+            <HeaderMenu enum={MenuType} refs={refs} checked="Editor" />
+          ),
+          refs: refs,
+        }}
+        title="Create"
+      />
+      <Container layout={Style.Background}>
+        <Style.Container>
           <NamingPill.Content />
           <MakingPill.Content />
-        </ContentsStyle>
+        </Style.Container>
       </Container>
       <Footer />
     </>

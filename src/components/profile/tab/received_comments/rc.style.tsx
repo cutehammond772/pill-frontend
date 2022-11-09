@@ -1,35 +1,32 @@
 import styled from "@emotion/styled";
 import { List, ListItem } from "@mui/joy";
 
-const ContainerStyle = styled(List)`
+const Container = styled(List)`
   min-width: 240;
   border-radius: sm;
-  user-select: none;
 `;
 
-const HeaderStyle = styled.div`
+const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 5px;
 `;
 
-const TitleStyle = styled.span`
-  font-family: Inter;
+const Title = styled.span`
   font-weight: 700;
   font-size: 1rem;
 `;
 
-const ButtonsStyle = styled.div`
+const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   column-gap: 10px;
   align-items: center;
 `;
 
-const ContentStyle = styled.div`
+const Content = styled.div`
   color: grey;
-  font-family: Inter;
   font-size: 0.8rem;
 
   // Username Chip
@@ -40,7 +37,7 @@ const ContentStyle = styled.div`
   }
 `;
 
-const HistoryStyle = styled.div`
+const History = styled.div`
   display: flex;
   column-gap: 4px;
   align-items: center;
@@ -49,22 +46,21 @@ const HistoryStyle = styled.div`
   // text
   & > span {
     color: gray;
-    font-family: Inter;
     font-size: 0.8rem;
   }
 `;
 
-const FooterStyle = styled(ListItem)`
+const Footer = styled(ListItem)`
   display: flex;
   justify-content: space-between;
 `;
 
 export {
-  ContainerStyle,
-  ContentStyle,
-  HeaderStyle,
-  TitleStyle,
-  ButtonsStyle,
-  HistoryStyle,
-  FooterStyle,
+  Container,
+  Content,
+  Header,
+  Title,
+  Buttons,
+  History,
+  Footer,
 };

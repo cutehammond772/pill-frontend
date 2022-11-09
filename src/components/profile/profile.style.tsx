@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
 
-const ContainerStyle = styled.div`
+const Container = styled.div`
   display: flex;
   flex-flow: row;
   column-gap: 3px;
   float: right;
 `;
 
-const InfoStyle = styled.div`
+const Info = styled.div`
   display: flex;
   column-gap: 30px;
   flex-flow: row;
@@ -16,10 +16,8 @@ const InfoStyle = styled.div`
 
   // Point Chip
   & > div:nth-of-type(1) {
-    user-select: none;
-    font-family: Inter;
-    color: white;
+    color: var(--light);
   }
 `;
 
-export { ContainerStyle, InfoStyle };
+export { Container, Info };

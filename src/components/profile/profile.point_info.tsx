@@ -1,6 +1,6 @@
 import { Chip } from "@mui/joy";
 
-import { InfoStyle } from "./profile.style";
+import * as Style from "./profile.style";
 
 import CopyrightIcon from "@mui/icons-material/Copyright";
 
@@ -10,7 +10,7 @@ interface ProfilePointInfoProps {
 
 const ProfilePointInfo = (props: ProfilePointInfoProps) => {
   return (
-    <InfoStyle>
+    <Style.Info>
       <Chip
         variant="solid"
         color="success"
@@ -19,7 +19,7 @@ const ProfilePointInfo = (props: ProfilePointInfoProps) => {
       >
         {props.point}
       </Chip>
-    </InfoStyle>
+    </Style.Info>
   );
 };
 

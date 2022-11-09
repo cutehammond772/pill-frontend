@@ -7,15 +7,37 @@ import { useAuth } from "../../utils/hooks/auth";
 import { UserHome } from "./user";
 import { GuestHome } from "./guest";
 
+import * as React from "react";
+import { useRef } from "react";
+
+import * as GuestStyle from "./guest/guest.style";
+import * as UserStyle from "./user/user.style";
+import { HeaderMenu, MenuItemRef } from "../../layouts/header/menu";
+
+const MenuType = {
+  HOME: "Home",
+  PILLS: "Pills",
+  SEARCH: "Search",
+  HELP: "Help",
+} as const;
+
 const HomePage = () => {
   const auth = useAuth();
+  const refs = useRef<MenuItemRef[]>([]);
 
   return (
-    <Container>
-      <Header/>
-      {auth.authenticated ? <UserHome /> : <GuestHome />}
+    <>
+      <Header
+        component={{
+          component: <HeaderMenu enum={MenuType} refs={refs} checked="Home" />,
+          refs: refs,
+        }}
+      />
+      <Container {...{ layout: auth.authenticated ? UserStyle.Background : GuestStyle.Background }}>
+        {auth.authenticated ? <UserHome /> : <GuestHome />}
+      </Container>
       <Footer />
-    </Container>
+    </>
   );
 };
 

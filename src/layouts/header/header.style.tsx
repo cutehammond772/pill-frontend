@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { DefaultLayout } from "../container/container.style";
 
-const HeaderStyle = styled.header`
+const Header = styled.header`
   position: sticky;
   top: 0;
   z-index: 9999;
@@ -15,15 +15,19 @@ const HeaderStyle = styled.header`
   padding-bottom: 2rem;
 
   ${DefaultLayout};
+`;
 
-  // Header Title
-  & > span {
+const Title = styled.div`
+  display: flex;
+  flex-flow: row;
+  column-gap: 15px;
+  align-items: center;
+
+  & > span:nth-of-type(1) {
     font-weight: 700;
     font-size: 2.5rem;
     color: var(--dark);
-
-    user-select: none;
   }
 `;
 
-export { HeaderStyle };
+export { Header, Title };

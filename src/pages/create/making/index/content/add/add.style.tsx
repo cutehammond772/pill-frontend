@@ -4,18 +4,18 @@ import styled from "@emotion/styled";
 
 import { Button } from "@mui/joy";
 
-const AddContentLayout = css`
+const ContainerLayout = css`
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   justify-content: center;
 `;
 
-const AddContentTitleLayout = css`
+const TitleLayout = css`
   grid-column: 1 / 3;
 `;
 
-const AddContentButtonStyle = styled(Button)`
+const AddContentButton = styled(Button)`
   width: auto;
   height: auto;
   border-radius: 10px;
@@ -49,4 +49,4 @@ const AddContentButtonStyle = styled(Button)`
   }
 `;
 
-export { AddContentLayout, AddContentTitleLayout, AddContentButtonStyle };
+export { ContainerLayout, TitleLayout, AddContentButton };

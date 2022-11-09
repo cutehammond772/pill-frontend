@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { SerializedStyles } from "@emotion/serialize";
 
-const ContentContainerStyle = styled.div<{ layout: SerializedStyles }>`
+const Container = styled.div<{ layout: SerializedStyles }>`
   width: auto;
   height: auto;
   padding: 10px;
@@ -14,7 +14,7 @@ const ContentContainerStyle = styled.div<{ layout: SerializedStyles }>`
   ${(props) => props.layout};
 `;
 
-const ContentContainerTitleStyle = styled.div<{ layout?: SerializedStyles }>`
+const Title = styled.div<{ layout?: SerializedStyles }>`
   display: flex;
   flex-flow: row;
   column-gap: 10px;
@@ -36,8 +36,6 @@ const ContentContainerTitleStyle = styled.div<{ layout?: SerializedStyles }>`
   & > div:nth-of-type(1) > span {
     font-weight: 600;
     font-size: 20px;
-
-    user-select: none;
   }
 
   // Buttons
@@ -51,4 +49,4 @@ const ContentContainerTitleStyle = styled.div<{ layout?: SerializedStyles }>`
   ${(props) => props.layout};
 `;
 
-export { ContentContainerStyle, ContentContainerTitleStyle };
+export { Container, Title };

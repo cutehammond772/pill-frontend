@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
-import { ReactComponent as LogoImage } from '../../assets/logo.svg';
+import { LogoStyle } from "./logo.style";
 
-const Logo = ({url = "/"} : {url?: string}) => {
+interface LogoProps {
+    url?: string;
+}
+
+const Logo = (props: LogoProps) => {
     return (
-        <Link to={url}>
-            <LogoImage />
+        <Link to={props.url || "/"}>
+            <LogoStyle />
         </Link>
     );
 }

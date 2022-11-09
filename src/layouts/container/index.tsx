@@ -1,11 +1,17 @@
-import { PropsWithChildren } from "react";
-import { ContainerStyle } from "./container.style";
+import * as React from "react";
+import { SerializedStyles } from "@emotion/serialize";
 
-const Container = (props: PropsWithChildren) => {
+import * as Style from "./container.style";
+
+interface ContainerProps extends React.PropsWithChildren {
+    layout?: SerializedStyles;
+}
+
+const Container = (props: ContainerProps) => {
     return (
-        <ContainerStyle>
+        <Style.Container layout={props.layout}>
             {props.children}
-        </ContainerStyle>
+        </Style.Container>
     );
 };
 

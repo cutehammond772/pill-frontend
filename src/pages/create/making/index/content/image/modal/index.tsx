@@ -11,14 +11,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import EditIcon from "@mui/icons-material/Edit";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 
-import {
-  ModalStyle,
-  ModalDialogStyle,
-  ImagePreview,
-  CloseButton,
-  FormStyle,
-  ImageInputFormStyle,
-} from "./modal.style";
+import * as Style from "./modal.style";
+
 import {
   AddFunction,
   PillContentType,
@@ -129,15 +123,15 @@ const ImageContentModal = (props: ImageContentModalProps) => {
   return (
     <Transition in={props.open} timeout={200}>
       {(state) => (
-        <ModalStyle
+        <Style.Modal
           keepMounted
           disableScrollLock
           state={state}
           open={!["exited", "exiting"].includes(state)}
           onClose={safeClose}
         >
-          <ModalDialogStyle state={state}>
-            <ImagePreview>
+          <Style.ModalDialog state={state}>
+            <Style.ImagePreview>
               {confirm ? (
                 <img
                   src={link}
@@ -154,9 +148,9 @@ const ImageContentModal = (props: ImageContentModalProps) => {
                   </span>
                 </div>
               )}
-            </ImagePreview>
+            </Style.ImagePreview>
 
-            <FormStyle>
+            <Style.Form>
               {!!editData ? (
                 <div>
                   <EditIcon />
@@ -169,7 +163,7 @@ const ImageContentModal = (props: ImageContentModalProps) => {
                 </div>
               )}
 
-              <ImageInputFormStyle>
+              <Style.ImageInputForm>
                 <TextField
                   label="Image Link"
                   variant="soft"
@@ -202,7 +196,7 @@ const ImageContentModal = (props: ImageContentModalProps) => {
                     Confirm
                   </Button>
                 )}
-              </ImageInputFormStyle>
+              </Style.ImageInputForm>
 
               <TextField
                 label="Description"
@@ -218,24 +212,24 @@ const ImageContentModal = (props: ImageContentModalProps) => {
               >
                 Done
               </Button>
-            </FormStyle>
+            </Style.Form>
 
-            <CloseButton
+            <Style.CloseButton
               size="sm"
               color="neutral"
               variant="plain"
               onClick={safeClose}
             >
               <CloseIcon />
-            </CloseButton>
+            </Style.CloseButton>
 
             <Message
               message="Invalid Image Link."
               type="error"
               callback={{ open: imgInvalidMsg, setOpen: setImgInvalidMsg }}
             />
-          </ModalDialogStyle>
-        </ModalStyle>
+          </Style.ModalDialog>
+        </Style.Modal>
       )}
     </Transition>
   );

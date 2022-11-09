@@ -5,7 +5,7 @@ const FooterContent = styled.footer`
   position: relative;
   bottom: 0;
 
-  z-index: 1;
+  z-index: 9999;
   height: 100px;
   box-sizing: border-box;
 
@@ -14,6 +14,7 @@ const FooterContent = styled.footer`
   justify-content: space-between;
   align-items: center;
   
+  font-size: 1.2rem;
   background-color: var(--dark);
   
   ${DefaultLayout};

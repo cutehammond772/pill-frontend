@@ -1,43 +1,43 @@
 import styled from "@emotion/styled";
-import { Divider } from "@mui/joy";
+import { Divider as DividerComponent } from "@mui/joy";
 
-const ContainerStyle = styled.div`
+const Container = styled.div`
   width: 300px;
   height: auto;
-  background: #303030;
+  padding: 1rem;
   border-radius: 20px;
+  
+  background: var(--light);
+  box-shadow: 0px 0px 30px var(--shadow);
+
   position: absolute;
   top: 1rem;
   right: 0;
 
-  padding: 1rem;
-  z-index: 5;
+  z-index: 8888;
 `;
 
-const TitleStyle = styled.span`
-  color: white;
-  font-family: Inter;
-  font-weight: 500;
+const Title = styled.span`
+  color: var(--dark);
+  font-weight: 700;
   font-size: 1.5rem;
-  user-select: none;
 
   position: relative;
   top: 0.5rem;
 `;
 
-const DividerStyle = styled(Divider)`
+const Divider = styled(DividerComponent)`
   padding-top: 20px;
   padding-bottom: 10px;
 
   letter-spacing: 0.15rem;
   font-size: 0.5rem;
-  color: grey;
+  color: var(--dark);
   font-weight: 700;
   text-transform: uppercase;
-  user-select: none;
 `;
 
-const MenuStyle = styled.div`
+const Menu = styled.div`
   display: flex;
   flex-wrap: wrap;
   column-gap: 5px;
@@ -45,7 +45,7 @@ const MenuStyle = styled.div`
   justify-content: center;
 `;
 
-const GuestBannerStyle = styled.div`
+const GuestBanner = styled.div`
   height: 200px;
   display: flex;
   flex-flow: column;
@@ -65,18 +65,16 @@ const GuestBannerStyle = styled.div`
   }
 
   & > span {
-    font-family: Inter;
-    color: #202020;
+    color: var(--dark);
     text-align: center;
     font-size: 1rem;
-    user-select: none;
   }
 `;
 
 export {
-  ContainerStyle,
-  TitleStyle,
-  DividerStyle,
-  MenuStyle,
-  GuestBannerStyle
+  Container,
+  Title,
+  Divider,
+  Menu,
+  GuestBanner
 };

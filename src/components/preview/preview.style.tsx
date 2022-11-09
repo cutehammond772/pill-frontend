@@ -2,21 +2,22 @@ import styled from "@emotion/styled";
 
 import { Chip } from "@mui/joy";
 
-const ContainerStyle = styled.div`
+const Container = styled.div`
   width: auto;
   height: auto;
+
   border-radius: 10px;
+  box-shadow: 0px 0px 10px var(--shadow);
   background: linear-gradient(
     45deg,
     hsla(339, 100%, 55%, 1) 0%,
     hsla(197, 100%, 64%, 1) 100%
   );
-  grid-row: 1 / 3;
+
   position: relative;
-  box-shadow: 0px 0px 10px grey;
 `;
 
-const BannerStyle = styled.div`
+const Banner = styled.div`
   width: auto;
   height: auto;
   padding: 10px;
@@ -33,39 +34,34 @@ const BannerStyle = styled.div`
 
   // Title
   & > span:nth-of-type(1) {
-    font-family: Inter;
     font-weight: 700;
-    color: #202020;
+    color: var(--dark);
 
     overflow-wrap: break-word;
   }
 `;
 
-const BannerAuthorStyle = styled.div`
+const BannerAuthor = styled.div`
   display: flex;
   align-items: center;
   column-gap: 0.5rem;
-
-  font-family: Inter;
-  user-select: none;
 `;
 
-const LikeButtonStyle = styled(Chip)`
+const LikeButton = styled(Chip)`
   position: absolute;
   right: 0;
   bottom: 0;
   transform: translate(-25%, 50%);
-  user-select: none;
 `;
 
-const LikeButtonContentStyle = styled.div`
+const LikeButtonContent = styled.div`
   display: flex;
   flex-flow: row;
   align-items: flex-end;
   column-gap: 5px;
 `;
 
-const HistoryStyle = styled.div`
+const History = styled.div`
   position: absolute;
   left: 15px;
   bottom: 15px;
@@ -74,17 +70,14 @@ const HistoryStyle = styled.div`
   align-items: center;
   column-gap: 0.25rem;
 
-  color: #303030;
-  font-family: Inter;
-
-  user-select: none;
+  color: var(--dark);
 `;
 
 export {
-  BannerStyle,
-  BannerAuthorStyle,
-  ContainerStyle,
-  HistoryStyle,
-  LikeButtonStyle,
-  LikeButtonContentStyle,
+  Banner,
+  BannerAuthor,
+  Container,
+  History,
+  LikeButton,
+  LikeButtonContent,
 };

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Button } from "@mui/joy";
 
-const TitleStyle = styled.div`
+const Title = styled.div`
   width: auto;
   height: auto;
   padding: 10px;
@@ -25,7 +25,6 @@ const TitleStyle = styled.div`
     padding-left: 15px;
     padding-right: 15px;
     line-height: 100%;
-    user-select: none;
   }
 
   // Remove Icon
@@ -35,7 +34,7 @@ const TitleStyle = styled.div`
   }
 `;
 
-const TitleEditButtonStyle = styled(Button)`
+const TitleEditButton = styled(Button)`
   width: auto;
   height: auto;
   border-radius: 8px;
@@ -57,4 +56,4 @@ const TitleEditButtonStyle = styled(Button)`
   color: var(--dark);
 `;
 
-export { TitleStyle, TitleEditButtonStyle };
+export { Title, TitleEditButton };

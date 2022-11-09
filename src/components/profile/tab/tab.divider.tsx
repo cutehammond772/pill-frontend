@@ -1,5 +1,5 @@
 
-import { DividerStyle } from "./tab.style";
+import * as Style from "./tab.style";
 
 interface DividerProps {
   title: string;
@@ -7,9 +7,9 @@ interface DividerProps {
 
 const Divider = (props: DividerProps) => {
   return (
-    <DividerStyle>
+    <Style.Divider>
         {props.title}
-    </DividerStyle>
+    </Style.Divider>
   );
 };
 

@@ -3,12 +3,7 @@ import { ListItem, ListItemContent, Chip } from "@mui/joy";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
-import {
-  ButtonsStyle,
-  ContentStyle,
-  HeaderStyle,
-  TitleStyle,
-} from "./rc.style";
+import * as Style from "./rc.style";
 
 interface ReceivedCommentProps {
   title: string;
@@ -20,21 +15,21 @@ const ReceivedComment = (props: ReceivedCommentProps) => {
   return (
     <ListItem>
       <ListItemContent>
-        <HeaderStyle>
-          <TitleStyle>{props.title}</TitleStyle>
+        <Style.Header>
+          <Style.Title>{props.title}</Style.Title>
 
-          <ButtonsStyle>
+          <Style.Buttons>
             <ArrowForwardIcon />
             <ThumbUpIcon />
-          </ButtonsStyle>
-        </HeaderStyle>
+          </Style.Buttons>
+        </Style.Header>
 
-        <ContentStyle>
+        <Style.Content>
           <Chip size="sm" color="info">
             {props.userName}
           </Chip>
           {props.comment}
-        </ContentStyle>
+        </Style.Content>
       </ListItemContent>
     </ListItem>
   );

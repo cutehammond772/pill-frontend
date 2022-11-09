@@ -4,7 +4,7 @@ import { SerializedStyles } from "@emotion/serialize";
 import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 
-import { ContainerStyle, ContainerTitleStyle } from "./container.style";
+import * as Style from "./container.style";
 
 interface CreatingPillContainerProps {
   title: string;
@@ -17,7 +17,7 @@ const Container = (
 ) => {
   return (
     <div>
-      <ContainerTitleStyle>
+      <Style.Title>
         <span>{props.title}</span>
 
         {props.complete ? (
@@ -29,8 +29,8 @@ const Container = (
             Not complete
           </Chip>
         )}
-      </ContainerTitleStyle>
-      <ContainerStyle layout={props.layout}>{props.children}</ContainerStyle>
+      </Style.Title>
+      <Style.Container layout={props.layout}>{props.children}</Style.Container>
     </div>
   );
 };

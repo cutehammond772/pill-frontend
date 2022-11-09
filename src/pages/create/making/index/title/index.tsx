@@ -10,7 +10,7 @@ import { useState } from "react";
 import { usePillCreator } from "../../../../../utils/hooks/pill_creator";
 import { UpdateType } from "../../../../../utils/hooks/pill_creator/pill_creator.type";
 
-import { TitleStyle, TitleEditButtonStyle } from "./title.style";
+import * as Style from "./title.style";
 
 interface TitleProps {
   index: number;
@@ -43,10 +43,10 @@ const Title = React.forwardRef<HTMLDivElement, TitleProps>((props, ref) => {
   const { onRemove, ...refProps } = props;
 
   return (
-    <TitleStyle ref={ref} {...refProps}>
+    <Style.Title ref={ref} {...refProps}>
       <span>#{props.index + 1}</span>
       {!edit ? (
-        <TitleEditButtonStyle
+        <Style.TitleEditButton
           color="neutral"
           variant="plain"
           onClick={() => setEdit(true)}
@@ -57,7 +57,7 @@ const Title = React.forwardRef<HTMLDivElement, TitleProps>((props, ref) => {
           }
         >
           {!title ? "Untitled" : title}
-        </TitleEditButtonStyle>
+        </Style.TitleEditButton>
       ) : (
         <>
           <TextField
@@ -82,7 +82,7 @@ const Title = React.forwardRef<HTMLDivElement, TitleProps>((props, ref) => {
           <DeleteIcon />
         </IconButton>
       </Tooltip>
-    </TitleStyle>
+    </Style.Title>
   );
 });
 

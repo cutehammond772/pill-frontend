@@ -1,7 +1,7 @@
 import { Button, ListDivider } from "@mui/joy";
 
+import * as Style from "./rc.style";
 import { History } from "./rc.history";
-import { ContainerStyle, FooterStyle } from "./rc.style";
 
 import { ReceivedCommentData, ReceivedCommentsStats } from "./rc.type";
 
@@ -14,7 +14,7 @@ interface ReceivedCommentsProps {
 
 const ReceivedComments = (props: ReceivedCommentsProps) => {
   return (
-    <ContainerStyle variant="soft" color="info">
+    <Style.Container variant="soft" color="info">
       {!props.receivedComments ? (
         <></>
       ) : (
@@ -33,15 +33,15 @@ const ReceivedComments = (props: ReceivedCommentsProps) => {
       )}
 
       {!!props.receivedComments && !!props.stats && (
-        <FooterStyle>
+        <Style.Footer>
           <History unit={props.stats.timeUnit} comments={props.stats.commentsCount} />
 
           <Button size="sm" variant="solid" color="info">
             More...
           </Button>
-        </FooterStyle>
+        </Style.Footer>
       )}
-    </ContainerStyle>
+    </Style.Container>
   );
 };
 

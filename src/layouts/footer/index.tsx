@@ -7,7 +7,7 @@ const Footer = () => {
     <FooterContent>
       <DefaultText>&copy; 2022 Jungheon Lee</DefaultText>
       <Link
-        to="/"
+        to="/help"
         style={{
           textDecoration: "none",
         }}

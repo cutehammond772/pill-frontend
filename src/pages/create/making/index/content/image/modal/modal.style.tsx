@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import { IconButton, Modal, ModalDialog } from "@mui/joy";
+import { IconButton, Modal as ModalComponent, ModalDialog as ModalDialogComponent } from "@mui/joy";
 import { TransitionStatus } from "react-transition-group/Transition";
 
 const Visible = css`
@@ -39,7 +39,7 @@ const dialogOpacity = (state: TransitionStatus) =>
     unmounted: Invisible,
   }[state]);
 
-const ModalStyle = styled(Modal)<{ state: TransitionStatus }>`
+const Modal = styled(ModalComponent)<{ state: TransitionStatus }>`
   & .MuiBackdrop-root {
     transition: opacity 200ms, backdrop-filter 200ms;
     ${(props) => backDropStyle(props.state)};
@@ -48,10 +48,10 @@ const ModalStyle = styled(Modal)<{ state: TransitionStatus }>`
   visibility: ${(props) => (props.state === "exited" ? "hidden" : "visible")};
 `;
 
-const ModalDialogStyle = styled(ModalDialog)<{ state: TransitionStatus }>`
+const ModalDialog = styled(ModalDialogComponent)<{ state: TransitionStatus }>`
   border-radius: 10px;
   padding: 30px;
-  box-shadow: 0px 0px 10px black;
+  box-shadow: 0px 0px 10px var(--shadow);
   transition: opacity 200ms;
 
   display: grid;
@@ -110,12 +110,10 @@ const ImagePreview = styled.div`
     padding-right: 20px;
 
     color: var(--dark);
-
-    user-select: none;
   }
 `;
 
-const FormStyle = styled.div`
+const Form = styled.div`
   display: flex;
   flex-flow: column;
   row-gap: 20px;
@@ -136,12 +134,10 @@ const FormStyle = styled.div`
     font-weight: 700;
     font-size: 1.5rem;
     line-height: 100%;
-
-    user-select: none;
   }
 `;
 
-const ImageInputFormStyle = styled.div`
+const ImageInputForm = styled.div`
   display: flex;
   flex-flow: row;
   align-items: flex-end;
@@ -155,11 +151,11 @@ const CloseButton = styled(IconButton)`
 `;
 
 export {
-  ModalStyle,
-  ModalDialogStyle,
+  Modal,
+  ModalDialog,
   ImagePreview,
-  FormStyle,
-  ImageInputFormStyle,
+  Form,
+  ImageInputForm,
   CloseButton,
   Visible,
   Invisible,

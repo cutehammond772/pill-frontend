@@ -1,10 +1,7 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import {
-  ContentContainerStyle,
-  ContentContainerTitleStyle,
-} from "../content.style";
+import * as Style from "../content.style";
 import { IconButton, Textarea } from "@mui/joy";
 import { Tooltip } from "@mui/material";
 
@@ -21,15 +18,10 @@ import {
 } from "../../../../../../utils/reducers/pill/pill.type";
 import { AddContentButton } from "../add";
 import { UpdateType } from "../../../../../../utils/hooks/pill_creator/pill_creator.type";
+import { ContentProps } from "../content.type";
 
 interface AddTextButtonProps {
   onAdd: AddFunction;
-}
-
-interface TextContentProps {
-  onRemove: () => void;
-  onExchange: (contentIndex: number, exchangeContentIndex: number) => void;
-  access: { index: number; contentIndex: number };
 }
 
 const AddTextButton = React.forwardRef<HTMLButtonElement, AddTextButtonProps>(
@@ -40,7 +32,7 @@ const AddTextButton = React.forwardRef<HTMLButtonElement, AddTextButtonProps>(
       <AddContentButton
         icon={<ArticleIcon />}
         title="Text"
-        description="add an text into the pill."
+        description="add a text into the pill."
         onClick={() => props.onAdd({ type: PillContentType.TEXT, content: "" })}
         ref={ref}
         {...refProps}
@@ -49,7 +41,7 @@ const AddTextButton = React.forwardRef<HTMLButtonElement, AddTextButtonProps>(
   }
 );
 
-const TextContent = React.forwardRef<HTMLDivElement, TextContentProps>(
+const TextContent = React.forwardRef<HTMLDivElement, ContentProps>(
   (props, ref) => {
     const creator = usePillCreator();
     const [text, setText] = useState<string>(
@@ -57,6 +49,9 @@ const TextContent = React.forwardRef<HTMLDivElement, TextContentProps>(
         props.access.contentIndex
       ].content || ""
     );
+
+    // refresh after exchange
+    const { refresh, completeRefresh } = props.refreshEvent;
 
     const handleText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const { value } = event.target;
@@ -68,11 +63,24 @@ const TextContent = React.forwardRef<HTMLDivElement, TextContentProps>(
       });
     };
 
+    useEffect(() => {
+      if (refresh) {
+        setText(
+          creator.data.indexes[props.access.index].contents[
+            props.access.contentIndex
+          ].content || ""
+        );
+        
+        completeRefresh();
+      }
+
+    }, [creator.data.indexes, props.access, completeRefresh, refresh]);
+
     const { onRemove, onExchange, ...refProps } = props;
 
     return (
-      <ContentContainerStyle layout={TextContentLayout} ref={ref} {...refProps}>
-        <ContentContainerTitleStyle layout={TextContentTitleLayout}>
+      <Style.Container layout={TextContentLayout} ref={ref} {...refProps}>
+        <Style.Title layout={TextContentTitleLayout}>
           <div>
             <ArticleIcon />
             <span>Text</span>
@@ -84,12 +92,12 @@ const TextContent = React.forwardRef<HTMLDivElement, TextContentProps>(
                 <IconButton
                   variant="outlined"
                   color="primary"
-                  onClick={() =>
+                  onClick={() => {
                     props.onExchange(
                       props.access.contentIndex,
                       props.access.contentIndex - 1
-                    )
-                  }
+                    );
+                  }}
                 >
                   <KeyboardArrowUpIcon />
                 </IconButton>
@@ -102,12 +110,12 @@ const TextContent = React.forwardRef<HTMLDivElement, TextContentProps>(
                 <IconButton
                   variant="outlined"
                   color="primary"
-                  onClick={() =>
+                  onClick={() => {
                     props.onExchange(
                       props.access.contentIndex,
                       props.access.contentIndex + 1
-                    )
-                  }
+                    );
+                  }}
                 >
                   <KeyboardArrowDownIcon />
                 </IconButton>
@@ -124,7 +132,7 @@ const TextContent = React.forwardRef<HTMLDivElement, TextContentProps>(
               </IconButton>
             </Tooltip>
           </div>
-        </ContentContainerTitleStyle>
+        </Style.Title>
 
         <Textarea
           minRows={4}
@@ -134,7 +142,7 @@ const TextContent = React.forwardRef<HTMLDivElement, TextContentProps>(
           onChange={handleText}
           value={text || ""}
         />
-      </ContentContainerStyle>
+      </Style.Container>
     );
   }
 );

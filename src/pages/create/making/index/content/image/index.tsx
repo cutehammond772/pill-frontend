@@ -1,7 +1,4 @@
-import {
-  ContentContainerStyle,
-  ContentContainerTitleStyle,
-} from "../content.style";
+import * as Style from "../content.style";
 import { IconButton, Chip } from "@mui/joy";
 import { Tooltip } from "@mui/material";
 
@@ -21,15 +18,10 @@ import { AddContentButton } from "../add";
 import { ImageContentModal } from "./modal";
 import { AddFunction } from "../../../../../../utils/reducers/pill/pill.type";
 import { UpdateType } from "../../../../../../utils/hooks/pill_creator/pill_creator.type";
+import { ContentProps } from "../content.type";
 
 interface AddImageButtonProps {
   onAdd: AddFunction;
-}
-
-interface ImageContentProps {
-  onRemove: () => void;
-  onExchange: (contentIndex: number, exchangeContentIndex: number) => void;
-  access: { index: number; contentIndex: number };
 }
 
 // 이후 Modal은 별도로 빼놓아야 한다.
@@ -59,7 +51,7 @@ const AddImageButton = React.forwardRef<HTMLButtonElement, AddImageButtonProps>(
   }
 );
 
-const ImageContent = React.forwardRef<HTMLDivElement, ImageContentProps>(
+const ImageContent = React.forwardRef<HTMLDivElement, ContentProps>(
   (props, ref) => {
     const creator = usePillCreator();
     const data =
@@ -81,12 +73,12 @@ const ImageContent = React.forwardRef<HTMLDivElement, ImageContentProps>(
     const { onRemove, onExchange, ...refProps } = props;
 
     return (
-      <ContentContainerStyle
+      <Style.Container
         layout={ImageContentLayout}
         ref={ref}
         {...refProps}
       >
-        <ContentContainerTitleStyle layout={ImageContentTitleLayout}>
+        <Style.Title layout={ImageContentTitleLayout}>
           <div>
             <ImageIcon />
             <span>Image</span>
@@ -159,7 +151,7 @@ const ImageContent = React.forwardRef<HTMLDivElement, ImageContentProps>(
               </IconButton>
             </Tooltip>
           </div>
-        </ContentContainerTitleStyle>
+        </Style.Title>
         <img src={data.content} alt={data.subContent} />
 
         <ImageContentModal
@@ -168,7 +160,7 @@ const ImageContent = React.forwardRef<HTMLDivElement, ImageContentProps>(
           onAdd={onUpdate}
           editIndex={props.access}
         />
-      </ContentContainerStyle>
+      </Style.Container>
     );
   }
 );

@@ -1,4 +1,4 @@
-import { AddIndexStyle } from "./add_index.style";
+import * as Style from "./add_index.style";
 import AddIcon from "@mui/icons-material/Add";
 
 interface AddIndexProps {
@@ -7,10 +7,10 @@ interface AddIndexProps {
 
 const AddIndex = (props: AddIndexProps) => {
   return (
-    <AddIndexStyle color="primary" variant="text" onClick={props.onClick}>
+    <Style.AddIndexButton color="primary" variant="text" onClick={props.onClick}>
       <AddIcon />
       <span>Add Index</span>
-    </AddIndexStyle>
+    </Style.AddIndexButton>
   );
 };
 

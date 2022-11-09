@@ -6,34 +6,39 @@ const Layout = css`
   display: grid;
   grid-template-rows: 1fr 2fr;
   grid-template-columns: 300px 1fr;
+
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0px 0px 10px var(--shadow);
+
+  // PillPreview
+  & > div:nth-of-type(1) {
+    grid-row: 1 / 3;
+  }
 `;
 
-const TitleStyle = styled.div`
+const Title = styled.div`
   margin-left: 30px;
   padding: 15px;
   border-radius: 15px;
 
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
+  justify-content: center;
   row-gap: 15px;
-
-  background: #303030;
 
   // Title Text
   & > span {
-    font-family: Inter;
-    font-weight: 500;
-    color: white;
+    font-weight: 700;
+    color: var(--dark);
     font-size: 1.5rem;
     line-height: 100%;
 
     text-transform: uppercase;
-    user-select: none;
   }
 `;
 
-const CategoriesStyle = styled.div`
+const Categories = styled.div`
   margin-left: 30px;
   margin-top: 15px;
   padding: 15px;
@@ -41,22 +46,25 @@ const CategoriesStyle = styled.div`
 
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
+  
   row-gap: 15px;
 
-  background: #303030;
+  & > div {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 5px;
+    row-gap: 5px;
+  }
 
   // Categories Text
   & > span {
-    font-family: Inter;
-    font-weight: 500;
-    color: white;
+    font-weight: 700;
+    color: var(--dark);
     font-size: 1.5rem;
     line-height: 100%;
 
     text-transform: uppercase;
-    user-select: none;
   }
 `;
 
-export { Layout, CategoriesStyle, TitleStyle };
+export { Layout, Categories, Title };

@@ -1,5 +1,5 @@
 import HistoryIcon from "@mui/icons-material/History";
-import { HistoryStyle } from "./rc.style";
+import * as Style from "./rc.style";
 
 interface HistoryProps {
   unit: string;
@@ -8,12 +8,12 @@ interface HistoryProps {
 
 const History = (props: HistoryProps) => {
   return (
-    <HistoryStyle>
+    <Style.History>
       <HistoryIcon />
       <span>
         Recent {props.unit} (+{props.comments})
       </span>
-    </HistoryStyle>
+    </Style.History>
   );
 };
 

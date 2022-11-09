@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 import { SerializedStyles } from "@emotion/serialize";
 
-const ContainerStyle = styled.div<{ layout: SerializedStyles }>`
+const Container = styled.div<{ layout: SerializedStyles }>`
   width: auto;
   height: auto;
   position: relative;
@@ -10,7 +10,7 @@ const ContainerStyle = styled.div<{ layout: SerializedStyles }>`
   ${(props) => props.layout};
 `;
 
-const ContainerTitleStyle = styled.div`
+const Title = styled.div`
   display: flex;
   flex-flow: column;
   align-items: flex-start;
@@ -25,13 +25,11 @@ const ContainerTitleStyle = styled.div`
     font-size: 40px;
 
     line-height: 100%;
-    user-select: none;
   }
 
   // Complete Chip
   & > div:nth-of-type(1) {
-    user-select: none;
   }
 `;
 
-export { ContainerStyle, ContainerTitleStyle };
+export { Container, Title };

@@ -4,12 +4,7 @@ import * as React from "react";
 import * as config from "../../../config";
 
 import { Divider } from "./tab.divider";
-import {
-  GuestBannerStyle,
-  ContainerStyle,
-  MenuStyle,
-  TitleStyle,
-} from "./tab.style";
+import * as Style from "./tab.style";
 
 import {
   ReceivedCommentData,
@@ -36,22 +31,22 @@ const GuestProfileTab = React.forwardRef<HTMLDivElement>((props, ref) => {
   };
 
   return (
-    <ContainerStyle ref={ref} {...props}>
-      <TitleStyle>Welcome, Guest!</TitleStyle>
+    <Style.Container ref={ref} {...props}>
+      <Style.Title>Welcome, Guest!</Style.Title>
 
-      <GuestBannerStyle>
+      <Style.GuestBanner>
         <ThumbUpIcon />
         <span>
           Join with just one click without complicated registration and enjoy
           useful information!
         </span>
-      </GuestBannerStyle>
+      </Style.GuestBanner>
 
       <Divider title="Menu" />
-      <MenuStyle>
+      <Style.Menu>
         <LoginButton request={request} />
-      </MenuStyle>
-    </ContainerStyle>
+      </Style.Menu>
+    </Style.Container>
   );
 });
 
@@ -96,19 +91,19 @@ const ProfileTab = (props: ProfileTabProps) => {
       {!(!!profile.data.profile && !!profile.data.profile.userName) ? (
         <GuestProfileTab />
       ) : (
-        <ContainerStyle>
-          <TitleStyle>{profile.data.profile.userName}</TitleStyle>
+        <Style.Container>
+          <Style.Title>{profile.data.profile.userName}</Style.Title>
 
           <Divider title="Received Comment" />
           <ReceivedComments receivedComments={comments} stats={stats} />
 
           <Divider title="Menu" />
-          <MenuStyle>
+          <Style.Menu>
             <MyPillButton onClick={() => {}} />
             <ManageProfileButton onClick={() => {}} />
             <LogoutButton />
-          </MenuStyle>
-        </ContainerStyle>
+          </Style.Menu>
+        </Style.Container>
       )}
     </Grow>
   );

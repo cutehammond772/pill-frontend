@@ -12,7 +12,7 @@ import { INITIAL_STATE } from "../../utils/reducers/profile/reducer.profile.type
 import { useAuth } from "../../utils/hooks/auth";
 import { useRequest } from "../../utils/hooks/request";
 
-import { ContainerStyle } from "./profile.style";
+import * as Style from "./profile.style";
 
 const Profile = () => {
   const profile = useProfile();
@@ -49,7 +49,7 @@ const Profile = () => {
   // state 변경 함수는 람다식으로 한번 감싸주어야 한다.
   return (
     <>
-      <ContainerStyle>
+      <Style.Container>
         {!!profile.data.profile && <ProfilePointInfo point={30000}/>}
         <ProfileAvatar
           onClick={() => {
@@ -58,7 +58,7 @@ const Profile = () => {
             }
           }}
         />
-      </ContainerStyle>
+      </Style.Container>
 
       <ProfileTab checked={checked} />
     </>

@@ -7,6 +7,7 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@fontsource/inter": "^4.5.14",
+    "@fontsource/noto-sans-kr": "^4.5.12",
     "@mui/icons-material": "^5.10.9",
     "@mui/joy": "^5.0.0-alpha.51",
     "@mui/material": "^5.10.9",

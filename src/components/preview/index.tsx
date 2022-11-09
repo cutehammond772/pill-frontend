@@ -1,11 +1,4 @@
-import {
-  BannerStyle,
-  BannerAuthorStyle,
-  ContainerStyle,
-  HistoryStyle,
-  LikeButtonStyle,
-  LikeButtonContentStyle,
-} from "./preview.style";
+import * as Style from "./preview.style";
 
 import HistoryIcon from "@mui/icons-material/History";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -19,30 +12,30 @@ interface PillPreviewProps {
 }
 
 const PillPreview = (props: PillPreviewProps) => (
-  <ContainerStyle>
-    <BannerStyle>
+  <Style.Container>
+    <Style.Banner>
       <span>{props.title}</span>
 
-      <BannerAuthorStyle>
+      <Style.BannerAuthor>
         by{" "}
         <Chip size="sm" color="info">
           {props.author}
         </Chip>
-      </BannerAuthorStyle>
+      </Style.BannerAuthor>
 
-      <LikeButtonStyle>
-        <LikeButtonContentStyle>
+      <Style.LikeButton>
+        <Style.LikeButtonContent>
           <FavoriteIcon color="error" />
           <span>{props.likes}</span>
-        </LikeButtonContentStyle>
-      </LikeButtonStyle>
-    </BannerStyle>
+        </Style.LikeButtonContent>
+      </Style.LikeButton>
+    </Style.Banner>
 
-    <HistoryStyle>
+    <Style.History>
       <HistoryIcon />
       {props.time} ago
-    </HistoryStyle>
-  </ContainerStyle>
+    </Style.History>
+  </Style.Container>
 );
 
 export { PillPreview };
