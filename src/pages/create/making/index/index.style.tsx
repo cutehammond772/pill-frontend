@@ -6,11 +6,11 @@ const IndexContainer = styled.div`
 
   border-radius: 20px;
   box-shadow: 0px 0px 10px var(--shadow);
-  padding: 15px;
+  padding: 20px;
 
   display: flex;
   flex-flow: column;
-  row-gap: 15px;
+  row-gap: 20px;
 
   & > div {
     box-shadow: 0px 5px 20px var(--shadow);

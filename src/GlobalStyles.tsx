@@ -38,9 +38,4 @@ const GlobalStyles = () => {
   return <Global styles={style} />;
 };
 
-const DefaultText = styled.span`
-  font-weight: 500;
-  color: ${(props) => !!props.color ? props.color : "var(--light)"};
-`;
-
-export { GlobalStyles, DefaultText };
+export { GlobalStyles };

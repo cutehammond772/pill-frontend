@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import { DefaultLayout } from "../container/container.style";
 
-const FooterContent = styled.footer`
+const Footer = styled.footer`
   position: relative;
   bottom: 0;
 
-  z-index: 9999;
+  z-index: 777;
   height: 100px;
   box-sizing: border-box;
 
@@ -20,4 +20,4 @@ const FooterContent = styled.footer`
   ${DefaultLayout};
 `;
 
-export { FooterContent };
+export { Footer };

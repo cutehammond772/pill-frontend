@@ -1,20 +1,20 @@
 import { Link } from "react-router-dom";
-import { DefaultText } from "../../GlobalStyles";
-import { FooterContent } from "./footer.style";
+import * as Style from "./footer.style";
 
 const Footer = () => {
+
   return (
-    <FooterContent>
-      <DefaultText>&copy; 2022 Jungheon Lee</DefaultText>
+    <Style.Footer>
+      <span>&copy; 2022 Jungheon Lee</span>
       <Link
         to="/help"
         style={{
           textDecoration: "none",
         }}
       >
-        <DefaultText>Help</DefaultText>
+        <span>Help</span>
       </Link>
-    </FooterContent>
+    </Style.Footer>
   );
 };
 

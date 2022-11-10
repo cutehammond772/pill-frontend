@@ -88,11 +88,11 @@ const ProfileTab = (props: ProfileTabProps) => {
         transformOrigin: "250px 50px",
       }}
     >
-      {!(!!profile.data.profile && !!profile.data.profile.userName) ? (
+      {!profile.data.userName ? (
         <GuestProfileTab />
       ) : (
         <Style.Container>
-          <Style.Title>{profile.data.profile.userName}</Style.Title>
+          <Style.Title>{profile.data.userName}</Style.Title>
 
           <Divider title="Received Comment" />
           <ReceivedComments receivedComments={comments} stats={stats} />

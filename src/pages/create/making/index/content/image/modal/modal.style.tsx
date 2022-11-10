@@ -92,7 +92,8 @@ const ImagePreview = styled.div`
     max-height: 400px;
 
     background: var(--light);
-    border-radius: 5px;
+    box-shadow: 0px 0px 5px var(--shadow);
+    border-radius: 10px;
   }
 
   // Background Icon

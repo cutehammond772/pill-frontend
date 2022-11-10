@@ -13,10 +13,11 @@ import { useRef } from "react";
 import * as GuestStyle from "./guest/guest.style";
 import * as UserStyle from "./user/user.style";
 import { HeaderMenu, MenuItemRef } from "../../layouts/header/menu";
+import { useNavigate } from "react-router-dom";
 
 const MenuType = {
   HOME: "Home",
-  PILLS: "Pills",
+  BOARD: "Board",
   SEARCH: "Search",
   HELP: "Help",
 } as const;
@@ -24,12 +25,23 @@ const MenuType = {
 const HomePage = () => {
   const auth = useAuth();
   const refs = useRef<MenuItemRef[]>([]);
+  const navigate = useNavigate();
+
+  const handleClick = (type: string) => {
+    switch(type) {
+      case MenuType.BOARD:
+        navigate("/board", { preventScrollReset: true });
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
       <Header
         component={{
-          component: <HeaderMenu enum={MenuType} refs={refs} checked="Home" />,
+          component: <HeaderMenu enum={MenuType} refs={refs} checked="Home" onClick={handleClick}/>,
           refs: refs,
         }}
       />

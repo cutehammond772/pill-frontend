@@ -1,5 +1,7 @@
+import { AxiosInstance } from "axios";
+
 interface DataRequest {
-    <T>(url: string): Promise<T>
+    <T>(auth: AxiosInstance, url: string): Promise<T>
 };
 
 export type { DataRequest };

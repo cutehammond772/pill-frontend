@@ -1,33 +1,57 @@
 import { Reducer } from "redux";
-import { AuthState, AuthReducingAction, AuthReducingType, INITIAL_STATE, AuthReducingFunction } from "./reducer.auth.type";
+import {
+  AuthenticationStatus,
+  AuthReducingType,
+  INITIAL_STATE,
+} from "./auth.type";
 
-const confirmAuthentication: AuthReducingFunction = () => ({
-    type: AuthReducingType.AUTHENTICATE,
-    payload: {
-        authenticated: true,
-    }
+const confirmAuth = () => ({
+  type: AuthReducingType.AUTHENTICATE,
+  payload: {
+    loaded: true,
+    authenticated: true,
+  },
 });
 
-const confirmLogout: AuthReducingFunction = () => ({
-    type: AuthReducingType.LOGOUT,
-    payload: {
-        authenticated: false,
-    }
+const confirmUnauth = () => ({
+  type: AuthReducingType.LOGOUT_OR_FAIL,
+  payload: {
+    loaded: true,
+    authenticated: false,
+  },
 });
 
-const authReducer: Reducer<AuthState, AuthReducingAction> = (state = INITIAL_STATE, action) => {
-    switch (action.type) {
-        case AuthReducingType.AUTHENTICATE:
-          return {
-            authenticated: action.payload.authenticated,
-          };
-        case AuthReducingType.LOGOUT:
-          return {
-            authenticated: action.payload.authenticated,
-          };
-        default:
-          return state;
-      }
+const refreshAuth = () => ({
+  type: AuthReducingType.REFRESH,
+});
+
+type AuthReducingAction =
+  | ReturnType<typeof confirmAuth>
+  | ReturnType<typeof confirmUnauth>
+  | ReturnType<typeof refreshAuth>;
+
+const authReducer: Reducer<AuthenticationStatus, AuthReducingAction> = (
+  state = INITIAL_STATE,
+  action
+) => {
+  switch (action.type) {
+    case AuthReducingType.AUTHENTICATE:
+      return {
+        ...state,
+        loaded: action.payload.loaded,
+        authenticated: action.payload.authenticated,
+      };
+    case AuthReducingType.LOGOUT_OR_FAIL:
+      return {
+        ...state,
+        loaded: action.payload.loaded,
+        authenticated: action.payload.authenticated,
+      };
+    case AuthReducingType.REFRESH:
+      return INITIAL_STATE;
+    default:
+      return state;
+  }
 };
 
-export { confirmAuthentication, confirmLogout, authReducer };
+export { confirmAuth, confirmUnauth, refreshAuth, authReducer };

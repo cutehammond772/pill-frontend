@@ -1,22 +1,21 @@
+import { AxiosInstance } from "axios";
 import { useCallback } from "react";
 
 import * as config from "../../../config";
-import { AuthenticationHook } from "../auth";
 import { DataRequest } from "./request.type";
 
-const useRequest = (auth: AuthenticationHook) => {
-    const axios = auth.axios;
+const useRequest = () => {
 
     // back-end로부터 get 요청 (/...로 시작)
-    const get: DataRequest = useCallback(async <T>(url: string) => {
-        const response = await axios.get(`/${url}`);
+    const get: DataRequest = useCallback(async <T>(auth: AxiosInstance, url: string) => {
+        const response = await auth.get(`/${url}`);
         return response.data as T;
-    }, [axios]);
+    }, []);
 
-    const apiGet: DataRequest = useCallback(async <T>(url: string) => {
-        const response = await axios.get(`/${config.API_ROUTE}/${url}`);
+    const apiGet: DataRequest = useCallback(async <T>(auth: AxiosInstance, url: string) => {
+        const response = await auth.get(`/${config.API_ROUTE}/${url}`);
         return response.data as T;
-    }, [axios]);
+    }, []);
 
     return { get, apiGet };
 };

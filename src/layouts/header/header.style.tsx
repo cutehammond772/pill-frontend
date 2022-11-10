@@ -4,12 +4,14 @@ import { DefaultLayout } from "../container/container.style";
 const Header = styled.header`
   position: sticky;
   top: 0;
-  z-index: 9999;
+  z-index: 888;
 
   display: flex;
   justify-content: space-between;
   flex-flow: row nowrap;
   align-items: center;
+
+  box-shadow: 0px 5px 15px var(--shadow);
 
   padding-top: 2rem;
   padding-bottom: 2rem;

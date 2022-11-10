@@ -13,7 +13,7 @@ const Menu = styled.div`
 `;
 
 const MenuItem = styled.button<{ checked?: boolean }>`
-  width: 120px;
+  width: auto;
   height: 40px;
   border-radius: 20px;
 

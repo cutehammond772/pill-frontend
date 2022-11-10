@@ -3,7 +3,7 @@ import { Avatar } from "@mui/joy";
 import { Tooltip } from "@mui/material";
 
 import { useProfile } from "../../utils/hooks/profile";
-import { DefaultProfile, ProfileData } from "./profile.type";
+import { ProfileData } from "./profile.type";
 
 interface AvatarProps {
   profile?: ProfileData;
@@ -16,24 +16,14 @@ interface ProfileAvatarProps {
 
 const ProfileAvatar = (props: ProfileAvatarProps) => {
   const profile = useProfile();
-  const state = profile.data;
-
-  let data: ProfileData;
-
-  if (!state.inited) {
-    data = DefaultProfile.LOADING;
-  } else if (!state.profile) {
-    data = DefaultProfile.GUEST;
-  } else {
-    data = state.profile;
-  }
+  const data = profile.data;
 
   return (
     <Tooltip
-      title={!data.userName ? "Guest" : data.userName}
+      title={data.userName || "Guest"}
       disableInteractive
     >
-      {!state.profile ? (
+      {!data.userName ? (
         <DefaultAvatar onClick={props.onClick} />
       ) : (
         <UserAvatar profile={data} onClick={props.onClick} />

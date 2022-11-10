@@ -1,45 +1,33 @@
-import {
-  ProfileReducingType,
-  ProfileReducingFunction,
-  ProfileReducingAction,
-  INITIAL_STATE,
-  ProfileState,
-} from "./reducer.profile.type";
+import { ProfileReducingType, INITIAL_STATE } from "./profile.type";
 
 import { Reducer } from "redux";
+import { ProfileData } from "../../../components/profile/profile.type";
 
 // updating profile (if null, Guest Profile)
-const updateProfile: ProfileReducingFunction = (profile) => ({
+const updateProfile = (profile: ProfileData) => ({
   type: ProfileReducingType.UPDATE,
-  payload: {
-    inited: true,
-    profile: profile,
-  },
+  payload: profile,
 });
 
 // removing profile (to Guest Profile)
-const removeProfile: ProfileReducingFunction = () => ({
+const removeProfile = () => ({
   type: ProfileReducingType.REMOVE,
-  payload: {
-    inited: true,
-  },
 });
 
+type ProfileReducingAction =
+  | ReturnType<typeof updateProfile>
+  | ReturnType<typeof removeProfile>;
+
 // initial state: Loading Profile
-const profileReducer: Reducer<ProfileState, ProfileReducingAction> = (
+const profileReducer: Reducer<ProfileData, ProfileReducingAction> = (
   state = INITIAL_STATE,
   action
 ) => {
   switch (action.type) {
     case ProfileReducingType.UPDATE:
-      return {
-        profile: !action.payload.profile ? undefined : action.payload.profile,
-        inited: action.payload.inited,
-      };
+      return { ...action.payload };
     case ProfileReducingType.REMOVE:
-      return {
-        inited: action.payload.inited,
-      };
+      return INITIAL_STATE;
     default:
       return state;
   }

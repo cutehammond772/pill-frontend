@@ -9,11 +9,14 @@ interface HeaderMenuProps<E extends { [s: string]: string }> {
   exclude?: Array<E[keyof E]>;
 
   refs: React.MutableRefObject<MenuItemRef[]>;
+  onClick: (type: string) => void;
 }
 
 type MenuItemRef = HTMLButtonElement | null;
 
-const HeaderMenu = <E extends { [s: string]: string }>(props: HeaderMenuProps<E>) => {
+const HeaderMenu = <E extends { [s: string]: string }>(
+  props: HeaderMenuProps<E>
+) => {
   const components = Object.values(props.enum).filter(
     (value) => !props?.exclude?.find((exclude) => exclude === value)
   );
@@ -25,7 +28,9 @@ const HeaderMenu = <E extends { [s: string]: string }>(props: HeaderMenuProps<E>
           ref={(ref) => (props.refs.current[index] = ref)}
           key={index}
           checked={props?.checked === value}
-          {...(props?.checked !== value && { onClick: () => {} })}
+          {...(props?.checked !== value && {
+            onClick: () => props.onClick(value),
+          })}
         >
           {value}
         </Style.MenuItem>

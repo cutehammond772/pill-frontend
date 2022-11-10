@@ -5,7 +5,6 @@ import { Button, Link } from "@mui/joy";
 
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { DefaultText } from "../../GlobalStyles";
 
 const Login: AuthNode = (request: AuthRequest) => {
     return (
@@ -13,7 +12,7 @@ const Login: AuthNode = (request: AuthRequest) => {
             <Link href={
                 `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}/${config.API_LOGIN_REQUEST}/`+
                 `${request.provider}?redirect_uri=${request.redirect}`} underline="none">
-                <DefaultText>{request.children}</DefaultText>
+                <span>{request.children}</span>
             </Link>
         </Button>
     );
@@ -25,7 +24,7 @@ const Logout: AuthNode = (request: AuthRequest) => {
             <Link href={
                 `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}/`+
                 `${config.API_LOGOUT_REQUEST}`} underline="none">
-                <DefaultText>{request.children}</DefaultText>
+                <span>{request.children}</span>
             </Link>
         </Button>
     );

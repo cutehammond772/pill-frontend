@@ -1,14 +1,14 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import axios, { AxiosInstance } from "axios";
 
-import { RootState } from "../../reducers";
-import { confirmAuthentication, confirmLogout } from "../../reducers/auth";
 import * as config from "../../../config";
-
 import * as RequestError from "./auth.error";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../reducers";
+import { confirmAuth, confirmUnauth } from "../../reducers/auth";
+import { useOnce } from "../once";
 
-// AxiosInstance
+// Axios 인스턴스 객체이다.
 const instance: AxiosInstance = axios.create({
   baseURL: `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}`,
 });
@@ -16,66 +16,72 @@ const instance: AxiosInstance = axios.create({
 // Cookie를 보내기 위해서는 이 작업이 필요하다.
 instance.defaults.withCredentials = true;
 
-const useAuth = () => {
+const fetchAccessToken = async () => {
+  const accessToken = await instance.get(config.API_ACCESS);
+
+  if (!accessToken) {
+    throw new Error(RequestError.Type.EMPTY);
+  }
+
+  // accessToken이 존재하면 Header에 추가한다.
+  instance.defaults.headers.common[
+    "Authorization"
+  ] = `Bearer ${accessToken.data}`;
+};
+
+// Loader 역할이란, 첫 번째 렌더링 시에 필요한 정보가 있을 때 외부에서 가져오는 역할을 의미한다.
+const useAuth = (loader?: boolean) => {
   const dispatch = useDispatch();
+  const once = useOnce("auth");
 
-  const axios = instance;
+  // 백엔드 서버로부터 인증 정보를 가져온(= 로드한) 여부를 나타낸다. (실패하여도 로드되었다고 간주한다.)
+  const loaded = useSelector((state: RootState) => state.auth.loaded);
 
-  // access token을 redux container에 넣는 것은 보안상 좋지 않으므로, authenticated 여부만 담는다.
+  // 인증 정보를 성공적으로 가져온 여부를 나타낸다.
   const authenticated = useSelector(
     (state: RootState) => state.auth.authenticated
   );
 
-  // 로그인 함수
-  const authenticate = useCallback(async () => {
-    // accessToken을 가져오는 함수를 호출한다.
-    const success: boolean = await fetchAccessToken();
-
-    // fetch 성공 여부(= 로그인 성공 여부)를 redux container에 저장한다.
-    dispatch(success ? confirmAuthentication() : confirmLogout());
-
-    // callback chain이 생길 시에 활용할 수 있도록 성공 여부를 같이 넘겨준다.
-    return success;
-  }, [dispatch]);
-
   // 로그아웃 함수
   const logout = useCallback(() => {
-    if (!!instance.defaults.headers.common["Authorization"])
+    if (!!instance.defaults.headers.common["Authorization"]) {
       delete instance.defaults.headers.common["Authorization"];
-    dispatch(confirmLogout());
-  }, [dispatch]);
-
-  return { axios, authenticated, authenticate, logout };
-};
-
-const fetchAccessToken = async () => {
-  try {
-    const accessToken = await instance.get(config.API_ACCESS);
-
-    if (!accessToken) {
-      throw new Error(RequestError.Type.EMPTY);
     }
 
-    // accessToken이 존재하면 Header에 추가한다.
-    instance.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${accessToken.data}`;
+    dispatch(confirmUnauth());
+  }, [dispatch]);
 
-    RequestError.resolve(RequestError.Type.SUCCESS);
-    // fetch 성공
-    return true;
-  } catch (ex) {
-    RequestError.resolve(
-      ex instanceof Error
-        ? RequestError.convert(ex.message)
-        : RequestError.Type.UNKNOWN
-    );
+  // 인증 정보를 새로고침한다.
+  const refresh = useCallback(() => {
+    fetchAccessToken()
+      .then(() => {
+        RequestError.resolve(RequestError.Type.SUCCESS);
+        dispatch(confirmAuth());
+      })
+      .catch((ex) => {
+        RequestError.resolve(
+          ex instanceof Error
+            ? RequestError.convert(ex.message)
+            : RequestError.Type.UNKNOWN
+        );
+        dispatch(confirmUnauth());
+      });
+  }, [dispatch]);
 
-    // fetch 실패
-    return false;
-  }
+  // useAuth Loader
+  useEffect(() => {
+    if (!!loader) {
+      once.attemptOnce(refresh);
+    }
+  });
+
+  return {
+    axios: instance,
+    authenticated: loaded && authenticated,
+    loaded,
+    refresh,
+    logout,
+  };
 };
 
-type AuthenticationHook = ReturnType<typeof useAuth>;
-
-export { useAuth, type AuthenticationHook };
+export { useAuth };

@@ -26,6 +26,8 @@ const CreatePage = () => {
   const navigate = useNavigate();
   const refs = useRef<MenuItemRef[]>([]);
 
+  const handleClick = (type: string) => {};
+
   // Guest 권한으로 접근할 경우 돌려보낸다.
   useEffect(() => {
     if (!auth.authenticated) {
@@ -39,7 +41,12 @@ const CreatePage = () => {
       <Header
         component={{
           component: (
-            <HeaderMenu enum={MenuType} refs={refs} checked="Editor" />
+            <HeaderMenu
+              enum={MenuType}
+              refs={refs}
+              checked="Editor"
+              onClick={handleClick}
+            />
           ),
           refs: refs,
         }}
