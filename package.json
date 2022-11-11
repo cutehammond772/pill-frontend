@@ -11,6 +11,7 @@
     "@mui/icons-material": "^5.10.9",
     "@mui/joy": "^5.0.0-alpha.51",
     "@mui/material": "^5.10.9",
+    "@react-hook/resize-observer": "^1.2.6",
     "@reduxjs/toolkit": "^1.8.6",
     "@svgr/webpack": "^6.5.0",
     "@testing-library/jest-dom": "^5.14.1",
