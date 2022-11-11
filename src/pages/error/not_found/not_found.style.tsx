@@ -1,35 +1,29 @@
+/** @jsxImportSource '@emotion/react' */
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import * as React from "react";
 
-import { Button } from "@mui/joy";
-import { Link } from "react-router-dom";
-
-import HomeIcon from "@mui/icons-material/Home";
+const Background = css`
+  background: linear-gradient(
+    45deg,
+    hsla(339, 100%, 55%, 0.05) 0%,
+    hsla(197, 100%, 64%, 0.05) 100%
+  );
+`;
 
 const Container = styled.div`
-  display: flex;
-  column-gap: 10px;
+  height: 1536px;
 `;
 
 const Title = styled.h1`
   color: var(--dark);
-  padding-top: 128px;
+  padding-top: 256px;
   font-size: 5rem;
 `;
 
-const GoToHomeButton = ({ children }: React.PropsWithChildren) => {
-  return (
-    <Button
-      size="lg"
-      variant="solid"
-      color="primary"
-      startDecorator={<HomeIcon />}
-    >
-      <Link to="/" style={{ textDecoration: "none", color: "var(--light)" }}>
-        {children}
-      </Link>
-    </Button>
-  );
-};
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-flow: row;
+  column-gap: 10px;
+`;
 
-export { Container, Title, GoToHomeButton };
+export { Container, Title, Background, ButtonContainer };

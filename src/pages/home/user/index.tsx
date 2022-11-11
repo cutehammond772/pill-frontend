@@ -6,7 +6,7 @@ import ExploreIcon from "@mui/icons-material/Explore";
 import { useNavigate } from "react-router-dom";
 import { PillPreview } from "../../../components/preview";
 
-const UserHome = () => {
+const UserHome = React.memo(() => {
   const navigate = useNavigate();
 
   return (
@@ -58,6 +58,6 @@ const UserHome = () => {
       <Style.PageSubjectText>Most Liked</Style.PageSubjectText>
     </Style.Container>
   );
-};
+});
 
 export { UserHome };

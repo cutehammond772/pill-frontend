@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { Global, css } from "@emotion/react";
-import styled from "@emotion/styled";
 
 // default font
 import "@fontsource/inter/500.css";
@@ -16,6 +15,13 @@ const style = css`
     --light: white;
     --dark: #303030;
     --shadow: #aaaaaa;
+
+    --z-header: 9000;
+    --z-page: 7000;
+    --z-footer: 8000;
+    --z-header-tab: 9001;
+
+    --size-footer: 100px;
   }
 
   html {
@@ -28,8 +34,9 @@ const style = css`
 
   body {
     width: 100%;
-    height: 100%;
+    height: auto;
 
+    position: relative;
     margin: 0;
   }
 `;

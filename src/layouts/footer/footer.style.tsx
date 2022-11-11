@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
-import { DefaultLayout } from "../container/container.style";
+import { DefaultPageLayout } from "../page/page.style";
 
 const Footer = styled.footer`
-  position: relative;
+  position: absolute;
+  width: 100%;
   bottom: 0;
 
-  z-index: 777;
-  height: 100px;
+  z-index: var(--z-footer);
+  height: var(--size-footer);
   box-sizing: border-box;
 
   display: flex;
@@ -14,10 +15,16 @@ const Footer = styled.footer`
   justify-content: space-between;
   align-items: center;
   
-  font-size: 1.2rem;
   background-color: var(--dark);
+
+  & > * {
+    font-size: 1.2rem;
+    color: var(--light);
+    user-select: none;
+    text-decoration: none;
+  }
   
-  ${DefaultLayout};
+  ${DefaultPageLayout};
 `;
 
 export { Footer };

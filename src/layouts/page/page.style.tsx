@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { SerializedStyles } from "@emotion/serialize";
 
-const DefaultLayout = css`
+const DefaultPageLayout = css`
   // Background는 전체 적용, 컨테이너 범위는 중앙 1024px가 되도록 한다.
   padding-left: calc(50% - 512px);
   padding-right: calc(50% - 512px);
@@ -15,11 +15,21 @@ const DefaultLayout = css`
   }
 `; 
 
-const Container = styled.div<{ layout?: SerializedStyles }>`
-  position: relative;
+const Page = styled.div<{ layout?: SerializedStyles }>`
+  // 트랜지션을 위해 필요하다. 
+  position: absolute;
+  width: 100%;
+  box-sizing: border-box;
 
-  ${DefaultLayout};
+  ${DefaultPageLayout};
   ${props => props.layout};
 `;
 
-export { Container, DefaultLayout };
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+
+  position: relative;
+`;
+
+export { Page, Container, DefaultPageLayout };

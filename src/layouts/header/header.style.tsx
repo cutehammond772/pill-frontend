@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { DefaultLayout } from "../container/container.style";
+import { DefaultPageLayout } from "../page/page.style";
 
 const Header = styled.header`
   position: sticky;
   top: 0;
-  z-index: 888;
+  z-index: var(--z-header);
 
   display: flex;
   justify-content: space-between;
@@ -16,7 +16,7 @@ const Header = styled.header`
   padding-top: 2rem;
   padding-bottom: 2rem;
 
-  ${DefaultLayout};
+  ${DefaultPageLayout};
 `;
 
 const Title = styled.div`

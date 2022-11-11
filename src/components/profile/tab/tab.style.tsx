@@ -14,7 +14,7 @@ const Container = styled.div`
   top: 1rem;
   right: 0;
 
-  z-index: 999;
+  z-index: var(--z-header-tab);
 `;
 
 const Title = styled.span`

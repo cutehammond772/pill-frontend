@@ -1,9 +1,10 @@
 import { Login } from "../../../components/auth";
+import * as React from "react";
 
 import * as config from "../../../config";
 import * as Style from "./guest.style";
 
-const GuestHome = () => {
+const GuestHome = React.memo(() => {
   return (
     <Style.Container>
       <Style.Text>
@@ -16,6 +17,6 @@ const GuestHome = () => {
       </Login>
     </Style.Container>
   );
-};
+});
 
 export { GuestHome };

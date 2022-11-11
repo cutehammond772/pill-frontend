@@ -3,7 +3,7 @@ import * as React from "react";
 import { Snackbar } from "@mui/material";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface MessageProps {
   message: string;
@@ -20,11 +20,14 @@ interface MessageCallback {
 
 // 일반적으로 notistack를 사용하지만, modal같이 특수한 상황에서 이를 사용할 수 있습니다.
 const Message = (props: MessageProps) => {
-
+  const timeout = useRef<NodeJS.Timeout>();
+  
   // auto close
   useEffect(() => {
+    clearTimeout(timeout.current);
+
     if (props.callback.open) {
-      setTimeout(() => props.callback.setOpen(false), props.duration || 2000);
+      timeout.current = setTimeout(() => props.callback.setOpen(false), props.duration || 2000);
     }
   }, [props.callback, props.duration]);
 

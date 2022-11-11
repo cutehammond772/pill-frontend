@@ -36,7 +36,7 @@ const ProfileAvatar = (props: ProfileAvatarProps) => {
 const DefaultAvatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   (props, ref) => (
     <div ref={ref} {...props}>
-      <Avatar color="primary" variant="solid" size="md" sx={{ zIndex: 6 }} />
+      <Avatar color="primary" variant="solid" size="md"/>
     </div>
   )
 );
@@ -49,7 +49,6 @@ const UserAvatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) =>
         alt={props.profile.userName}
         src={props.profile.profileUrl}
         size="md"
-        sx={{ zIndex: 6 }}
       />
     </div>
   ) : (
