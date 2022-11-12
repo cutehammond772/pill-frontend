@@ -2,64 +2,22 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import { IconButton, Modal as ModalComponent, ModalDialog as ModalDialogComponent } from "@mui/joy";
-import { TransitionStatus } from "react-transition-group/Transition";
-
-const Visible = css`
-  opacity: 1;
-`;
-
-const Invisible = css`
-  opacity: 0;
-`;
-
-const Blur = css`
-  backdrop-filter: blur(8px);
-`;
-
-const NoBlur = css`
-  backdrop-filter: none;
-`;
-
-const backDropStyle = (state: TransitionStatus) =>
-  ({
-    entering: [Visible, Blur],
-    entered: [Visible, Blur],
-    exited: [Invisible, NoBlur],
-    exiting: [Invisible, NoBlur],
-    unmounted: [Invisible, NoBlur],
-  }[state]);
-
-const dialogOpacity = (state: TransitionStatus) =>
-  ({
-    entering: Visible,
-    entered: Visible,
-    exited: Invisible,
-    exiting: Invisible,
-    unmounted: Invisible,
-  }[state]);
-
-const Modal = styled(ModalComponent)<{ state: TransitionStatus }>`
-  & .MuiBackdrop-root {
-    transition: opacity 200ms, backdrop-filter 200ms;
-    ${(props) => backDropStyle(props.state)};
-  }
-
-  visibility: ${(props) => (props.state === "exited" ? "hidden" : "visible")};
-`;
-
-const ModalDialog = styled(ModalDialogComponent)<{ state: TransitionStatus }>`
-  border-radius: 10px;
+const Layout = css`
+  position: absolute;
   padding: 30px;
+  border-radius: 10px;
   box-shadow: 0px 0px 10px var(--shadow);
-  transition: opacity 200ms;
+
+  background-color: white;
+
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 30px;
   align-items: center;
-
-  ${(props) => dialogOpacity(props.state)};
 `;
 
 const ImagePreview = styled.div`
@@ -145,21 +103,4 @@ const ImageInputForm = styled.div`
   column-gap: 5px;
 `;
 
-const CloseButton = styled(IconButton)`
-  position: absolute;
-  right: 15px;
-  top: 15px;
-`;
-
-export {
-  Modal,
-  ModalDialog,
-  ImagePreview,
-  Form,
-  ImageInputForm,
-  CloseButton,
-  Visible,
-  Invisible,
-  Blur,
-  NoBlur,
-};
+export { ImagePreview, Form, ImageInputForm, Layout };

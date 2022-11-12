@@ -11,7 +11,7 @@ import { INITIAL_STATE } from "../../utils/reducers/profile/profile.type";
 const Profile = () => {
   const profile = useProfile();
   const [checked, setChecked] = useState<boolean>(false);
-  
+
   return (
     <>
       <Style.Container>
@@ -19,7 +19,7 @@ const Profile = () => {
         <ProfileAvatar onClick={() => setChecked(!checked)} />
       </Style.Container>
 
-      <ProfileTab checked={checked} />
+      <ProfileTab checked={checked} onClose={() => setChecked(false)} />
     </>
   );
 };

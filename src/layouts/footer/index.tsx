@@ -17,7 +17,12 @@ const Footer = () => {
     }
   }, [dispatch]);
 
-  useResizeObserver(ref, (entry) => dispatch(updateFooterHeight(entry.contentRect.height)));
+  useResizeObserver(ref, (_) => {
+    if (!!ref?.current) {
+      dispatch(updateFooterHeight(ref.current.getBoundingClientRect().height));
+    }
+  });
+
   return (
     <Style.Footer ref={ref}>
       <span>&copy; 2022 Jungheon Lee</span>

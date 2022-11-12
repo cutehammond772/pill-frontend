@@ -32,13 +32,23 @@ const resetHeaderDisabled = (header: string) => ({
   header: header,
 });
 
+const lockMenuClick = () => ({
+  type: HeaderReducingType.LOCK_CLICK,
+});
+
+const unlockMenuClick = () => ({
+  type: HeaderReducingType.UNLOCK_CLICK,
+});
+
 type HeaderReducingAction =
   | ReturnType<typeof initHeader>
   | ReturnType<typeof changeHeaderTitle>
   | ReturnType<typeof addHeaderChecked>
   | ReturnType<typeof addHeaderDisabled>
   | ReturnType<typeof resetHeaderChecked>
-  | ReturnType<typeof resetHeaderDisabled>;
+  | ReturnType<typeof resetHeaderDisabled>
+  | ReturnType<typeof lockMenuClick>
+  | ReturnType<typeof unlockMenuClick>;
 
 const headerReducer: Reducer<HeaderNode, HeaderReducingAction> = (
   state = INITIAL_STATE,
@@ -84,6 +94,16 @@ const headerReducer: Reducer<HeaderNode, HeaderReducingAction> = (
         ...state,
         disabled: {},
       };
+    case HeaderReducingType.LOCK_CLICK:
+      return {
+        ...state,
+        preventClick: true,
+      };
+    case HeaderReducingType.UNLOCK_CLICK:
+      return {
+        ...state,
+        preventClick: false,
+      };
     default:
       return state;
   }
@@ -96,5 +116,7 @@ export {
   addHeaderDisabled,
   resetHeaderChecked,
   resetHeaderDisabled,
+  lockMenuClick,
+  unlockMenuClick,
   headerReducer,
 };

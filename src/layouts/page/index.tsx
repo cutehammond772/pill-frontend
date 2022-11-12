@@ -18,8 +18,12 @@ const DynamicPageProvider = (props: React.PropsWithChildren) => {
 
   useLayoutEffect(() => {
     if (!!ref.current?.style) {
-      ref.current.style.height = `${ attributes.headerHeight + attributes.pageHeight + attributes.footerHeight }px`;
-    } 
+      ref.current.style.height = `${
+        attributes.headerHeight +
+        attributes.pageHeight +
+        attributes.footerHeight
+      }px`;
+    }
   }, [attributes]);
 
   return <Style.Container ref={ref}>{props.children}</Style.Container>;
@@ -39,8 +43,16 @@ const Page = (props: PageProps) => {
     window.scrollTo({ top: 0 });
   }, []);
 
-  useResizeObserver(ref, (entry) => dispatch(updatePageHeight(entry.contentRect.height)));
-  return <Style.Page ref={ref} layout={props.layout}>{props.children}</Style.Page>;
+  useResizeObserver(ref, (_) => {
+    if (!!ref?.current) {
+      dispatch(updatePageHeight(ref.current.getBoundingClientRect().height));
+    }
+  });
+  return (
+    <Style.Page ref={ref} layout={props.layout}>
+      {props.children}
+    </Style.Page>
+  );
 };
 
 export { DynamicPageProvider, Page };

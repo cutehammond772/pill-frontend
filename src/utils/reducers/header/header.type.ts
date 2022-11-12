@@ -9,11 +9,15 @@ const HeaderReducingType = {
 
   RESET_CHECKED: "reducer.header.reset.checked",
   RESET_DISABLED: "reducer.header.reset.disabled",
+
+  LOCK_CLICK: "reducer.header.lock.click",
+  UNLOCK_CLICK: "reducer.header.unlock.click",
 } as const;
 
 const INITIAL_STATE: HeaderNode = {
   checked: {},
   disabled: {},
+  preventClick: false,
 };
 
 type MenuItemRef = HTMLButtonElement | null;
@@ -31,6 +35,8 @@ interface MenuProps<E extends MenuEnum> {
 
 interface HeaderNode {
   title?: string;
+  preventClick: boolean;
+
   checked: { [name: string]: Array<string> };
   disabled: { [name: string]: Array<string> };
 }

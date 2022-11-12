@@ -19,10 +19,7 @@ const ProfileAvatar = (props: ProfileAvatarProps) => {
   const data = profile.data;
 
   return (
-    <Tooltip
-      title={data.userName || "Guest"}
-      disableInteractive
-    >
+    <Tooltip title={data.userName || "Guest"} disableInteractive>
       {!data.userName ? (
         <DefaultAvatar onClick={props.onClick} />
       ) : (
@@ -36,7 +33,7 @@ const ProfileAvatar = (props: ProfileAvatarProps) => {
 const DefaultAvatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   (props, ref) => (
     <div ref={ref} {...props}>
-      <Avatar color="primary" variant="solid" size="md"/>
+      <Avatar color="primary" variant="solid" size="md" />
     </div>
   )
 );

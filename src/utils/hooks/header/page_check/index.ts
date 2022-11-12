@@ -1,7 +1,7 @@
 import { useLayoutEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addHeaderChecked, resetHeaderChecked } from "..";
-import { MenuEnum } from "../header.type";
+import { addHeaderChecked, resetHeaderChecked } from "../../../reducers/header";
+import { MenuEnum } from "../../../reducers/header/header.type";
 
 const usePageCheck = <E extends MenuEnum>(header: string, item: E[keyof E]) => {
   const dispatch = useDispatch();

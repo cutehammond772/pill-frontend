@@ -1,12 +1,9 @@
 import * as React from "react";
 
 import { Button, TextField } from "@mui/joy";
-
-import { Transition } from "react-transition-group";
 import { useState } from "react";
 
 import AddIcon from "@mui/icons-material/AddPhotoAlternate";
-import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 import EditIcon from "@mui/icons-material/Edit";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
@@ -20,6 +17,7 @@ import {
 
 import { Message } from "../../../../../../../components/message";
 import { usePillCreator } from "../../../../../../../utils/hooks/pill_creator";
+import { Modal } from "../../../../../../../components/modal";
 
 interface ImageContentModalProps {
   open: boolean;
@@ -59,7 +57,7 @@ const ImageContentModal = (props: ImageContentModalProps) => {
 
   const handleDescription = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    
+
     if (value.length <= 40) {
       setDescription(value);
     }
@@ -121,117 +119,101 @@ const ImageContentModal = (props: ImageContentModalProps) => {
   };
 
   return (
-    <Transition in={props.open} timeout={200}>
-      {(state) => (
-        <Style.Modal
-          keepMounted
-          disableScrollLock
-          state={state}
-          open={!["exited", "exiting"].includes(state)}
-          onClose={safeClose}
-        >
-          <Style.ModalDialog state={state}>
-            <Style.ImagePreview>
-              {confirm ? (
-                <img
-                  src={link}
-                  alt={description}
-                  onError={handleInvalidImageError}
-                  onLoad={() => setLoad(true)}
-                />
-              ) : (
-                <div>
-                  <ImageSearchIcon />
-                  <span>
-                    Type Image Link and press Confirm to check the Preview
-                    before adding the image.
-                  </span>
-                </div>
-              )}
-            </Style.ImagePreview>
+    <Modal
+      open={props.open}
+      onClose={safeClose}
+      layout={Style.Layout}
+      closeButton
+    >
+      <Style.ImagePreview>
+        {confirm ? (
+          <img
+            src={link}
+            alt={description}
+            onError={handleInvalidImageError}
+            onLoad={() => setLoad(true)}
+          />
+        ) : (
+          <div>
+            <ImageSearchIcon />
+            <span>
+              Type Image Link and press Confirm to check the Preview before
+              adding the image.
+            </span>
+          </div>
+        )}
+      </Style.ImagePreview>
 
-            <Style.Form>
-              {!!editData ? (
-                <div>
-                  <EditIcon />
-                  <span>Edit Image</span>
-                </div>
-              ) : (
-                <div>
-                  <AddIcon />
-                  <span>Add new Image</span>
-                </div>
-              )}
+      <Style.Form>
+        {!!editData ? (
+          <div>
+            <EditIcon />
+            <span>Edit Image</span>
+          </div>
+        ) : (
+          <div>
+            <AddIcon />
+            <span>Add new Image</span>
+          </div>
+        )}
 
-              <Style.ImageInputForm>
-                <TextField
-                  label="Image Link"
-                  variant="soft"
-                  color="neutral"
-                  fullWidth
-                  onChange={handleLink}
-                  disabled={confirm}
-                  value={link || ""}
-                />
+        <Style.ImageInputForm>
+          <TextField
+            label="Image Link"
+            variant="soft"
+            color="neutral"
+            fullWidth
+            onChange={handleLink}
+            disabled={confirm}
+            value={link || ""}
+          />
 
-                {confirm ? (
-                  <Button
-                    variant="solid"
-                    color="info"
-                    startDecorator={<EditIcon />}
-                    onClick={() => {
-                      setConfirm(false);
-                      setLoad(false);
-                    }}
-                  >
-                    Change
-                  </Button>
-                ) : (
-                  <Button
-                    variant="solid"
-                    color="success"
-                    startDecorator={<CheckIcon />}
-                    onClick={() => setConfirm(true)}
-                  >
-                    Confirm
-                  </Button>
-                )}
-              </Style.ImageInputForm>
-
-              <TextField
-                label="Description"
-                variant="soft"
-                onChange={handleDescription}
-                placeholder="~40 characters"
-                value={description || ""}
-              />
-
-              <Button
-                disabled={!(confirm && load && !!description.trim())}
-                onClick={handleAddImage}
-              >
-                Done
-              </Button>
-            </Style.Form>
-
-            <Style.CloseButton
-              size="sm"
-              color="neutral"
-              variant="plain"
-              onClick={safeClose}
+          {confirm ? (
+            <Button
+              variant="solid"
+              color="info"
+              startDecorator={<EditIcon />}
+              onClick={() => {
+                setConfirm(false);
+                setLoad(false);
+              }}
             >
-              <CloseIcon />
-            </Style.CloseButton>
+              Change
+            </Button>
+          ) : (
+            <Button
+              variant="solid"
+              color="success"
+              startDecorator={<CheckIcon />}
+              onClick={() => setConfirm(true)}
+            >
+              Confirm
+            </Button>
+          )}
+        </Style.ImageInputForm>
 
-            <Message
-              message="Invalid Image Link."
-              type="error"
-              callback={{ open: imgInvalidMsg, setOpen: setImgInvalidMsg }}
-            />
-          </Style.ModalDialog>
-        </Style.Modal>
-      )}
-    </Transition>
+        <TextField
+          label="Description"
+          variant="soft"
+          onChange={handleDescription}
+          placeholder="~40 characters"
+          value={description || ""}
+        />
+
+        <Button
+          disabled={!(confirm && load && !!description.trim())}
+          onClick={handleAddImage}
+        >
+          Done
+        </Button>
+      </Style.Form>
+
+      <Message
+        message="Invalid Image Link."
+        type="error"
+        callback={{ open: imgInvalidMsg, setOpen: setImgInvalidMsg }}
+      />
+    </Modal>
   );
 };
 

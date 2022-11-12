@@ -2,62 +2,36 @@ import { Grow } from "@mui/material";
 
 import * as React from "react";
 import * as config from "../../../config";
+import { useLayoutEffect, useRef } from "react";
 
 import { Divider } from "./tab.divider";
 import * as Style from "./tab.style";
 
-import {
-  ReceivedCommentData,
-  ReceivedComments,
-  ReceivedCommentsStats,
-} from "./received_comments/";
+import { ReceivedComments } from "./received_comments/";
 
 import { useProfile } from "../../../utils/hooks/profile";
 
-import {
-  LoginButton,
-  LogoutButton,
-  ManageProfileButton,
-  MyPillButton,
-} from "./tab.menu";
+import { ManageProfileButton, MyPillButton } from "./tab.menu";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { AuthRequest } from "../../auth/auth.type";
+import { AuthButtonProps, Login, Logout } from "../../auth";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../utils/reducers";
+import { Modal } from "../../modal";
 
-const GuestProfileTab = React.forwardRef<HTMLDivElement>((props, ref) => {
-  const request: AuthRequest = {
-    redirect: config.INDEX,
-    provider: "google",
-  };
+const LOGIN_PROPS: AuthButtonProps = {
+  redirect: config.INDEX,
+  provider: "google",
+  size: "md",
+};
 
-  return (
-    <Style.Container ref={ref} {...props}>
-      <Style.Title>Welcome, Guest!</Style.Title>
+const LOGOUT_PROPS: AuthButtonProps = {
+  redirect: config.INDEX,
+  size: "md",
+};
 
-      <Style.GuestBanner>
-        <ThumbUpIcon />
-        <span>
-          Join with just one click without complicated registration and enjoy
-          useful information!
-        </span>
-      </Style.GuestBanner>
-
-      <Divider title="Menu" />
-      <Style.Menu>
-        <LoginButton request={request} />
-      </Style.Menu>
-    </Style.Container>
-  );
-});
-
-interface ProfileTabProps {
-  checked: boolean;
-}
-
-const ProfileTab = (props: ProfileTabProps) => {
-  // Dummy
-
-  const comments: Array<ReceivedCommentData> = [
+const Dummy = {
+  comments: [
     {
       title: "Brunch this weekend?",
       userName: "cutehammond",
@@ -71,41 +45,76 @@ const ProfileTab = (props: ProfileTabProps) => {
       comment: "Wish I could come, but I'm out of town.",
       key: 1,
     },
-  ];
+  ],
 
-  const stats: ReceivedCommentsStats = {
+  stats: {
     timeUnit: "24h",
     commentsCount: 102,
-  };
+  },
+};
 
+interface ProfileTabProps {
+  checked: boolean;
+  onClose: () => void;
+}
+
+const ProfileTab = (props: ProfileTabProps) => {
   // Code
   const profile = useProfile();
+  const modalRef = useRef<HTMLDivElement>(null);
+  const headerHeight = useSelector(
+    (state: RootState) => state.page.headerHeight
+  );
+
+  useLayoutEffect(() => {
+    if (!!modalRef?.current) {
+      modalRef.current.style.top = `${headerHeight - 20}px`;
+    }
+  }, [modalRef, headerHeight]);
 
   return (
-    <Grow
-      in={props.checked}
-      style={{
-        transformOrigin: "250px 50px",
-      }}
+    <Modal
+      onClose={props.onClose}
+      open={props.checked}
+      layout={Style.Layout}
+      ref={modalRef}
+      dialogMode
     >
       {!profile.data.userName ? (
-        <GuestProfileTab />
+        <>
+          <Style.Title>Welcome, Guest!</Style.Title>
+          <Style.GuestBanner>
+            <ThumbUpIcon />
+            <span>
+              Join with just one click without complicated registration and
+              enjoy useful information!
+            </span>
+          </Style.GuestBanner>
+
+          <Divider title="Menu" />
+          <Style.Menu>
+            <Login {...LOGIN_PROPS} />
+          </Style.Menu>
+        </>
       ) : (
-        <Style.Container>
+        <>
           <Style.Title>{profile.data.userName}</Style.Title>
 
           <Divider title="Received Comment" />
-          <ReceivedComments receivedComments={comments} stats={stats} />
+          <ReceivedComments
+            receivedComments={Dummy.comments}
+            stats={Dummy.stats}
+          />
 
           <Divider title="Menu" />
           <Style.Menu>
             <MyPillButton onClick={() => {}} />
             <ManageProfileButton onClick={() => {}} />
-            <LogoutButton />
+            <Logout {...LOGOUT_PROPS} />
           </Style.Menu>
-        </Style.Container>
+        </>
       )}
-    </Grow>
+    </Modal>
   );
 };
 

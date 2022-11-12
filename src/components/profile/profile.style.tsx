@@ -5,6 +5,11 @@ const Container = styled.div`
   flex-flow: row;
   column-gap: 3px;
   float: right;
+
+  // Profile Avatar
+  & > div:nth-last-of-type(1) {
+    z-index: var(--z-header-profile);
+  }
 `;
 
 const Info = styled.div`

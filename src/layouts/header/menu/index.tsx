@@ -24,7 +24,9 @@ const HeaderMenu = <E extends MenuEnum>(props: MenuProps<E>) => {
             checked={checked}
             {...(!checked && {
               // 굳이 타입을 강제로 설정하지 않아도 가능하도록 방법을 강구할 필요가 있다.
-              onClick: () => props.onClick(item as E[keyof E]),
+              onClick: () => {
+                props.onClick(item as E[keyof E]);
+              },
             })}
           >
             {item}

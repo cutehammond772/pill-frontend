@@ -7,16 +7,19 @@ const CreateHeaderSignature = "CreateHeader";
 
 const CreateMenu = {
   EDITOR: "Editor",
-  SAVE: "Save",
   PREVIEW: "Preview",
-  HOME: "Home",
+  SAVE: "Save",
 } as const;
 
 const CreateHeader = () => {
+  type CreateMenuItem = typeof CreateMenu[keyof typeof CreateMenu];
+
   const header = useHeader<typeof CreateMenu>(
     CreateHeaderSignature,
     CreateMenu.EDITOR
   );
+  
+  const handleClick = (type: CreateMenuItem) => {};
 
   return (
     <Header
@@ -26,7 +29,7 @@ const CreateHeader = () => {
         refs: header.refs,
         checked: header.checkedItems,
         disabled: header.disabledItems,
-        onClick: (type: typeof CreateMenu[keyof typeof CreateMenu]) => {},
+        onClick: handleClick,
       }}
     />
   );

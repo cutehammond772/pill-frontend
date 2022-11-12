@@ -8,7 +8,7 @@ import * as React from "react";
 import * as GuestStyle from "./guest/guest.style";
 import * as UserStyle from "./user/user.style";
 import { Page } from "../../layouts/page";
-import { usePageCheck } from "../../utils/reducers/header/page_check";
+import { usePageCheck } from "../../utils/hooks/header/page_check";
 import { DefaultHeaderSignature, DefaultMenu } from "../../components/header/default";
 
 const HomePage = () => {

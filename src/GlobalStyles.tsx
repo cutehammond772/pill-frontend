@@ -16,10 +16,14 @@ const style = css`
     --dark: #303030;
     --shadow: #aaaaaa;
 
-    --z-header: 9000;
-    --z-page: 7000;
-    --z-footer: 8000;
-    --z-header-tab: 9001;
+    --z-header: 1000;
+    --z-header-tab: 1001;
+    --z-header-profile: 1002;
+
+    --z-page: 700;
+    --z-footer: 800;
+
+    --z-modal: 1100;
 
     --size-footer: 100px;
   }
