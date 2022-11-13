@@ -9,7 +9,7 @@ const Layout = css`
 
   border-radius: 15px;
   padding: 15px;
-  box-shadow: 0px 0px 10px var(--shadow);
+  box-shadow: 0px 0px 5px var(--shadow);
 
   // PillPreview
   & > div:nth-of-type(1) {

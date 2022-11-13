@@ -9,6 +9,9 @@ const ContainerLayout = css`
   grid-template-columns: 1fr 1fr;
   align-items: center;
   justify-content: center;
+
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0);
 `;
 
 const TitleLayout = css`

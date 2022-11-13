@@ -124,7 +124,7 @@ const TextContent = React.forwardRef<HTMLDivElement, ContentProps>(
 
             <Tooltip title="Remove">
               <IconButton
-                variant="solid"
+                variant="soft"
                 color="danger"
                 onClick={props.onRemove}
               >

@@ -7,9 +7,9 @@ const DefaultHeaderSignature = "DefaultHeader";
 
 const DefaultMenu = {
   HOME: "Home",
-  BOARD: "Board",
-  SEARCH: "Search",
-  HELP: "Help",
+  MY_PILL: "My Pill",
+  EXPLORE: "Explore",
+  ABOUT: "About",
 } as const;
 
 const DefaultHeader = () => {
@@ -18,7 +18,7 @@ const DefaultHeader = () => {
     DefaultMenu.HOME
   );
 
-  const mapper = { [DefaultMenu.HOME]: "" };
+  const mapper = { [DefaultMenu.HOME]: "", [DefaultMenu.MY_PILL]: "my" };
 
   return (
     <Header

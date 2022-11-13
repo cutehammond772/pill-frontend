@@ -5,7 +5,12 @@ import { useColorScheme } from "@mui/joy/styles";
 import { CreatePage } from "./pages/create";
 import { HomePage } from "./pages/home/";
 import { NotFoundPage } from "./pages/error/not_found";
-import { BoardPage } from "./pages/board";
+import { MyPillPage } from "./pages/my_pill";
+import { ExplorePage } from "./pages/explore";
+import { AboutPage } from "./pages/about";
+import { CreatePreviewPage } from "./pages/create_preview";
+import { UserPage } from "./pages/user";
+import { PillPage } from "./pages/pill";
 
 import { useAuth } from "./utils/hooks/auth";
 import { useProfile } from "./utils/hooks/profile";
@@ -21,12 +26,6 @@ import { CreateHeader } from "./components/header/create";
 import { EmptyHeader } from "./components/header/empty";
 import { useDispatch } from "react-redux";
 import { lockMenuClick, unlockMenuClick } from "./utils/reducers/header";
-import { SearchPage } from "./pages/search";
-import { HelpPage } from "./pages/help";
-import { CreatePreviewPage } from "./pages/create_preview";
-import { UserPage } from "./pages/user";
-import { ManagePage } from "./pages/manage";
-import { PillPage } from "./pages/pill";
 
 const App = () => {
   // 기본적으로 라이트 모드로 설정한다.
@@ -48,9 +47,9 @@ const App = () => {
       <Routes location={location}>
         {/* DefaultHeader */}
         <Route path="/" element={<DefaultHeader />} />
-        <Route path="/board" element={<DefaultHeader />} />
-        <Route path="/search" element={<DefaultHeader />} />
-        <Route path="/help" element={<DefaultHeader />} />
+        <Route path="/my" element={<DefaultHeader />} />
+        <Route path="/explore" element={<DefaultHeader />} />
+        <Route path="/about" element={<DefaultHeader />} />
 
         {/* CreateHeader */}
         <Route path="/create" element={<CreateHeader />} />
@@ -58,7 +57,6 @@ const App = () => {
 
         {/* EmptyHeader */}
         <Route path="/user/*" element={<EmptyHeader />} />
-        <Route path="/manage/*" element={<EmptyHeader />} />
         <Route path="/pill/*" element={<EmptyHeader />} />
         <Route path="*" element={<EmptyHeader />} />
       </Routes>
@@ -76,9 +74,9 @@ const App = () => {
           <Routes location={location}>
             {/* DefaultHeader */}
             <Route path="/" element={<HomePage />} />
-            <Route path="/board" element={<BoardPage />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/help" element={<HelpPage />} />
+            <Route path="/my" element={<MyPillPage />} />
+            <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/about" element={<AboutPage />} />
 
             {/* CreateHeader */}
             <Route path="/create" element={<CreatePage />} />
@@ -86,7 +84,6 @@ const App = () => {
 
             {/* EmptyHeader */}
             <Route path="/user/:userID" element={<UserPage />} />
-            <Route path="/manage" element={<ManagePage />} />
             <Route path="/pill/:pillID" element={<PillPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

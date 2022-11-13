@@ -8,8 +8,13 @@ import * as React from "react";
 import * as NamingPill from "./naming";
 import * as MakingPill from "./making";
 import { Page } from "../../layouts/page";
+import { usePageCheck } from "../../utils/hooks/header/page_check";
+import { CreateHeaderSignature, CreateMenu } from "../../components/header/create";
 
 const CreatePage = () => {
+  // CreateHeader에서 Preview 아이템을 선택한다.
+  usePageCheck(CreateHeaderSignature, CreateMenu.EDITOR);
+
   const auth = useAuth();
   const navigate = useNavigate();
 

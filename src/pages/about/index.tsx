@@ -7,11 +7,11 @@ import {
   DefaultMenu,
 } from "../../components/header/default";
 
-import * as Style from "./help.style";
+import * as Style from "./about.style";
 
-const HelpPage = () => {
+const AboutPage = () => {
   // DefaultHeader에서 Help 아이템을 선택한다.
-  usePageCheck(DefaultHeaderSignature, DefaultMenu.HELP);
+  usePageCheck(DefaultHeaderSignature, DefaultMenu.ABOUT);
 
   return (
     <Page>
@@ -20,4 +20,4 @@ const HelpPage = () => {
   );
 };
 
-export { HelpPage };
+export { AboutPage };

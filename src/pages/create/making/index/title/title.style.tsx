@@ -4,7 +4,7 @@ import { Button } from "@mui/joy";
 const Title = styled.div`
   width: auto;
   height: auto;
-  padding: 10px;
+  padding: 15px 10px 15px 10px;
 
   background: linear-gradient(
     45deg,
@@ -16,6 +16,8 @@ const Title = styled.div`
   flex-flow: row;
   align-items: center;
   column-gap: 10px;
+
+  border-radius: 20px 20px 0 0;
 
   // Index Signature
   & > span:nth-of-type(1) {

@@ -78,7 +78,7 @@ const Title = React.forwardRef<HTMLDivElement, TitleProps>((props, ref) => {
       )}
 
       <Tooltip title="Remove">
-        <IconButton variant="solid" color="danger" onClick={props.onRemove}>
+        <IconButton variant="soft" color="danger" onClick={props.onRemove}>
           <DeleteIcon />
         </IconButton>
       </Tooltip>

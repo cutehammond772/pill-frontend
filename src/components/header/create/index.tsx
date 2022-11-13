@@ -2,6 +2,7 @@ import { Header } from "../../../layouts/header";
 
 import * as React from "react";
 import { useHeader } from "../../../utils/hooks/header";
+import { useNavigate } from "react-router-dom";
 
 const CreateHeaderSignature = "CreateHeader";
 
@@ -18,8 +19,20 @@ const CreateHeader = () => {
     CreateHeaderSignature,
     CreateMenu.EDITOR
   );
-  
-  const handleClick = (type: CreateMenuItem) => {};
+
+  const navigate = useNavigate();
+  const handleClick = (type: CreateMenuItem) => {
+    switch(type) {
+      case CreateMenu.EDITOR:
+        navigate("/create");
+        break;
+      case CreateMenu.PREVIEW:
+        navigate("/create/preview");
+        break;
+      case CreateMenu.SAVE:
+        break;
+    }
+  };
 
   return (
     <Header
