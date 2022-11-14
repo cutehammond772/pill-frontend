@@ -4,10 +4,10 @@ const HeaderReducingType = {
   INIT: "reducer.header.init",
   CHANGE_TITLE: "reducer.header.change.title",
 
-  ADD_CHECKED: "reducer.header.add.checked",
+  ADD_SELECTED: "reducer.header.add.selected",
   ADD_DISABLED: "reducer.header.add.disabled",
 
-  RESET_CHECKED: "reducer.header.reset.checked",
+  RESET_SELECTED: "reducer.header.reset.selected",
   RESET_DISABLED: "reducer.header.reset.disabled",
 
   LOCK_CLICK: "reducer.header.lock.click",
@@ -15,7 +15,7 @@ const HeaderReducingType = {
 } as const;
 
 const INITIAL_STATE: HeaderNode = {
-  checked: {},
+  selected: {},
   disabled: {},
   preventClick: false,
 };
@@ -26,7 +26,7 @@ type MenuEnum = { [s: string]: string };
 // T는 enum element, E는 enum이다.
 interface MenuProps<E extends MenuEnum> {
   enum: E;
-  checked?: Array<E[keyof E]>;
+  selected?: Array<E[keyof E]>;
   disabled?: Array<E[keyof E]>;
 
   refs: React.MutableRefObject<MenuItemRef[]>;
@@ -37,7 +37,7 @@ interface HeaderNode {
   title?: string;
   preventClick: boolean;
 
-  checked: { [name: string]: Array<string> };
+  selected: { [name: string]: Array<string> };
   disabled: { [name: string]: Array<string> };
 }
 

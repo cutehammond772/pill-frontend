@@ -20,15 +20,15 @@ const UserHome = React.memo(() => {
             navigate("/create");
           }}
         >
-          <AddIcon />
-          <span>Create a Pill</span>
-          <span>'Pill' with useful information that only you have.</span>
+          <AddIcon className="icon"/>
+          <span className="title">Create a Pill</span>
+          <span className="content">'Pill' with useful information that only you have.</span>
         </Style.BehaviorButton>
 
         <Style.BehaviorButton color="success" variant="solid">
-          <ExploreIcon />
-          <span>Explore Pills</span>
-          <span>Explore various Pills made by good users.</span>
+          <ExploreIcon className="icon"/>
+          <span className="title">Explore Pills</span>
+          <span className="content">Explore various Pills made by good users.</span>
         </Style.BehaviorButton>
       </Style.PageBehaviorsContent>
 

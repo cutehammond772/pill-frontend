@@ -3,13 +3,14 @@ import { List, ListItem } from "@mui/joy";
 
 const Container = styled(List)`
   min-width: 240;
-  border-radius: sm;
+  border-radius: 10px;
 `;
 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   padding-bottom: 5px;
 `;
 
@@ -26,14 +27,25 @@ const Buttons = styled.div`
 `;
 
 const Content = styled.div`
-  color: grey;
+  color: var(--sub);
   font-size: 0.8rem;
 
-  // Username Chip
-  & > div:nth-of-type(1) {
+  // User Chip
+  & > .user {
     position: relative;
     left: -5px;
+
+    width: auto;
+    height: auto;
+    padding: 3px 6px 3px 6px;
+
+    display: inline-block;
     font-size: 0.7rem;
+
+    background-color: var(--dark);
+    color: var(--light);
+
+    border-radius: 10px;
   }
 `;
 
@@ -41,11 +53,11 @@ const History = styled.div`
   display: flex;
   column-gap: 4px;
   align-items: center;
-  color: gray;
 
-  // text
-  & > span {
-    color: gray;
+  color: var(--sub);
+
+  // history info
+  & > .info {
     font-size: 0.8rem;
   }
 `;

@@ -25,9 +25,7 @@ const ReceivedComment = (props: ReceivedCommentProps) => {
         </Style.Header>
 
         <Style.Content>
-          <Chip size="sm" color="info">
-            {props.userName}
-          </Chip>
+          <span className="user">{props.userName}</span>
           {props.comment}
         </Style.Content>
       </ListItemContent>

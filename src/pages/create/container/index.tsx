@@ -18,7 +18,7 @@ const Container = (
   return (
     <div>
       <Style.Title>
-        <span>{props.title}</span>
+        <span className="title">{props.title}</span>
 
         {props.complete ? (
           <Chip variant="solid" color="success" startDecorator={<CheckIcon />}>

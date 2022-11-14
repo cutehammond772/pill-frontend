@@ -22,24 +22,24 @@ const Title = styled.div<{ layout?: SerializedStyles }>`
   justify-content: space-between;
 
   // Title
-  & > div:nth-of-type(1) {
+  & > .container {
     display: flex;
     flex-flow: row;
     column-gap: 10px;
     align-items: center;
   }
 
-  & > div:nth-of-type(1) > svg {
+  & > .container > .icon {
     font-size: 30px;
   }
 
-  & > div:nth-of-type(1) > span {
+  & > .container > .title {
     font-weight: 600;
     font-size: 20px;
   }
 
   // Buttons
-  & > div:nth-last-of-type(1) {
+  & > .buttons {
     display: flex;
     flex-flow: row;
     align-items: center;

@@ -8,10 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import {
-  addHeaderChecked,
+  addHeaderSelected,
   addHeaderDisabled,
   changeHeaderTitle,
-  resetHeaderChecked,
+  resetHeaderSelected,
   resetHeaderDisabled,
 } from "../../reducers/header";
 
@@ -19,7 +19,7 @@ import {
 // 특정 Header의 최상단에만 위치할 수 있다.
 const useHeader = <E extends MenuEnum>(
   header: string,
-  defaultCheckedItem?: E[keyof E]
+  defaultSelectedItem?: E[keyof E]
 ) => {
   type MenuItem = E[keyof E];
 
@@ -34,8 +34,8 @@ const useHeader = <E extends MenuEnum>(
   // 이때 리스트에 추가되는 아이템의 타입은 무조건 MenuItem (= E[keyof E])이다.
   // 왜냐하면 아이템을 추가하는 로직은 useHeader 로직 내에만 있으며,
   // 그 로직을 담당하는 함수에서 파라미터로 들어오는 아이템의 타입을 MenuItem으로 설정했기 때문이다.
-  const checkedItems = useSelector(
-    (state: RootState) => state.header.checked[header]
+  const selectedItems = useSelector(
+    (state: RootState) => state.header.selected[header]
   ) as MenuItem[];
   const disabledItems = useSelector(
     (state: RootState) => state.header.disabled[header]
@@ -53,9 +53,9 @@ const useHeader = <E extends MenuEnum>(
   );
 
   // 선택된 아이템을 추가한다. (= 특정 아이템을 선택시킨다.)
-  const addChecked = useCallback(
+  const addSelected = useCallback(
     (item: MenuItem) => {
-      dispatch(addHeaderChecked(header, item));
+      dispatch(addHeaderSelected(header, item));
     },
     [dispatch, header]
   );
@@ -69,8 +69,8 @@ const useHeader = <E extends MenuEnum>(
   );
 
   // 선택된 아이템들을 초기화한다.
-  const resetChecked = useCallback(() => {
-    dispatch(resetHeaderChecked(header));
+  const resetSelected = useCallback(() => {
+    dispatch(resetHeaderSelected(header));
   }, [dispatch, header]);
 
   // 비활성화된 아이템들을 초기화한다.
@@ -103,11 +103,11 @@ const useHeader = <E extends MenuEnum>(
 
   // 만약 첫 로드라면, redux container 내에 이 Header의 정보는 아무것도 없으므로 초기화를 수행한다.
   useLayoutEffect(() => {
-    if (checkedItems === undefined) {
-      if (defaultCheckedItem === undefined) {
-        resetChecked();
+    if (selectedItems === undefined) {
+      if (defaultSelectedItem === undefined) {
+        resetSelected();
       } else {
-        addChecked(defaultCheckedItem);
+        addSelected(defaultSelectedItem);
       }
     }
 
@@ -115,23 +115,23 @@ const useHeader = <E extends MenuEnum>(
       resetDisabled();
     }
   }, [
-    checkedItems,
+    selectedItems,
     disabledItems,
-    defaultCheckedItem,
-    addChecked,
-    resetChecked,
+    defaultSelectedItem,
+    addSelected,
+    resetSelected,
     resetDisabled,
   ]);
 
   return {
     refs,
     title,
-    checkedItems,
+    selectedItems,
     disabledItems,
     changeTitle,
-    addChecked,
+    addSelected,
     addDisabled,
-    resetChecked,
+    resetSelected,
     resetDisabled,
     defaultClickHandler,
   };

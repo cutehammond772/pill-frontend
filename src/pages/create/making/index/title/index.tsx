@@ -44,7 +44,7 @@ const Title = React.forwardRef<HTMLDivElement, TitleProps>((props, ref) => {
 
   return (
     <Style.Title ref={ref} {...refProps}>
-      <span>#{props.index + 1}</span>
+      <span className="index">#{props.index + 1}</span>
       {!edit ? (
         <Style.TitleEditButton
           color="neutral"
@@ -79,7 +79,7 @@ const Title = React.forwardRef<HTMLDivElement, TitleProps>((props, ref) => {
 
       <Tooltip title="Remove">
         <IconButton variant="soft" color="danger" onClick={props.onRemove}>
-          <DeleteIcon />
+          <DeleteIcon className="remove"/>
         </IconButton>
       </Tooltip>
     </Style.Title>

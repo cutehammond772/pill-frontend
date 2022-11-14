@@ -33,19 +33,20 @@ const AddContentButton = styled(Button)`
     text-align: left;
   }
 
-  & > svg:nth-of-type(1) {
+  // Icon
+  & > .icon {
     grid-row: 1 / 3;
     font-size: 45px;
   }
 
   // Title
-  & > span:nth-of-type(1) {
+  & > .title {
     font-weight: 600;
     font-size: 20px;
   }
 
   // Description
-  & > span:nth-of-type(2) {
+  & > .description {
     font-weight: 500;
     font-size: 18px;
     padding-top: 10px;

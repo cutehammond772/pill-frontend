@@ -12,7 +12,7 @@ const Menu = styled.div`
   left: 50%;
 `;
 
-const MenuItem = styled.button<{ checked?: boolean }>`
+const MenuItem = styled.button<{ selected?: boolean }>`
   width: auto;
   height: 40px;
   border-radius: 20px;
@@ -24,7 +24,7 @@ const MenuItem = styled.button<{ checked?: boolean }>`
   color: var(--dark);
 
   ${(props) =>
-    !!props?.checked && {
+    !!props?.selected && {
       backgroundColor: "lightblue !important",
       color: "var(--dark) !important",
     }};
@@ -36,7 +36,7 @@ const MenuItem = styled.button<{ checked?: boolean }>`
 
   &:hover {
     ${(props) =>
-      !props?.checked && {
+      !props?.selected && {
         transition: "0.25s",
         backgroundColor: "pink !important",
         color: "var(--dark) !important",

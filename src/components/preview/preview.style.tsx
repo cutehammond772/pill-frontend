@@ -3,23 +3,26 @@ import styled from "@emotion/styled";
 import { Chip } from "@mui/joy";
 
 const Container = styled.div`
+  position: relative;
   width: auto;
   height: auto;
 
   border-radius: 10px;
   box-shadow: 0px 0px 10px var(--shadow);
+
   background: linear-gradient(
     45deg,
     hsla(339, 100%, 55%, 1) 0%,
     hsla(197, 100%, 64%, 1) 100%
   );
-
-  position: relative;
 `;
 
 const Banner = styled.div`
+  position: relative;
+  box-sizing: border-box;
   width: auto;
   height: auto;
+  
   padding: 10px;
 
   background: rgba(255, 255, 255, 50%);
@@ -29,11 +32,8 @@ const Banner = styled.div`
   flex-flow: column;
   row-gap: 10px;
 
-  position: relative;
-  box-sizing: border-box;
-
   // Title
-  & > span:nth-of-type(1) {
+  & > .title {
     font-weight: 700;
     color: var(--dark);
 

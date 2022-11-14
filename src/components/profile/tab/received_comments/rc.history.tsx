@@ -10,7 +10,7 @@ const History = (props: HistoryProps) => {
   return (
     <Style.History>
       <HistoryIcon />
-      <span>
+      <span className="info">
         Recent {props.unit} (+{props.comments})
       </span>
     </Style.History>

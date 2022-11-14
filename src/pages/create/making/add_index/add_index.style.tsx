@@ -15,14 +15,16 @@ column-gap: 30px;
 box-shadow: 0px 0px 5px var(--shadow);
 
 // Add Icon
-& > svg {
+& > .icon {
   font-size: 40px;
+
   color: var(--dark);
 }
 
-& > span {
+& > .title {
   font-weight: 700;
   font-size: 30px;
+  
   color: var(--dark);
 }
 `;

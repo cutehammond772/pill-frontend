@@ -5,16 +5,17 @@ import styled from "@emotion/styled";
 import { Divider as DividerComponent } from "@mui/joy";
 
 const Layout = css`
+  position: fixed;
+  right: 0px;
+
   width: 300px;
   height: auto;
   padding: 1rem;
+
   border-radius: 20px;
   
   background: var(--light);
   box-shadow: 0px 0px 30px var(--shadow);
-
-  position: fixed;
-  right: 0px;
 
   margin-left: calc(50% - 512px);
   margin-right: calc(50% - 512px);
@@ -28,12 +29,13 @@ const Layout = css`
 `;
 
 const Title = styled.span`
-  color: var(--dark);
-  font-weight: 700;
-  font-size: 1.5rem;
-
   position: relative;
   top: 0.5rem;
+
+  font-weight: 700;
+  font-size: 1.5rem;
+  
+  color: var(--dark);
 `;
 
 const Divider = styled(DividerComponent)`
@@ -42,9 +44,10 @@ const Divider = styled(DividerComponent)`
 
   letter-spacing: 0.15rem;
   font-size: 0.5rem;
-  color: var(--dark);
   font-weight: 700;
   text-transform: uppercase;
+
+  color: var(--dark);
 `;
 
 const Menu = styled.div`
@@ -56,25 +59,28 @@ const Menu = styled.div`
 `;
 
 const GuestBanner = styled.div`
-  height: 200px;
   display: flex;
   flex-flow: column;
   justify-content: space-around;
   align-items: center;
+  
+  height: 200px;
+  padding: 1rem;
+  margin-top: 40px;
   border-radius: 15px;
   background: linear-gradient(
     90deg,
     hsla(339, 50%, 55%, 1) 0%,
     hsla(197, 50%, 64%, 1) 100%
   );
-  padding: 1rem;
-  margin-top: 40px;
 
-  & > svg {
+  // ThumbUp Icon
+  & > .icon {
     font-size: 60px;
   }
 
-  & > span {
+  // Tect Content
+  & > .content {
     color: var(--dark);
     text-align: center;
     font-size: 1rem;

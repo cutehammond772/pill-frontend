@@ -14,7 +14,7 @@ interface PillPreviewProps {
 const PillPreview = (props: PillPreviewProps) => (
   <Style.Container>
     <Style.Banner>
-      <span>{props.title}</span>
+      <span className="title">{props.title}</span>
 
       <Style.BannerAuthor>
         by{" "}

@@ -18,7 +18,7 @@ interface AddContentProps {
 }
 
 interface AddContentButtonProps {
-  icon: React.ReactNode;
+  icon: React.ComponentType<{ className: string }>;
   title: string;
   description: string;
 
@@ -48,9 +48,9 @@ const AddContent = React.forwardRef<HTMLDivElement, AddContentProps>(
         {...props}
       >
         <ContentStyle.Title layout={Style.TitleLayout}>
-          <div>
-            <AddIcon />
-            <span>Add Content</span>
+          <div className="container">
+            <AddIcon className="icon"/>
+            <span className="title">Add Content</span>
           </div>
         </ContentStyle.Title>
 
@@ -67,9 +67,9 @@ const AddContentButton = React.forwardRef<
 >((props, ref) => {
   return (
     <Style.AddContentButton color="neutral" variant="soft" ref={ref} {...props}>
-      {props.icon}
-      <span>{props.title}</span>
-      <span>{props.description}</span>
+      <props.icon className="icon"/>
+      <span className="title">{props.title}</span>
+      <span className="description">{props.description}</span>
     </Style.AddContentButton>
   );
 });

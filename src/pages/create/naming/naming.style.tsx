@@ -12,7 +12,7 @@ const Layout = css`
   box-shadow: 0px 0px 5px var(--shadow);
 
   // PillPreview
-  & > div:nth-of-type(1) {
+  & > div:first-of-type {
     grid-row: 1 / 3;
   }
 `;
@@ -28,7 +28,7 @@ const Title = styled.div`
   row-gap: 15px;
 
   // Title Text
-  & > span {
+  & > .title {
     font-weight: 700;
     color: var(--dark);
     font-size: 1.5rem;
@@ -49,7 +49,7 @@ const Categories = styled.div`
   
   row-gap: 15px;
 
-  & > div {
+  & > .container {
     display: flex;
     flex-flow: row wrap;
     column-gap: 5px;
@@ -57,7 +57,7 @@ const Categories = styled.div`
   }
 
   // Categories Text
-  & > span {
+  & > .title {
     font-weight: 700;
     color: var(--dark);
     font-size: 1.5rem;

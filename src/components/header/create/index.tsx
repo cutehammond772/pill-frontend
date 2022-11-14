@@ -40,7 +40,7 @@ const CreateHeader = () => {
       menu={{
         enum: CreateMenu,
         refs: header.refs,
-        checked: header.checkedItems,
+        selected: header.selectedItems,
         disabled: header.disabledItems,
         onClick: handleClick,
       }}

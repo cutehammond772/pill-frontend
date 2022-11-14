@@ -15,6 +15,7 @@ const style = css`
     --light: white;
     --dark: #303030;
     --shadow: #aaaaaa;
+    --sub: grey;
 
     --z-header: 1000;
     --z-header-tab: 1001;

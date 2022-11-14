@@ -111,7 +111,7 @@ const Header = <E extends MenuEnum>(props: HeaderProps<E>) => {
     <Style.Header ref={headerRef}>
       <Style.Title>
         {!props.title && <Logo />}
-        <span ref={titleRef}>{props.title || "Pill"}</span>
+        <span ref={titleRef} className="title">{props.title || "Pill"}</span>
       </Style.Title>
 
       {!!props?.menu && (

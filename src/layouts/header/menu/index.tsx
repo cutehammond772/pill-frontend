@@ -15,14 +15,14 @@ const HeaderMenu = <E extends MenuEnum>(props: MenuProps<E>) => {
   return (
     <Style.Menu>
       {items.map((item, index) => {
-        const checked = !!props?.checked?.find((checked) => checked === item);
+        const selected = !!props?.selected?.find((selected) => selected === item);
 
         return (
           <Style.MenuItem
             ref={(ref) => (props.refs.current[index] = ref)}
             key={index}
-            checked={checked}
-            {...(!checked && {
+            selected={selected}
+            {...(!selected && {
               // 굳이 타입을 강제로 설정하지 않아도 가능하도록 방법을 강구할 필요가 있다.
               onClick: () => {
                 props.onClick(item as E[keyof E]);

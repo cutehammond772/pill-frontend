@@ -8,8 +8,8 @@ interface AddIndexProps {
 const AddIndex = (props: AddIndexProps) => {
   return (
     <Style.AddIndexButton color="primary" variant="text" onClick={props.onClick}>
-      <AddIcon />
-      <span>Add Index</span>
+      <AddIcon className="icon"/>
+      <span className="title">Add Index</span>
     </Style.AddIndexButton>
   );
 };

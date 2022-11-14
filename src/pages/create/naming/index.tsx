@@ -32,13 +32,13 @@ const Content = () => {
       />
 
       <Style.Title>
-        <span>Title</span>
+        <span className="title">Title</span>
         <TextField placeholder="Type in here..." color="neutral" variant="soft" fullWidth onChange={handleText} />
       </Style.Title>
 
       <Style.Categories>
-        <span>Categories</span>
-        <div>
+        <span className="title">Categories</span>
+        <div className="container">
           <Chip color="neutral" variant="solid">Recipe</Chip>
           <Chip color="success" variant="solid" endDecorator={<CheckIcon/>} onClick={() => {}} sx={{
             userSelect: "none"

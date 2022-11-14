@@ -20,7 +20,7 @@ const Title = styled.div`
   border-radius: 20px 20px 0 0;
 
   // Index Signature
-  & > span:nth-of-type(1) {
+  & > .index {
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--dark);
@@ -30,7 +30,7 @@ const Title = styled.div`
   }
 
   // Remove Icon
-  & > svg:nth-of-type(1) {
+  & > .remove {
     padding-left: 10px;
     padding-right: 10px;
   }
@@ -39,6 +39,7 @@ const Title = styled.div`
 const TitleEditButton = styled(Button)`
   width: auto;
   height: auto;
+
   border-radius: 8px;
 
   padding: 5px;
@@ -50,11 +51,12 @@ const TitleEditButton = styled(Button)`
   flex-grow: 1;
   justify-content: space-between;
   align-items: center;
-  line-height: 100%;
   align-self: stretch;
-
+  
   font-weight: 600;
   font-size: 1.2rem;
+  line-height: 100%;
+
   color: var(--dark);
 `;
 

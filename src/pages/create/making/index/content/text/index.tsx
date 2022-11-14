@@ -30,7 +30,7 @@ const AddTextButton = React.forwardRef<HTMLButtonElement, AddTextButtonProps>(
 
     return (
       <AddContentButton
-        icon={<ArticleIcon />}
+        icon={ArticleIcon}
         title="Text"
         description="add a text into the pill."
         onClick={() => props.onAdd({ type: PillContentType.TEXT, content: "" })}
@@ -70,10 +70,9 @@ const TextContent = React.forwardRef<HTMLDivElement, ContentProps>(
             props.access.contentIndex
           ].content || ""
         );
-        
+
         completeRefresh();
       }
-
     }, [creator.data.indexes, props.access, completeRefresh, refresh]);
 
     const { onRemove, onExchange, ...refProps } = props;
@@ -81,12 +80,12 @@ const TextContent = React.forwardRef<HTMLDivElement, ContentProps>(
     return (
       <Style.Container layout={TextContentLayout} ref={ref} {...refProps}>
         <Style.Title layout={TextContentTitleLayout}>
-          <div>
-            <ArticleIcon />
-            <span>Text</span>
+          <div className="container">
+            <ArticleIcon className="icon" />
+            <span className="title">Text</span>
           </div>
 
-          <div>
+          <div className="buttons">
             {props.access.contentIndex !== 0 && (
               <Tooltip title="Up">
                 <IconButton

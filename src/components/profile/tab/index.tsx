@@ -1,5 +1,3 @@
-import { Grow } from "@mui/material";
-
 import * as React from "react";
 import * as config from "../../../config";
 import { useLayoutEffect, useRef } from "react";
@@ -84,8 +82,8 @@ const ProfileTab = (props: ProfileTabProps) => {
         <>
           <Style.Title>Welcome, Guest!</Style.Title>
           <Style.GuestBanner>
-            <ThumbUpIcon />
-            <span>
+            <ThumbUpIcon className="icon"/>
+            <span className="content">
               Join with just one click without complicated registration and
               enjoy useful information!
             </span>

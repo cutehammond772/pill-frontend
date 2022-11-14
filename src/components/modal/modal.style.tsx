@@ -12,6 +12,7 @@ const Backdrop = styled.div<{
   position: fixed;
   top: 0;
   left: 0;
+
   width: 100%;
   height: 100%;
 
@@ -62,8 +63,8 @@ const Modal = styled.div<{
 
 const CloseButton = styled(IconButton)`
   position: absolute;
-  right: 15px;
   top: 15px;
+  right: 15px;
 `;
 
 export { CloseButton, Backdrop, Modal };

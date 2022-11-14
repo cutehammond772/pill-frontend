@@ -4,6 +4,7 @@ import { DefaultPageLayout } from "../page/page.style";
 const Header = styled.header`
   position: sticky;
   top: 0;
+
   z-index: var(--z-header);
 
   display: flex;
@@ -25,9 +26,10 @@ const Title = styled.div`
   column-gap: 15px;
   align-items: center;
 
-  & > span:nth-of-type(1) {
+  & > .title {
     font-weight: 700;
     font-size: 2.5rem;
+    
     color: var(--dark);
   }
 `;

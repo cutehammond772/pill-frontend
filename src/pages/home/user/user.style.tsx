@@ -34,11 +34,13 @@ const PageRecentPillsContent = styled.div`
 `;
 
 const PageSubjectText = styled.div`
-  color: var(--dark);
   font-size: 3rem;
   font-weight: 700;
+
   padding-top: 150px;
   padding-bottom: 50px;
+
+  color: var(--dark);
 `;
 
 // border color를 props로 수정 가능하도록 한다.
@@ -54,8 +56,7 @@ const BehaviorButton = styled(Button)`
 
   box-shadow: 0px 5px 15px var(--shadow);
 
-  // 첫번째 요소는 아이콘이 들어간다.
-  & > svg:nth-of-type(1) {
+  & > .icon {
     grid-row: 1 / 3;
     padding: 1rem;
     color: var(--light);
@@ -63,8 +64,7 @@ const BehaviorButton = styled(Button)`
     align-self: center;
   }
 
-  // 두번째 요소는 제목이 들어간다.
-  & > span:nth-of-type(1) {
+  & > .title {
     font-weight: 700;
     color: var(--light);
     font-size: 1.75rem;
@@ -72,8 +72,7 @@ const BehaviorButton = styled(Button)`
     text-align: start;
   }
 
-  // 세번째 요소는 내용이 들어간다.
-  & > span:nth-of-type(2) {
+  & > .content {
     color: var(--light);
     font-size: 1.25rem;
     text-align: start;

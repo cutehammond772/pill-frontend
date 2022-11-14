@@ -26,7 +26,7 @@ const DefaultHeader = () => {
       menu={{
         enum: DefaultMenu,
         refs: header.refs,
-        checked: header.checkedItems,
+        selected: header.selectedItems,
         disabled: header.disabledItems,
         onClick: (item) => header.defaultClickHandler(item, mapper),
       }}

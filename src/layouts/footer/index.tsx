@@ -25,8 +25,8 @@ const Footer = () => {
 
   return (
     <Style.Footer ref={ref}>
-      <span>&copy; 2022 Jungheon Lee</span>
-      <Link to="/help"> Help </Link>
+      <span className="copyright">&copy; 2022 Jungheon Lee</span>
+      <Link to="/about" className="about">About</Link>
     </Style.Footer>
   );
 };

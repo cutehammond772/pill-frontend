@@ -8,14 +8,14 @@ import * as React from "react";
 import * as GuestStyle from "./guest/guest.style";
 import * as UserStyle from "./user/user.style";
 import { Page } from "../../layouts/page";
-import { usePageCheck } from "../../utils/hooks/header/page_check";
+import { usePageSelect } from "../../utils/hooks/header/page_select";
 import { DefaultHeaderSignature, DefaultMenu } from "../../components/header/default";
 
 const HomePage = () => {
   const auth = useAuth();
 
   // DefaultHeader에서 Home 아이템을 선택한다.
-  usePageCheck(DefaultHeaderSignature, DefaultMenu.HOME);
+  usePageSelect(DefaultHeaderSignature, DefaultMenu.HOME);
 
   return (
     <Page

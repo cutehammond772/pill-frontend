@@ -1,7 +1,5 @@
 import { Box, Option, Select, Typography } from "@mui/joy";
 import { Pagination, PaginationItem } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import * as React from "react";
 
@@ -11,13 +9,13 @@ import {
 } from "../../components/header/default";
 
 import { Page } from "../../layouts/page";
-import { usePageCheck } from "../../utils/hooks/header/page_check";
+import { usePageSelect } from "../../utils/hooks/header/page_select";
 
 import * as Style from "./my_pill.style";
 
 const MyPillPage = () => {
   // DefaultHeader에서 Board 아이템을 선택한다.
-  usePageCheck(DefaultHeaderSignature, DefaultMenu.MY_PILL);
+  usePageSelect(DefaultHeaderSignature, DefaultMenu.MY_PILL);
 
   return (
     <Page>

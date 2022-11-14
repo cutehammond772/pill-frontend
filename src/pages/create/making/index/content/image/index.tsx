@@ -33,7 +33,7 @@ const AddImageButton = React.forwardRef<HTMLButtonElement, AddImageButtonProps>(
     return (
       <>
         <AddContentButton
-          icon={<ImageIcon />}
+          icon={ImageIcon}
           title="Image"
           description="add an image into the pill."
           onClick={() => setOpen(true)}
@@ -79,9 +79,9 @@ const ImageContent = React.forwardRef<HTMLDivElement, ContentProps>(
         {...refProps}
       >
         <Style.Title layout={ImageContentTitleLayout}>
-          <div>
-            <ImageIcon />
-            <span>Image</span>
+          <div className="container">
+            <ImageIcon className="icon"/>
+            <span className="title">Image</span>
           </div>
 
           <Chip
@@ -95,7 +95,7 @@ const ImageContent = React.forwardRef<HTMLDivElement, ContentProps>(
             {data.subContent}
           </Chip>
 
-          <div>
+          <div className="buttons">
             {props.access.contentIndex !== 0 && (
               <Tooltip title="Up">
                 <IconButton
@@ -152,7 +152,7 @@ const ImageContent = React.forwardRef<HTMLDivElement, ContentProps>(
             </Tooltip>
           </div>
         </Style.Title>
-        <img src={data.content} alt={data.subContent} />
+        <img src={data.content} alt={data.subContent} className="image" />
 
         <ImageContentModal
           open={open}

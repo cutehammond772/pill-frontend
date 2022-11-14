@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Page } from "../../layouts/page";
-import { usePageCheck } from "../../utils/hooks/header/page_check";
+import { usePageSelect } from "../../utils/hooks/header/page_select";
 import {
   DefaultHeaderSignature,
   DefaultMenu,
@@ -11,7 +11,7 @@ import * as Style from "./about.style";
 
 const AboutPage = () => {
   // DefaultHeader에서 Help 아이템을 선택한다.
-  usePageCheck(DefaultHeaderSignature, DefaultMenu.ABOUT);
+  usePageSelect(DefaultHeaderSignature, DefaultMenu.ABOUT);
 
   return (
     <Page>

@@ -132,11 +132,12 @@ const ImageContentModal = (props: ImageContentModalProps) => {
             alt={description}
             onError={handleInvalidImageError}
             onLoad={() => setLoad(true)}
+            className="image"
           />
         ) : (
-          <div>
-            <ImageSearchIcon />
-            <span>
+          <div className="preview">
+            <ImageSearchIcon className="icon"/>
+            <span className="message">
               Type Image Link and press Confirm to check the Preview before
               adding the image.
             </span>

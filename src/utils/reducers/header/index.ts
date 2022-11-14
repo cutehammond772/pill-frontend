@@ -10,10 +10,10 @@ const changeHeaderTitle = (title: string) => ({
   title: title,
 });
 
-const addHeaderChecked = (header: string, checked: string) => ({
-  type: HeaderReducingType.ADD_CHECKED,
+const addHeaderSelected = (header: string, selected: string) => ({
+  type: HeaderReducingType.ADD_SELECTED,
   header: header,
-  checked: checked,
+  selected: selected,
 });
 
 const addHeaderDisabled = (header: string, disabled: string) => ({
@@ -22,8 +22,8 @@ const addHeaderDisabled = (header: string, disabled: string) => ({
   disabled: disabled,
 });
 
-const resetHeaderChecked = (header: string) => ({
-  type: HeaderReducingType.RESET_CHECKED,
+const resetHeaderSelected = (header: string) => ({
+  type: HeaderReducingType.RESET_SELECTED,
   header: header,
 });
 
@@ -43,9 +43,9 @@ const unlockMenuClick = () => ({
 type HeaderReducingAction =
   | ReturnType<typeof initHeader>
   | ReturnType<typeof changeHeaderTitle>
-  | ReturnType<typeof addHeaderChecked>
+  | ReturnType<typeof addHeaderSelected>
   | ReturnType<typeof addHeaderDisabled>
-  | ReturnType<typeof resetHeaderChecked>
+  | ReturnType<typeof resetHeaderSelected>
   | ReturnType<typeof resetHeaderDisabled>
   | ReturnType<typeof lockMenuClick>
   | ReturnType<typeof unlockMenuClick>;
@@ -62,15 +62,15 @@ const headerReducer: Reducer<HeaderNode, HeaderReducingAction> = (
         ...state,
         title: action.title,
       };
-    case HeaderReducingType.ADD_CHECKED:
+    case HeaderReducingType.ADD_SELECTED:
       return {
         ...state,
-        checked: {
-          ...state.checked,
+        selected: {
+          ...state.selected,
 
-          [action.header]: state?.checked[action.header]?.concat(
-            action.checked
-          ) || [action.checked],
+          [action.header]: state?.selected[action.header]?.concat(
+            action.selected
+          ) || [action.selected],
         },
       };
     case HeaderReducingType.ADD_DISABLED:
@@ -84,10 +84,10 @@ const headerReducer: Reducer<HeaderNode, HeaderReducingAction> = (
           ) || [action.disabled],
         },
       };
-    case HeaderReducingType.RESET_CHECKED:
+    case HeaderReducingType.RESET_SELECTED:
       return {
         ...state,
-        checked: {},
+        selected: {},
       };
     case HeaderReducingType.RESET_DISABLED:
       return {
@@ -112,9 +112,9 @@ const headerReducer: Reducer<HeaderNode, HeaderReducingAction> = (
 export {
   initHeader,
   changeHeaderTitle,
-  addHeaderChecked,
+  addHeaderSelected,
   addHeaderDisabled,
-  resetHeaderChecked,
+  resetHeaderSelected,
   resetHeaderDisabled,
   lockMenuClick,
   unlockMenuClick,

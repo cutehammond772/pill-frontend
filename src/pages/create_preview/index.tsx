@@ -5,13 +5,13 @@ import {
 } from "../../components/header/create";
 
 import { Page } from "../../layouts/page";
-import { usePageCheck } from "../../utils/hooks/header/page_check";
+import { usePageSelect } from "../../utils/hooks/header/page_select";
 
 import * as Style from "./create_preview.style";
 
 const CreatePreviewPage = () => {
   // CreateHeader에서 Preview 아이템을 선택한다.
-  usePageCheck(CreateHeaderSignature, CreateMenu.PREVIEW);
+  usePageSelect(CreateHeaderSignature, CreateMenu.PREVIEW);
 
   return (
     <Page>

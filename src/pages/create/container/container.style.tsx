@@ -19,16 +19,12 @@ const Title = styled.div`
   margin-bottom: 30px;
 
   // Title
-  & > span:nth-of-type(1) {
-    color: var(--dark);
+  & > .title {
     font-weight: 700;
     font-size: 40px;
-
+    
     line-height: 100%;
-  }
-
-  // Complete Chip
-  & > div:nth-of-type(1) {
+    color: var(--dark);
   }
 `;
 

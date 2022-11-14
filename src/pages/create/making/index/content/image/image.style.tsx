@@ -6,7 +6,7 @@ const ImageContentLayout = css`
   flex-flow: column;
   justify-content: center;
 
-  & > img {
+  & > .image {
     border-radius: 10px;
     background: var(--light);
 

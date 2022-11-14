@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Page } from "../../layouts/page";
-import { usePageCheck } from "../../utils/hooks/header/page_check";
+import { usePageSelect } from "../../utils/hooks/header/page_select";
 import {
   DefaultHeaderSignature,
   DefaultMenu,
@@ -21,7 +21,7 @@ import { Option, Select, TextField } from "@mui/joy";
 
 const ExplorePage = () => {
   // DefaultHeader에서 Search 아이템을 선택한다.
-  usePageCheck(DefaultHeaderSignature, DefaultMenu.EXPLORE);
+  usePageSelect(DefaultHeaderSignature, DefaultMenu.EXPLORE);
 
   return (
     <Page>

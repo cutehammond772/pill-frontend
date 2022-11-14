@@ -25,7 +25,7 @@ const ImagePreview = styled.div`
   justify-content: center;
 
   // Image
-  & > img {
+  & > .image {
     min-width: 300px;
     min-height: 300px;
     max-width: 600px;
@@ -36,8 +36,8 @@ const ImagePreview = styled.div`
     object-fit: scale-down;
   }
 
-  // Background
-  & > div {
+  // Preview
+  & > .preview {
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -52,23 +52,23 @@ const ImagePreview = styled.div`
     background: var(--light);
     box-shadow: 0px 0px 5px var(--shadow);
     border-radius: 10px;
-  }
 
-  // Background Icon
-  & > div > svg {
-    font-size: 40px;
-    color: var(--dark);
-  }
+    // Icon
+    & > .icon {
+      font-size: 40px;
+      color: var(--dark);
+    }
 
-  // Background Message
-  & > div > span {
-    text-align: center;
-    align-self: center;
+    // Message
+    & > .message {
+      text-align: center;
+      align-self: center;
 
-    padding-left: 20px;
-    padding-right: 20px;
+      padding-left: 20px;
+      padding-right: 20px;
 
-    color: var(--dark);
+      color: var(--dark);
+    }
   }
 `;
 
@@ -79,20 +79,20 @@ const Form = styled.div`
   min-width: 500px;
 
   // Title Container
-  & > div:nth-of-type(1) {
+  & > .title {
     display: flex;
     flex-flow: row;
     column-gap: 5px;
-  }
 
-  & > div:nth-of-type(1) > svg {
-    font-size: 1.5rem;
-  }
+    & > .icon {
+      font-size: 1.5rem;
+    }
 
-  & > div:nth-of-type(1) > span {
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 100%;
+    & > .content {
+      font-weight: 700;
+      font-size: 1.5rem;
+      line-height: 100%;
+    }
   }
 `;
 
