@@ -82,15 +82,16 @@ const Form = styled.div`
   & > .title {
     display: flex;
     flex-flow: row;
-    column-gap: 5px;
+    column-gap: 10px;
+    align-items: center;
 
     & > .icon {
-      font-size: 1.5rem;
+      font-size: 30px;
     }
 
     & > .content {
       font-weight: 700;
-      font-size: 1.5rem;
+      font-size: 27px;
       line-height: 100%;
     }
   }

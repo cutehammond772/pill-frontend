@@ -19,14 +19,13 @@ const Title = styled.div`
 
   border-radius: 20px 20px 0 0;
 
-  // Index Signature
+  // Index Number
   & > .index {
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--dark);
     padding-left: 15px;
     padding-right: 15px;
-    line-height: 100%;
   }
 
   // Remove Icon

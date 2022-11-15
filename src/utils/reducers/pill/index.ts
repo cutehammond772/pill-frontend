@@ -5,14 +5,15 @@ import {
   IndexContentReducingType,
   IndexReducingType,
   PillData,
-  PillContent,
+  TitleProps,
+  CategoryProps,
+  IdProps,
+  AddIndexContentProps,
+  UpdateIndexContentProps,
+  RemoveIndexContentProps,
+  ExchangeIndexContentProps,
+  INITIAL_STATE,
 } from "./pill.type";
-
-const INITIAL_PILL: PillData = {
-  title: "",
-  categories: [],
-  indexes: [],
-};
 
 /* Default */
 
@@ -22,27 +23,23 @@ const resetPill = () => ({
 });
 
 // Pill 제목 변경
-const updateTitle = (title: string) => ({
+const updateTitle = (props: TitleProps) => ({
   type: DefaultReducingType.UPDATE_TITLE,
-  title: title,
+  ...props,
 });
 
 /* Category */
 
 // 카테고리 추가
-const addCategory = (category: string) => ({
+const addCategory = (props: CategoryProps) => ({
   type: CategoryReducingType.ADD,
-  category: category,
+  ...props,
 });
 
 // 카테고리 삭제
-const removeCategory = (category: string) => ({
+const removeCategory = (props: CategoryProps) => ({
   type: CategoryReducingType.REMOVE,
-  category: category,
-});
-
-const updateCategoryOrder = () => ({
-  type: CategoryReducingType.UPDATE_ORDER,
+  ...props,
 });
 
 // 카테고리 초기화
@@ -58,87 +55,41 @@ const addIndex = () => ({
 });
 
 // 인덱스 제목 변경
-const updateIndexTitle = (index: number, title: string) => ({
+const updateIndexTitle = (props: IdProps & TitleProps) => ({
   type: IndexReducingType.UPDATE_TITLE,
-  index: index,
-  title: title,
+  ...props,
 });
 
 // 인덱스 삭제
-const removeIndex = (index: number) => ({
+const removeIndex = (props: IdProps) => ({
   type: IndexReducingType.REMOVE,
-  index: index,
-});
-
-const updateIndexOrder = () => ({
-  type: IndexReducingType.UPDATE_ORDER,
-});
-
-// 인덱스 삭제 취소
-const rollbackIndex = () => ({
-  type: IndexReducingType.ROLLBACK,
+  ...props,
 });
 
 /* Content */
 
 // 컨텐츠 추가
-const addIndexContent = (
-  index: number,
-  contentType: PillContent,
-  content?: string,
-  subContent?: string
-) => ({
+const addIndexContent = (props: AddIndexContentProps) => ({
   type: IndexContentReducingType.ADD,
-  index: index,
-  contentType: contentType,
-
-  content: content,
-  subContent: subContent,
+  ...props,
 });
 
 // 컨텐츠 내용 변경
-const updateIndexContent = (
-  index: number,
-  contentIndex: number,
-  content: string,
-  subContent?: string
-) => ({
+const updateIndexContent = (props: UpdateIndexContentProps) => ({
   type: IndexContentReducingType.UPDATE,
-  index: index,
-  contentIndex: contentIndex,
-  content: content,
-
-  subContent: subContent,
+  ...props,
 });
 
 // 컨텐츠 삭제
-const removeIndexContent = (index: number, contentIndex: number) => ({
+const removeIndexContent = (props: RemoveIndexContentProps) => ({
   type: IndexContentReducingType.REMOVE,
-  index: index,
-  contentIndex: contentIndex,
-});
-
-const updateIndexContentOrder = (index: number) => ({
-  type: IndexContentReducingType.UPDATE_ORDER,
-  index: index,
+  ...props,
 });
 
 // 컨텐츠 위치 변경
-const exchangeIndexContent = (
-  index: number,
-  contentIndex: number,
-  exchangeContentIndex: number
-) => ({
+const exchangeIndexContent = (props: ExchangeIndexContentProps) => ({
   type: IndexContentReducingType.EXCHANGE,
-  index: index,
-  contentIndex: contentIndex,
-  exchangeContentIndex: exchangeContentIndex,
-});
-
-// 컨텐츠 삭제 복구
-const rollbackIndexContent = (index: number) => ({
-  type: IndexContentReducingType.ROLLBACK,
-  index: index,
+  ...props,
 });
 
 /* Type */
@@ -147,28 +98,23 @@ type PillReducingAction =
   | ReturnType<typeof updateTitle>
   | ReturnType<typeof addCategory>
   | ReturnType<typeof removeCategory>
-  | ReturnType<typeof updateCategoryOrder>
   | ReturnType<typeof resetCategory>
   | ReturnType<typeof addIndex>
   | ReturnType<typeof updateIndexTitle>
   | ReturnType<typeof removeIndex>
-  | ReturnType<typeof updateIndexOrder>
-  | ReturnType<typeof rollbackIndex>
   | ReturnType<typeof addIndexContent>
   | ReturnType<typeof updateIndexContent>
   | ReturnType<typeof removeIndexContent>
-  | ReturnType<typeof updateIndexContentOrder>
-  | ReturnType<typeof exchangeIndexContent>
-  | ReturnType<typeof rollbackIndexContent>;
+  | ReturnType<typeof exchangeIndexContent>;
 
 /* Reducer */
 const pillReducer: Reducer<PillData, PillReducingAction> = (
-  state = INITIAL_PILL,
+  state = INITIAL_STATE,
   action
 ) => {
   switch (action.type) {
     case DefaultReducingType.RESET:
-      return INITIAL_PILL;
+      return INITIAL_STATE;
     case DefaultReducingType.UPDATE_TITLE:
       // 제목 문자열 Validation 처리가 필요하다.
       return {
@@ -180,8 +126,8 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
       return {
         ...state,
         categories: state.categories.concat({
+          id: crypto.randomUUID(),
           name: action.category,
-          key: state.categories.length,
         }),
       };
     case CategoryReducingType.REMOVE:
@@ -190,14 +136,6 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
         categories: state.categories.filter(
           (category) => category.name !== action.category
         ),
-      };
-    case CategoryReducingType.UPDATE_ORDER:
-      return {
-        ...state,
-        categories: state.categories.map((category, index) => ({
-          ...category,
-          key: index,
-        })),
       };
     case CategoryReducingType.RESET:
       return {
@@ -208,154 +146,107 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
       return {
         ...state,
         indexes: state.indexes.concat({
+          id: crypto.randomUUID(),
           title: "",
           contents: [],
-          key: state.indexes.length,
         }),
       };
     case IndexReducingType.REMOVE:
-      // 롤백을 위한 백업 처리가 따로 필요하다.
-      // 인덱스 관련 Validation 처리가 따로 필요하다.
       return {
         ...state,
-        indexes: state.indexes.filter(
-          (indexObj) => indexObj.key !== action.index
-        ) /* 인덱스 삭제 */,
-      };
-    case IndexReducingType.UPDATE_ORDER:
-      return {
-        ...state,
-        indexes: state.indexes.map((indexObj, index) => ({
-          ...indexObj,
-          key: index,
-        })) /* 인덱스 순서 재조정 */,
+        indexes: state.indexes.filter((index) => index.id !== action.id),
       };
     case IndexReducingType.UPDATE_TITLE:
       // 제목 문자열 Validation 처리가 필요하다.
       return {
         ...state,
-        indexes: state.indexes.map((indexObj) =>
-          indexObj.key === action.index
-            ? { ...indexObj, title: action.title }
-            : indexObj
+        indexes: state.indexes.map((index) =>
+          index.id === action.id ? { ...index, title: action.title } : index
         ),
       };
-    case IndexReducingType.ROLLBACK:
-      // 미구현
-      return INITIAL_PILL;
     case IndexContentReducingType.ADD:
       return {
         ...state,
-        indexes: state.indexes.map((indexObj) =>
-          indexObj.key === action.index
+        indexes: state.indexes.map((index) =>
+          index.id === action.id
             ? {
-                ...indexObj,
-                contents: indexObj.contents.concat({
+                ...index,
+                contents: index.contents.concat({
+                  contentId: crypto.randomUUID(),
                   type: action.contentType,
-                  content: !!action.content ? action.content : "",
-                  subContent: action.subContent,
-
-                  key: indexObj.contents.length,
+                  content: action.content || "",
+                  subContent: action.subContent || "",
                 }),
               }
-            : indexObj
+            : index
         ),
       };
     case IndexContentReducingType.REMOVE:
       return {
         ...state,
-        indexes: state.indexes.map((indexObj) =>
-          indexObj.key === action.index
+        indexes: state.indexes.map((index) =>
+          index.id === action.id
             ? {
-                ...indexObj,
-                contents: indexObj.contents
-                  .filter(
-                    (content) => content.key !== action.contentIndex
-                  ) /* 컨텐츠 삭제 */
-                  .map((content, index) => ({
-                    ...content,
-                    key: index,
-                  })) /* 컨텐츠 순서 재조정 */,
+                ...index,
+                contents: index.contents.filter(
+                  (content) => content.contentId !== action.contentId
+                ),
               }
-            : indexObj
-        ),
-      };
-    case IndexContentReducingType.UPDATE_ORDER:
-      return {
-        ...state,
-        indexes: state.indexes.map((indexObj) =>
-          indexObj.key === action.index
-            ? {
-                ...indexObj,
-                contents: indexObj.contents.map((content, index) => ({
-                  ...content,
-                  key: index,
-                })) /* 컨텐츠 순서 재조정 */,
-              }
-            : indexObj
+            : index
         ),
       };
     case IndexContentReducingType.UPDATE:
       return {
         ...state,
-        indexes: state.indexes.map((indexObj) =>
-          indexObj.key === action.index
+        indexes: state.indexes.map((index) =>
+          index.id === action.id
             ? {
-                ...indexObj,
-                contents: indexObj.contents.map((content) =>
-                  content.key === action.contentIndex
+                ...index,
+                contents: index.contents.map((content) =>
+                  content.contentId === action.contentId
                     ? {
                         ...content,
-                        content: action.content,
-                        subContent: !!action.subContent
-                          ? action.subContent
-                          : content.subContent,
+                        content: action.content || content.subContent,
+                        subContent: action.subContent || content.subContent,
                       }
                     : content
                 ),
               }
-            : indexObj
+            : index
         ),
       };
     case IndexContentReducingType.EXCHANGE:
-      const targetIndex = state.indexes.find(
-        (indexObj) => indexObj.key === action.index
+      const targetIndex = state.indexes.find((index) => index.id === action.id);
+
+      const from = targetIndex?.contents.find(
+        (content) => content.contentId === action.contentId
       );
 
-      if (!targetIndex) {
+      const to = targetIndex?.contents.find(
+        (content) => content.contentId === action.exchangeId
+      );
+
+      if (!targetIndex || !from || !to) {
         throw new Error();
       }
 
-      const from = {
-        ...targetIndex.contents[action.contentIndex],
-        key: action.exchangeContentIndex,
-      };
-
-      const to = {
-        ...targetIndex.contents[action.exchangeContentIndex],
-        key: action.contentIndex,
-      };
-
       return {
         ...state,
-        indexes: state.indexes.map((indexObj) =>
-          indexObj.key === action.index
+        indexes: state.indexes.map((index) =>
+          index.id === action.id
             ? {
                 ...targetIndex,
-                contents: targetIndex.contents.map((content, arrIndex) =>
-                  arrIndex === action.contentIndex
-                    ? to
-                    : arrIndex === action.exchangeContentIndex
-                    ? from
+                contents: targetIndex.contents.map((content) =>
+                  content.contentId === action.contentId
+                    ? { ...to, id: action.contentId }
+                    : content.contentId === action.exchangeId
+                    ? { ...from, id: action.exchangeId }
                     : content
                 ),
               }
-            : indexObj
+            : index
         ),
       };
-    case IndexContentReducingType.ROLLBACK:
-      // 미구현
-      return INITIAL_PILL;
     default:
       return state;
   }
@@ -366,18 +257,13 @@ export {
   updateTitle,
   addCategory,
   removeCategory,
-  updateCategoryOrder,
   resetCategory,
   addIndex,
   updateIndexTitle,
   removeIndex,
-  updateIndexOrder,
-  rollbackIndex,
   addIndexContent,
   updateIndexContent,
   removeIndexContent,
-  updateIndexContentOrder,
-  rollbackIndexContent,
   exchangeIndexContent,
   pillReducer,
 };

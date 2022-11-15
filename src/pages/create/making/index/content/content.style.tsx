@@ -36,6 +36,7 @@ const Title = styled.div<{ layout?: SerializedStyles }>`
   & > .container > .title {
     font-weight: 600;
     font-size: 20px;
+    line-height: 100%;
   }
 
   // Buttons

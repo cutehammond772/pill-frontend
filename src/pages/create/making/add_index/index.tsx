@@ -9,7 +9,7 @@ const AddIndex = (props: AddIndexProps) => {
   return (
     <Style.AddIndexButton color="primary" variant="text" onClick={props.onClick}>
       <AddIcon className="icon"/>
-      <span className="title">Add Index</span>
+      <span className="title">인덱스 추가</span>
     </Style.AddIndexButton>
   );
 };

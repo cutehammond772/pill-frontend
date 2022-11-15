@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Button, TextField } from "@mui/joy";
-import { useState } from "react";
+import { useState, useLayoutEffect } from "react";
 
 import AddIcon from "@mui/icons-material/AddPhotoAlternate";
 import CheckIcon from "@mui/icons-material/Check";
@@ -10,48 +10,38 @@ import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 
 import * as Style from "./modal.style";
 
-import {
-  AddFunction,
-  PillContentType,
-} from "../../../../../../../utils/reducers/pill/pill.type";
-
 import { Message } from "../../../../../../../components/message";
 import { usePillCreator } from "../../../../../../../utils/hooks/pill_creator";
 import { Modal } from "../../../../../../../components/modal";
+import { ContentProps, PillContentType } from "../../../../../../../utils/reducers/pill/pill.type";
+import { ImageContent } from "..";
 
 interface ImageContentModalProps {
   open: boolean;
   onClose: () => void;
-  onAdd: AddFunction;
 
-  editIndex?: { index: number; contentIndex: number };
+  access: Pick<ContentProps, "id"> & Partial<Pick<ContentProps, "contentId">>;
 }
 
 const ImageContentModal = (props: ImageContentModalProps) => {
   const creator = usePillCreator();
-  const editData = !!props.editIndex
-    ? creator.data.indexes[props.editIndex.index].contents[
-        props.editIndex.contentIndex
-      ]
-    : undefined;
+  const editMode = props.access.contentId !== undefined;
 
   // Image Content States
-  const [confirm, setConfirm] = useState<boolean>(!!editData);
-  const [link, setLink] = useState<string>(editData?.content || "");
-  const [description, setDescription] = useState<string>(
-    editData?.subContent || ""
-  );
+  const [confirm, setConfirm] = useState<boolean>(false);
+  const [link, setLink] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
-  // Prevention for adding broken image
-  const [load, setLoad] = useState<boolean>(!!editData);
+  // Prevention for adding invalid image
+  const [load, setLoad] = useState<boolean>(false);
 
   // Message
-  const [imgInvalidMsg, setImgInvalidMsg] = useState<boolean>(false);
-  let afterAdd: boolean = false;
+  const [message, setMessage] = useState<boolean>(false);
 
   // TextField Handlers
   const handleLink = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
+
     setLink(value);
   };
 
@@ -63,65 +53,49 @@ const ImageContentModal = (props: ImageContentModalProps) => {
     }
   };
 
-  //
-  const handleInvalidImageError = () => {
+  const handleError = () => {
     setConfirm(false);
     setLoad(false);
-
-    setImgInvalidMsg(true);
+    setMessage(true);
   };
 
   const handleAddImage = () => {
-    props.onAdd({
-      type: PillContentType.IMAGE,
-      content: link,
-      subContent: description,
-    });
+    // (= is EditMode)
+    if (props.access.contentId !== undefined) {
+      const contentId = props.access.contentId;
+      creator.withIndex(props.access).updateContent({
+        contentId,
+        content: link,
+        subContent: description,
+      });
+    } else {
+      creator.withIndex(props.access).addContent({
+        contentType: PillContentType.IMAGE,
+        content: link,
+        subContent: description,
+      });
+    }
 
-    afterAdd = true;
-    safeClose();
+    props.onClose();
   };
 
-  // Resetting Values
-  // 컴포넌트가 언마운트되지 않는 이상 기존 내용이 계속 유지되기 때문에 이를 고려해야 한다.
-  const resetInformation = () => {
-    if (!!editData) {
+  useLayoutEffect(() => {
+    if (props.access.contentId !== undefined) {
+      const contentId = props.access.contentId;
+      const content = creator.getContent({ id: props.access.id, contentId });
+
       setConfirm(true);
       setLoad(true);
 
-      if (afterAdd) {
-        // Edit 과정에서 변경 발생 시(= Done 누를 시)
-        // afterAdd가 true이면 변경이 확실하므로 link와 description 값을 유지한다.
-        afterAdd = false;
-      } else {
-        // Edit 과정에서 그냥 Modal를 빠져나갈 때
-        // 컨텐츠 내용이 바뀌었을 수 있으므로 기존 내용으로 다시 채운다.
-
-        setLink(editData.content);
-        setDescription(editData.subContent || "");
-      }
-    } else {
-      // 일반적인 Add 과정
-      // 닫을 때마다 내용을 비운다.
-      setConfirm(false);
-      setLoad(false);
-
-      setLink("");
-      setDescription("");
+      setLink(content.content);
+      setDescription(content.subContent);
     }
-
-    setImgInvalidMsg(false);
-  };
-
-  const safeClose = () => {
-    props.onClose();
-    resetInformation();
-  };
+  }, [props.access, creator]);
 
   return (
     <Modal
       open={props.open}
-      onClose={safeClose}
+      onClose={props.onClose}
       layout={Style.Layout}
       closeButton
     >
@@ -130,13 +104,13 @@ const ImageContentModal = (props: ImageContentModalProps) => {
           <img
             src={link}
             alt={description}
-            onError={handleInvalidImageError}
+            onError={handleError}
             onLoad={() => setLoad(true)}
             className="image"
           />
         ) : (
           <div className="preview">
-            <ImageSearchIcon className="icon"/>
+            <ImageSearchIcon className="icon" />
             <span className="message">
               Type Image Link and press Confirm to check the Preview before
               adding the image.
@@ -146,15 +120,15 @@ const ImageContentModal = (props: ImageContentModalProps) => {
       </Style.ImagePreview>
 
       <Style.Form>
-        {!!editData ? (
-          <div>
-            <EditIcon />
-            <span>Edit Image</span>
+        {editMode ? (
+          <div className="title">
+            <EditIcon className="icon" />
+            <span className="content">Edit Image</span>
           </div>
         ) : (
-          <div>
-            <AddIcon />
-            <span>Add new Image</span>
+          <div className="title">
+            <AddIcon className="icon" />
+            <span className="content">Add new Image</span>
           </div>
         )}
 
@@ -212,7 +186,7 @@ const ImageContentModal = (props: ImageContentModalProps) => {
       <Message
         message="Invalid Image Link."
         type="error"
-        callback={{ open: imgInvalidMsg, setOpen: setImgInvalidMsg }}
+        callback={{ open: message, setOpen: setMessage }}
       />
     </Modal>
   );

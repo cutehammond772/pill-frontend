@@ -1,3 +1,6 @@
+import { ImageContent } from "../../../pages/create/making/index/content/image";
+import { TextContent } from "../../../pages/create/making/index/content/text";
+
 /* Pill */
 const DefaultReducingType = {
   RESET: "reducer.pill.reset",
@@ -8,36 +11,22 @@ const DefaultReducingType = {
 const CategoryReducingType = {
   ADD: "reducer.pill.category.add",
   RESET: "reducer.pill.category.reset",
-
   REMOVE: "reducer.pill.category.remove",
-  UPDATE_ORDER: "reducer.pill.category.update.order",
-
 } as const;
 
 /* Index */
 const IndexReducingType = {
   ADD: "reducer.pill.index.add",
   UPDATE_TITLE: "reducer.pill.index.update.title",
-
   REMOVE: "reducer.pill.index.remove",
-  UPDATE_ORDER: "reducer.pill.index.update.order",
-
-  // tbd
-  ROLLBACK: "reducer.pill.index.rollback",
 } as const;
 
 /* Content */
 const IndexContentReducingType = {
   ADD: "reducer.pill.index.content.add",
   UPDATE: "reducer.pill.index.content.update",
-
   REMOVE: "reducer.pill.index.content.remove",
-  UPDATE_ORDER: "reducer.pill.index.content.update.order",
-
   EXCHANGE: "reducer.pill.index.content.exchange",
-
-  // tbd
-  ROLLBACK: "reducer.pill.index.content.rollback",
 } as const;
 
 /* Data */
@@ -48,46 +37,90 @@ interface PillData {
 }
 
 interface CategoryData {
+  id: string;
   name: string;
-  key: number;
 }
 
 interface PillIndexData {
+  id: string;
   title: string;
   contents: Array<PillContentData>;
-
-  key: number;
 }
 
-interface PillContentData extends PillContentRequest {
-  key: number;
-}
-
-interface PillContentRequest {
+interface PillContentData {
+  contentId: string;
   type: PillContent;
   content: string;
-  subContent?: string;
+  subContent: string;
 }
 
-interface AddFunction {
-  (data: PillContentRequest): void
-}
+const INITIAL_STATE: PillData = {
+  title: "",
+  categories: [],
+  indexes: [],
+};
 
+/* Types */
 const PillContentType = {
-  IMAGE: "IMAGE",
-  TEXT: "TEXT",
+  IMAGE: "Image",
+  TEXT: "Text",
 } as const;
 
 type PillContent = typeof PillContentType[keyof typeof PillContentType];
+
+const PillContentTypeMapper: { [type in PillContent]: React.ComponentType<ContentProps> } = {
+  [PillContentType.IMAGE]: ImageContent,
+  [PillContentType.TEXT]: TextContent,
+} as const;
+
+/* Props */
+interface RequestProps {
+  id: string;
+  category: string;
+  title: string;
+
+  contentType: PillContent;
+  contentId: string;
+  exchangeId: string;
+
+  content: string;
+  subContent: string;
+}
+
+type IdProps = Pick<RequestProps, "id">;
+type ContentProps = Pick<RequestProps, "id" | "contentId">;
+type TitleProps = Pick<RequestProps, "title">;
+type CategoryProps = Pick<RequestProps, "category">;
+
+type AddIndexContentProps = Pick<RequestProps, "id" | "contentType"> &
+  Partial<Pick<RequestProps, "content" | "subContent">>;
+
+type UpdateIndexContentProps = Pick<RequestProps, "id" | "contentId"> &
+  Partial<Pick<RequestProps, "content" | "subContent">>;
+
+type RemoveIndexContentProps = Pick<RequestProps, "id" | "contentId">;
+
+type ExchangeIndexContentProps = Pick<
+  RequestProps,
+  "id" | "contentId" | "exchangeId"
+>;
 
 export type {
   PillData,
   CategoryData,
   PillIndexData,
   PillContentData,
-  PillContent,
-  PillContentRequest,
-  AddFunction
+
+  RequestProps,
+  IdProps,
+  TitleProps,
+  CategoryProps,
+
+  AddIndexContentProps,
+  UpdateIndexContentProps,
+  RemoveIndexContentProps,
+  ExchangeIndexContentProps,
+  ContentProps,
 };
 
 export {
@@ -95,5 +128,9 @@ export {
   CategoryReducingType,
   IndexReducingType,
   IndexContentReducingType,
+
   PillContentType,
+  PillContentTypeMapper,
+
+  INITIAL_STATE,
 };

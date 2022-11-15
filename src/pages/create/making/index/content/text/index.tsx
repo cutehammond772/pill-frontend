@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 
 import * as Style from "../content.style";
 import { IconButton, Textarea } from "@mui/joy";
@@ -12,138 +12,155 @@ import ArticleIcon from "@mui/icons-material/Article";
 
 import { TextContentLayout, TextContentTitleLayout } from "./text.style";
 import { usePillCreator } from "../../../../../../utils/hooks/pill_creator";
+import { AddContentButton } from "../add";
 import {
-  AddFunction,
+  ContentProps,
+  IdProps,
   PillContentType,
 } from "../../../../../../utils/reducers/pill/pill.type";
-import { AddContentButton } from "../add";
-import { UpdateType } from "../../../../../../utils/hooks/pill_creator/pill_creator.type";
-import { ContentProps } from "../content.type";
+import { useRollback } from "../../../../../../utils/hooks/rollback";
 
-interface AddTextButtonProps {
-  onAdd: AddFunction;
-}
+const AddTextButton = (props: IdProps) => {
+  const creator = usePillCreator();
 
-const AddTextButton = React.forwardRef<HTMLButtonElement, AddTextButtonProps>(
-  (props, ref) => {
-    const { onAdd, ...refProps } = props;
-
-    return (
-      <AddContentButton
-        icon={ArticleIcon}
-        title="Text"
-        description="add a text into the pill."
-        onClick={() => props.onAdd({ type: PillContentType.TEXT, content: "" })}
-        ref={ref}
-        {...refProps}
-      />
-    );
-  }
-);
-
-const TextContent = React.forwardRef<HTMLDivElement, ContentProps>(
-  (props, ref) => {
-    const creator = usePillCreator();
-    const [text, setText] = useState<string>(
-      creator.data.indexes[props.access.index].contents[
-        props.access.contentIndex
-      ].content || ""
-    );
-
-    // refresh after exchange
-    const { refresh, completeRefresh } = props.refreshEvent;
-
-    const handleText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const { value } = event.target;
-      setText(value);
-
-      creator.update(UpdateType.INDEX_CONTENT, {
-        ...props.access,
-        content: value,
-      });
-    };
-
-    useEffect(() => {
-      if (refresh) {
-        setText(
-          creator.data.indexes[props.access.index].contents[
-            props.access.contentIndex
-          ].content || ""
-        );
-
-        completeRefresh();
+  return (
+    <AddContentButton
+      icon={ArticleIcon}
+      title="글"
+      description="인덱스 마지막에 글을 추가합니다."
+      onClick={() =>
+        creator
+          .withIndex(props)
+          .addContent({ contentType: PillContentType.TEXT })
       }
-    }, [creator.data.indexes, props.access, completeRefresh, refresh]);
+    />
+  );
+};
 
-    const { onRemove, onExchange, ...refProps } = props;
+const TextContent = (props: ContentProps) => {
+  const creator = usePillCreator();
 
-    return (
-      <Style.Container layout={TextContentLayout} ref={ref} {...refProps}>
-        <Style.Title layout={TextContentTitleLayout}>
-          <div className="container">
-            <ArticleIcon className="icon" />
-            <span className="title">Text</span>
-          </div>
+  const rollback = useRollback();
 
-          <div className="buttons">
-            {props.access.contentIndex !== 0 && (
-              <Tooltip title="Up">
-                <IconButton
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => {
-                    props.onExchange(
-                      props.access.contentIndex,
-                      props.access.contentIndex - 1
-                    );
-                  }}
-                >
-                  <KeyboardArrowUpIcon />
-                </IconButton>
-              </Tooltip>
-            )}
+  const rollbackedIndex = rollback.getIndex(props);
+  const rollbackedContent = rollback.getContent(props);
 
-            {props.access.contentIndex !==
-              creator.data.indexes[props.access.index].contents.length - 1 && (
-              <Tooltip title="Down">
-                <IconButton
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => {
-                    props.onExchange(
-                      props.access.contentIndex,
-                      props.access.contentIndex + 1
-                    );
-                  }}
-                >
-                  <KeyboardArrowDownIcon />
-                </IconButton>
-              </Tooltip>
-            )}
+  const index = rollbackedIndex || creator.getIndex(props);
+  const data =
+    rollbackedContent ||
+    rollbackedIndex?.contents.find(
+      (content) => content.contentId === props.contentId
+    ) ||
+    creator.getContent(props);
+  const order =
+    !!rollbackedIndex || !!rollbackedContent
+      ? 0
+      : creator.getContentOrder(props);
 
-            <Tooltip title="Remove">
+  const [text, setText] = useState<string>("");
+
+  const handleText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = event.target;
+    setText(value);
+
+    creator.withIndex(props).updateContent({ ...props, content: value });
+  };
+
+  const handleRemove = () => {
+    rollback.captureContent(data);
+    creator.withIndex(props).removeContent(props);
+  };
+
+  useLayoutEffect(() => {
+    setText(data.content);
+  }, [data.content]);
+
+  return (
+    <Style.Container layout={TextContentLayout}>
+      <Style.Title layout={TextContentTitleLayout}>
+        <div className="container">
+          <ArticleIcon className="icon" />
+          <span className="title">글</span>
+        </div>
+
+        <div className="buttons">
+          {order !== 0 && (
+            <Tooltip title="Up">
               <IconButton
-                variant="soft"
-                color="danger"
-                onClick={props.onRemove}
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  const prevContent = index.contents.at(order - 1);
+
+                  if (!prevContent) {
+                    throw new Error();
+                  }
+
+                  creator.withIndex(props).exchangeContent({
+                    contentId: props.contentId,
+                    exchangeId: prevContent.contentId,
+                  });
+                }}
+                {...((!!rollbackedIndex || !!rollbackedContent) && {
+                  disabled: true,
+                })}
               >
-                <DeleteIcon />
+                <KeyboardArrowUpIcon />
               </IconButton>
             </Tooltip>
-          </div>
-        </Style.Title>
+          )}
 
-        <Textarea
-          minRows={4}
-          sx={{
-            fontSize: "20px",
-          }}
-          onChange={handleText}
-          value={text || ""}
-        />
-      </Style.Container>
-    );
-  }
-);
+          {order !== index.contents.length - 1 && (
+            <Tooltip title="Down">
+              <IconButton
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  const nextContent = index.contents.at(order + 1);
+
+                  if (!nextContent) {
+                    throw new Error();
+                  }
+
+                  creator.withIndex(props).exchangeContent({
+                    contentId: props.contentId,
+                    exchangeId: nextContent.contentId,
+                  });
+                }}
+                {...((!!rollbackedIndex || !!rollbackedContent) && {
+                  disabled: true,
+                })}
+              >
+                <KeyboardArrowDownIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+
+          <Tooltip title="Remove">
+            <IconButton
+              variant="soft"
+              color="danger"
+              onClick={handleRemove}
+              {...((!!rollbackedIndex || !!rollbackedContent) && {
+                disabled: true,
+              })}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+      </Style.Title>
+
+      <Textarea
+        minRows={4}
+        sx={{
+          fontSize: "20px",
+        }}
+        onChange={handleText}
+        value={text || ""}
+      />
+    </Style.Container>
+  );
+};
 
 export { TextContent, AddTextButton };

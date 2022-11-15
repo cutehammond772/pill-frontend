@@ -1,89 +1,70 @@
-import { IconButton, TextField, Chip } from "@mui/joy";
+import { IconButton, TextField } from "@mui/joy";
 import { Tooltip } from "@mui/material";
 
-import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import * as React from "react";
 import { useState } from "react";
 
 import { usePillCreator } from "../../../../../utils/hooks/pill_creator";
-import { UpdateType } from "../../../../../utils/hooks/pill_creator/pill_creator.type";
 
 import * as Style from "./title.style";
+import { useRollback } from "../../../../../utils/hooks/rollback";
 
 interface TitleProps {
-  index: number;
-  onRemove: () => void;
+  id: string;
+  order: number;
 }
 
-const Title = React.forwardRef<HTMLDivElement, TitleProps>((props, ref) => {
+const Title = (props: TitleProps) => {
   const creator = usePillCreator();
 
-  const [title, setTitle] = useState<string>(
-    creator.data.indexes[props.index].title
-  );
-  const [edit, setEdit] = useState<boolean>(false);
+  const rollback = useRollback();
+  const rollbackedIndex = rollback.getIndex(props);
+
+  const index = rollbackedIndex || creator.getIndex(props);
+
+  const [title, setTitle] = useState<string>(index.title);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
+
     if (value.length <= 40) {
+      creator.withIndex(props).updateTitle({ title: value });
       setTitle(value);
     }
   };
 
-  const closeEdit = () => {
-    setEdit(false);
-    creator.update(UpdateType.INDEX_TITLE, {
-      index: props.index,
-      title: title,
-    });
+  const handleRemove = () => {
+    rollback.captureIndex(index);
+    creator.withIndex(props).remove();
   };
 
-  const { onRemove, ...refProps } = props;
-
   return (
-    <Style.Title ref={ref} {...refProps}>
-      <span className="index">#{props.index + 1}</span>
-      {!edit ? (
-        <Style.TitleEditButton
-          color="neutral"
-          variant="plain"
-          onClick={() => setEdit(true)}
-          endDecorator={
-            <Chip size="sm" color="neutral" variant="solid">
-              Click to Edit
-            </Chip>
-          }
-        >
-          {!title ? "Untitled" : title}
-        </Style.TitleEditButton>
-      ) : (
-        <>
-          <TextField
-            placeholder="~40 characters"
-            fullWidth
-            // only way to bring text
-            onChange={handleTitle}
-            onBlur={closeEdit}
-            value={title || ""}
-          />
-
-          <Tooltip title="Done">
-            <IconButton variant="solid" color="success" onClick={closeEdit}>
-              <CheckIcon />
-            </IconButton>
-          </Tooltip>
-        </>
-      )}
+    <Style.Title>
+      <span className="index">#{props.order + 1}</span>
+      <TextField
+        placeholder="최대 40자까지 입력할 수 있습니다."
+        fullWidth
+        onChange={handleTitle}
+        value={title || ""}
+        componentsProps={{
+          input: {style: {backgroundColor: "rgba(255, 255, 255, 0)", border: "none", fontWeight: "700", fontSize: "20px", alignSelf: "center"}}
+        }}
+      />
 
       <Tooltip title="Remove">
-        <IconButton variant="soft" color="danger" onClick={props.onRemove}>
-          <DeleteIcon className="remove"/>
+        <IconButton
+          variant="soft"
+          color="danger"
+          onClick={handleRemove}
+          {...(!!rollbackedIndex && { disabled: true })}
+        >
+          <DeleteIcon className="remove" />
         </IconButton>
       </Tooltip>
     </Style.Title>
   );
-});
+};
 
 export { Title };

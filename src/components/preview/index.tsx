@@ -1,3 +1,4 @@
+import * as React from "react";
 import * as Style from "./preview.style";
 
 import HistoryIcon from "@mui/icons-material/History";
@@ -38,4 +39,4 @@ const PillPreview = (props: PillPreviewProps) => (
   </Style.Container>
 );
 
-export { PillPreview };
+export default React.memo(PillPreview);

@@ -2,222 +2,138 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import { useCallback } from "react";
 
-import {
-  resetPill,
-  updateTitle,
-  addCategory,
-  removeCategory,
-  updateCategoryOrder,
-  resetCategory,
-  addIndex,
-  updateIndexTitle,
-  removeIndex,
-  updateIndexOrder,
-  rollbackIndex,
-  addIndexContent,
-  updateIndexContent,
-  removeIndexContent,
-  updateIndexContentOrder,
-  exchangeIndexContent,
-  rollbackIndexContent,
-} from "../../reducers/pill";
+import * as reducer from "../../reducers/pill";
 
 import {
-  Update,
-  Add,
-  Remove,
-  UpdateOrder,
-  Rollback,
-  Reset,
-  ExtraProps,
-  UpdateType,
-  AddType,
-  RemoveType,
-  UpdateOrderType,
-  RollbackType,
-  ResetType,
-  Exchange,
-  ExchangeType,
-} from "./pill_creator.type";
-
-// props 내  number, string prop의 존재 여부는 undefined와 비교하여 결정한다.
-// ! 연산자는 zero value나 empty string("")마저 false 값을 반환하기 때문이다.
+  AddIndexContentProps,
+  ContentProps,
+  ExchangeIndexContentProps,
+  IdProps,
+  RemoveIndexContentProps,
+  TitleProps,
+  UpdateIndexContentProps,
+} from "../../reducers/pill/pill.type";
 
 const usePillCreator = () => {
   const dispatch = useDispatch();
 
-  // PillData
+  // Raw Data
   const data = useSelector((state: RootState) => state.pill);
 
-  const add = useCallback(
-    (type: Add, props?: ExtraProps) => {
-      switch (type) {
-        case AddType.CATEGORY:
-          if (!props || !props.category) {
-            throw new Error();
-          }
-          dispatch(addCategory(props.category));
-          break;
-        case AddType.INDEX:
-          dispatch(addIndex());
-          break;
-        case AddType.INDEX_CONTENT:
-          if (!props || props.index === undefined || !props.contentType) {
-            throw new Error();
-          }
-          dispatch(
-            addIndexContent(
-              props.index,
-              props.contentType,
-              props.content,
-              props.subContent
-            )
-          );
-          break;
-      }
+  // Validated Data
+  const getIndex = (props: IdProps) => {
+    const index = data.indexes.find((index) => index.id === props.id);
+
+    // Validation
+    if (!index) {
+      throw new Error();
+    }
+
+    return index;
+  };
+
+  const getContent = (props: ContentProps) => {
+    const content = getIndex({ id: props.id }).contents.find(
+      (content) => content.contentId === props.contentId
+    );
+
+    // Validation
+    if (!content) {
+      throw new Error();
+    }
+
+    return content;
+  };
+
+  const getIndexOrder = (props: IdProps) => {
+    const order = data.indexes.findIndex((index) => index.id === props.id);
+
+    // Validation
+    if (order === -1) {
+      throw new Error();
+    }
+
+    return order;
+  };
+
+  const getContentOrder = (props: ContentProps) => {
+    const index = getIndex(props);
+    const order = index.contents.findIndex(
+      (content) => content.contentId === props.contentId
+    );
+
+    // Validation
+    if (order === -1) {
+      throw new Error();
+    }
+
+    return order;
+  };
+
+  // Function
+  const withIndex = useCallback(
+    (idProps: IdProps) => {
+
+      const addContent = (props: Omit<AddIndexContentProps, "id">) =>
+        dispatch(reducer.addIndexContent({ ...idProps, ...props }));
+
+      const updateContent = (props: Omit<UpdateIndexContentProps, "id">) =>
+        dispatch(reducer.updateIndexContent({ ...idProps, ...props }));
+
+      const removeContent = (props: Omit<RemoveIndexContentProps, "id">) =>
+        dispatch(reducer.removeIndexContent({ ...idProps, ...props }));
+
+      const exchangeContent = (props: Omit<ExchangeIndexContentProps, "id">) =>
+        dispatch(reducer.exchangeIndexContent({ ...idProps, ...props }));
+
+      const updateTitle = (props: TitleProps) =>
+        dispatch(reducer.updateIndexTitle({ ...idProps, ...props }));
+
+      const remove = () => dispatch(reducer.removeIndex(idProps));
+
+      return {
+        addContent,
+        updateContent,
+        removeContent,
+        exchangeContent,
+        updateTitle,
+        remove,
+      };
     },
     [dispatch]
   );
 
-  const reset = useCallback(
-    (type: Reset) => {
-      switch (type) {
-        case ResetType.CATEGORY:
-          dispatch(resetCategory());
-          break;
-        case ResetType.PILL:
-          dispatch(resetPill());
-          break;
-      }
+  const addIndex = () => dispatch(reducer.addIndex());
+
+  const withCategory = useCallback(
+    (category: string) => {
+      const add = () => dispatch(reducer.addCategory({ category }));
+      const remove = () => dispatch(reducer.removeCategory({ category }));
+
+      return { add, remove };
     },
     [dispatch]
   );
 
-  const remove = useCallback(
-    (type: Remove, props: ExtraProps) => {
-      switch (type) {
-        case RemoveType.CATEGORY:
-          if (!props.category) {
-            throw new Error();
-          }
-          dispatch(removeCategory(props.category));
-          break;
-        case RemoveType.INDEX:
-          if (props.index === undefined) {
-            throw new Error();
-          }
-          dispatch(removeIndex(props.index));
-          break;
-        case RemoveType.INDEX_CONTENT:
-          if (props.index === undefined || props.contentIndex === undefined) {
-            throw new Error();
-          }
-          dispatch(removeIndexContent(props.index, props.contentIndex));
-          break;
-      }
-    },
-    [dispatch]
-  );
+  const updateTitle = (title: string) =>
+    dispatch(reducer.updateTitle({ title }));
 
-  const updateOrder = useCallback(
-    (type: UpdateOrder, props?: ExtraProps) => {
-      switch (type) {
-        case UpdateOrderType.CATEGORY:
-          dispatch(updateCategoryOrder());
-          break;
-        case UpdateOrderType.INDEX:
-          dispatch(updateIndexOrder());
-          break;
-        case UpdateOrderType.INDEX_CONTENT:
-          if (!props || props.index === undefined) {
-            throw new Error();
-          }
-          dispatch(updateIndexContentOrder(props.index));
-          break;
-      }
-    },
-    [dispatch]
-  );
+  const resetAll = () => dispatch(reducer.resetPill());
+  const resetCategory = () => dispatch(reducer.resetCategory());
 
-  const update = useCallback(
-    (type: Update, props: ExtraProps) => {
-      switch (type) {
-        case UpdateType.PILL_TITLE:
-          if (props.title === undefined) {
-            throw new Error();
-          }
-          dispatch(updateTitle(props.title));
-          break;
-        case UpdateType.INDEX_TITLE:
-          if (props.index === undefined || props.title === undefined) {
-            throw new Error();
-          }
-          dispatch(updateIndexTitle(props.index, props.title));
-          break;
-        case UpdateType.INDEX_CONTENT:
-          if (
-            props.index === undefined ||
-            props.contentIndex === undefined ||
-            props.content === undefined
-          ) {
-            throw new Error();
-          }
-          dispatch(
-            updateIndexContent(
-              props.index,
-              props.contentIndex,
-              props.content,
-              props.subContent
-            )
-          );
-          break;
-      }
-    },
-    [dispatch]
-  );
-
-  const rollback = useCallback(
-    (type: Rollback, props?: ExtraProps) => {
-      switch (type) {
-        case RollbackType.INDEX:
-          dispatch(rollbackIndex());
-          break;
-        case RollbackType.INDEX_CONTENT:
-          if (!props || props.index === undefined) {
-            throw new Error();
-          }
-          dispatch(rollbackIndexContent(props.index));
-          break;
-      }
-    },
-    [dispatch]
-  );
-
-  const exchange = useCallback(
-    (type: Exchange, props: ExtraProps) => {
-      switch (type) {
-        case ExchangeType.INDEX_CONTENT:
-          if (
-            props.index === undefined ||
-            props.contentIndex === undefined ||
-            props.exchangeContentIndex === undefined
-          ) {
-            throw new Error();
-          }
-          dispatch(
-            exchangeIndexContent(
-              props.index,
-              props.contentIndex,
-              props.exchangeContentIndex
-            )
-          );
-          break;
-      }
-    },
-    [dispatch]
-  );
-
-  return { data, add, reset, remove, updateOrder, update, rollback, exchange };
+  return {
+    data,
+    getIndex,
+    getContent,
+    getIndexOrder,
+    getContentOrder,
+    withIndex,
+    addIndex,
+    withCategory,
+    updateTitle,
+    resetAll,
+    resetCategory,
+  };
 };
 
 export { usePillCreator };

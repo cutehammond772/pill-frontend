@@ -16,153 +16,170 @@ import * as React from "react";
 import { useState } from "react";
 import { AddContentButton } from "../add";
 import { ImageContentModal } from "./modal";
-import { AddFunction } from "../../../../../../utils/reducers/pill/pill.type";
-import { UpdateType } from "../../../../../../utils/hooks/pill_creator/pill_creator.type";
-import { ContentProps } from "../content.type";
-
-interface AddImageButtonProps {
-  onAdd: AddFunction;
-}
+import {
+  IdProps,
+  ContentProps,
+} from "../../../../../../utils/reducers/pill/pill.type";
+import { useRollback } from "../../../../../../utils/hooks/rollback";
 
 // 이후 Modal은 별도로 빼놓아야 한다.
-const AddImageButton = React.forwardRef<HTMLButtonElement, AddImageButtonProps>(
-  (props, ref) => {
-    const [open, setOpen] = useState<boolean>(false);
+const AddImageButton = (props: IdProps) => {
+  const [open, setOpen] = useState<boolean>(false);
 
-    const { onAdd, ...refProps } = props;
-    return (
-      <>
-        <AddContentButton
-          icon={ImageIcon}
-          title="Image"
-          description="add an image into the pill."
-          onClick={() => setOpen(true)}
-          ref={ref}
-          {...refProps}
-        />
+  return (
+    <>
+      <AddContentButton
+        icon={ImageIcon}
+        title="이미지"
+        description="인덱스 마지막에 이미지를 추가합니다."
+        onClick={() => setOpen(true)}
+      />
 
-        <ImageContentModal
-          open={open}
-          onClose={() => setOpen(false)}
-          onAdd={props.onAdd}
-        />
-      </>
-    );
-  }
-);
+      <ImageContentModal
+        open={open}
+        onClose={() => setOpen(false)}
+        access={{ ...props }}
+      />
+    </>
+  );
+};
 
-const ImageContent = React.forwardRef<HTMLDivElement, ContentProps>(
-  (props, ref) => {
-    const creator = usePillCreator();
-    const data =
-      creator.data.indexes[props.access.index].contents[
-        props.access.contentIndex
-      ];
+const ImageContent = (props: ContentProps) => {
+  const creator = usePillCreator();
 
-    // Edit Image
-    const [open, setOpen] = useState<boolean>(false);
+  const rollback = useRollback();
 
-    const onUpdate: AddFunction = (data) => {
-      creator.update(UpdateType.INDEX_CONTENT, {
-        ...props.access,
-        content: data.content,
-        subContent: data.subContent,
-      });
-    };
+  const rollbackedIndex = rollback.getIndex(props);
+  const rollbackedContent = rollback.getContent(props);
 
-    const { onRemove, onExchange, ...refProps } = props;
+  const index = rollbackedIndex || creator.getIndex(props);
+  const data =
+    rollbackedContent ||
+    rollbackedIndex?.contents.find(
+      (content) => content.contentId === props.contentId
+    ) ||
+    creator.getContent(props);
+  const order =
+    !!rollbackedIndex || !!rollbackedContent
+      ? 0
+      : creator.getContentOrder(props);
 
-    return (
-      <Style.Container
-        layout={ImageContentLayout}
-        ref={ref}
-        {...refProps}
-      >
-        <Style.Title layout={ImageContentTitleLayout}>
-          <div className="container">
-            <ImageIcon className="icon"/>
-            <span className="title">Image</span>
-          </div>
+  // Edit Image
+  const [open, setOpen] = useState<boolean>(false);
 
-          <Chip
-            size="md"
-            color="primary"
-            variant="soft"
-            sx={{
-              userSelect: "none",
-            }}
-          >
-            {data.subContent}
-          </Chip>
+  const handleRemove = () => {
+    rollback.captureContent(data);
+    creator.withIndex(props).removeContent(props);
+  };
 
-          <div className="buttons">
-            {props.access.contentIndex !== 0 && (
-              <Tooltip title="Up">
-                <IconButton
-                  variant="outlined"
-                  color="primary"
-                  onClick={() =>
-                    props.onExchange(
-                      props.access.contentIndex,
-                      props.access.contentIndex - 1
-                    )
-                  }
-                >
-                  <KeyboardArrowUpIcon />
-                </IconButton>
-              </Tooltip>
-            )}
+  return (
+    <Style.Container layout={ImageContentLayout}>
+      <Style.Title layout={ImageContentTitleLayout}>
+        <div className="container">
+          <ImageIcon className="icon" />
+          <span className="title">이미지</span>
+        </div>
 
-            {props.access.contentIndex !==
-              creator.data.indexes[props.access.index].contents.length - 1 && (
-              <Tooltip title="Down">
-                <IconButton
-                  variant="outlined"
-                  color="primary"
-                  onClick={() =>
-                    props.onExchange(
-                      props.access.contentIndex,
-                      props.access.contentIndex + 1
-                    )
-                  }
-                >
-                  <KeyboardArrowDownIcon />
-                </IconButton>
-              </Tooltip>
-            )}
+        <Chip
+          size="md"
+          color="primary"
+          variant="soft"
+          sx={{
+            userSelect: "none",
+          }}
+        >
+          {data.subContent}
+        </Chip>
 
-            <Tooltip title="Edit">
+        <div className="buttons">
+          {order !== 0 && (
+            <Tooltip title="Up">
               <IconButton
-                variant="solid"
-                color="info"
-                onClick={() => setOpen(true)}
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  const prevContent = index.contents.at(order - 1);
+
+                  if (!prevContent) {
+                    throw new Error();
+                  }
+
+                  creator.withIndex(props).exchangeContent({
+                    contentId: props.contentId,
+                    exchangeId: prevContent.contentId,
+                  });
+                }}
+                {...((!!rollbackedIndex || !!rollbackedContent) && {
+                  disabled: true,
+                })}
               >
-                <EditIcon />
+                <KeyboardArrowUpIcon />
               </IconButton>
             </Tooltip>
+          )}
 
-            <Tooltip title="Remove">
+          {order !== index.contents.length - 1 && (
+            <Tooltip title="Down">
               <IconButton
-                variant="soft"
-                color="danger"
-                onClick={props.onRemove}
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  const nextContent = index.contents.at(order + 1);
+
+                  if (!nextContent) {
+                    throw new Error();
+                  }
+
+                  creator.withIndex(props).exchangeContent({
+                    contentId: props.contentId,
+                    exchangeId: nextContent.contentId,
+                  });
+                }}
+                {...((!!rollbackedIndex || !!rollbackedContent) && {
+                  disabled: true,
+                })}
               >
-                <DeleteIcon />
+                <KeyboardArrowDownIcon />
               </IconButton>
             </Tooltip>
-          </div>
-        </Style.Title>
-        <img src={data.content} alt={data.subContent} className="image" />
+          )}
 
-        <ImageContentModal
-          open={open}
-          onClose={() => setOpen(false)}
-          onAdd={onUpdate}
-          editIndex={props.access}
-        />
-      </Style.Container>
-    );
-  }
-);
+          <Tooltip title="Edit">
+            <IconButton
+              variant="solid"
+              color="info"
+              onClick={() => setOpen(true)}
+              {...((!!rollbackedIndex || !!rollbackedContent) && {
+                disabled: true,
+              })}
+            >
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Remove">
+            <IconButton
+              variant="soft"
+              color="danger"
+              onClick={handleRemove}
+              {...((!!rollbackedIndex || !!rollbackedContent) && {
+                disabled: true,
+              })}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
+      </Style.Title>
+      <img src={data.content} alt={data.subContent} className="image" />
+
+      <ImageContentModal
+        open={open}
+        onClose={() => setOpen(false)}
+        access={props}
+      />
+    </Style.Container>
+  );
+};
 
 export { ImageContent, AddImageButton };

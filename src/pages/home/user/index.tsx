@@ -4,7 +4,7 @@ import * as Style from "./user.style";
 import AddIcon from "@mui/icons-material/Add";
 import ExploreIcon from "@mui/icons-material/Explore";
 import { useNavigate } from "react-router-dom";
-import { PillPreview } from "../../../components/preview";
+import PillPreview from "../../../components/preview";
 
 const UserHome = React.memo(() => {
   const navigate = useNavigate();

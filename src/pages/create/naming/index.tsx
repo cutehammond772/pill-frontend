@@ -2,9 +2,8 @@ import { Container } from "../container";
 import { TextField, Chip } from "@mui/joy";
 
 import * as Style from "./naming.style";
-import { PillPreview } from "../../../components/preview";
+import PillPreview from "../../../components/preview";
 import { usePillCreator } from "../../../utils/hooks/pill_creator";
-import { UpdateType } from "../../../utils/hooks/pill_creator/pill_creator.type";
 
 import CheckIcon from "@mui/icons-material/Check";
 
@@ -13,17 +12,22 @@ import { useState } from "react";
 
 const Content = () => {
   const creator = usePillCreator();
-  const [text, setText] = useState<string>("");
+  // 마운트와 관계 없이 값 유지
+  const [text, setText] = useState<string>(creator.data.title);
 
   const handleText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    setText(value);
 
-    creator.update(UpdateType.PILL_TITLE, { title: text });
+    setText(value);
+    creator.updateTitle(value);
   };
 
   return (
-    <Container title="Pill your cover." complete={false} layout={Style.Layout}>
+    <Container
+      title="Pill의 첫 인상을 만들어 봅시다."
+      complete={false}
+      layout={Style.Layout}
+    >
       <PillPreview
         title={!text ? "Untitled" : text}
         author="cutehammond"
@@ -32,17 +36,34 @@ const Content = () => {
       />
 
       <Style.Title>
-        <span className="title">Title</span>
-        <TextField placeholder="Type in here..." color="neutral" variant="soft" fullWidth onChange={handleText} />
+        <span className="title">제목</span>
+        <TextField
+          placeholder="제목을 입력해 주세요."
+          color="neutral"
+          variant="soft"
+          fullWidth
+          onChange={handleText}
+          value={text || ""}
+        />
       </Style.Title>
 
       <Style.Categories>
-        <span className="title">Categories</span>
+        <span className="title">카테고리</span>
         <div className="container">
-          <Chip color="neutral" variant="solid">Recipe</Chip>
-          <Chip color="success" variant="solid" endDecorator={<CheckIcon/>} onClick={() => {}} sx={{
-            userSelect: "none"
-          }}>Food</Chip>
+          <Chip color="neutral" variant="solid">
+            클릭하여 추가
+          </Chip>
+          <Chip
+            color="success"
+            variant="solid"
+            endDecorator={<CheckIcon />}
+            onClick={() => {}}
+            sx={{
+              userSelect: "none",
+            }}
+          >
+            음식
+          </Chip>
         </div>
       </Style.Categories>
     </Container>
