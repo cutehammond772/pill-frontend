@@ -13,7 +13,7 @@ const ImageContentLayout = css`
     width: auto;
     max-height: 512px;
 
-    object-fit: contain;
+    object-fit: cover;
   }
 `;
 

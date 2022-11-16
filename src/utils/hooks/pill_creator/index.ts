@@ -5,10 +5,12 @@ import { useCallback } from "react";
 import * as reducer from "../../reducers/pill";
 
 import {
+  AddCategoryProps,
   AddIndexContentProps,
   ContentProps,
   ExchangeIndexContentProps,
   IdProps,
+  RemoveCategoryProps,
   RemoveIndexContentProps,
   TitleProps,
   UpdateIndexContentProps,
@@ -73,7 +75,6 @@ const usePillCreator = () => {
   // Function
   const withIndex = useCallback(
     (idProps: IdProps) => {
-
       const addContent = (props: Omit<AddIndexContentProps, "id">) =>
         dispatch(reducer.addIndexContent({ ...idProps, ...props }));
 
@@ -105,15 +106,28 @@ const usePillCreator = () => {
 
   const addIndex = () => dispatch(reducer.addIndex());
 
-  const withCategory = useCallback(
-    (category: string) => {
-      const add = () => dispatch(reducer.addCategory({ category }));
-      const remove = () => dispatch(reducer.removeCategory({ category }));
+  // Validation 위치에 대해 고민할 필요가 있다.
+  const addCategory = (props: AddCategoryProps) => {
+    if (
+      data.categories.find((category) => category.category === props.category)
+    ) {
+      throw new Error();
+    }
 
-      return { add, remove };
-    },
-    [dispatch]
-  );
+    dispatch(reducer.addCategory(props));
+  };
+
+  const removeCategory = (props: RemoveCategoryProps) => {
+    if (
+      !data.categories.find(
+        (category) => category.categoryId === props.categoryId
+      )
+    ) {
+      throw new Error();
+    }
+
+    dispatch(reducer.removeCategory(props));
+  };
 
   const updateTitle = (title: string) =>
     dispatch(reducer.updateTitle({ title }));
@@ -129,7 +143,8 @@ const usePillCreator = () => {
     getContentOrder,
     withIndex,
     addIndex,
-    withCategory,
+    addCategory,
+    removeCategory,
     updateTitle,
     resetAll,
     resetCategory,

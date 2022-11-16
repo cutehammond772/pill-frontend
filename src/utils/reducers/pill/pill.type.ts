@@ -37,8 +37,8 @@ interface PillData {
 }
 
 interface CategoryData {
-  id: string;
-  name: string;
+  categoryId: string;
+  category: string;
 }
 
 interface PillIndexData {
@@ -76,8 +76,10 @@ const PillContentTypeMapper: { [type in PillContent]: React.ComponentType<Conten
 /* Props */
 interface RequestProps {
   id: string;
-  category: string;
   title: string;
+
+  category: string;
+  categoryId: string;
 
   contentType: PillContent;
   contentId: string;
@@ -90,7 +92,11 @@ interface RequestProps {
 type IdProps = Pick<RequestProps, "id">;
 type ContentProps = Pick<RequestProps, "id" | "contentId">;
 type TitleProps = Pick<RequestProps, "title">;
-type CategoryProps = Pick<RequestProps, "category">;
+type CategoryProps = Pick<RequestProps, "category" | "categoryId">;
+
+type AddCategoryProps = Pick<RequestProps, "category">;
+
+type RemoveCategoryProps = Pick<RequestProps, "categoryId">;
 
 type AddIndexContentProps = Pick<RequestProps, "id" | "contentType"> &
   Partial<Pick<RequestProps, "content" | "subContent">>;
@@ -115,6 +121,9 @@ export type {
   IdProps,
   TitleProps,
   CategoryProps,
+
+  AddCategoryProps,
+  RemoveCategoryProps,
 
   AddIndexContentProps,
   UpdateIndexContentProps,

@@ -16,15 +16,13 @@ import * as React from "react";
 import { useState } from "react";
 import { AddContentButton } from "../add";
 import { ImageContentModal } from "./modal";
-import {
-  IdProps,
-  ContentProps,
-} from "../../../../../../utils/reducers/pill/pill.type";
+import { ContentProps } from "../../../../../../utils/reducers/pill/pill.type";
 import { useRollback } from "../../../../../../utils/hooks/rollback";
 
 // 이후 Modal은 별도로 빼놓아야 한다.
-const AddImageButton = (props: IdProps) => {
+const AddImageButton = (props: ContentProps & { editMode?: boolean }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { editMode, ...access } = props;
 
   return (
     <>
@@ -38,7 +36,8 @@ const AddImageButton = (props: IdProps) => {
       <ImageContentModal
         open={open}
         onClose={() => setOpen(false)}
-        access={{ ...props }}
+        access={access}
+        editMode={editMode}
       />
     </>
   );
@@ -48,7 +47,6 @@ const ImageContent = (props: ContentProps) => {
   const creator = usePillCreator();
 
   const rollback = useRollback();
-
   const rollbackedIndex = rollback.getIndex(props);
   const rollbackedContent = rollback.getContent(props);
 
@@ -173,11 +171,14 @@ const ImageContent = (props: ContentProps) => {
       </Style.Title>
       <img src={data.content} alt={data.subContent} className="image" />
 
-      <ImageContentModal
-        open={open}
-        onClose={() => setOpen(false)}
-        access={props}
-      />
+      {!(!!rollbackedIndex || !!rollbackedContent) && (
+        <ImageContentModal
+          open={open}
+          onClose={() => setOpen(false)}
+          access={props}
+          editMode
+        />
+      )}
     </Style.Container>
   );
 };

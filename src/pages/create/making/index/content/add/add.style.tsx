@@ -21,7 +21,7 @@ const TitleLayout = css`
 const AddContentButton = styled(Button)`
   width: auto;
   height: auto;
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 15px;
 
   display: grid;

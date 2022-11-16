@@ -1,14 +1,16 @@
 import { Container } from "../container";
-import { TextField, Chip } from "@mui/joy";
+import { TextField } from "@mui/joy";
 
 import * as Style from "./naming.style";
+import * as CategoryStyle from "./category/category.style";
+
 import PillPreview from "../../../components/preview";
 import { usePillCreator } from "../../../utils/hooks/pill_creator";
 
-import CheckIcon from "@mui/icons-material/Check";
-
 import * as React from "react";
 import { useState } from "react";
+import { AddCategory, Category } from "./category";
+import { Collapse } from "@mui/material";
 
 const Content = () => {
   const creator = usePillCreator();
@@ -50,20 +52,14 @@ const Content = () => {
       <Style.Categories>
         <span className="title">카테고리</span>
         <div className="container">
-          <Chip color="neutral" variant="solid">
-            클릭하여 추가
-          </Chip>
-          <Chip
-            color="success"
-            variant="solid"
-            endDecorator={<CheckIcon />}
-            onClick={() => {}}
-            sx={{
-              userSelect: "none",
-            }}
-          >
-            음식
-          </Chip>
+          <CategoryStyle.TransitionGroup>
+            {creator.data.categories.map((category) => (
+              <Collapse key={category.categoryId} orientation="horizontal">
+                <Category {...category} />
+              </Collapse>
+            ))}
+            <AddCategory />
+          </CategoryStyle.TransitionGroup>
         </div>
       </Style.Categories>
     </Container>

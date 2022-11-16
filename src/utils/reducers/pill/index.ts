@@ -13,6 +13,8 @@ import {
   RemoveIndexContentProps,
   ExchangeIndexContentProps,
   INITIAL_STATE,
+  AddCategoryProps,
+  RemoveCategoryProps,
 } from "./pill.type";
 
 /* Default */
@@ -31,13 +33,13 @@ const updateTitle = (props: TitleProps) => ({
 /* Category */
 
 // 카테고리 추가
-const addCategory = (props: CategoryProps) => ({
+const addCategory = (props: AddCategoryProps) => ({
   type: CategoryReducingType.ADD,
   ...props,
 });
 
 // 카테고리 삭제
-const removeCategory = (props: CategoryProps) => ({
+const removeCategory = (props: RemoveCategoryProps) => ({
   type: CategoryReducingType.REMOVE,
   ...props,
 });
@@ -126,15 +128,15 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
       return {
         ...state,
         categories: state.categories.concat({
-          id: crypto.randomUUID(),
-          name: action.category,
+          categoryId: crypto.randomUUID(),
+          category: action.category,
         }),
       };
     case CategoryReducingType.REMOVE:
       return {
         ...state,
         categories: state.categories.filter(
-          (category) => category.name !== action.category
+          (category) => category.categoryId !== action.categoryId
         ),
       };
     case CategoryReducingType.RESET:

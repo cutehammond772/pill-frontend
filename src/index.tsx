@@ -179,7 +179,10 @@ const store = configureStore({ reducer: rootReducer });
 root.render(
   <BrowserRouter>
     <CssVarsProvider theme={theme}>
-      <SnackbarProvider maxSnack={3}>
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
         <GlobalStyles />
         <Provider store={store}>
           <App />

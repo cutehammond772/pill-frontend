@@ -14,7 +14,7 @@ const Title = styled.div`
   display: flex;
   flex-flow: column;
   align-items: flex-start;
-  row-gap: 15px;
+  row-gap: 20px;
 
   margin-bottom: 30px;
 

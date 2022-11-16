@@ -13,27 +13,37 @@ import * as Style from "./modal.style";
 import { Message } from "../../../../../../../components/message";
 import { usePillCreator } from "../../../../../../../utils/hooks/pill_creator";
 import { Modal } from "../../../../../../../components/modal";
-import { ContentProps, PillContentType } from "../../../../../../../utils/reducers/pill/pill.type";
-import { ImageContent } from "..";
+import {
+  ContentProps,
+  PillContentType,
+} from "../../../../../../../utils/reducers/pill/pill.type";
 
 interface ImageContentModalProps {
   open: boolean;
   onClose: () => void;
+  editMode?: boolean;
 
-  access: Pick<ContentProps, "id"> & Partial<Pick<ContentProps, "contentId">>;
+  access: ContentProps;
 }
 
 const ImageContentModal = (props: ImageContentModalProps) => {
   const creator = usePillCreator();
-  const editMode = props.access.contentId !== undefined;
+
+  if (!!props.editMode && !props.access.contentId) {
+    throw new Error();
+  }
 
   // Image Content States
-  const [confirm, setConfirm] = useState<boolean>(false);
-  const [link, setLink] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [confirm, setConfirm] = useState<boolean>(!!props.editMode);
+  const [link, setLink] = useState<string>(
+    !!props.editMode ? creator.getContent(props.access).content : ""
+  );
+  const [description, setDescription] = useState<string>(
+    !!props.editMode ? creator.getContent(props.access).subContent : ""
+  );
 
   // Prevention for adding invalid image
-  const [load, setLoad] = useState<boolean>(false);
+  const [load, setLoad] = useState<boolean>(!!props.editMode);
 
   // Message
   const [message, setMessage] = useState<boolean>(false);
@@ -60,11 +70,9 @@ const ImageContentModal = (props: ImageContentModalProps) => {
   };
 
   const handleAddImage = () => {
-    // (= is EditMode)
-    if (props.access.contentId !== undefined) {
-      const contentId = props.access.contentId;
+    if (!!props.editMode) {
       creator.withIndex(props.access).updateContent({
-        contentId,
+        contentId: props.access.contentId,
         content: link,
         subContent: description,
       });
@@ -76,26 +84,36 @@ const ImageContentModal = (props: ImageContentModalProps) => {
       });
     }
 
-    props.onClose();
+    safeClose(true);
   };
 
-  useLayoutEffect(() => {
-    if (props.access.contentId !== undefined) {
-      const contentId = props.access.contentId;
-      const content = creator.getContent({ id: props.access.id, contentId });
+  const safeClose = (done: boolean) => {
+    if (!!props.editMode) {
+      if (!done) {
+        const content = creator.getContent(props.access);
 
-      setConfirm(true);
-      setLoad(true);
+        setConfirm(true);
+        setLoad(true);
 
-      setLink(content.content);
-      setDescription(content.subContent);
+        setLink(content.content);
+        setDescription(content.subContent);
+      }
+    } else {
+      setConfirm(false);
+      setLoad(false);
+
+      setLink("");
+      setDescription("");
     }
-  }, [props.access, creator]);
+
+    setMessage(false);
+    props.onClose();
+  };
 
   return (
     <Modal
       open={props.open}
-      onClose={props.onClose}
+      onClose={() => safeClose(false)}
       layout={Style.Layout}
       closeButton
     >
@@ -120,15 +138,15 @@ const ImageContentModal = (props: ImageContentModalProps) => {
       </Style.ImagePreview>
 
       <Style.Form>
-        {editMode ? (
+        {!!props.editMode ? (
           <div className="title">
             <EditIcon className="icon" />
-            <span className="content">Edit Image</span>
+            <span className="content">이미지 편집</span>
           </div>
         ) : (
           <div className="title">
             <AddIcon className="icon" />
-            <span className="content">Add new Image</span>
+            <span className="content">이미지 추가</span>
           </div>
         )}
 

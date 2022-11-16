@@ -46,14 +46,17 @@ const Categories = styled.div`
 
   display: flex;
   flex-flow: column;
-  
-  row-gap: 15px;
+
+  row-gap: 25px;
 
   & > .container {
     display: flex;
     flex-flow: row wrap;
-    column-gap: 5px;
-    row-gap: 5px;
+    column-gap: 10px;
+    row-gap: 10px;
+
+    align-items: center;
+    justify-content: flex-start;
   }
 
   // Categories Text

@@ -27,8 +27,8 @@ const AddContent = (props: IdProps) => {
         </div>
       </ContentStyle.Title>
 
-      <AddImageButton {...props} />
-      <AddTextButton {...props} />
+      <AddImageButton id={props.id} contentId="" />
+      <AddTextButton id={props.id} />
     </ContentStyle.Container>
   );
 };
