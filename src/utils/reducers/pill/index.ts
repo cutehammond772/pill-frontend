@@ -6,7 +6,6 @@ import {
   IndexReducingType,
   PillData,
   TitleProps,
-  CategoryProps,
   IdProps,
   AddIndexContentProps,
   UpdateIndexContentProps,
