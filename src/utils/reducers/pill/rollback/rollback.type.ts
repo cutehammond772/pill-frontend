@@ -1,11 +1,11 @@
 import { PillContentData, PillIndexData } from "../pill.type";
 
 const RollbackReducingType = {
-  CAPTURE_INDEX: "reducer.rollback.capture.index",
-  CAPTURE_CONTENT: "reducer.rollback.capture.content",
-  REMOVE_INDEX: "reducer.rollback.remove.index",
-  REMOVE_CONTENT: "reducer.rollback.remove.content",
-  RESET: "reducer.rollback.reset",
+  CAPTURE_INDEX: "reducer.rollback.CAPTURE_INDEX",
+  CAPTURE_CONTENT: "reducer.rollback.CAPTURE_CONTENT",
+  REMOVE_INDEX: "reducer.rollback.REMOVE_INDEX",
+  REMOVE_CONTENT: "reducer.rollback.REMOVE_CONTENT",
+  RESET: "reducer.rollback.RESET",
 } as const;
 
 interface RollbackData {

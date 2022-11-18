@@ -10,7 +10,6 @@ import {
 import * as Style from "./about.style";
 
 const AboutPage = () => {
-  // DefaultHeader에서 Help 아이템을 선택한다.
   usePageSelect(DefaultHeaderSignature, DefaultMenu.ABOUT);
 
   return (

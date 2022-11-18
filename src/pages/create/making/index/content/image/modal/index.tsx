@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Button, TextField } from "@mui/joy";
-import { useState, useLayoutEffect } from "react";
+import { useState } from "react";
 
 import AddIcon from "@mui/icons-material/AddPhotoAlternate";
 import CheckIcon from "@mui/icons-material/Check";
@@ -11,39 +11,33 @@ import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import * as Style from "./modal.style";
 
 import { Message } from "../../../../../../../components/message";
-import { usePillCreator } from "../../../../../../../utils/hooks/pill_creator";
 import { Modal } from "../../../../../../../components/modal";
-import {
-  ContentProps,
-  PillContentType,
-} from "../../../../../../../utils/reducers/pill/pill.type";
+
+interface ImageContentEditProps {
+  link: string;
+  description: string;
+}
 
 interface ImageContentModalProps {
   open: boolean;
-  onClose: () => void;
-  editMode?: boolean;
+  edit?: ImageContentEditProps;
 
-  access: ContentProps;
+  onAdd?: (link: string, description: string) => void;
+  onUpdate?: (link: string, description: string) => void;
+
+  onClose: () => void;
 }
 
 const ImageContentModal = (props: ImageContentModalProps) => {
-  const creator = usePillCreator();
-
-  if (!!props.editMode && !props.access.contentId) {
-    throw new Error();
-  }
-
-  // Image Content States
-  const [confirm, setConfirm] = useState<boolean>(!!props.editMode);
-  const [link, setLink] = useState<string>(
-    !!props.editMode ? creator.getContent(props.access).content : ""
-  );
+  // Image Content
+  const [confirm, setConfirm] = useState<boolean>(!!props.edit);
+  const [link, setLink] = useState<string>(props?.edit?.link || "");
   const [description, setDescription] = useState<string>(
-    !!props.editMode ? creator.getContent(props.access).subContent : ""
+    props?.edit?.description || ""
   );
 
   // Prevention for adding invalid image
-  const [load, setLoad] = useState<boolean>(!!props.editMode);
+  const [load, setLoad] = useState<boolean>(!!props.edit);
 
   // Message
   const [message, setMessage] = useState<boolean>(false);
@@ -70,33 +64,27 @@ const ImageContentModal = (props: ImageContentModalProps) => {
   };
 
   const handleAddImage = () => {
-    if (!!props.editMode) {
-      creator.withIndex(props.access).updateContent({
-        contentId: props.access.contentId,
-        content: link,
-        subContent: description,
-      });
+    if (!!props.edit) {
+      if (!!props?.onUpdate) {
+        props.onUpdate(link, description);
+      }
     } else {
-      creator.withIndex(props.access).addContent({
-        contentType: PillContentType.IMAGE,
-        content: link,
-        subContent: description,
-      });
+      if (!!props?.onAdd) {
+        props.onAdd(link, description);
+      }
     }
 
     safeClose(true);
   };
 
   const safeClose = (done: boolean) => {
-    if (!!props.editMode) {
+    if (!!props.edit) {
       if (!done) {
-        const content = creator.getContent(props.access);
-
         setConfirm(true);
         setLoad(true);
 
-        setLink(content.content);
-        setDescription(content.subContent);
+        setLink(props.edit.link);
+        setDescription(props.edit.description);
       }
     } else {
       setConfirm(false);
@@ -138,7 +126,7 @@ const ImageContentModal = (props: ImageContentModalProps) => {
       </Style.ImagePreview>
 
       <Style.Form>
-        {!!props.editMode ? (
+        {!!props.edit ? (
           <div className="title">
             <EditIcon className="icon" />
             <span className="content">이미지 편집</span>
@@ -210,4 +198,4 @@ const ImageContentModal = (props: ImageContentModalProps) => {
   );
 };
 
-export { ImageContentModal };
+export { ImageContentModal, type ImageContentEditProps };

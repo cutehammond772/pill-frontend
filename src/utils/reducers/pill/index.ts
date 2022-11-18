@@ -5,8 +5,6 @@ import {
   IndexContentReducingType,
   IndexReducingType,
   PillData,
-  TitleProps,
-  IdProps,
   AddIndexContentProps,
   UpdateIndexContentProps,
   RemoveIndexContentProps,
@@ -14,6 +12,9 @@ import {
   INITIAL_STATE,
   AddCategoryProps,
   RemoveCategoryProps,
+  PillContentData,
+  PillIndexData,
+  CategoryData,
 } from "./pill.type";
 
 /* Default */
@@ -24,7 +25,7 @@ const resetPill = () => ({
 });
 
 // Pill 제목 변경
-const updateTitle = (props: TitleProps) => ({
+const updateTitle = (props: { title: string }) => ({
   type: DefaultReducingType.UPDATE_TITLE,
   ...props,
 });
@@ -44,7 +45,7 @@ const removeCategory = (props: RemoveCategoryProps) => ({
 });
 
 // 카테고리 초기화
-const resetCategory = () => ({
+const resetCategories = () => ({
   type: CategoryReducingType.RESET,
 });
 
@@ -56,13 +57,13 @@ const addIndex = () => ({
 });
 
 // 인덱스 제목 변경
-const updateIndexTitle = (props: IdProps & TitleProps) => ({
+const updateIndexTitle = (props: { id: string; title: string }) => ({
   type: IndexReducingType.UPDATE_TITLE,
   ...props,
 });
 
 // 인덱스 삭제
-const removeIndex = (props: IdProps) => ({
+const removeIndex = (props: { id: string }) => ({
   type: IndexReducingType.REMOVE,
   ...props,
 });
@@ -99,7 +100,7 @@ type PillReducingAction =
   | ReturnType<typeof updateTitle>
   | ReturnType<typeof addCategory>
   | ReturnType<typeof removeCategory>
-  | ReturnType<typeof resetCategory>
+  | ReturnType<typeof resetCategories>
   | ReturnType<typeof addIndex>
   | ReturnType<typeof updateIndexTitle>
   | ReturnType<typeof removeIndex>
@@ -108,45 +109,60 @@ type PillReducingAction =
   | ReturnType<typeof removeIndexContent>
   | ReturnType<typeof exchangeIndexContent>;
 
+// 깊은 복사를 위한 함수
+const copyContent = (data: PillContentData) => ({ ...data });
+const copyIndex = (data: PillIndexData) => ({
+  ...data,
+  contents: data.contents.map((content) => copyContent(content)),
+});
+const copyCategory = (data: CategoryData) => ({ ...data });
+const copy = (data: PillData) => ({
+  ...data,
+  categories: data.categories.map((category) => copyCategory(category)),
+  indexes: data.indexes.map((index) => copyIndex(index)),
+});
+
 /* Reducer */
 const pillReducer: Reducer<PillData, PillReducingAction> = (
   state = INITIAL_STATE,
   action
 ) => {
+  const copied = copy(state);
+
   switch (action.type) {
     case DefaultReducingType.RESET:
       return INITIAL_STATE;
     case DefaultReducingType.UPDATE_TITLE:
       // 제목 문자열 Validation 처리가 필요하다.
       return {
-        ...state,
+        ...copied,
         title: action.title,
       };
     case CategoryReducingType.ADD:
       // 카테고리 문자열 Validation 처리가 필요하다.
       return {
-        ...state,
-        categories: state.categories.concat({
+        ...copied,
+        categories: copied.categories.concat({
           categoryId: crypto.randomUUID(),
           category: action.category,
         }),
       };
     case CategoryReducingType.REMOVE:
       return {
-        ...state,
-        categories: state.categories.filter(
+        ...copied,
+        categories: copied.categories.filter(
           (category) => category.categoryId !== action.categoryId
         ),
       };
     case CategoryReducingType.RESET:
       return {
-        ...state,
+        ...copied,
         categories: [],
       };
     case IndexReducingType.ADD:
       return {
-        ...state,
-        indexes: state.indexes.concat({
+        ...copied,
+        indexes: copied.indexes.concat({
           id: crypto.randomUUID(),
           title: "",
           contents: [],
@@ -154,21 +170,21 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
       };
     case IndexReducingType.REMOVE:
       return {
-        ...state,
-        indexes: state.indexes.filter((index) => index.id !== action.id),
+        ...copied,
+        indexes: copied.indexes.filter((index) => index.id !== action.id),
       };
     case IndexReducingType.UPDATE_TITLE:
       // 제목 문자열 Validation 처리가 필요하다.
       return {
-        ...state,
-        indexes: state.indexes.map((index) =>
+        ...copied,
+        indexes: copied.indexes.map((index) =>
           index.id === action.id ? { ...index, title: action.title } : index
         ),
       };
     case IndexContentReducingType.ADD:
       return {
-        ...state,
-        indexes: state.indexes.map((index) =>
+        ...copied,
+        indexes: copied.indexes.map((index) =>
           index.id === action.id
             ? {
                 ...index,
@@ -184,8 +200,8 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
       };
     case IndexContentReducingType.REMOVE:
       return {
-        ...state,
-        indexes: state.indexes.map((index) =>
+        ...copied,
+        indexes: copied.indexes.map((index) =>
           index.id === action.id
             ? {
                 ...index,
@@ -198,8 +214,8 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
       };
     case IndexContentReducingType.UPDATE:
       return {
-        ...state,
-        indexes: state.indexes.map((index) =>
+        ...copied,
+        indexes: copied.indexes.map((index) =>
           index.id === action.id
             ? {
                 ...index,
@@ -217,7 +233,9 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
         ),
       };
     case IndexContentReducingType.EXCHANGE:
-      const targetIndex = state.indexes.find((index) => index.id === action.id);
+      const targetIndex = copied.indexes.find(
+        (index) => index.id === action.id
+      );
 
       const from = targetIndex?.contents.find(
         (content) => content.contentId === action.contentId
@@ -232,8 +250,8 @@ const pillReducer: Reducer<PillData, PillReducingAction> = (
       }
 
       return {
-        ...state,
-        indexes: state.indexes.map((index) =>
+        ...copied,
+        indexes: copied.indexes.map((index) =>
           index.id === action.id
             ? {
                 ...targetIndex,
@@ -258,7 +276,7 @@ export {
   updateTitle,
   addCategory,
   removeCategory,
-  resetCategory,
+  resetCategories,
   addIndex,
   updateIndexTitle,
   removeIndex,
@@ -266,5 +284,8 @@ export {
   updateIndexContent,
   removeIndexContent,
   exchangeIndexContent,
+  copyIndex,
+  copyCategory,
+  copyContent,
   pillReducer,
 };

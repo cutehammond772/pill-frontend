@@ -1,8 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import {
-  ContentProps,
-  IdProps,
   PillContentData,
   PillIndexData,
 } from "../../reducers/pill/pill.type";
@@ -25,16 +23,16 @@ const useRollback = () => {
   const captureContent = (content: PillContentData) =>
     dispatch(captureRemovingContentData({ content }));
 
-  const removeIndex = (props: IdProps) =>
+  const removeIndex = (props: { id: string }) =>
     dispatch(removeRollbackIndexData(props));
 
-  const removeContent = (props: Pick<ContentProps, "contentId">) =>
+  const removeContent = (props: { contentId: string }) =>
     dispatch(removeRollbackContentData(props));
 
-  const getIndex = (props: IdProps) =>
+  const getIndex = (props: { id: string }) =>
     indexes.find((index) => index.id === props.id);
 
-  const getContent = (props: Pick<ContentProps, "contentId">) =>
+  const getContent = (props: { contentId: string }) =>
     contents.find((content) => content.contentId === props.contentId);
 
   return {

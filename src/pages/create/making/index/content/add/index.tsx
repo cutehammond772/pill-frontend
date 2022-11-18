@@ -7,7 +7,6 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { AddImageButton } from "../image";
 import { AddTextButton } from "../text";
-import { IdProps } from "../../../../../../utils/reducers/pill/pill.type";
 
 interface AddContentButtonProps {
   icon: React.ComponentType<{ className: string }>;
@@ -17,7 +16,11 @@ interface AddContentButtonProps {
   onClick: () => void;
 }
 
-const AddContent = (props: IdProps) => {
+interface AddContentContainerProps {
+  id: string;
+}
+
+const AddContentContainer = React.memo((props: AddContentContainerProps) => {
   return (
     <ContentStyle.Container layout={Style.ContainerLayout}>
       <ContentStyle.Title layout={Style.TitleLayout}>
@@ -27,11 +30,11 @@ const AddContent = (props: IdProps) => {
         </div>
       </ContentStyle.Title>
 
-      <AddImageButton id={props.id} contentId="" />
+      <AddImageButton id={props.id} />
       <AddTextButton id={props.id} />
     </ContentStyle.Container>
   );
-};
+});
 
 const AddContentButton = React.memo((props: AddContentButtonProps) => (
   <Style.AddContentButton
@@ -45,4 +48,4 @@ const AddContentButton = React.memo((props: AddContentButtonProps) => (
   </Style.AddContentButton>
 ));
 
-export { AddContent, AddContentButton };
+export { AddContentContainer, AddContentButton };

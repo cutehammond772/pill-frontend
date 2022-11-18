@@ -7,7 +7,7 @@ import { Button } from "@mui/joy";
 const ContainerLayout = css`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
 
   padding: 10px;

@@ -1,6 +1,6 @@
 const OnceReducingType = {
-  ADD: "reducer.once.add",
-  RESET: "reducer.once.reset",
+  ADD: "reducer.once.ADD",
+  RESET: "reducer.once.RESET",
 } as const;
 
 const INITIAL_STATE: OnceAttempts = {

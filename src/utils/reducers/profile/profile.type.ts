@@ -1,8 +1,8 @@
 import { ProfileData } from "../../../components/profile/profile.type";
 
 const ProfileReducingType = {
-  UPDATE: "reducer.profile.update",
-  REMOVE: "reducer.profile.remove",
+  UPDATE: "reducer.profile.UPDATE",
+  REMOVE: "reducer.profile.REMOVE",
 } as const;
 
 const INITIAL_STATE: ProfileData = {};

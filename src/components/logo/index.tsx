@@ -1,16 +1,14 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LogoStyle } from "./logo.style";
 
 interface LogoProps {
-    url?: string;
+  onClick?: () => void;
 }
 
 const Logo = (props: LogoProps) => {
-    return (
-        <Link to={props.url || "/"}>
-            <LogoStyle />
-        </Link>
-    );
-}
+  const navigate = useNavigate();
+  
+  return <LogoStyle onClick={props.onClick || (() => navigate("/"))} />;
+};
 
 export { Logo };

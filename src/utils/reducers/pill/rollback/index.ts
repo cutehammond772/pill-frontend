@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { ContentProps, IdProps } from "../pill.type";
+import { copyContent, copyIndex } from "..";
 import {
   INITIAL_STATE,
   RollbackData,
@@ -16,7 +16,7 @@ const captureRemovingIndexData = (props: Pick<RollbackProps, "index">) => ({
   ...props,
 });
 
-const removeRollbackIndexData = (props: IdProps) => ({
+const removeRollbackIndexData = (props: {id: string}) => ({
   type: RollbackReducingType.REMOVE_INDEX,
   ...props,
 });
@@ -26,7 +26,7 @@ const captureRemovingContentData = (props: Pick<RollbackProps, "content">) => ({
   ...props,
 });
 
-const removeRollbackContentData = (props: Pick<ContentProps, "contentId">) => ({
+const removeRollbackContentData = (props: {contentId: string}) => ({
   type: RollbackReducingType.REMOVE_CONTENT,
   ...props,
 });
@@ -38,35 +38,40 @@ type RollbackReducingAction =
   | ReturnType<typeof captureRemovingContentData>
   | ReturnType<typeof removeRollbackContentData>;
 
+const copy = (data: RollbackData) => ({
+  ...data,
+  indexes: data.indexes.map(index => copyIndex(index)),
+  contents: data.contents.map(content => copyContent(content)),
+});
+
 const rollbackReducer: Reducer<RollbackData, RollbackReducingAction> = (
   state = INITIAL_STATE,
   action
 ) => {
+  const copied = copy(state);
+
   switch (action.type) {
     case RollbackReducingType.RESET:
       return INITIAL_STATE;
     case RollbackReducingType.CAPTURE_INDEX:
       return {
-        ...state,
-        indexes: state.indexes.concat({
-          ...action.index,
-          contents: JSON.parse(JSON.stringify(action.index.contents)),
-        }),
+        ...copied,
+        indexes: copied.indexes.concat(copyIndex(action.index)),
       };
     case RollbackReducingType.REMOVE_INDEX:
       return {
-        ...state,
-        indexes: state.indexes.filter((index) => index.id !== action.id),
+        ...copied,
+        indexes: copied.indexes.filter((index) => index.id !== action.id),
       };
     case RollbackReducingType.CAPTURE_CONTENT:
       return {
-        ...state,
-        contents: state.contents.concat({ ...action.content }),
+        ...copied,
+        contents: copied.contents.concat(copyContent(action.content)),
       };
     case RollbackReducingType.REMOVE_CONTENT:
       return {
-        ...state,
-        contents: state.contents.filter(
+        ...copied,
+        contents: copied.contents.filter(
           (content) => content.contentId !== action.contentId
         ),
       };

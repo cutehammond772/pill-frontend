@@ -50,4 +50,4 @@ const GlobalStyles = () => {
   return <Global styles={style} />;
 };
 
-export { GlobalStyles };
+export default GlobalStyles;

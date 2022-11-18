@@ -1,30 +1,28 @@
-import { begin } from "../..";
-import { PillData } from "../../../reducers/pill/pill.type";
+import { begin } from "../../validator.factory";
 import { DomainValidator } from "../../validator.type";
-
-import * as Index from "../index";
 
 const SIGNATURE = "validator.create.name";
 
 const Messages = {
-  TITLE_EMPTY: "title is empty",
-  CATEGORY_EMPTY: "category is empty",
+  TITLE_EMPTY: "Pill 제목을 입력해 주세요.",
+  CATEGORY_EMPTY: "Pill 카테고리를 하나 이상 추가해야 합니다.",
 } as const;
 
-const TitleValidator = (data: PillData) =>
-  begin<PillData, typeof Messages>(data)
-    .validate((data) => !data.title.trim(), Messages.TITLE_EMPTY)
+interface Data {
+  title: string;
+  categoriesSize: number;
+}
+
+const DefaultValidator = (data: Data) =>
+  begin<Data, typeof Messages>(data)
+    .validate((data) => !!data.title.trim(), Messages.TITLE_EMPTY)
+    .validate((data) => data.categoriesSize !== 0, Messages.CATEGORY_EMPTY)
     .done();
 
-const CategoryValidator = (data: PillData) =>
-  begin<PillData, typeof Messages>(data)
-    .validate((data) => data.categories.length === 0, Messages.CATEGORY_EMPTY)
-    .done();
-
-const Validator: DomainValidator<PillData, typeof Messages> = {
+const Validator: DomainValidator<Data, typeof Messages> = {
   signature: SIGNATURE,
-  validators: [TitleValidator, CategoryValidator],
-  dependencies: [Index.SIGNATURE],
+  validators: [DefaultValidator],
+  dependencies: [],
 };
 
-export { SIGNATURE, Validator, Messages };
+export { SIGNATURE, type Data, Validator, Messages };

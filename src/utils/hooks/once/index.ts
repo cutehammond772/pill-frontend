@@ -8,7 +8,7 @@ const useOnce = (key: string) => {
 
   // 로드 시 단 한 번만 실행되도록 한다.
   const attemptOnce = (callback: () => void) => {
-    if (key in attempts) {
+    if (!!attempts.find((attempt) => attempt === key)) {
       return false;
     }
 

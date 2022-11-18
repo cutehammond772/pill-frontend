@@ -1,7 +1,7 @@
 const AuthReducingType = {
-  AUTHENTICATE: "reducer.profile.authenticate",
-  LOGOUT_OR_FAIL: "reducer.profile.logout",
-  REFRESH: "reducer.profile.refresh",
+  AUTHENTICATE: "reducer.profile.AUTHENTICATE",
+  LOGOUT_OR_FAIL: "reducer.profile.LOGOUT_OR_FAIL",
+  REFRESH: "reducer.profile.REFRESH",
 } as const;
 
 const INITIAL_STATE: AuthenticationStatus = {

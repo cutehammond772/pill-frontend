@@ -1,17 +1,17 @@
 import * as React from "react";
 
 const HeaderReducingType = {
-  INIT: "reducer.header.init",
-  CHANGE_TITLE: "reducer.header.change.title",
+  INIT: "reducer.header.INIT",
+  CHANGE_TITLE: "reducer.header.CHANGE_TITLE",
 
-  ADD_SELECTED: "reducer.header.add.selected",
-  ADD_DISABLED: "reducer.header.add.disabled",
+  ADD_SELECTED: "reducer.header.ADD_SELECTED",
+  ADD_DISABLED: "reducer.header.ADD_DISABLED",
 
-  RESET_SELECTED: "reducer.header.reset.selected",
-  RESET_DISABLED: "reducer.header.reset.disabled",
+  RESET_SELECTED: "reducer.header.RESET_SELECTED",
+  RESET_DISABLED: "reducer.header.RESET_DISABLED",
 
-  LOCK_CLICK: "reducer.header.lock.click",
-  UNLOCK_CLICK: "reducer.header.unlock.click",
+  LOCK_CLICK: "reducer.header.LOCK_CLICK",
+  UNLOCK_CLICK: "reducer.header.UNLOCK_CLICK",
 } as const;
 
 const INITIAL_STATE: HeaderNode = {
@@ -22,6 +22,7 @@ const INITIAL_STATE: HeaderNode = {
 
 type MenuItemRef = HTMLButtonElement | null;
 type MenuEnum = { [s: string]: string };
+type HeaderContainer = { [header: string]: Array<string> };
 
 // T는 enum element, E는 enum이다.
 interface MenuProps<E extends MenuEnum> {
@@ -37,9 +38,9 @@ interface HeaderNode {
   title?: string;
   preventClick: boolean;
 
-  selected: { [name: string]: Array<string> };
-  disabled: { [name: string]: Array<string> };
+  selected: HeaderContainer;
+  disabled: HeaderContainer;
 }
 
-export type { HeaderNode, MenuItemRef, MenuProps, MenuEnum };
+export type { HeaderNode, MenuItemRef, MenuProps, MenuEnum, HeaderContainer };
 export { INITIAL_STATE, HeaderReducingType };

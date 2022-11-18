@@ -3,7 +3,7 @@ import {
   MenuItemRef,
 } from "../../../utils/reducers/header/header.type";
 
-import { useRef, useCallback, useLayoutEffect } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
@@ -102,7 +102,7 @@ const useHeader = <E extends MenuEnum>(
   );
 
   // 만약 첫 로드라면, redux container 내에 이 Header의 정보는 아무것도 없으므로 초기화를 수행한다.
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (selectedItems === undefined) {
       if (defaultSelectedItem === undefined) {
         resetSelected();

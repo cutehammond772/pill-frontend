@@ -1,41 +1,36 @@
 import { Validated } from "../../validators/validator.type";
 
 const ValidationReducingType = {
-  REGISTER: "reducer.validation.register",
-  UPDATE: "recuder.validation.update",
-  RESET: "reducer.validation.reset",
+  REGISTER: "reducer.validation.REGISTER",
+  UPDATE: "reducer.validation.UPDATE",
+  RESET: "reducer.validation.RESET",
+
+  ADD_REFRESH: "reducer.validation.ADD_REFRESH",
+  REMOVE_REFRESH: "reducer.validation.REMOVE_REFRESH",
 } as const;
 
+type ValidationIds = { [id: string]: StoredValidationResult };
+type ValidationContainer = { [signature: string]: ValidationIds };
+
 interface ValidationData {
-  data: { [signature: string]: { [id: string]: StoredValidationResult } };
+  data: ValidationContainer;
+  refresh: Array<string>,
 }
 
 const INITIAL_STATE: ValidationData = {
   data: {},
+  refresh: [],
 };
-
-interface ValidationProps {
-  signature: string;
-  id: string;
-  result: StoredValidationResult;
-}
-
-type SignatureProps = Pick<ValidationProps, "signature">;
-type UpdateValidationProps = Pick<ValidationProps, "result" | "signature"> &
-  Partial<Pick<ValidationProps, "id">>;
-type AddDependencyIdProps = Pick<ValidationProps, "signature" | "id">;
 
 interface StoredValidationResult {
   result: Validated;
-  message?: string;
+  messages: Array<string>;
 }
 
 export { INITIAL_STATE, ValidationReducingType };
 export type {
+  ValidationIds,
+  ValidationContainer,
   ValidationData,
   StoredValidationResult,
-  ValidationProps,
-  SignatureProps,
-  UpdateValidationProps,
-  AddDependencyIdProps,
 };

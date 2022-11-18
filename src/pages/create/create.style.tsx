@@ -5,12 +5,12 @@ import styled from "@emotion/styled";
 const Container = styled.div`
   min-height: 1536px;
 
-  padding-top: 128px;
-  padding-bottom: 256px;
+  padding-top: 256px;
+  padding-bottom: 1024px;
 
   display: flex;
   flex-flow: column;
-  row-gap: 256px;
+  row-gap: 512px;
 `;
 
 const Background = css`

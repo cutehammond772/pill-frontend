@@ -1,7 +1,7 @@
 const PageReducingType = {
-    UPDATE_PAGE_HEIGHT: "reducer.page.height.update",
-    UPDATE_HEADER_HEIGHT: "reducer.header.height.update",
-    UPDATE_FOOTER_HEIGHT: "reducer.footer.height.update",
+    UPDATE_PAGE_HEIGHT: "reducer.page.UPDATE_PAGE_HEIGHT",
+    UPDATE_HEADER_HEIGHT: "reducer.header.UPDATE_HEADER_HEIGHT",
+    UPDATE_FOOTER_HEIGHT: "reducer.footer.UPDATE_FOOTER_HEIGHT",
 } as const;
 
 const INITIAL_STATE: PageAttributes = {

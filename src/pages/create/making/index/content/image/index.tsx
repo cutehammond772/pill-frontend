@@ -10,65 +10,93 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import EditIcon from "@mui/icons-material/Edit";
 
 import { ImageContentLayout, ImageContentTitleLayout } from "./image.style";
-import { usePillCreator } from "../../../../../../utils/hooks/pill_creator";
 
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AddContentButton } from "../add";
 import { ImageContentModal } from "./modal";
-import { ContentProps } from "../../../../../../utils/reducers/pill/pill.type";
-import { useRollback } from "../../../../../../utils/hooks/rollback";
+import { useValidation } from "../../../../../../utils/hooks/validation";
 
-// 이후 Modal은 별도로 빼놓아야 한다.
-const AddImageButton = (props: ContentProps & { editMode?: boolean }) => {
+import * as Content from "../../../../../../utils/validators/create/content";
+import { PillContentType } from "../../../../../../utils/reducers/pill/pill.type";
+import {
+  usePillContentEditor,
+  usePillIndexEditor,
+} from "../../../../../../utils/hooks/pill_creator";
+import { IndexContentProps } from "../content.type";
+
+interface AddImageButtonProps {
+  id: string;
+}
+
+const MemoizedAddImageButton = React.memo((props: { onClick: () => void }) => (
+  <AddContentButton
+    icon={ImageIcon}
+    title="이미지"
+    description="인덱스 마지막에 이미지를 추가합니다."
+    onClick={props.onClick}
+  />
+));
+
+const AddImageButton = (props: AddImageButtonProps) => {
+  const editor = usePillIndexEditor({ id: props.id });
+
   const [open, setOpen] = useState<boolean>(false);
-  const { editMode, ...access } = props;
+  const handleOpen = () => setOpen(true);
+
+  const handleAddImage = useCallback(
+    (link: string, description: string) => {
+      editor.addContent({
+        contentType: PillContentType.IMAGE,
+        content: link,
+        subContent: description,
+      });
+    },
+    [editor]
+  );
 
   return (
     <>
-      <AddContentButton
-        icon={ImageIcon}
-        title="이미지"
-        description="인덱스 마지막에 이미지를 추가합니다."
-        onClick={() => setOpen(true)}
-      />
-
+      <MemoizedAddImageButton onClick={handleOpen} />
       <ImageContentModal
         open={open}
         onClose={() => setOpen(false)}
-        access={access}
-        editMode={editMode}
+        onAdd={handleAddImage}
       />
     </>
   );
 };
 
-const ImageContent = (props: ContentProps) => {
-  const creator = usePillCreator();
+const ImageContent = (props: IndexContentProps) => {
+  const editor = usePillContentEditor({
+    id: props.id,
+    contentId: props.contentId,
+  });
+  const validator = useValidation(Content.Validator({ id: props.contentId }));
 
-  const rollback = useRollback();
-  const rollbackedIndex = rollback.getIndex(props);
-  const rollbackedContent = rollback.getContent(props);
-
-  const index = rollbackedIndex || creator.getIndex(props);
-  const data =
-    rollbackedContent ||
-    rollbackedIndex?.contents.find(
-      (content) => content.contentId === props.contentId
-    ) ||
-    creator.getContent(props);
-  const order =
-    !!rollbackedIndex || !!rollbackedContent
-      ? 0
-      : creator.getContentOrder(props);
-
-  // Edit Image
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleRemove = () => {
-    rollback.captureContent(data);
-    creator.withIndex(props).removeContent(props);
+  const handleUpdateImage = (link: string, description: string) => {
+    editor.update({ content: link, subContent: description });
+    validator.needValidate();
   };
+
+  const handleExchange = (relation: number) => {
+    props.onExchange(relation);
+    validator.needValidate();
+  };
+
+  useEffect(() => {
+    validator.validate({
+      type: PillContentType.IMAGE,
+      content: editor.content.content,
+      subContent: editor.content.subContent,
+    });
+  }, [validator, editor.content]);
+
+  useEffect(() => {
+    
+  }, []);
 
   return (
     <Style.Container layout={ImageContentLayout}>
@@ -86,56 +114,30 @@ const ImageContent = (props: ContentProps) => {
             userSelect: "none",
           }}
         >
-          {data.subContent}
+          {editor.content.content}
         </Chip>
 
         <div className="buttons">
-          {order !== 0 && (
+          {props.order !== 0 && (
             <Tooltip title="Up">
               <IconButton
                 variant="outlined"
                 color="primary"
-                onClick={() => {
-                  const prevContent = index.contents.at(order - 1);
-
-                  if (!prevContent) {
-                    throw new Error();
-                  }
-
-                  creator.withIndex(props).exchangeContent({
-                    contentId: props.contentId,
-                    exchangeId: prevContent.contentId,
-                  });
-                }}
-                {...((!!rollbackedIndex || !!rollbackedContent) && {
-                  disabled: true,
-                })}
+                onClick={() => handleExchange(-1)}
+                disabled={props.removed}
               >
                 <KeyboardArrowUpIcon />
               </IconButton>
             </Tooltip>
           )}
 
-          {order !== index.contents.length - 1 && (
+          {!props.isEnd && (
             <Tooltip title="Down">
               <IconButton
                 variant="outlined"
                 color="primary"
-                onClick={() => {
-                  const nextContent = index.contents.at(order + 1);
-
-                  if (!nextContent) {
-                    throw new Error();
-                  }
-
-                  creator.withIndex(props).exchangeContent({
-                    contentId: props.contentId,
-                    exchangeId: nextContent.contentId,
-                  });
-                }}
-                {...((!!rollbackedIndex || !!rollbackedContent) && {
-                  disabled: true,
-                })}
+                onClick={() => handleExchange(+1)}
+                disabled={props.removed}
               >
                 <KeyboardArrowDownIcon />
               </IconButton>
@@ -147,9 +149,7 @@ const ImageContent = (props: ContentProps) => {
               variant="solid"
               color="info"
               onClick={() => setOpen(true)}
-              {...((!!rollbackedIndex || !!rollbackedContent) && {
-                disabled: true,
-              })}
+              disabled={props.removed}
             >
               <EditIcon />
             </IconButton>
@@ -159,24 +159,29 @@ const ImageContent = (props: ContentProps) => {
             <IconButton
               variant="soft"
               color="danger"
-              onClick={handleRemove}
-              {...((!!rollbackedIndex || !!rollbackedContent) && {
-                disabled: true,
-              })}
+              onClick={editor.remove}
+              disabled={props.removed}
             >
               <DeleteIcon />
             </IconButton>
           </Tooltip>
         </div>
       </Style.Title>
-      <img src={data.content} alt={data.subContent} className="image" />
+      <img
+        src={editor.content.content}
+        alt={editor.content.subContent}
+        className="image"
+      />
 
-      {!(!!rollbackedIndex || !!rollbackedContent) && (
+      {!props.removed && (
         <ImageContentModal
           open={open}
+          edit={{
+            link: editor.content.content,
+            description: editor.content.subContent,
+          }}
+          onUpdate={handleUpdateImage}
           onClose={() => setOpen(false)}
-          access={props}
-          editMode
         />
       )}
     </Style.Container>

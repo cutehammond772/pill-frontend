@@ -1,32 +1,33 @@
+import { IndexContentProps } from "../../../pages/create/making/index/content/content.type";
 import { ImageContent } from "../../../pages/create/making/index/content/image";
 import { TextContent } from "../../../pages/create/making/index/content/text";
 
 /* Pill */
 const DefaultReducingType = {
-  RESET: "reducer.pill.reset",
-  UPDATE_TITLE: "reducer.pill.update.title",
+  RESET: "reducer.pill.RESET",
+  UPDATE_TITLE: "reducer.pill.UPDATE_TITLE",
 } as const;
 
 /* Category */
 const CategoryReducingType = {
-  ADD: "reducer.pill.category.add",
-  RESET: "reducer.pill.category.reset",
-  REMOVE: "reducer.pill.category.remove",
+  ADD: "reducer.pill.category.ADD",
+  RESET: "reducer.pill.category.RESET",
+  REMOVE: "reducer.pill.category.REMOVE",
 } as const;
 
 /* Index */
 const IndexReducingType = {
-  ADD: "reducer.pill.index.add",
-  UPDATE_TITLE: "reducer.pill.index.update.title",
-  REMOVE: "reducer.pill.index.remove",
+  ADD: "reducer.pill.index.ADD",
+  UPDATE_TITLE: "reducer.pill.index.UPDATE_TITLE",
+  REMOVE: "reducer.pill.index.REMOVE",
 } as const;
 
 /* Content */
 const IndexContentReducingType = {
-  ADD: "reducer.pill.index.content.add",
-  UPDATE: "reducer.pill.index.content.update",
-  REMOVE: "reducer.pill.index.content.remove",
-  EXCHANGE: "reducer.pill.index.content.exchange",
+  ADD: "reducer.pill.index.content.ADD",
+  UPDATE: "reducer.pill.index.content.UPDATE",
+  REMOVE: "reducer.pill.index.content.REMOVE",
+  EXCHANGE: "reducer.pill.index.content.EXCHANGE",
 } as const;
 
 /* Data */
@@ -68,59 +69,59 @@ const PillContentType = {
 
 type PillContent = typeof PillContentType[keyof typeof PillContentType];
 
-const PillContentTypeMapper: { [type in PillContent]: React.ComponentType<ContentProps> } = {
+const PillContentTypeMapper: { [type in PillContent]: React.ComponentType<IndexContentProps> } = {
   [PillContentType.IMAGE]: ImageContent,
   [PillContentType.TEXT]: TextContent,
 } as const;
 
 /* Props */
-interface RequestProps {
+
+interface PillContentProps {
   id: string;
-  title: string;
-
-  category: string;
-  categoryId: string;
-
-  contentType: PillContent;
   contentId: string;
-  exchangeId: string;
-
-  content: string;
-  subContent: string;
 }
 
-type IdProps = Pick<RequestProps, "id">;
-type ContentProps = Pick<RequestProps, "id" | "contentId">;
-type TitleProps = Pick<RequestProps, "title">;
-type CategoryProps = Pick<RequestProps, "category" | "categoryId">;
+interface AddCategoryProps {
+  category: string;
+}
 
-type AddCategoryProps = Pick<RequestProps, "category">;
+interface RemoveCategoryProps {
+  categoryId: string;
+}
 
-type RemoveCategoryProps = Pick<RequestProps, "categoryId">;
+interface AddIndexContentProps {
+  id: string;
+  contentType: PillContent;
+  content: string;
+  subContent?: string;
+}
 
-type AddIndexContentProps = Pick<RequestProps, "id" | "contentType"> &
-  Partial<Pick<RequestProps, "content" | "subContent">>;
+interface UpdateIndexContentProps {
+  id: string;
+  contentId: string;
+  content: string;
+  subContent?: string;
+}
 
-type UpdateIndexContentProps = Pick<RequestProps, "id" | "contentId"> &
-  Partial<Pick<RequestProps, "content" | "subContent">>;
+interface RemoveIndexContentProps {
+  id: string;
+  contentId: string;
+}
 
-type RemoveIndexContentProps = Pick<RequestProps, "id" | "contentId">;
-
-type ExchangeIndexContentProps = Pick<
-  RequestProps,
-  "id" | "contentId" | "exchangeId"
->;
+interface ExchangeIndexContentProps {
+  id: string;
+  contentId: string;
+  exchangeId: string;
+}
 
 export type {
   PillData,
   CategoryData,
   PillIndexData,
+  PillContent,
   PillContentData,
 
-  RequestProps,
-  IdProps,
-  TitleProps,
-  CategoryProps,
+  PillContentProps,
 
   AddCategoryProps,
   RemoveCategoryProps,
@@ -129,7 +130,6 @@ export type {
   UpdateIndexContentProps,
   RemoveIndexContentProps,
   ExchangeIndexContentProps,
-  ContentProps,
 };
 
 export {
@@ -137,7 +137,6 @@ export {
   CategoryReducingType,
   IndexReducingType,
   IndexContentReducingType,
-
   PillContentType,
   PillContentTypeMapper,
 

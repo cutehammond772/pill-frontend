@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { rootReducer } from "./utils/reducers";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import { GlobalStyles } from "./GlobalStyles";
+import GlobalStyles from "./GlobalStyles";
 
 import { deepmerge } from "@mui/utils";
 import type {} from "@mui/material/themeCssVarsAugmentation";
@@ -174,7 +174,10 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-const store = configureStore({ reducer: rootReducer });
+const store = configureStore({
+  reducer: rootReducer,
+  devTools: process.env.NODE_ENV !== "production",
+});
 
 root.render(
   <BrowserRouter>

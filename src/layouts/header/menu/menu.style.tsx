@@ -23,6 +23,8 @@ const MenuItem = styled.button<{ selected?: boolean }>`
   background-color: var(--light);
   color: var(--dark);
 
+  cursor: ${(props) => (!!props.selected ? "default" : "pointer")};
+
   ${(props) =>
     !!props?.selected && {
       backgroundColor: "lightblue !important",

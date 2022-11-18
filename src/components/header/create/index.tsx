@@ -1,8 +1,11 @@
 import { Header } from "../../../layouts/header";
 
 import * as React from "react";
+import { useEffect, useState } from "react";
+
 import { useHeader } from "../../../utils/hooks/header";
 import { useNavigate } from "react-router-dom";
+import { ConfirmModal } from "./modal";
 
 const CreateHeaderSignature = "CreateHeader";
 
@@ -20,9 +23,11 @@ const CreateHeader = () => {
     CreateMenu.EDITOR
   );
 
+  const [exitConfirm, setExitConfirm] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const handleClick = (type: CreateMenuItem) => {
-    switch(type) {
+    switch (type) {
       case CreateMenu.EDITOR:
         navigate("/create");
         break;
@@ -34,17 +39,35 @@ const CreateHeader = () => {
     }
   };
 
+  const preventClose = (event: BeforeUnloadEvent) => {
+    event.preventDefault();
+    event.returnValue = "";
+  };
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", preventClose);
+    return () => window.removeEventListener("beforeunload", preventClose);
+  }, []);
+
   return (
-    <Header
-      title={header.title}
-      menu={{
-        enum: CreateMenu,
-        refs: header.refs,
-        selected: header.selectedItems,
-        disabled: header.disabledItems,
-        onClick: handleClick,
-      }}
-    />
+    <>
+      <Header
+        title={header.title}
+        menu={{
+          enum: CreateMenu,
+          refs: header.refs,
+          selected: header.selectedItems,
+          disabled: header.disabledItems,
+          onClick: handleClick,
+        }}
+        onHomeClick={() => setExitConfirm(true)}
+      />
+      <ConfirmModal
+        open={exitConfirm}
+        onClose={() => setExitConfirm(false)}
+        onConfirm={() => navigate("/")}
+      />
+    </>
   );
 };
 

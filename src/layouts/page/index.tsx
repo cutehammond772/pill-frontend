@@ -33,7 +33,7 @@ const Page = (props: PageProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!!ref?.current) {
       dispatch(updatePageHeight(ref.current.getBoundingClientRect().height));
     }

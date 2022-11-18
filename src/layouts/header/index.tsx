@@ -1,10 +1,10 @@
 import * as React from "react";
-import { useEffect, useRef, useCallback, useLayoutEffect } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useResizeObserver from "@react-hook/resize-observer";
 
 import { Logo } from "../../components/logo";
-import Profile from "../../components/profile";
+import { Profile } from "../../components/profile";
 import * as Style from "./header.style";
 import { updateHeaderHeight } from "../../utils/reducers/page";
 import { MenuEnum, MenuProps } from "../../utils/reducers/header/header.type";
@@ -13,6 +13,7 @@ import { RootState } from "../../utils/reducers";
 
 interface HeaderProps<E extends MenuEnum> {
   title?: string;
+  onHomeClick?: () => void;
   menu?: MenuProps<E>;
 }
 
@@ -88,7 +89,7 @@ const Header = <E extends MenuEnum>(props: HeaderProps<E>) => {
   }, [handleScroll]);
 
   // 첫 로드 시 Header의 height 값을 redux container에 저장한다.
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!!headerRef?.current) {
       dispatch(
         updateHeaderHeight(headerRef.current.getBoundingClientRect().height)
@@ -110,7 +111,7 @@ const Header = <E extends MenuEnum>(props: HeaderProps<E>) => {
   return (
     <Style.Header ref={headerRef}>
       <Style.Title>
-        {!props.title && <Logo />}
+        {!props.title && <Logo onClick={props.onHomeClick}/>}
         <span ref={titleRef} className="title">{props.title || "Pill"}</span>
       </Style.Title>
 

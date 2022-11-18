@@ -1,51 +1,94 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
-import { useCallback } from "react";
 
 import * as reducer from "../../reducers/pill";
 
-import {
-  AddCategoryProps,
-  AddIndexContentProps,
-  ContentProps,
-  ExchangeIndexContentProps,
-  IdProps,
-  RemoveCategoryProps,
-  RemoveIndexContentProps,
-  TitleProps,
-  UpdateIndexContentProps,
-} from "../../reducers/pill/pill.type";
+import { PillContent } from "../../reducers/pill/pill.type";
 
-const usePillCreator = () => {
+interface IdProps {
+  id: string;
+}
+
+interface ContentProps {
+  id: string;
+  contentId: string;
+}
+
+interface TitleProps {
+  title: string;
+}
+
+interface AddContentProps {
+  contentType: PillContent;
+  content: string;
+  subContent?: string;
+}
+
+interface UpdateContentProps {
+  content: string;
+  subContent?: string;
+}
+
+interface ExchangeContentProps {
+  contentId: string;
+  exchangeId: string;
+}
+
+interface AddCategoryProps {
+  category: string;
+}
+
+interface RemoveCategoryProps {
+  categoryId: string;
+}
+
+const usePillDefaultEditor = () => {
   const dispatch = useDispatch();
 
   // Raw Data
+  const title = useSelector((state: RootState) => state.pill.title);
+  const categories = useSelector((state: RootState) => state.pill.categories);
+
+  const addIndex = () => dispatch(reducer.addIndex());
+
+  const addCategory = (props: AddCategoryProps) => {
+    if (categories.find((category) => category.category === props.category)) {
+      throw new Error();
+    }
+
+    dispatch(reducer.addCategory(props));
+  };
+
+  const removeCategory = (props: RemoveCategoryProps) => {
+    if (
+      !categories.find((category) => category.categoryId === props.categoryId)
+    ) {
+      throw new Error();
+    }
+
+    dispatch(reducer.removeCategory(props));
+  };
+
+  const updateTitle = (props: { title: string }) =>
+    dispatch(reducer.updateTitle(props));
+
+  const resetAll = () => dispatch(reducer.resetPill());
+  const resetCategories = () => dispatch(reducer.resetCategories());
+
+  return {
+    title,
+    categories,
+    addIndex,
+    addCategory,
+    removeCategory,
+    updateTitle,
+    resetAll,
+    resetCategories,
+  };
+};
+
+const usePillOrder = () => {
   const data = useSelector((state: RootState) => state.pill);
-
-  // Validated Data
-  const getIndex = (props: IdProps) => {
-    const index = data.indexes.find((index) => index.id === props.id);
-
-    // Validation
-    if (!index) {
-      throw new Error();
-    }
-
-    return index;
-  };
-
-  const getContent = (props: ContentProps) => {
-    const content = getIndex({ id: props.id }).contents.find(
-      (content) => content.contentId === props.contentId
-    );
-
-    // Validation
-    if (!content) {
-      throw new Error();
-    }
-
-    return content;
-  };
 
   const getIndexOrder = (props: IdProps) => {
     const order = data.indexes.findIndex((index) => index.id === props.id);
@@ -59,7 +102,12 @@ const usePillCreator = () => {
   };
 
   const getContentOrder = (props: ContentProps) => {
-    const index = getIndex(props);
+    const index = data.indexes.find((index) => index.id === props.id);
+
+    if (!index) {
+      throw new Error();
+    }
+
     const order = index.contents.findIndex(
       (content) => content.contentId === props.contentId
     );
@@ -72,83 +120,65 @@ const usePillCreator = () => {
     return order;
   };
 
-  // Function
-  const withIndex = useCallback(
-    (idProps: IdProps) => {
-      const addContent = (props: Omit<AddIndexContentProps, "id">) =>
-        dispatch(reducer.addIndexContent({ ...idProps, ...props }));
+  return { getIndexOrder, getContentOrder };
+};
 
-      const updateContent = (props: Omit<UpdateIndexContentProps, "id">) =>
-        dispatch(reducer.updateIndexContent({ ...idProps, ...props }));
+const usePillIndexEditor = (idProps: IdProps) => {
+  const dispatch = useDispatch();
 
-      const removeContent = (props: Omit<RemoveIndexContentProps, "id">) =>
-        dispatch(reducer.removeIndexContent({ ...idProps, ...props }));
-
-      const exchangeContent = (props: Omit<ExchangeIndexContentProps, "id">) =>
-        dispatch(reducer.exchangeIndexContent({ ...idProps, ...props }));
-
-      const updateTitle = (props: TitleProps) =>
-        dispatch(reducer.updateIndexTitle({ ...idProps, ...props }));
-
-      const remove = () => dispatch(reducer.removeIndex(idProps));
-
-      return {
-        addContent,
-        updateContent,
-        removeContent,
-        exchangeContent,
-        updateTitle,
-        remove,
-      };
-    },
-    [dispatch]
+  const index = useSelector((state: RootState) =>
+    state.pill.indexes.find((index) => index.id === idProps.id)
   );
 
-  const addIndex = () => dispatch(reducer.addIndex());
+  if (!index) {
+    throw new Error();
+  }
 
-  // Validation 위치에 대해 고민할 필요가 있다.
-  const addCategory = (props: AddCategoryProps) => {
-    if (
-      data.categories.find((category) => category.category === props.category)
-    ) {
-      throw new Error();
-    }
+  const addContent = (props: AddContentProps) =>
+    dispatch(reducer.addIndexContent({ ...idProps, ...props }));
 
-    dispatch(reducer.addCategory(props));
-  };
+  const exchangeContent = (props: ExchangeContentProps) =>
+    dispatch(reducer.exchangeIndexContent({ ...idProps, ...props }));
 
-  const removeCategory = (props: RemoveCategoryProps) => {
-    if (
-      !data.categories.find(
-        (category) => category.categoryId === props.categoryId
-      )
-    ) {
-      throw new Error();
-    }
+  const updateTitle = (props: TitleProps) =>
+    dispatch(reducer.updateIndexTitle({ ...idProps, ...props }));
 
-    dispatch(reducer.removeCategory(props));
-  };
-
-  const updateTitle = (title: string) =>
-    dispatch(reducer.updateTitle({ title }));
-
-  const resetAll = () => dispatch(reducer.resetPill());
-  const resetCategory = () => dispatch(reducer.resetCategory());
+  const remove = () => dispatch(reducer.removeIndex(idProps));
 
   return {
-    data,
-    getIndex,
-    getContent,
-    getIndexOrder,
-    getContentOrder,
-    withIndex,
-    addIndex,
-    addCategory,
-    removeCategory,
+    index,
+    addContent,
+    exchangeContent,
     updateTitle,
-    resetAll,
-    resetCategory,
+    remove,
   };
 };
 
-export { usePillCreator };
+const usePillContentEditor = (contentProps: ContentProps) => {
+  const dispatch = useDispatch();
+
+  const content = useSelector((state: RootState) =>
+    state.pill.indexes
+      .find((index) => index.id === contentProps.id)
+      ?.contents.find((content) => content.contentId === contentProps.contentId)
+  );
+
+  if (!content) {
+    throw new Error();
+  }
+
+  const update = (props: UpdateContentProps) =>
+    dispatch(reducer.updateIndexContent({ ...contentProps, ...props }));
+
+  const remove = () =>
+    dispatch(reducer.removeIndexContent({ ...contentProps }));
+
+  return { content, update, remove };
+};
+
+export {
+  usePillDefaultEditor,
+  usePillIndexEditor,
+  usePillContentEditor,
+  usePillOrder,
+};

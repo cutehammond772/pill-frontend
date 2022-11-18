@@ -1,35 +1,31 @@
-import { begin } from "../..";
-import { IdProps, PillIndexData } from "../../../reducers/pill/pill.type";
-import {
-  DomainValidator,
-} from "../../validator.type";
+import { begin } from "../../validator.factory";
+import { DomainIdValidator } from "../../validator.type";
 
 import * as Content from "../content";
 
 const SIGNATURE = "validator.create.index";
 
 const Messages = {
-  TITLE_EMPTY: "title is empty",
-  CONTENT_EMPTY: "content is empty",
+  TITLE_EMPTY: "인덱스 제목을 입력해 주세요.",
+  CONTENT_EMPTY: "인덱스 내용을 입력해 주세요.",
 } as const;
 
-const TitleValidator = (data: PillIndexData) =>
-  begin<PillIndexData, typeof Messages>(data)
-    .validate((data) => !data.title, Messages.TITLE_EMPTY)
+interface Data {
+  title: string;
+  contentsSize: number;
+}
+
+const DefaultValidator = (data: Data) =>
+  begin<Data, typeof Messages>(data)
+    .validate((data) => !!data.title, Messages.TITLE_EMPTY)
+    .validate((data) => data.contentsSize !== 0, Messages.CONTENT_EMPTY)
     .done();
 
-const ContentValidator = (data: PillIndexData) =>
-  begin<PillIndexData, typeof Messages>(data)
-    .validate((data) => data.contents.length === 0, Messages.CONTENT_EMPTY)
-    .done();
-
-const Validator: (
-  props: IdProps
-) => DomainValidator<PillIndexData, typeof Messages> = (props) => ({
+const Validator: DomainIdValidator<Data, typeof Messages> = (props) => ({
   signature: SIGNATURE,
-  validators: [TitleValidator, ContentValidator],
+  validators: [DefaultValidator],
   dependencies: [Content.SIGNATURE],
   ...props,
 });
 
-export { Validator, SIGNATURE, Messages };
+export { Validator, type Data, SIGNATURE, Messages };

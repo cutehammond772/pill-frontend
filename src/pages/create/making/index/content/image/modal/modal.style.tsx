@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 const Layout = css`
   position: absolute;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 0px 0px 10px var(--shadow);
 
   background-color: white;

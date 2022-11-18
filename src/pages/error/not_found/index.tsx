@@ -8,7 +8,7 @@ import { Page } from "../../../layouts/page";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HomeIcon from "@mui/icons-material/Home";
 
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { initHeader } from "../../../utils/reducers/header";
 import { useDispatch } from "react-redux";
 
@@ -16,7 +16,7 @@ const NotFoundPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(initHeader());
   }, [dispatch]);
 

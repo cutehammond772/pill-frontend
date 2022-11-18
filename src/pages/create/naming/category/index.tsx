@@ -5,8 +5,8 @@ import { useSnackbar } from "notistack";
 import * as Style from "./category.style";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import { usePillCreator } from "../../../../utils/hooks/pill_creator";
-import { CategoryProps } from "../../../../utils/reducers/pill/pill.type";
+import { usePillDefaultEditor } from "../../../../utils/hooks/pill_creator";
+import { AddCategoryProps } from "../../../../utils/reducers/pill/pill.type";
 
 const validateText = (value: string) => {
   if (value.trim() !== value) {
@@ -24,32 +24,31 @@ const validateText = (value: string) => {
   return null;
 };
 
-// onClick 등을 통해 이벤트 핸들러를 상위 컴포넌트에 위임하는 방법도 있을 것이다.
-const Category = (props: CategoryProps) => {
-  const creator = usePillCreator();
+interface CategoryProps {
+  category: string;
+  onRemove: () => void;
+  disabled?: boolean;
+}
 
-  const handleClick = useCallback(() => {
-    creator.removeCategory(props);
-  }, [creator, props]);
-
-  const removed = !creator.data.categories.find(
-    (category) => category.categoryId === props.categoryId
-  );
-
+const CategoryButton = React.memo((props: CategoryProps) => {
   return (
     <Style.Button
       customBackground="var(--shadow)"
-      onClick={handleClick}
-      disabled={removed}
+      onClick={props.onRemove}
+      disabled={props.disabled}
     >
       <span className="title">{props.category}</span>
       <CloseIcon />
     </Style.Button>
   );
-};
+});
 
-const AddCategory = () => {
-  const creator = usePillCreator();
+interface AddCategoryButtonProps {
+  onAdd: (props: AddCategoryProps) => void;
+}
+
+const AddCategoryButton = (props: AddCategoryButtonProps) => {
+  const editor = usePillDefaultEditor();
 
   const [edit, setEdit] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
@@ -83,9 +82,7 @@ const AddCategory = () => {
   const handleEnter = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
-        if (
-          creator.data.categories.find((category) => category.category === text)
-        ) {
+        if (editor.categories.find((category) => category.category === text)) {
           enqueueSnackbar("이미 존재하는 카테고리입니다.", {
             variant: "error",
             preventDuplicate: true,
@@ -96,11 +93,11 @@ const AddCategory = () => {
         setEdit(false);
 
         if (!!text) {
-          creator.addCategory({ category: text });
+          props.onAdd({ category: text });
         }
       }
     },
-    [creator, text, enqueueSnackbar]
+    [editor, text, enqueueSnackbar, props]
   );
 
   // toggle transition
@@ -137,4 +134,4 @@ const AddCategory = () => {
   );
 };
 
-export { Category, AddCategory };
+export { CategoryButton, type CategoryProps, AddCategoryButton };

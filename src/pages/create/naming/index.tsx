@@ -5,29 +5,60 @@ import * as Style from "./naming.style";
 import * as CategoryStyle from "./category/category.style";
 
 import PillPreview from "../../../components/preview";
-import { usePillCreator } from "../../../utils/hooks/pill_creator";
+import { usePillDefaultEditor } from "../../../utils/hooks/pill_creator";
 
 import * as React from "react";
-import { useState } from "react";
-import { AddCategory, Category } from "./category";
+import { useState, useEffect } from "react";
+import { AddCategoryButton, CategoryButton } from "./category";
 import { Collapse } from "@mui/material";
+import { useValidation } from "../../../utils/hooks/validation";
+
+import * as Naming from "../../../utils/validators/create/name";
+import {
+  AddCategoryProps,
+  RemoveCategoryProps,
+} from "../../../utils/reducers/pill/pill.type";
 
 const Content = () => {
-  const creator = usePillCreator();
+  const editor = usePillDefaultEditor();
+  const validator = useValidation(Naming.Validator);
   // 마운트와 관계 없이 값 유지
-  const [text, setText] = useState<string>(creator.data.title);
+  const [text, setText] = useState<string>(editor.title);
 
   const handleText = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     setText(value);
-    creator.updateTitle(value);
+    editor.updateTitle({ title: value });
+    validator.needValidate();
   };
+
+  const handleCategoryAdd = (props: AddCategoryProps) => {
+    editor.addCategory(props);
+    validator.needValidate();
+  };
+
+  const handleCategoryRemove = (props: RemoveCategoryProps) => {
+    editor.removeCategory(props);
+    validator.needValidate();
+  };
+
+  const isCategoryRemoved = (props: RemoveCategoryProps) =>
+    !editor.categories.find(
+      (category) => category.categoryId === props.categoryId
+    );
+
+  useEffect(() => {
+    validator.validate({
+      title: text,
+      categoriesSize: editor.categories.length,
+    });
+  }, [editor, text, validator]);
 
   return (
     <Container
       title="Pill의 첫 인상을 만들어 봅시다."
-      complete={false}
+      complete={validator.isValid()}
       layout={Style.Layout}
     >
       <PillPreview
@@ -53,12 +84,16 @@ const Content = () => {
         <span className="title">카테고리</span>
         <div className="container">
           <CategoryStyle.TransitionGroup>
-            {creator.data.categories.map((category) => (
+            {editor.categories.map((category) => (
               <Collapse key={category.categoryId} orientation="horizontal">
-                <Category {...category} />
+                <CategoryButton
+                  category={category.category}
+                  onRemove={() => handleCategoryRemove(category)}
+                  disabled={isCategoryRemoved(category)}
+                />
               </Collapse>
             ))}
-            <AddCategory />
+            <AddCategoryButton onAdd={handleCategoryAdd} />
           </CategoryStyle.TransitionGroup>
         </div>
       </Style.Categories>

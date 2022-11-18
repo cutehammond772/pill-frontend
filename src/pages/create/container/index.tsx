@@ -20,7 +20,7 @@ const Container = (
       <Style.Title>
         {props.complete ? (
           <Chip variant="solid" color="success" startDecorator={<CheckIcon />}>
-            저장 가능합니다!
+            등록 가능합니다!
           </Chip>
         ) : (
           <Chip variant="solid" color="warning" startDecorator={<PriorityHighIcon />}>
