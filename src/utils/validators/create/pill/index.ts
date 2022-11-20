@@ -1,7 +1,7 @@
 import { begin } from "../../validator.factory";
 import { DomainValidator } from "../../validator.type";
 
-const SIGNATURE = "validator.create.name";
+const SIGNATURE = "validator.create.name.d";
 
 const Messages = {
   TITLE_EMPTY: "Pill 제목을 입력해 주세요.",
@@ -22,7 +22,6 @@ const DefaultValidator = (data: Data) =>
 const Validator: DomainValidator<Data, typeof Messages> = {
   signature: SIGNATURE,
   validators: [DefaultValidator],
-  dependencies: [],
 };
 
 export { SIGNATURE, type Data, Validator, Messages };

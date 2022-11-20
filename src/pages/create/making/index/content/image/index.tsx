@@ -15,7 +15,6 @@ import * as React from "react";
 import { useState, useEffect, useCallback } from "react";
 import { AddContentButton } from "../add";
 import { ImageContentModal } from "./modal";
-import { useValidation } from "../../../../../../utils/hooks/validation";
 
 import * as Content from "../../../../../../utils/validators/create/content";
 import { PillContentType } from "../../../../../../utils/reducers/pill/pill.type";
@@ -24,6 +23,7 @@ import {
   usePillIndexEditor,
 } from "../../../../../../utils/hooks/pill_creator";
 import { IndexContentProps } from "../content.type";
+import { useValidation } from "../../../../../../utils/hooks/validation";
 
 interface AddImageButtonProps {
   id: string;
@@ -39,18 +39,14 @@ const MemoizedAddImageButton = React.memo((props: { onClick: () => void }) => (
 ));
 
 const AddImageButton = (props: AddImageButtonProps) => {
-  const editor = usePillIndexEditor({ id: props.id });
+  const editor = usePillIndexEditor(props.id);
 
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);
 
   const handleAddImage = useCallback(
     (link: string, description: string) => {
-      editor.addContent({
-        contentType: PillContentType.IMAGE,
-        content: link,
-        subContent: description,
-      });
+      editor.addContent(PillContentType.IMAGE, link, description);
     },
     [editor]
   );
@@ -68,16 +64,13 @@ const AddImageButton = (props: AddImageButtonProps) => {
 };
 
 const ImageContent = (props: IndexContentProps) => {
-  const editor = usePillContentEditor({
-    id: props.id,
-    contentId: props.contentId,
-  });
-  const validator = useValidation(Content.Validator({ id: props.contentId }));
+  const editor = usePillContentEditor(props.id, props.contentId);
+  const validator = useValidation(Content.Validator(props.contentId, props.id));
 
   const [open, setOpen] = useState<boolean>(false);
 
   const handleUpdateImage = (link: string, description: string) => {
-    editor.update({ content: link, subContent: description });
+    editor.update(link, description);
     validator.needValidate();
   };
 
@@ -94,9 +87,10 @@ const ImageContent = (props: IndexContentProps) => {
     });
   }, [validator, editor.content]);
 
-  useEffect(() => {
-    
-  }, []);
+  const handleRemove = () => {
+    editor.remove();
+    validator.remove();
+  };
 
   return (
     <Style.Container layout={ImageContentLayout}>
@@ -159,7 +153,7 @@ const ImageContent = (props: IndexContentProps) => {
             <IconButton
               variant="soft"
               color="danger"
-              onClick={editor.remove}
+              onClick={handleRemove}
               disabled={props.removed}
             >
               <DeleteIcon />

@@ -5,16 +5,11 @@ import {
   IndexContentReducingType,
   IndexReducingType,
   PillData,
-  AddIndexContentProps,
-  UpdateIndexContentProps,
-  RemoveIndexContentProps,
-  ExchangeIndexContentProps,
   INITIAL_STATE,
-  AddCategoryProps,
-  RemoveCategoryProps,
   PillContentData,
   PillIndexData,
   CategoryData,
+  PillContent,
 } from "./pill.type";
 
 /* Default */
@@ -25,23 +20,23 @@ const resetPill = () => ({
 });
 
 // Pill 제목 변경
-const updateTitle = (props: { title: string }) => ({
+const updateTitle = (title: string) => ({
   type: DefaultReducingType.UPDATE_TITLE,
-  ...props,
+  title,
 });
 
 /* Category */
 
 // 카테고리 추가
-const addCategory = (props: AddCategoryProps) => ({
+const addCategory = (category: string) => ({
   type: CategoryReducingType.ADD,
-  ...props,
+  category,
 });
 
 // 카테고리 삭제
-const removeCategory = (props: RemoveCategoryProps) => ({
+const removeCategory = (categoryId: string) => ({
   type: CategoryReducingType.REMOVE,
-  ...props,
+  categoryId,
 });
 
 // 카테고리 초기화
@@ -57,41 +52,65 @@ const addIndex = () => ({
 });
 
 // 인덱스 제목 변경
-const updateIndexTitle = (props: { id: string; title: string }) => ({
+const updateIndexTitle = (id: string, title: string) => ({
   type: IndexReducingType.UPDATE_TITLE,
-  ...props,
+  id,
+  title,
 });
 
 // 인덱스 삭제
-const removeIndex = (props: { id: string }) => ({
+const removeIndex = (id: string) => ({
   type: IndexReducingType.REMOVE,
-  ...props,
+  id,
 });
 
 /* Content */
 
 // 컨텐츠 추가
-const addIndexContent = (props: AddIndexContentProps) => ({
+const addIndexContent = (
+  id: string,
+  contentType: PillContent,
+  content: string,
+  subContent?: string
+) => ({
   type: IndexContentReducingType.ADD,
-  ...props,
+  id,
+  contentType,
+  content,
+  subContent,
 });
 
 // 컨텐츠 내용 변경
-const updateIndexContent = (props: UpdateIndexContentProps) => ({
+const updateIndexContent = (
+  id: string,
+  contentId: string,
+  content: string,
+  subContent?: string
+) => ({
   type: IndexContentReducingType.UPDATE,
-  ...props,
+  id,
+  contentId,
+  content,
+  subContent,
 });
 
 // 컨텐츠 삭제
-const removeIndexContent = (props: RemoveIndexContentProps) => ({
+const removeIndexContent = (id: string, contentId: string) => ({
   type: IndexContentReducingType.REMOVE,
-  ...props,
+  id,
+  contentId,
 });
 
 // 컨텐츠 위치 변경
-const exchangeIndexContent = (props: ExchangeIndexContentProps) => ({
+const exchangeIndexContent = (
+  id: string,
+  contentId: string,
+  exchangeId: string
+) => ({
   type: IndexContentReducingType.EXCHANGE,
-  ...props,
+  id,
+  contentId,
+  exchangeId,
 });
 
 /* Type */

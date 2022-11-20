@@ -6,7 +6,7 @@ import * as RequestError from "./auth.error";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import { confirmAuth, confirmUnauth } from "../../reducers/auth";
-import { useOnce } from "../once";
+import { useRunOnce } from "../run_once";
 
 // Axios 인스턴스 객체이다.
 const instance: AxiosInstance = axios.create({
@@ -32,7 +32,8 @@ const fetchAccessToken = async () => {
 // Loader 역할이란, 첫 번째 렌더링 시에 필요한 정보가 있을 때 외부에서 가져오는 역할을 의미한다.
 const useAuth = (loader?: boolean) => {
   const dispatch = useDispatch();
-  const once = useOnce("auth");
+
+  const lock = useRunOnce();
 
   // 백엔드 서버로부터 인증 정보를 가져온(= 로드한) 여부를 나타낸다. (실패하여도 로드되었다고 간주한다.)
   const loaded = useSelector((state: RootState) => state.auth.loaded);
@@ -68,10 +69,10 @@ const useAuth = (loader?: boolean) => {
       });
   }, [dispatch]);
 
-  // useAuth Loader
+  // Loader
   useEffect(() => {
     if (!!loader) {
-      once.attemptOnce(refresh);
+      lock.runOnce(refresh);
     }
   });
 

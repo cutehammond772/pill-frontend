@@ -1,7 +1,5 @@
 import { begin } from "../../validator.factory";
-import { DomainIdValidator } from "../../validator.type";
-
-import * as Content from "../content";
+import { DomainValidator } from "../../validator.type";
 
 const SIGNATURE = "validator.create.index";
 
@@ -21,11 +19,11 @@ const DefaultValidator = (data: Data) =>
     .validate((data) => data.contentsSize !== 0, Messages.CONTENT_EMPTY)
     .done();
 
-const Validator: DomainIdValidator<Data, typeof Messages> = (props) => ({
+const Validator: (id: string) => DomainValidator<Data, typeof Messages> = (id) => ({
   signature: SIGNATURE,
   validators: [DefaultValidator],
-  dependencies: [Content.SIGNATURE],
-  ...props,
+  minDependencies: 1,
+  id,
 });
 
 export { Validator, type Data, SIGNATURE, Messages };

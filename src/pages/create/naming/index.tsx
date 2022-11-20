@@ -11,13 +11,10 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { AddCategoryButton, CategoryButton } from "./category";
 import { Collapse } from "@mui/material";
-import { useValidation } from "../../../utils/hooks/validation";
 
-import * as Naming from "../../../utils/validators/create/name";
-import {
-  AddCategoryProps,
-  RemoveCategoryProps,
-} from "../../../utils/reducers/pill/pill.type";
+import * as Naming from "../../../utils/validators/create/pill";
+import { ValidatedType } from "../../../utils/validators/validator.type";
+import { useValidation } from "../../../utils/hooks/validation";
 
 const Content = () => {
   const editor = usePillDefaultEditor();
@@ -29,23 +26,23 @@ const Content = () => {
     const { value } = event.target;
 
     setText(value);
-    editor.updateTitle({ title: value });
+    editor.updateTitle(value);
     validator.needValidate();
   };
 
-  const handleCategoryAdd = (props: AddCategoryProps) => {
-    editor.addCategory(props);
+  const handleCategoryAdd = (category: string) => {
+    editor.addCategory(category);
     validator.needValidate();
   };
 
-  const handleCategoryRemove = (props: RemoveCategoryProps) => {
-    editor.removeCategory(props);
+  const handleCategoryRemove = (categoryId: string) => {
+    editor.removeCategory(categoryId);
     validator.needValidate();
   };
 
-  const isCategoryRemoved = (props: RemoveCategoryProps) =>
+  const isCategoryRemoved = (categoryId: string) =>
     !editor.categories.find(
-      (category) => category.categoryId === props.categoryId
+      (category) => category.categoryId === categoryId
     );
 
   useEffect(() => {
@@ -55,10 +52,12 @@ const Content = () => {
     });
   }, [editor, text, validator]);
 
+  const validation = validator.validation;
+
   return (
     <Container
       title="Pill의 첫 인상을 만들어 봅시다."
-      complete={validator.isValid()}
+      complete={!!validation && validation.result === ValidatedType.VALID}
       layout={Style.Layout}
     >
       <PillPreview
@@ -88,11 +87,12 @@ const Content = () => {
               <Collapse key={category.categoryId} orientation="horizontal">
                 <CategoryButton
                   category={category.category}
-                  onRemove={() => handleCategoryRemove(category)}
-                  disabled={isCategoryRemoved(category)}
+                  onRemove={() => handleCategoryRemove(category.categoryId)}
+                  disabled={isCategoryRemoved(category.categoryId)}
                 />
               </Collapse>
             ))}
+
             <AddCategoryButton onAdd={handleCategoryAdd} />
           </CategoryStyle.TransitionGroup>
         </div>

@@ -35,24 +35,18 @@ const MemoizedTextButton = React.memo((props: { onClick: () => void }) => (
 ));
 
 const AddTextButton = (props: AddTextButtonProps) => {
-  const editor = usePillIndexEditor({ id: props.id });
+  const editor = usePillIndexEditor(props.id);
 
   const handleAddText = useCallback(() => {
-    editor.addContent({
-      contentType: PillContentType.TEXT,
-      content: "",
-    });
+    editor.addContent(PillContentType.TEXT, "");
   }, [editor]);
 
   return <MemoizedTextButton onClick={handleAddText} />;
 };
 
 const TextContent = (props: IndexContentProps) => {
-  const editor = usePillContentEditor({
-    id: props.id,
-    contentId: props.contentId,
-  });
-  const validator = useValidation(Content.Validator({ id: props.contentId }));
+  const editor = usePillContentEditor(props.id, props.contentId);
+  const validator = useValidation(Content.Validator(props.contentId, props.id));
 
   const [content, setContent] = useState<string>(editor.content.content);
 
@@ -60,7 +54,7 @@ const TextContent = (props: IndexContentProps) => {
     const { value } = event.target;
 
     setContent(value);
-    editor.update({ content: value });
+    editor.update(value);
     validator.needValidate();
   };
 
@@ -76,6 +70,11 @@ const TextContent = (props: IndexContentProps) => {
       subContent: "",
     });
   }, [validator, editor.content]);
+
+  const handleRemove = () => {
+    editor.remove();
+    validator.remove();
+  };
 
   return (
     <Style.Container layout={TextContentLayout}>
@@ -115,7 +114,7 @@ const TextContent = (props: IndexContentProps) => {
             <IconButton
               variant="soft"
               color="danger"
-              onClick={editor.remove}
+              onClick={handleRemove}
               disabled={props.removed}
             >
               <DeleteIcon />

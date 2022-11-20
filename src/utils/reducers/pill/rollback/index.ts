@@ -1,9 +1,9 @@
 import { Reducer } from "redux";
 import { copyContent, copyIndex } from "..";
+import { PillContentData, PillIndexData } from "../pill.type";
 import {
   INITIAL_STATE,
   RollbackData,
-  RollbackProps,
   RollbackReducingType,
 } from "./rollback.type";
 
@@ -11,24 +11,24 @@ const resetRollbackData = () => ({
   type: RollbackReducingType.RESET,
 });
 
-const captureRemovingIndexData = (props: Pick<RollbackProps, "index">) => ({
+const captureRemovingIndexData = (data: PillIndexData) => ({
   type: RollbackReducingType.CAPTURE_INDEX,
-  ...props,
+  data,
 });
 
-const removeRollbackIndexData = (props: {id: string}) => ({
+const removeRollbackIndexData = (id: string) => ({
   type: RollbackReducingType.REMOVE_INDEX,
-  ...props,
+  id,
 });
 
-const captureRemovingContentData = (props: Pick<RollbackProps, "content">) => ({
+const captureRemovingContentData = (data: PillContentData) => ({
   type: RollbackReducingType.CAPTURE_CONTENT,
-  ...props,
+  data,
 });
 
-const removeRollbackContentData = (props: {contentId: string}) => ({
+const removeRollbackContentData = (contentId: string) => ({
   type: RollbackReducingType.REMOVE_CONTENT,
-  ...props,
+  contentId,
 });
 
 type RollbackReducingAction =
@@ -40,8 +40,8 @@ type RollbackReducingAction =
 
 const copy = (data: RollbackData) => ({
   ...data,
-  indexes: data.indexes.map(index => copyIndex(index)),
-  contents: data.contents.map(content => copyContent(content)),
+  indexes: data.indexes.map((index) => copyIndex(index)),
+  contents: data.contents.map((content) => copyContent(content)),
 });
 
 const rollbackReducer: Reducer<RollbackData, RollbackReducingAction> = (
@@ -56,7 +56,7 @@ const rollbackReducer: Reducer<RollbackData, RollbackReducingAction> = (
     case RollbackReducingType.CAPTURE_INDEX:
       return {
         ...copied,
-        indexes: copied.indexes.concat(copyIndex(action.index)),
+        indexes: copied.indexes.concat(copyIndex(action.data)),
       };
     case RollbackReducingType.REMOVE_INDEX:
       return {
@@ -66,7 +66,7 @@ const rollbackReducer: Reducer<RollbackData, RollbackReducingAction> = (
     case RollbackReducingType.CAPTURE_CONTENT:
       return {
         ...copied,
-        contents: copied.contents.concat(copyContent(action.content)),
+        contents: copied.contents.concat(copyContent(action.data)),
       };
     case RollbackReducingType.REMOVE_CONTENT:
       return {

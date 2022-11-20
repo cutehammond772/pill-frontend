@@ -1,10 +1,8 @@
 import { begin } from "../../validator.factory";
-import {
-  PillContent,
-  PillContentType,
-} from "../../../reducers/pill/pill.type";
+import { PillContent, PillContentType } from "../../../reducers/pill/pill.type";
 
-import { DomainIdValidator } from "../../validator.type";
+import * as Index from "../index";
+import { DomainValidator, validatorID } from "../../validator.type";
 
 const SIGNATURE = "validator.create.content";
 
@@ -22,7 +20,10 @@ interface Data {
 const ImageContentValidator = (data: Data) =>
   begin<Data, typeof Messages>(data)
     .pass((data) => data.type !== PillContentType.IMAGE)
-    .validate((data) => !!data.content && !!data.subContent, Messages.IMAGE_EMPTY)
+    .validate(
+      (data) => !!data.content && !!data.subContent,
+      Messages.IMAGE_EMPTY
+    )
     .done();
 
 const TextContentValidator = (data: Data) =>
@@ -31,11 +32,14 @@ const TextContentValidator = (data: Data) =>
     .validate((data) => !!data.content, Messages.TEXT_EMPTY)
     .done();
 
-const Validator: DomainIdValidator<Data, typeof Messages> = (props) => ({
+const Validator: (
+  id: string,
+  dependencyID: string
+) => DomainValidator<Data, typeof Messages> = (id, dependencyID) => ({
   signature: SIGNATURE,
   validators: [ImageContentValidator, TextContentValidator],
-  dependencies: [],
-  ...props,
+  dependency: validatorID(Index.SIGNATURE, dependencyID),
+  id,
 });
 
 export { Validator, type Data, SIGNATURE, Messages };

@@ -6,7 +6,6 @@ import * as Style from "./category.style";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { usePillDefaultEditor } from "../../../../utils/hooks/pill_creator";
-import { AddCategoryProps } from "../../../../utils/reducers/pill/pill.type";
 
 const validateText = (value: string) => {
   if (value.trim() !== value) {
@@ -44,7 +43,7 @@ const CategoryButton = React.memo((props: CategoryProps) => {
 });
 
 interface AddCategoryButtonProps {
-  onAdd: (props: AddCategoryProps) => void;
+  onAdd: (category: string) => void;
 }
 
 const AddCategoryButton = (props: AddCategoryButtonProps) => {
@@ -93,7 +92,7 @@ const AddCategoryButton = (props: AddCategoryButtonProps) => {
         setEdit(false);
 
         if (!!text) {
-          props.onAdd({ category: text });
+          props.onAdd(text);
         }
       }
     },

@@ -74,62 +74,12 @@ const PillContentTypeMapper: { [type in PillContent]: React.ComponentType<IndexC
   [PillContentType.TEXT]: TextContent,
 } as const;
 
-/* Props */
-
-interface PillContentProps {
-  id: string;
-  contentId: string;
-}
-
-interface AddCategoryProps {
-  category: string;
-}
-
-interface RemoveCategoryProps {
-  categoryId: string;
-}
-
-interface AddIndexContentProps {
-  id: string;
-  contentType: PillContent;
-  content: string;
-  subContent?: string;
-}
-
-interface UpdateIndexContentProps {
-  id: string;
-  contentId: string;
-  content: string;
-  subContent?: string;
-}
-
-interface RemoveIndexContentProps {
-  id: string;
-  contentId: string;
-}
-
-interface ExchangeIndexContentProps {
-  id: string;
-  contentId: string;
-  exchangeId: string;
-}
-
 export type {
   PillData,
   CategoryData,
   PillIndexData,
   PillContent,
   PillContentData,
-
-  PillContentProps,
-
-  AddCategoryProps,
-  RemoveCategoryProps,
-
-  AddIndexContentProps,
-  UpdateIndexContentProps,
-  RemoveIndexContentProps,
-  ExchangeIndexContentProps,
 };
 
 export {

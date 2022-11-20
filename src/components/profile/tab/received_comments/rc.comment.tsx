@@ -1,4 +1,4 @@
-import { ListItem, ListItemContent, Chip } from "@mui/joy";
+import { ListItem, ListItemContent } from "@mui/joy";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";

@@ -18,22 +18,22 @@ const useRollback = () => {
   const contents = useSelector((state: RootState) => state.rollback.contents);
 
   const captureIndex = (index: PillIndexData) =>
-    dispatch(captureRemovingIndexData({ index }));
+    dispatch(captureRemovingIndexData(index));
 
   const captureContent = (content: PillContentData) =>
-    dispatch(captureRemovingContentData({ content }));
+    dispatch(captureRemovingContentData(content));
 
-  const removeIndex = (props: { id: string }) =>
-    dispatch(removeRollbackIndexData(props));
+  const removeIndex = (id: string) =>
+    dispatch(removeRollbackIndexData(id));
 
-  const removeContent = (props: { contentId: string }) =>
-    dispatch(removeRollbackContentData(props));
+  const removeContent = (contentId: string) =>
+    dispatch(removeRollbackContentData(contentId));
 
-  const getIndex = (props: { id: string }) =>
-    indexes.find((index) => index.id === props.id);
+  const getIndex = (id: string) =>
+    indexes.find((index) => index.id === id);
 
-  const getContent = (props: { contentId: string }) =>
-    contents.find((content) => content.contentId === props.contentId);
+  const getContent = (contentId: string) =>
+    contents.find((content) => content.contentId === contentId);
 
   return {
     indexes,
