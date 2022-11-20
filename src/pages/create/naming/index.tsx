@@ -12,13 +12,15 @@ import { useState, useEffect } from "react";
 import { AddCategoryButton, CategoryButton } from "./category";
 import { Collapse } from "@mui/material";
 
-import * as Naming from "../../../utils/validators/create/pill";
+import * as Naming from "../../../utils/validators/create/naming";
 import { ValidatedType } from "../../../utils/validators/validator.type";
 import { useValidation } from "../../../utils/hooks/validation";
 
 const Content = () => {
   const editor = usePillDefaultEditor();
   const validator = useValidation(Naming.Validator);
+  const validation = validator.validation;
+  
   // 마운트와 관계 없이 값 유지
   const [text, setText] = useState<string>(editor.title);
 
@@ -51,8 +53,6 @@ const Content = () => {
       categoriesSize: editor.categories.length,
     });
   }, [editor, text, validator]);
-
-  const validation = validator.validation;
 
   return (
     <Container

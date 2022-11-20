@@ -1,5 +1,7 @@
 import { begin } from "../../validator.factory";
-import { DomainValidator } from "../../validator.type";
+import { DomainValidator, validatorID } from "../../validator.type";
+
+import * as IndexContainer from "../index_container";
 
 const SIGNATURE = "validator.create.index";
 
@@ -23,6 +25,7 @@ const Validator: (id: string) => DomainValidator<Data, typeof Messages> = (id) =
   signature: SIGNATURE,
   validators: [DefaultValidator],
   minDependencies: 1,
+  dependency: validatorID(IndexContainer.SIGNATURE),
   id,
 });
 

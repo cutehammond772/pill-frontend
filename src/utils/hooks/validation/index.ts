@@ -199,7 +199,7 @@ const useValidation = <T, E extends ValidationMessages>(
       refreshValidator(validator.dependency);
     }
 
-    depValidators.forEach((validatorID) =>
+    depValidators?.forEach((validatorID) =>
       dispatch(reducer.removeValidation(validatorID))
     );
 
