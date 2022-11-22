@@ -11,6 +11,8 @@ const Layout = css`
   padding: 15px;
   box-shadow: 0px 0px 5px var(--shadow);
 
+  background-color: var(--panel);
+
   // PillPreview
   & > div:first-of-type {
     grid-row: 1 / 3;

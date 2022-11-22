@@ -33,7 +33,7 @@ const fetchAccessToken = async () => {
 const useAuth = (loader?: boolean) => {
   const dispatch = useDispatch();
 
-  const lock = useRunOnce();
+  const lock = useRunOnce("useAuth");
 
   // 백엔드 서버로부터 인증 정보를 가져온(= 로드한) 여부를 나타낸다. (실패하여도 로드되었다고 간주한다.)
   const loaded = useSelector((state: RootState) => state.auth.loaded);
@@ -45,9 +45,8 @@ const useAuth = (loader?: boolean) => {
 
   // 로그아웃 함수
   const logout = useCallback(() => {
-    if (!!instance.defaults.headers.common["Authorization"]) {
+    !!instance.defaults.headers.common["Authorization"] &&
       delete instance.defaults.headers.common["Authorization"];
-    }
 
     dispatch(confirmUnauth());
   }, [dispatch]);
@@ -71,9 +70,7 @@ const useAuth = (loader?: boolean) => {
 
   // Loader
   useEffect(() => {
-    if (!!loader) {
-      lock.runOnce(refresh);
-    }
+    !!loader && lock.runOnce(refresh);
   });
 
   return {

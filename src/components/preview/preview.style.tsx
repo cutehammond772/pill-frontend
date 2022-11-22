@@ -9,12 +9,7 @@ const Container = styled.div`
 
   border-radius: 10px;
   box-shadow: 0px 0px 10px var(--shadow);
-
-  background: linear-gradient(
-    45deg,
-    hsla(339, 100%, 55%, 1) 0%,
-    hsla(197, 100%, 64%, 1) 100%
-  );
+  background: var(--bg-v-br-t-b);
 `;
 
 const Banner = styled.div`
@@ -37,7 +32,7 @@ const Banner = styled.div`
     font-weight: 700;
     color: var(--dark);
 
-    overflow-wrap: break-word;
+    word-break: keep-all;
   }
 `;
 
@@ -57,7 +52,8 @@ const LikeButton = styled(Chip)`
 const LikeButtonContent = styled.div`
   display: flex;
   flex-flow: row;
-  align-items: flex-end;
+  align-items: center;
+  line-height: 100%;
   column-gap: 5px;
 `;
 
@@ -70,6 +66,7 @@ const History = styled.div`
   align-items: center;
   column-gap: 0.25rem;
 
+  line-height: 100%;
   color: var(--dark);
 `;
 

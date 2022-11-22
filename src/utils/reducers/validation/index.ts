@@ -119,15 +119,6 @@ const validationReducer: Reducer<ValidationData, ValidationReducingAction> = (
         ),
       };
     case ValidationReducingType.ADD_DEPENDENCY:
-      // 이미 의존 목록에 존재하는 경우
-      if (
-        copied.dependencies[action.validatorID]?.find(
-          (validatorID) => action.dependedValidatorID === validatorID
-        ) !== undefined
-      ) {
-        return copied;
-      }
-
       return {
         ...copied,
         dependencies: {

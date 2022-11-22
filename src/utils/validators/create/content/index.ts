@@ -7,8 +7,8 @@ import { DomainValidator, validatorID } from "../../validator.type";
 const SIGNATURE = "validator.create.content";
 
 const Messages = {
-  IMAGE_EMPTY: "'이미지' 내용 중 빈 칸이 있습니다.",
-  TEXT_EMPTY: "'글' 내용 중에 빈 칸이 있습니다.",
+  IMAGE_EMPTY: "이미지를 추가하세요.",
+  TEXT_EMPTY: "글을 작성하세요.",
 } as const;
 
 interface Data {

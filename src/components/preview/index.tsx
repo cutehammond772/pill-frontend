@@ -34,7 +34,7 @@ const PillPreview = (props: PillPreviewProps) => (
 
     <Style.History>
       <HistoryIcon />
-      {props.time} ago
+      {props.time} 전
     </Style.History>
   </Style.Container>
 );

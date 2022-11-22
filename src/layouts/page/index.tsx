@@ -34,20 +34,20 @@ const Page = (props: PageProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!!ref?.current) {
+    !!ref?.current &&
       dispatch(updatePageHeight(ref.current.getBoundingClientRect().height));
-    }
   }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, []);
 
-  useResizeObserver(ref, (_) => {
-    if (!!ref?.current) {
-      dispatch(updatePageHeight(ref.current.getBoundingClientRect().height));
-    }
-  });
+  useResizeObserver(
+    ref,
+    (_) =>
+      !!ref?.current &&
+      dispatch(updatePageHeight(ref.current.getBoundingClientRect().height))
+  );
   return (
     <Style.Page ref={ref} layout={props.layout}>
       {props.children}

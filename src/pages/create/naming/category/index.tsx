@@ -12,7 +12,7 @@ const validateText = (value: string) => {
     return "공백이 들어갈 수 없습니다.";
   }
 
-  if (!!value && !value.match("^(([a-zA-z]+)|([ㅏ-ㅣㄱ-ㅎ가-힣]+))$")) {
+  if (!!value && !value.match("^(([a-zA-Z]+)|([ㅏ-ㅣㄱ-ㅎ가-힣]+))$")) {
     return "카테고리는 영어와 한글 중 한 언어로만 입력할 수 있습니다.";
   }
 
@@ -32,7 +32,6 @@ interface CategoryProps {
 const CategoryButton = React.memo((props: CategoryProps) => {
   return (
     <Style.Button
-      customBackground="var(--shadow)"
       onClick={props.onRemove}
       disabled={props.disabled}
     >
@@ -90,10 +89,7 @@ const AddCategoryButton = (props: AddCategoryButtonProps) => {
           return;
         }
         setEdit(false);
-
-        if (!!text) {
-          props.onAdd(text);
-        }
+        !!text && props.onAdd(text);
       }
     },
     [editor, text, enqueueSnackbar, props]

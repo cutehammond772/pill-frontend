@@ -4,7 +4,7 @@ import queryString from "query-string";
 
 import { QueryResponseData, RawJsonData } from "./query_response.type";
 
-// Base64 to JSON to Object
+// Base64 -> JSON -> Object
 const useQueryResponse = () => {
     const { search } = useLocation();
     const { response } = queryString.parse(search);

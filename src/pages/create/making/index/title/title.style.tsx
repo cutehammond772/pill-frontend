@@ -6,11 +6,7 @@ const Title = styled.div`
   height: auto;
   padding: 15px 10px 15px 10px;
 
-  background: linear-gradient(
-    45deg,
-    hsla(339, 100%, 55%, 0.2) 0%,
-    hsla(197, 100%, 64%, 0.2) 100%
-  );
+  background: var(--bg-h-br-f-a);
 
   display: flex;
   flex-flow: row;

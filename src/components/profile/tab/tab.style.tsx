@@ -68,11 +68,7 @@ const GuestBanner = styled.div`
   padding: 1rem;
   margin-top: 40px;
   border-radius: 15px;
-  background: linear-gradient(
-    90deg,
-    hsla(339, 50%, 55%, 1) 0%,
-    hsla(197, 50%, 64%, 1) 100%
-  );
+  background: var(--bg-h-br-t-b);
 
   // ThumbUp Icon
   & > .icon {

@@ -15,12 +15,15 @@ import { Collapse } from "@mui/material";
 import * as Naming from "../../../utils/validators/create/naming";
 import { ValidatedType } from "../../../utils/validators/validator.type";
 import { useValidation } from "../../../utils/hooks/validation";
+import { useProfile } from "../../../utils/hooks/profile";
 
 const Content = () => {
-  const editor = usePillDefaultEditor();
   const validator = useValidation(Naming.Validator);
   const validation = validator.validation;
-  
+
+  const editor = usePillDefaultEditor();
+  const profile = useProfile();
+
   // 마운트와 관계 없이 값 유지
   const [text, setText] = useState<string>(editor.title);
 
@@ -61,10 +64,10 @@ const Content = () => {
       layout={Style.Layout}
     >
       <PillPreview
-        title={!text ? "Untitled" : text}
-        author="cutehammond"
+        title={text || "Untitled"}
+        author={profile.data.userName || "Guest"}
         likes={999}
-        time="less than a minute"
+        time="방금"
       />
 
       <Style.Title>

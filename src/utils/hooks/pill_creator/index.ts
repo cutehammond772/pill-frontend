@@ -175,10 +175,7 @@ const usePillIndexEditor = (id: string) => {
   const remove = useCallback(
     () =>
       checkRemoved(() => {
-        if (!!index) {
-          rollback.captureIndex(index);
-        }
-
+        !!index && rollback.captureIndex(index);
         dispatch(reducer.removeIndex(id));
       }),
     [dispatch, checkRemoved, id, index, rollback]
@@ -194,7 +191,7 @@ const usePillIndexEditor = (id: string) => {
     }
 
     return index;
-  }
+  };
 
   return {
     index: getIndex(),
@@ -259,10 +256,7 @@ const usePillContentEditor = (id: string, contentId: string) => {
   const remove = useCallback(
     () =>
       checkRemoved(() => {
-        if (!!content) {
-          rollback.captureContent(content);
-        }
-
+        !!content && rollback.captureContent(content);
         dispatch(reducer.removeIndexContent(id, contentId));
       }),
     [dispatch, checkRemoved, id, contentId, content, rollback]

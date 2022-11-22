@@ -28,7 +28,7 @@ interface ValidationResponse<E extends ValidationMessages> {
 
 // 검증 결과를 redux container에 저장할 때 사용한다.
 // 메시지의 타입 검사가 제거되고 모두 문자열로 반환된다.
-// => 이는 redux container에 저장하기 위한 목적도 있지만, 의존하는 Validator의 메시지도 같이 포함하기 위한 목적도 있다.
+// => 이는 redux container에 저장하기 위한 목적도 있지만, 의존 Validator의 메시지도 같이 포함하기 위한 목적도 있다.
 interface UntypedValidationResponse {
   result: Validated;
   messages: Array<string>;
@@ -41,7 +41,7 @@ interface Validation {
   messages: Array<string>;
 
   // 해당 검증 결과가 몇 번째 결과인지 확인한다.
-  // 일반적으로 의존하는 Validator의 검증 결과를 확인할 때 현재 저장된 결과 대비 최신인지 확인하기 위해 활용된다.
+  // 일반적으로 의존 Validator의 검증 결과를 확인할 때 현재 캐시된 검증 결과 대비 최신인지 확인하기 위해 활용된다.
   version: number;
 }
 
@@ -51,10 +51,14 @@ const DEFAULT_ID = "DEFAULT_ID";
 // 일반적인 요소 검증에서 나오는 'INVALID' 메시지가 아닌 전반적인 검증 과정에서 생기는 오류 메시지이다.
 const ValidationErrorMessages = {
   ALL_PASSED: "모든 ElementValidator가 'PASS'를 반환하였습니다.",
+
   DEPENDENCIES_LACK:
     "의존하는 DomainValidator의 최소 개수를 충족하지 못하였습니다.",
+
   NOT_VALIDATED: "아직 DomainValidator의 검증 결과가 나오지 않았습니다.",
-  DEPENDENCIES_NOT_VALIDATED: "아직 의존하고 있는 하위 DomainValidator의 검증 결과가 나오지 않았습니다.",
+
+  DEPENDENCIES_NOT_VALIDATED:
+    "아직 의존하고 있는 하위 DomainValidator의 검증 결과가 나오지 않았습니다.",
 } as const;
 
 // 도메인 내 특정 요소에 대한 Validator이다.
@@ -66,7 +70,7 @@ type ElementValidator<T, E extends ValidationMessages> = (
 
 // 도메인에 대한 Validator이다.
 interface DomainValidator<T, E extends ValidationMessages> {
-  // DomainValidator의 고유 이름이다. 이때 id를 사용하지 않는 경우 마지막에 .d를 붙인다.
+  // DomainValidator의 고유 이름이다.
   signature: string;
 
   // 도메인 내 검증이 필요한 모든 요소들은 이 validators 필터를 거친다.
@@ -83,7 +87,8 @@ interface DomainValidator<T, E extends ValidationMessages> {
   minDependencies?: number;
 }
 
-const validatorID = (signature: string, id?: string) => `${signature}:${id || DEFAULT_ID}`;
+const validatorID = (signature: string, id?: string) =>
+  `${signature}:${id || DEFAULT_ID}`;
 
 export { ValidatedType, ValidationErrorMessages, validatorID };
 export type {

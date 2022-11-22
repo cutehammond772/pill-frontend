@@ -31,14 +31,13 @@ const TransitionGroup = styled(TransitionGroupComponent)`
 `;
 
 const Button = styled.button<{
-  customBackground?: string;
   addButton?: boolean;
 }>`
   width: ${(props) => (!!props.addButton ? "100%" : "auto")};
   height: auto;
 
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
 
   border-radius: 1.5rem;
   padding: 0.4rem 0.6rem 0.4rem 0.8rem;
@@ -58,14 +57,9 @@ const Button = styled.button<{
 
   border: none;
 
-  color: var(--dark);
+  color: ${(props) => (!!props.addButton ? "var(--light)" : "var(--dark)")};
   background: ${(props) =>
-    props.customBackground ||
-    `linear-gradient(
-    -45deg,
-    hsla(339, 100%, 55%, 0.2) 0%,
-    hsla(197, 100%, 64%, 0.2) 100%
-    )`};
+    !!props.addButton ? "var(--dark)" : "var(--bg-h-br-t-a)"};
 `;
 
 const InputField = styled.input`
@@ -73,23 +67,26 @@ const InputField = styled.input`
   height: auto;
 
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
 
   padding: 0.4rem 0.6rem 0.4rem 0.8rem;
   line-height: 100%;
 
   text-align: center;
 
-  &:focus {
+  background-color: var(--dark);
+  color: var(--light);
+
+  letter-spacing: 1px;
+
+  :focus {
     border: none;
     outline: none;
     line-height: 100%;
+  }
 
-    background: linear-gradient(
-      -45deg,
-      hsla(339, 100%, 55%, 0.2) 0%,
-      hsla(197, 100%, 64%, 0.2) 100%
-    );
+  ::placeholder {
+    color: var(--light);
   }
 `;
 

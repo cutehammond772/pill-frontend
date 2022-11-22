@@ -1,3 +1,5 @@
+// 인덱스 시그니처를 맵으로 사용할 수 있도록 돕는다.
+
 type IndexSignatureMap<T> = { [key: string]: T };
 
 const copy = <T>(map: IndexSignatureMap<T>, copyFn?: (value: T) => T) => {

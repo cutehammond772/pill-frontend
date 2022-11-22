@@ -101,8 +101,8 @@ const PtOrderOption = ({ name }: { name: string }) => (
       pl: "20px",
       pr: "20px",
 
-      backgroundColor: "black",
-      color: "white",
+      backgroundColor: "var(--dark)",
+      color: "var(--light)",
 
       display: "flex",
       flexFlow: "row",

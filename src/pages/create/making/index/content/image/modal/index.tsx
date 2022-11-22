@@ -64,28 +64,22 @@ const ImageContentModal = (props: ImageContentModalProps) => {
   };
 
   const handleAddImage = () => {
-    if (!!props.edit) {
-      if (!!props?.onUpdate) {
-        props.onUpdate(link, description);
-      }
-    } else {
-      if (!!props?.onAdd) {
-        props.onAdd(link, description);
-      }
+    if (!!props.edit && !!props?.onUpdate) {
+      props.onUpdate(link, description);
+    } else if (!!props?.onAdd) {
+      props.onAdd(link, description);
     }
 
     safeClose(true);
   };
 
   const safeClose = (done: boolean) => {
-    if (!!props.edit) {
-      if (!done) {
-        setConfirm(true);
-        setLoad(true);
+    if (!!props.edit && !done) {
+      setConfirm(true);
+      setLoad(true);
 
-        setLink(props.edit.link);
-        setDescription(props.edit.description);
-      }
+      setLink(props.edit.link);
+      setDescription(props.edit.description);
     } else {
       setConfirm(false);
       setLoad(false);

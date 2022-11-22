@@ -17,23 +17,23 @@ const useProfile = (loader?: boolean) => {
   const auth = useAuth();
   const request = useRequest();
 
-  const lockLoad = useRunOnce();
-  const lockUnload = useRunOnce();
+  const lockLoad = useRunOnce("useProfile:lockLoad");
+  const lockUnload = useRunOnce("useProfile:lockUnload");
 
-  // 현재 프로파일 반환
+  // 현재 프로파일 데이터를 나타낸다.
   const data = useSelector((state: RootState) => state.profile);
 
-  // 프로파일 업데이트(= 등록) -> 프로파일 값이 없으면 remove
+  // 프로파일을 갱신한다. 이때 데이터가 유효하지 않으면 게스트 프로파일로 적용된다.
   const update = useCallback(
     (profile?: ProfileData) =>
       dispatch(!!profile ? updateProfile(profile) : removeProfile()),
     [dispatch]
   );
 
-  // 프로파일 삭제 -> Guest Profile로 변경
+  // 프로파일을 삭제한다. 이후 게스트 프로파일로 변경된다.
   const remove = useCallback(() => dispatch(removeProfile()), [dispatch]);
 
-  // 프로파일 정보를 백엔드로부터 가져온다.
+  // 프로파일 정보를 백엔드 서버로부터 가져온다.
   const refresh = async () => {
     try {
       const user = await request.apiGet<ProfileData>(

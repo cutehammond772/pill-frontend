@@ -14,7 +14,7 @@ const Layout = css`
   max-width: 600px;
 
   box-shadow: 0px 0px 10px var(--shadow);
-  background-color: white;
+  background-color: var(--panel);
 
   box-sizing: border-box;
   border-radius: 20px;
@@ -31,7 +31,7 @@ const InfoBanner = styled.div`
   padding: 20px 40px 20px 40px;
   border-radius: 20px 20px 0 0;
 
-  background-color: darkred;
+  background-color: var(--warning);
   display: flex;
   flex-flow: row nowrap;
   align-items: center;

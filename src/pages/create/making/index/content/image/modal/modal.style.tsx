@@ -8,7 +8,7 @@ const Layout = css`
   border-radius: 20px;
   box-shadow: 0px 0px 10px var(--shadow);
 
-  background-color: white;
+  background-color: var(--panel);
 
   left: 50%;
   top: 50%;

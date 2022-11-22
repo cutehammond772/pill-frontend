@@ -27,7 +27,7 @@ const MenuItem = styled.button<{ selected?: boolean }>`
 
   ${(props) =>
     !!props?.selected && {
-      backgroundColor: "lightblue !important",
+      backgroundColor: "var(--blue) !important",
       color: "var(--dark) !important",
     }};
 
@@ -36,10 +36,10 @@ const MenuItem = styled.button<{ selected?: boolean }>`
   font-weight: 600;
   font-size: 20px;
 
-  &:hover {
+  :hover {
     ${(props) =>
       !props?.selected && {
-        transition: "0.25s",
+        transition: "background-color 200ms, color 200ms",
         backgroundColor: "pink !important",
         color: "var(--dark) !important",
       }};

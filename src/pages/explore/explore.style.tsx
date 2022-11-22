@@ -96,9 +96,9 @@ const ResultTag = styled.div`
   width: auto;
   height: auto;
   border-radius: 5px;
-  background-color: black;
+  background-color: var(--dark);
   padding: 5px 10px 5px 10px;
-  color: white;
+  color: var(--light);
   font-size: 14px;
 
   display: flex;

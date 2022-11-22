@@ -108,7 +108,7 @@ const ImageContent = (props: IndexContentProps) => {
             userSelect: "none",
           }}
         >
-          {editor.content.content}
+          {editor.content.subContent}
         </Chip>
 
         <div className="buttons">

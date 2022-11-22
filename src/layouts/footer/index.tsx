@@ -12,21 +12,21 @@ const Footer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!!ref?.current) {
+    !!ref?.current &&
       dispatch(updateFooterHeight(ref.current.getBoundingClientRect().height));
-    }
   }, [dispatch]);
 
   useResizeObserver(ref, (_) => {
-    if (!!ref?.current) {
+    !!ref?.current &&
       dispatch(updateFooterHeight(ref.current.getBoundingClientRect().height));
-    }
   });
 
   return (
     <Style.Footer ref={ref}>
       <span className="copyright">&copy; 2022 Jungheon Lee</span>
-      <Link to="/about" className="about">About</Link>
+      <Link to="/about" className="about">
+        About
+      </Link>
     </Style.Footer>
   );
 };

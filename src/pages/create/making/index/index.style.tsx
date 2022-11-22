@@ -10,7 +10,7 @@ const IndexContainer = styled.div`
   display: flex;
   flex-flow: column;
 
-  background-color: white;
+  background-color: var(--panel);
 `;
 
 export { IndexContainer };

@@ -6,6 +6,7 @@ import { pageReducer } from "./page";
 import { pillReducer } from "./pill";
 import { rollbackReducer } from "./pill/rollback";
 import { profileReducer } from "./profile";
+import { runOnceReducer } from "./run_once";
 import { validationReducer } from "./validation";
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     page: pageReducer,
     header: headerReducer,
     validation: validationReducer,
+    runOnce: runOnceReducer,
 });
 
 type RootState = ReturnType<typeof rootReducer>;

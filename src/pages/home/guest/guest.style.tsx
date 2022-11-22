@@ -18,11 +18,7 @@ const Text = styled.h1`
 `;
 
 const Background = css`
-  background: linear-gradient(
-    45deg,
-    hsla(339, 100%, 55%, 0.2) 0%,
-    hsla(197, 100%, 64%, 0.2) 100%
-  );
+  background: var(--bg-h-br-t-a);
 `;
 
 export { Container, Text, Background };

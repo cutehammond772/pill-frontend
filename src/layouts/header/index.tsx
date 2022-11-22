@@ -90,29 +90,31 @@ const Header = <E extends MenuEnum>(props: HeaderProps<E>) => {
 
   // 첫 로드 시 Header의 height 값을 redux container에 저장한다.
   useEffect(() => {
-    if (!!headerRef?.current) {
+    !!headerRef?.current &&
       dispatch(
         updateHeaderHeight(headerRef.current.getBoundingClientRect().height)
       );
-    }
   }, [dispatch]);
 
   // Header의 height 값이 바뀔 때마다 redux container에 갱신한다.
-  useResizeObserver(headerRef, (_) => {
-    if (!!headerRef?.current) {
+  useResizeObserver(
+    headerRef,
+    (_) =>
+      !!headerRef?.current &&
       dispatch(
         updateHeaderHeight(headerRef.current.getBoundingClientRect().height)
-      );
-    }
-  });
+      )
+  );
 
   // 1. Title의 경우 title 변수가 존재하지 않으면 로고와 함께 Pill로 설정되며, 존재하면 로고 없이 title만 표시된다.
   // 2. props 변수가 존재하지 않으면 메뉴는 표시되지 않는다.
   return (
     <Style.Header ref={headerRef}>
       <Style.Title>
-        {!props.title && <Logo onClick={props.onHomeClick}/>}
-        <span ref={titleRef} className="title">{props.title || "Pill"}</span>
+        {!props.title && <Logo onClick={props.onHomeClick} />}
+        <span ref={titleRef} className="title">
+          {props.title || "Pill"}
+        </span>
       </Style.Title>
 
       {!!props?.menu && (

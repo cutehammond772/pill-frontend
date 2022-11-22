@@ -8,11 +8,7 @@ const LogoStyle = styled.div<{ scale?: number }>`
   cursor: pointer;
 
   border-radius: calc(10px * ${(props) => props.scale || 1});
-  background: linear-gradient(
-    90deg,
-    hsla(339, 100%, 55%, 1) 0%,
-    hsla(197, 100%, 64%, 1) 100%
-  );
+  background: var(--bg-h-rb-f-c);
 `;
 
 export { LogoStyle };
