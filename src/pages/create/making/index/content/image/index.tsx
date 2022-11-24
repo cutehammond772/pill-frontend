@@ -24,21 +24,15 @@ import {
 } from "../../../../../../utils/hooks/pill_creator";
 import { IndexContentProps } from "../content.type";
 import { useValidation } from "../../../../../../utils/hooks/validation";
+import { useLocalization } from "../../../../../../utils/hooks/localization";
+import { L10N } from "../../../../../../localization";
 
 interface AddImageButtonProps {
   id: string;
 }
 
-const MemoizedAddImageButton = React.memo((props: { onClick: () => void }) => (
-  <AddContentButton
-    icon={ImageIcon}
-    title="이미지"
-    description="인덱스 마지막에 이미지를 추가합니다."
-    onClick={props.onClick}
-  />
-));
-
 const AddImageButton = (props: AddImageButtonProps) => {
+  const { text } = useLocalization();
   const editor = usePillIndexEditor(props.id);
 
   const [open, setOpen] = useState<boolean>(false);
@@ -53,7 +47,12 @@ const AddImageButton = (props: AddImageButtonProps) => {
 
   return (
     <>
-      <MemoizedAddImageButton onClick={handleOpen} />
+      <AddContentButton
+        icon={ImageIcon}
+        title={text(L10N.PAGE_CREATE_11)}
+        description={text(L10N.PAGE_CREATE_12)}
+        onClick={handleOpen}
+      />
       <ImageContentModal
         open={open}
         onClose={() => setOpen(false)}
@@ -64,6 +63,7 @@ const AddImageButton = (props: AddImageButtonProps) => {
 };
 
 const ImageContent = (props: IndexContentProps) => {
+  const { text } = useLocalization();
   const editor = usePillContentEditor(props.id, props.contentId);
   const validator = useValidation(Content.Validator(props.contentId, props.id));
 
@@ -97,7 +97,7 @@ const ImageContent = (props: IndexContentProps) => {
       <Style.Title layout={ImageContentTitleLayout}>
         <div className="container">
           <ImageIcon className="icon" />
-          <span className="title">이미지</span>
+          <span className="title">{text(L10N.PAGE_CREATE_25)}</span>
         </div>
 
         <Chip
@@ -113,7 +113,7 @@ const ImageContent = (props: IndexContentProps) => {
 
         <div className="buttons">
           {props.order !== 0 && (
-            <Tooltip title="Up">
+            <Tooltip title={text(L10N.PAGE_CREATE_27)}>
               <IconButton
                 variant="outlined"
                 color="primary"
@@ -126,7 +126,7 @@ const ImageContent = (props: IndexContentProps) => {
           )}
 
           {!props.isEnd && (
-            <Tooltip title="Down">
+            <Tooltip title={text(L10N.PAGE_CREATE_28)}>
               <IconButton
                 variant="outlined"
                 color="primary"
@@ -138,7 +138,7 @@ const ImageContent = (props: IndexContentProps) => {
             </Tooltip>
           )}
 
-          <Tooltip title="Edit">
+          <Tooltip title={text(L10N.PAGE_CREATE_29)}>
             <IconButton
               variant="solid"
               color="info"
@@ -149,7 +149,7 @@ const ImageContent = (props: IndexContentProps) => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Remove">
+          <Tooltip title={text(L10N.PAGE_CREATE_30)}>
             <IconButton
               variant="soft"
               color="danger"

@@ -1,12 +1,12 @@
 import * as React from "react";
 import * as config from "../../config";
 
-import { Link } from "@mui/joy";
-
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import * as Style from "./auth.style";
+import { useLocalization } from "../../utils/hooks/localization";
+import { L10N } from "../../localization";
 
 interface AuthButtonProps extends React.PropsWithChildren {
   redirect: string;
@@ -17,6 +17,8 @@ interface AuthButtonProps extends React.PropsWithChildren {
 }
 
 const Login = (props: AuthButtonProps) => {
+  const { text } = useLocalization();
+
   return (
     <Style.AuthButton
       color={props.color || "primary"}
@@ -30,13 +32,15 @@ const Login = (props: AuthButtonProps) => {
         }
         className="link"
       >
-        {props.children || "Login"}
+        {props.children || text(L10N.AUTH_01)}
       </a>
     </Style.AuthButton>
   );
 };
 
 const Logout = (props: AuthButtonProps) => {
+  const { text } = useLocalization();
+
   return (
     <Style.AuthButton
       color={props.color || "primary"}
@@ -50,7 +54,7 @@ const Logout = (props: AuthButtonProps) => {
         }
         className="link"
       >
-        {props.children || "Logout"}
+        {props.children || text(L10N.AUTH_01)}
       </a>
     </Style.AuthButton>
   );

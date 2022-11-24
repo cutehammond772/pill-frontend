@@ -12,6 +12,8 @@ import * as Style from "./modal.style";
 
 import { Message } from "../../../../../../../components/message";
 import { Modal } from "../../../../../../../components/modal";
+import { useLocalization } from "../../../../../../../utils/hooks/localization";
+import { L10N } from "../../../../../../../localization";
 
 interface ImageContentEditProps {
   link: string;
@@ -29,6 +31,8 @@ interface ImageContentModalProps {
 }
 
 const ImageContentModal = (props: ImageContentModalProps) => {
+  const { text } = useLocalization();
+  
   // Image Content
   const [confirm, setConfirm] = useState<boolean>(!!props.edit);
   const [link, setLink] = useState<string>(props?.edit?.link || "");
@@ -111,10 +115,7 @@ const ImageContentModal = (props: ImageContentModalProps) => {
         ) : (
           <div className="preview">
             <ImageSearchIcon className="icon" />
-            <span className="message">
-              Type Image Link and press Confirm to check the Preview before
-              adding the image.
-            </span>
+            <span className="message">{text(L10N.PAGE_CREATE_16)}</span>
           </div>
         )}
       </Style.ImagePreview>
@@ -123,18 +124,18 @@ const ImageContentModal = (props: ImageContentModalProps) => {
         {!!props.edit ? (
           <div className="title">
             <EditIcon className="icon" />
-            <span className="content">이미지 편집</span>
+            <span className="content">{text(L10N.PAGE_CREATE_21)}</span>
           </div>
         ) : (
           <div className="title">
             <AddIcon className="icon" />
-            <span className="content">이미지 추가</span>
+            <span className="content">{text(L10N.PAGE_CREATE_15)}</span>
           </div>
         )}
 
         <Style.ImageInputForm>
           <TextField
-            label="Image Link"
+            label={text(L10N.PAGE_CREATE_17)}
             variant="soft"
             color="neutral"
             fullWidth
@@ -153,7 +154,7 @@ const ImageContentModal = (props: ImageContentModalProps) => {
                 setLoad(false);
               }}
             >
-              Change
+              {text(L10N.PAGE_CREATE_20)}
             </Button>
           ) : (
             <Button
@@ -162,16 +163,16 @@ const ImageContentModal = (props: ImageContentModalProps) => {
               startDecorator={<CheckIcon />}
               onClick={() => setConfirm(true)}
             >
-              Confirm
+              {text(L10N.PAGE_CREATE_19)}
             </Button>
           )}
         </Style.ImageInputForm>
 
         <TextField
-          label="Description"
+          label={text(L10N.PAGE_CREATE_18)}
           variant="soft"
           onChange={handleDescription}
-          placeholder="~40 characters"
+          placeholder={text(L10N.PAGE_CREATE_22)}
           value={description || ""}
         />
 
@@ -179,14 +180,14 @@ const ImageContentModal = (props: ImageContentModalProps) => {
           disabled={!(confirm && load && !!description.trim())}
           onClick={handleAddImage}
         >
-          Done
+          {text(L10N.PAGE_CREATE_24)}
         </Button>
       </Style.Form>
 
       <Message
-        message="Invalid Image Link."
+        message={text(L10N.PAGE_CREATE_23)}
         type="error"
-        callback={{ open: message, setOpen: setMessage }}
+        state={{ open: message, setOpen: setMessage }}
       />
     </Modal>
   );

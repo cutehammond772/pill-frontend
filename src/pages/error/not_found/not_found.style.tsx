@@ -14,6 +14,8 @@ const Title = styled.h1`
   color: var(--dark);
   padding-top: 256px;
   font-size: 5rem;
+
+  word-break: keep-all;
 `;
 
 const ButtonContainer = styled.div`

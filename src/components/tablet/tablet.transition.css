@@ -1,0 +1,23 @@
+@property --tablet-pink {
+    syntax: '<color>';
+    initial-value: hsla(339, 100%, 55%, 1);
+    inherits: false;
+}
+
+@property --tablet-blue {
+    syntax: '<color>';
+    initial-value: hsla(197, 100%, 64%, 1);
+    inherits: false;
+}
+
+@property --tablet-pink-hover {
+    syntax: '<color>';
+    initial-value: hsla(339, 100%, 80%, 1);
+    inherits: false;
+}
+
+@property --tablet-blue-hover {
+    syntax: '<color>';
+    initial-value: hsla(197, 100%, 89%, 1);
+    inherits: false;
+}

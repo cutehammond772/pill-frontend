@@ -18,8 +18,12 @@ import {
 } from "../../utils/reducers/pill/pill.type";
 import { useNavigate } from "react-router-dom";
 import { LikeButton } from "./buttons/like";
+import { useLocalization } from "../../utils/hooks/localization";
+import { L10N } from "../../localization";
+import { format } from "../../utils/other/format";
 
 const CreatePreviewPage = () => {
+  const { text } = useLocalization();
   usePageSelect(CreateHeaderSignature, CreateMenu.PREVIEW);
   const navigate = useNavigate();
 
@@ -31,9 +35,16 @@ const CreatePreviewPage = () => {
       <Style.Container>
         <Style.Title>
           <LikeButton />
-          <span className="title">{pill.title || "Untitled"}</span>
+          <span className="title">
+            {pill.title || text(L10N.PAGE_PREVIEW_03)}
+          </span>
           <div className="info">
-            <span className="user">by {profile.userName || "Guest"}</span>
+            <span className="user">
+              {format(
+                text(L10N.PAGE_PREVIEW_01),
+                profile.userName || text(L10N.PAGE_PREVIEW_04)
+              )}
+            </span>
             <div className="categories">
               {pill.categories.map((category) => (
                 <div className="category" key={category.categoryId}>
@@ -47,7 +58,7 @@ const CreatePreviewPage = () => {
         <Style.Index>
           <div className="index_title">
             <ListIcon className="icon" />
-            <span className="title">목차</span>
+            <span className="title">{text(L10N.PAGE_PREVIEW_02)}</span>
           </div>
           <div className="index_list">
             {pill.indexes.map((index, order) => (

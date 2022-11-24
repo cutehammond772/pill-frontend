@@ -16,6 +16,8 @@ import { AuthButtonProps, Login, Logout } from "../../auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import { Modal } from "../../modal";
+import { useLocalization } from "../../../utils/hooks/localization";
+import { L10N } from "../../../localization";
 
 const LOGIN_PROPS: AuthButtonProps = {
   redirect: config.INDEX,
@@ -57,6 +59,8 @@ interface ProfileTabProps {
 }
 
 const ProfileTab = (props: ProfileTabProps) => {
+  const { text } = useLocalization();
+
   // Code
   const profile = useProfile();
   const modalRef = useRef<HTMLDivElement>(null);
@@ -80,16 +84,15 @@ const ProfileTab = (props: ProfileTabProps) => {
     >
       {!profile.data.userName ? (
         <>
-          <Style.Title>Welcome, Guest!</Style.Title>
+          <Style.Title>{text(L10N.TAB_01)}</Style.Title>
           <Style.GuestBanner>
             <ThumbUpIcon className="icon"/>
             <span className="content">
-              Join with just one click without complicated registration and
-              enjoy useful information!
+            {text(L10N.TAB_02)}
             </span>
           </Style.GuestBanner>
 
-          <Divider title="Menu" />
+          <Divider title={text(L10N.TAB_03)} />
           <Style.Menu>
             <Login {...LOGIN_PROPS} />
           </Style.Menu>
@@ -98,13 +101,13 @@ const ProfileTab = (props: ProfileTabProps) => {
         <>
           <Style.Title>{profile.data.userName}</Style.Title>
 
-          <Divider title="Received Comment" />
+          <Divider title={text(L10N.TAB_04)} />
           <ReceivedComments
             receivedComments={Dummy.comments}
             stats={Dummy.stats}
           />
 
-          <Divider title="Menu" />
+          <Divider title={text(L10N.TAB_03)} />
           <Style.Menu>
             <MyPillButton onClick={() => {}} />
             <ManageProfileButton onClick={() => {}} />

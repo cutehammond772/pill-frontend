@@ -8,6 +8,7 @@ const Container = styled.div`
 
   // Profile Avatar
   & > div:nth-last-of-type(1) {
+    cursor: pointer;
     z-index: var(--z-header-profile);
   }
 `;

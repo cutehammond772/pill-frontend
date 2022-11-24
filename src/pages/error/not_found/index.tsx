@@ -11,8 +11,11 @@ import HomeIcon from "@mui/icons-material/Home";
 import { useEffect } from "react";
 import { initHeader } from "../../../utils/reducers/header";
 import { useDispatch } from "react-redux";
+import { useLocalization } from "../../../utils/hooks/localization";
+import { L10N } from "../../../localization";
 
 const NotFoundPage = () => {
+  const { text } = useLocalization();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -23,7 +26,7 @@ const NotFoundPage = () => {
   return (
     <Page layout={Style.Background}>
       <Style.Container>
-        <Style.Title>404 Not Found.</Style.Title>
+        <Style.Title>{text(L10N.PAGE_NOT_FOUND_01)}</Style.Title>
         <Style.ButtonContainer>
           <Button
             size="lg"
@@ -32,7 +35,7 @@ const NotFoundPage = () => {
             startDecorator={<HomeIcon />}
             onClick={() => navigate("/")}
           >
-            Go to Home
+            {text(L10N.PAGE_NOT_FOUND_02)}
           </Button>
 
           <Button
@@ -42,7 +45,7 @@ const NotFoundPage = () => {
             startDecorator={<ArrowBackIcon />}
             onClick={() => navigate(-1)}
           >
-            Go to Previous Page
+            {text(L10N.PAGE_NOT_FOUND_03)}
           </Button>
         </Style.ButtonContainer>
       </Style.Container>

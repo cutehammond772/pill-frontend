@@ -23,7 +23,17 @@ const Footer = styled.footer`
     user-select: none;
     text-decoration: none;
   }
-  
+
+  & > .button {
+    padding: 10px;
+    font-size: 15px;
+
+    cursor: pointer;
+    background-color: var(--light);
+    color: var(--dark);
+    border-radius: 20px;
+  }
+
   ${DefaultPageLayout};
 `;
 

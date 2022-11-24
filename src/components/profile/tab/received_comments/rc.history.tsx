@@ -1,4 +1,7 @@
 import HistoryIcon from "@mui/icons-material/History";
+import { L10N } from "../../../../localization";
+import { useLocalization } from "../../../../utils/hooks/localization";
+import { format } from "../../../../utils/other/format";
 import * as Style from "./rc.style";
 
 interface HistoryProps {
@@ -7,11 +10,12 @@ interface HistoryProps {
 }
 
 const History = (props: HistoryProps) => {
+  const { text } = useLocalization();
   return (
     <Style.History>
       <HistoryIcon />
       <span className="info">
-        Recent {props.unit} (+{props.comments})
+        {format(text(L10N.TAB_05), props.unit, `${props.comments}`)}
       </span>
     </Style.History>
   );

@@ -7,6 +7,8 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { AddImageButton } from "../image";
 import { AddTextButton } from "../text";
+import { useLocalization } from "../../../../../../utils/hooks/localization";
+import { L10N } from "../../../../../../localization";
 
 interface AddContentButtonProps {
   icon: React.ComponentType<{ className: string }>;
@@ -21,12 +23,14 @@ interface AddContentContainerProps {
 }
 
 const AddContentContainer = React.memo((props: AddContentContainerProps) => {
+  const { text } = useLocalization();
+
   return (
     <ContentStyle.Container layout={Style.ContainerLayout}>
       <ContentStyle.Title layout={Style.TitleLayout}>
         <div className="container">
           <AddIcon className="icon" />
-          <span className="title">컨텐츠 추가하기</span>
+          <span className="title">{text(L10N.PAGE_CREATE_10)}</span>
         </div>
       </ContentStyle.Title>
 

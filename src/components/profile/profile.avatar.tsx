@@ -3,7 +3,13 @@ import { Avatar } from "@mui/joy";
 import { Tooltip } from "@mui/material";
 
 import { useProfile } from "../../utils/hooks/profile";
-import { ProfileData } from "./profile.type";
+import { useLocalization } from "../../utils/hooks/localization";
+import { L10N } from "../../localization";
+
+interface ProfileData {
+  userName?: string;
+  profileUrl?: string;
+}
 
 interface AvatarProps {
   profile?: ProfileData;
@@ -15,11 +21,12 @@ interface ProfileAvatarProps {
 }
 
 const ProfileAvatar = (props: ProfileAvatarProps) => {
+  const { text } = useLocalization();
   const profile = useProfile();
   const data = profile.data;
 
   return (
-    <Tooltip title={data.userName || "Guest"} disableInteractive>
+    <Tooltip title={data.userName || text(L10N.PROFILE_01)} disableInteractive>
       {!data.userName ? (
         <DefaultAvatar onClick={props.onClick} />
       ) : (
@@ -53,4 +60,4 @@ const UserAvatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) =>
   )
 );
 
-export { ProfileAvatar };
+export { ProfileAvatar, type ProfileData };

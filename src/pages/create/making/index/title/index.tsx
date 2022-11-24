@@ -5,6 +5,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import * as React from "react";
 import * as Style from "./title.style";
+import { useLocalization } from "../../../../../utils/hooks/localization";
+import { L10N } from "../../../../../localization";
 
 interface TitleProps {
   order: number;
@@ -16,11 +18,13 @@ interface TitleProps {
 }
 
 const Title = (props: TitleProps) => {
+  const { text } = useLocalization();
+
   return (
     <Style.Title>
       <span className="index">#{props.order + 1}</span>
       <TextField
-        placeholder="최대 40자까지 입력할 수 있습니다."
+        placeholder={text(L10N.PAGE_CREATE_09)}
         fullWidth
         onChange={props.onTextChange}
         value={props.title || ""}
@@ -37,7 +41,7 @@ const Title = (props: TitleProps) => {
         }}
       />
 
-      <Tooltip title="Remove">
+      <Tooltip title={text(L10N.PAGE_CREATE_30)}>
         <IconButton
           variant="soft"
           color="danger"

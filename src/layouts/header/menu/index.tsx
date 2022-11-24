@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocalization } from "../../../utils/hooks/localization";
 import {
   MenuEnum,
   MenuProps,
@@ -7,6 +8,7 @@ import {
 import * as Style from "./menu.style";
 
 const HeaderMenu = <E extends MenuEnum>(props: MenuProps<E>) => {
+  const { text } = useLocalization();
   // 메뉴를 구성하는 아이템의 이름들이다.
   const items = Object.values(props.enum).filter(
     (item) => !props?.disabled?.find((disabled) => disabled === item)
@@ -29,7 +31,7 @@ const HeaderMenu = <E extends MenuEnum>(props: MenuProps<E>) => {
               },
             })}
           >
-            {item}
+            {text(item)}
           </Style.MenuItem>
         );
       })}

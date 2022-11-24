@@ -14,8 +14,11 @@ import { useValidation } from "../../../utils/hooks/validation";
 
 import * as IndexContainer from "../../../utils/validators/create/index_container/";
 import { ValidatedType } from "../../../utils/validators/validator.type";
+import { useLocalization } from "../../../utils/hooks/localization";
+import { L10N } from "../../../localization";
 
 const Content = () => {
+  const { text } = useLocalization();
   const editor = usePillDefaultEditor();
   const indexes = useSelector((state: RootState) => state.pill.indexes);
   const validator = useValidation(IndexContainer.Validator);
@@ -27,7 +30,7 @@ const Content = () => {
 
   return (
     <Container
-      title="당신의 Pill을 채워봅시다."
+      title={text(L10N.PAGE_CREATE_07)}
       complete={!!validation && validation.result === ValidatedType.VALID}
       layout={Style.Layout}
     >

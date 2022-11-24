@@ -1,7 +1,7 @@
 import { ProfileReducingType, INITIAL_STATE } from "./profile.type";
 
 import { Reducer } from "redux";
-import { ProfileData } from "../../../components/profile/profile.type";
+import { ProfileData } from "../../../components/profile/profile.avatar";
 
 // updating profile (if null, Guest Profile)
 const updateProfile = (profile: ProfileData) => ({

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useCallback, useEffect } from "react";
 import { RootState } from "../../reducers";
 import { updateProfile, removeProfile } from "../../reducers/profile";
-import { ProfileData } from "../../../components/profile/profile.type";
+import { ProfileData } from "../../../components/profile/profile.avatar";
 
 import { useAuth } from "../auth";
 import { useRequest } from "../request";

@@ -1,4 +1,4 @@
-import { ProfileData } from "../../../components/profile/profile.type";
+import { ProfileData } from "../../../components/profile/profile.avatar";
 
 const ProfileReducingType = {
   UPDATE: "reducer.profile.UPDATE",

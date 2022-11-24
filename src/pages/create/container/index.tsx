@@ -5,6 +5,8 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import CheckIcon from "@mui/icons-material/Check";
 
 import * as Style from "./container.style";
+import { useLocalization } from "../../../utils/hooks/localization";
+import { L10N } from "../../../localization";
 
 interface CreatingPillContainerProps {
   title: string;
@@ -15,16 +17,17 @@ interface CreatingPillContainerProps {
 const Container = (
   props: React.PropsWithChildren<CreatingPillContainerProps>
 ) => {
+  const { text } = useLocalization();
   return (
     <div>
       <Style.Title>
         {props.complete ? (
           <Chip variant="solid" color="success" startDecorator={<CheckIcon />}>
-            등록 가능합니다!
+            {text(L10N.PAGE_CREATE_32)}
           </Chip>
         ) : (
           <Chip variant="solid" color="warning" startDecorator={<PriorityHighIcon />}>
-            모든 부분을 채워주세요.
+            {text(L10N.PAGE_CREATE_31)}
           </Chip>
         )}
 

@@ -18,22 +18,26 @@ import TitleIcon from "@mui/icons-material/Title";
 import PropaneIcon from "@mui/icons-material/Propane";
 import { Pagination, PaginationItem } from "@mui/material";
 import { Option, Select, TextField } from "@mui/joy";
+import { useLocalization } from "../../utils/hooks/localization";
+import { L10N } from "../../localization";
+import { format } from "../../utils/other/format";
 
 const ExplorePage = () => {
+  const { text } = useLocalization();
   // DefaultHeader에서 Search 아이템을 선택한다.
   usePageSelect(DefaultHeaderSignature, DefaultMenu.EXPLORE);
 
   return (
     <Page>
       <Style.Container>
-        <Style.Title>당신에게 딱 맞는 Pill을 찾아보아요.</Style.Title>
-        <SearchBar placeholder="내용이 기억이 안 난다면, 작성자를 입력해 보세요." />
+        <Style.Title>{text(L10N.PAGE_EXPLORE_01)}</Style.Title>
+        <SearchBar placeholder={text(L10N.PAGE_EXPLORE_02)} />
         <Style.SearchOptions>
-          <SearchOption name="ALL" checked />
-          <SearchOption name="TITLE" />
-          <SearchOption name="INDEX" />
-          <SearchOption name="CONTENT" />
-          <SearchOption name="AUTHOR" />
+          <SearchOption name={text(L10N.PAGE_EXPLORE_03)} checked />
+          <SearchOption name={text(L10N.PAGE_EXPLORE_04)} />
+          <SearchOption name={text(L10N.PAGE_EXPLORE_05)} />
+          <SearchOption name={text(L10N.PAGE_EXPLORE_06)} />
+          <SearchOption name={text(L10N.PAGE_EXPLORE_07)} />
         </Style.SearchOptions>
 
         <Style.ResultContainer>
@@ -42,6 +46,7 @@ const ExplorePage = () => {
             keyword="hammond"
             pills={236}
             comments={102}
+            subText={text(L10N.PAGE_EXPLORE_08)}
           />
 
           <TitleResult
@@ -76,11 +81,11 @@ const ExplorePage = () => {
           />
 
           <Select defaultValue="10">
-            <Option value="10">10개씩 보기</Option>
-            <Option value="20">20개씩 보기</Option>
-            <Option value="30">30개씩 보기</Option>
-            <Option value="40">40개씩 보기</Option>
-            <Option value="50">50개씩 보기</Option>
+            <Option value="10">{format(text(L10N.PAGE_EXPLORE_09), '10')}</Option>
+            <Option value="20">{format(text(L10N.PAGE_EXPLORE_09), '20')}</Option>
+            <Option value="30">{format(text(L10N.PAGE_EXPLORE_09), '30')}</Option>
+            <Option value="40">{format(text(L10N.PAGE_EXPLORE_09), '40')}</Option>
+            <Option value="50">{format(text(L10N.PAGE_EXPLORE_09), '50')}</Option>
           </Select>
         </Style.PageOptions>
       </Style.Container>
@@ -203,16 +208,20 @@ const TitleResult = (props: TitleResultProps) => (
   </Result>
 );
 
-const AuthorResult = (props: {
+interface AuthorResultProps {
   userName: string;
   pills: number;
   comments: number;
   keyword: string;
-}) => (
+
+  subText: string;
+}
+
+const AuthorResult = (props: AuthorResultProps) => (
   <Result typeIcon={PersonIcon}>
     <ResultTitle
       title={props.userName}
-      subText={`Pill ${props.pills}개, 댓글 ${props.comments}개`}
+      subText={format(props.subText, `${props.pills}`, `${props.comments}`)}
       keyword={props.keyword}
     />
   </Result>

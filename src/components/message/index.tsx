@@ -8,12 +8,12 @@ import { useEffect, useRef } from "react";
 interface MessageProps {
   message: string;
   type: AlertColor;
-  callback: MessageCallback;
+  state: MessageState;
   duration?: number;
 }
 
 // useState Hook에서 제공하는 변수와 변경 함수를 모두 포함해야 합니다.
-interface MessageCallback {
+interface MessageState {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   open: boolean;
 }
@@ -26,15 +26,15 @@ const Message = (props: MessageProps) => {
   useEffect(() => {
     clearTimeout(timeout.current);
 
-    if (props.callback.open) {
-      timeout.current = setTimeout(() => props.callback.setOpen(false), props.duration || 2000);
+    if (props.state.open) {
+      timeout.current = setTimeout(() => props.state.setOpen(false), props.duration || 2000);
     }
-  }, [props.callback, props.duration]);
+  }, [props.state, props.duration]);
 
   return (
     <Snackbar
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      open={props.callback.open}
+      open={props.state.open}
     >
       <MuiAlert elevation={6} variant="filled" severity={props.type}>
         {props.message}

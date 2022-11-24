@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import * as Style from "./footer.style";
 
 import * as React from "react";
@@ -6,8 +5,11 @@ import { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useResizeObserver from "@react-hook/resize-observer";
 import { updateFooterHeight } from "../../utils/reducers/page";
+import { useLocalization } from "../../utils/hooks/localization";
+import { LanguageType } from "../../localization";
 
 const Footer = () => {
+  const { text, changeLanguage } = useLocalization();
   const ref = useRef<HTMLElement>(null);
   const dispatch = useDispatch();
 
@@ -24,9 +26,18 @@ const Footer = () => {
   return (
     <Style.Footer ref={ref}>
       <span className="copyright">&copy; 2022 Jungheon Lee</span>
-      <Link to="/about" className="about">
-        About
-      </Link>
+      <div
+        className="button"
+        onClick={() => changeLanguage(LanguageType.English)}
+      >
+        ENG
+      </div>
+      <div
+        className="button"
+        onClick={() => changeLanguage(LanguageType.Korean)}
+      >
+        KOR
+      </div>
     </Style.Footer>
   );
 };

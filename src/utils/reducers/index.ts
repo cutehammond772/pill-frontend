@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 
 import { authReducer } from "./auth";
 import { headerReducer } from "./header";
+import { localizationReducer } from "./localization";
 import { pageReducer } from "./page";
 import { pillReducer } from "./pill";
 import { rollbackReducer } from "./pill/rollback";
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     header: headerReducer,
     validation: validationReducer,
     runOnce: runOnceReducer,
+    l10n: localizationReducer,
 });
 
 type RootState = ReturnType<typeof rootReducer>;

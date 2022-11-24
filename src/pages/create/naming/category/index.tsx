@@ -6,8 +6,10 @@ import * as Style from "./category.style";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { usePillDefaultEditor } from "../../../../utils/hooks/pill_creator";
+import { L10N } from "../../../../localization";
+import { useLocalization } from "../../../../utils/hooks/localization";
 
-const validateText = (value: string) => {
+const validateContent = (value: string) => {
   if (value.trim() !== value) {
     return "공백이 들어갈 수 없습니다.";
   }
@@ -46,23 +48,24 @@ interface AddCategoryButtonProps {
 }
 
 const AddCategoryButton = (props: AddCategoryButtonProps) => {
+  const { text } = useLocalization();
   const editor = usePillDefaultEditor();
 
   const [edit, setEdit] = useState<boolean>(false);
-  const [text, setText] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { enqueueSnackbar } = useSnackbar();
   const toggleEdit = () => {
     setEdit(!edit);
-    setText("");
+    setContent("");
   };
 
-  const handleText = useCallback(
+  const handleContent = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = event.target;
-      const validateMsg = validateText(value);
+      const validateMsg = validateContent(value);
 
       if (!!validateMsg) {
         enqueueSnackbar(validateMsg, {
@@ -72,7 +75,7 @@ const AddCategoryButton = (props: AddCategoryButtonProps) => {
         return;
       }
 
-      setText(value);
+      setContent(value);
     },
     [enqueueSnackbar]
   );
@@ -80,7 +83,7 @@ const AddCategoryButton = (props: AddCategoryButtonProps) => {
   const handleEnter = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
-        if (editor.categories.find((category) => category.category === text)) {
+        if (editor.categories.find((category) => category.category === content)) {
           enqueueSnackbar("이미 존재하는 카테고리입니다.", {
             variant: "error",
             preventDuplicate: true,
@@ -89,10 +92,10 @@ const AddCategoryButton = (props: AddCategoryButtonProps) => {
           return;
         }
         setEdit(false);
-        !!text && props.onAdd(text);
+        !!content && props.onAdd(content);
       }
     },
-    [editor, text, enqueueSnackbar, props]
+    [editor, content, enqueueSnackbar, props]
   );
 
   // toggle transition
@@ -112,16 +115,16 @@ const AddCategoryButton = (props: AddCategoryButtonProps) => {
     <Style.Container ref={containerRef}>
       {edit ? (
         <Style.InputField
-          onChange={handleText}
+          onChange={handleContent}
           onBlur={toggleEdit}
           onKeyDown={handleEnter}
-          value={text || ""}
-          placeholder="Enter 키로 추가"
+          value={content || ""}
+          placeholder={text(L10N.PAGE_CREATE_06)}
           autoFocus
         />
       ) : (
         <Style.Button onClick={toggleEdit} addButton>
-          <span className="title">추가</span>
+          <span className="title">{text(L10N.PAGE_CREATE_05)}</span>
           <AddIcon />
         </Style.Button>
       )}

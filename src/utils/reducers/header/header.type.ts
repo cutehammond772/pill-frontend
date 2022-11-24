@@ -1,4 +1,5 @@
 import * as React from "react";
+import { L10NText } from "../../../localization";
 
 const HeaderReducingType = {
   INIT: "reducer.header.INIT",
@@ -21,7 +22,7 @@ const INITIAL_STATE: HeaderNode = {
 };
 
 type MenuItemRef = HTMLButtonElement | null;
-type MenuEnum = { [s: string]: string };
+type MenuEnum = { [s: string]: L10NText };
 type HeaderContainer = { [header: string]: Array<string> };
 
 // T는 enum element, E는 enum이다.

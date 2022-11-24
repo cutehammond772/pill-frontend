@@ -3,17 +3,20 @@ import * as React from "react";
 
 import * as config from "../../../config";
 import * as Style from "./guest.style";
+import { useLocalization } from "../../../utils/hooks/localization";
+import { L10N } from "../../../localization";
 
 const GuestHome = React.memo(() => {
+  const { text } = useLocalization();
+
   return (
     <Style.Container>
       <Style.Text>
-        You can take Pill with no side effects, <br />
-        and get a useful knowledge.
+        {text(L10N.PAGE_GUEST_01)}
       </Style.Text>
 
       <Login redirect={config.INDEX} provider="google">
-        Click to Sign in
+      {text(L10N.PAGE_GUEST_02)}
       </Login>
     </Style.Container>
   );

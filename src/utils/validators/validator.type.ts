@@ -36,10 +36,7 @@ interface UntypedValidationResponse {
 
 // redux container에 저장된 검증 결과이다.
 // UntypedValidationResponse와 달리 version이 존재한다.
-interface Validation {
-  result: Validated;
-  messages: Array<string>;
-
+interface Validation extends UntypedValidationResponse {
   // 해당 검증 결과가 몇 번째 결과인지 확인한다.
   // 일반적으로 의존 Validator의 검증 결과를 확인할 때 현재 캐시된 검증 결과 대비 최신인지 확인하기 위해 활용된다.
   version: number;
@@ -83,7 +80,7 @@ interface DomainValidator<T, E extends ValidationMessages> {
   // 다른 상위 DomainValidator에 의존하는 경우 설정한다.
   dependency?: string;
 
-  // 자신을 의존하는 하위 DomainValidator의 최소 갯수를 설정한다. 기본값은 0이다.
+  // 자신을 의존하는 하위 DomainValidator의 최소 갯수를 설정한다. 명시하지 않는 경우 의존 없음으로 간주한다.
   minDependencies?: number;
 }
 

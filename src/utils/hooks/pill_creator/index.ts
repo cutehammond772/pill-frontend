@@ -9,10 +9,14 @@ import { useRollback } from "../rollback";
 // Pill의 제목이나 카테고리, 빈 인덱스 추가 등을 담당한다.
 const usePillDefaultEditor = () => {
   const dispatch = useDispatch();
+  const rollback = useRollback();
 
   // 바로 접근할 수 있는 immutable 데이터이다.
   const title = useSelector((state: RootState) => state.pill.title);
   const categories = useSelector((state: RootState) => state.pill.categories);
+
+  // 롤백 데이터 저장을 위한 인덱스이다.
+  const indexes = useSelector((state: RootState) => state.pill.indexes);
 
   // 새로운 빈 인덱스를 추가한다.
   const addIndex = useCallback(() => dispatch(reducer.addIndex()), [dispatch]);
@@ -48,7 +52,12 @@ const usePillDefaultEditor = () => {
   );
 
   // Pill의 모든 내용을 초기화한다.
-  const resetAll = useCallback(() => dispatch(reducer.resetPill()), [dispatch]);
+  const resetAll = useCallback(() => {
+    // 인덱스 데이터를 롤백 데이터에 저장한다.
+    indexes.forEach((index) => rollback.captureIndex(index));
+    
+    dispatch(reducer.resetPill());
+  }, [indexes, rollback, dispatch]);
 
   // 카테고리를 초기화한다.
   const resetCategories = useCallback(
