@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback, useEffect } from "react";
 import { RootState } from "../../reducers";
-import { updateProfile, removeProfile } from "../../reducers/profile";
+import * as reducer from "../../reducers/profile";
 import { ProfileData } from "../../../components/profile/profile.avatar";
 
 import { useAuth } from "../auth";
@@ -25,18 +25,18 @@ const useProfile = (loader?: boolean) => {
 
   // 프로파일을 갱신한다. 이때 데이터가 유효하지 않으면 게스트 프로파일로 적용된다.
   const update = useCallback(
-    (profile?: ProfileData) =>
-      dispatch(!!profile ? updateProfile(profile) : removeProfile()),
+    (profile: Required<ProfileData>) =>
+      dispatch(reducer.setToUser({...profile})),
     [dispatch]
   );
 
   // 프로파일을 삭제한다. 이후 게스트 프로파일로 변경된다.
-  const remove = useCallback(() => dispatch(removeProfile()), [dispatch]);
+  const remove = useCallback(() => dispatch(reducer.setToAnonymous()), [dispatch]);
 
   // 프로파일 정보를 백엔드 서버로부터 가져온다.
   const refresh = async () => {
     try {
-      const user = await request.apiGet<ProfileData>(
+      const user = await request.apiGet<Required<ProfileData>>(
         auth.axios,
         config.API_USER_PROFILE
       );
@@ -59,7 +59,7 @@ const useProfile = (loader?: boolean) => {
 
   // 로그아웃이 감지되면 프로파일 삭제도 연이어 수행한다.
   useEffect(() => {
-    if (auth.loaded && !auth.authenticated && !!loader) {
+    if (auth.loaded && !auth.authorized && !!loader) {
       lockUnload.runOnce(remove);
     }
   });

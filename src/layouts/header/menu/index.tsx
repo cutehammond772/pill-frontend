@@ -3,7 +3,7 @@ import { useLocalization } from "../../../utils/hooks/localization";
 import {
   MenuEnum,
   MenuProps,
-} from "../../../utils/reducers/header/header.type";
+} from "../../../utils/hooks/header/header.type";
 
 import * as Style from "./menu.style";
 

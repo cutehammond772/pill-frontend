@@ -66,9 +66,10 @@ const App = () => {
         <CSSTransition
           key={location.pathname}
           classNames="page"
-          timeout={500}
+          timeout={300}
           onEnter={() => dispatch(lockMenuClick())}
           onEntered={() => dispatch(unlockMenuClick())}
+          onExited={() => alert("응애")}
           unmountOnExit
         >
           <Routes location={location}>

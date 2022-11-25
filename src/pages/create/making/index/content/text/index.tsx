@@ -16,7 +16,7 @@ import {
   usePillContentEditor,
   usePillIndexEditor,
 } from "../../../../../../utils/hooks/pill_creator";
-import { PillContentType } from "../../../../../../utils/reducers/pill/pill.type";
+import { PillContentType } from "../../../../../../utils/reducers/creator";
 import { IndexContentProps } from "../content.type";
 import * as Content from "../../../../../../utils/validators/create/content";
 import { useValidation } from "../../../../../../utils/hooks/validation";

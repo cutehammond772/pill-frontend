@@ -15,7 +15,8 @@ import { RootState } from "../../utils/reducers";
 import {
   PillContentData,
   PillContentType,
-} from "../../utils/reducers/pill/pill.type";
+} from "../../utils/reducers/creator";
+
 import { useNavigate } from "react-router-dom";
 import { LikeButton } from "./buttons/like";
 import { useLocalization } from "../../utils/hooks/localization";
@@ -27,7 +28,7 @@ const CreatePreviewPage = () => {
   usePageSelect(CreateHeaderSignature, CreateMenu.PREVIEW);
   const navigate = useNavigate();
 
-  const pill = useSelector((state: RootState) => state.pill);
+  const pill = useSelector((state: RootState) => state.creator);
   const profile = useSelector((state: RootState) => state.profile);
 
   return (

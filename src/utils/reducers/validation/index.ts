@@ -1,156 +1,90 @@
-import { Reducer } from "redux";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import * as Map from "../../other/index_signature";
 import {
   UntypedValidationResponse,
+  Validation,
 } from "../../validators/validator.type";
-import {
-  INITIAL_STATE,
-  ValidationData,
-  ValidationReducingType,
-} from "./validation.type";
 
-import * as Map from "../../other/index_signature";
+const REDUCER_NAME = "validation";
 
-const addValidation = (
-  validation: UntypedValidationResponse,
-  validatorID: string
-) => ({
-  type: ValidationReducingType.ADD,
-  validation,
-  validatorID,
-});
+type ValidationContainer = { [validatorID: string]: Validation };
+type ValidationDependencies = { [validatorID: string]: Array<string> };
 
-const removeValidation = (validatorID: string) => ({
-  type: ValidationReducingType.REMOVE,
-  validatorID,
-});
+interface ValidationState {
+  data: ValidationContainer;
+  dependencies: ValidationDependencies;
 
-const resetValidation = () => ({
-  type: ValidationReducingType.RESET,
-});
+  refresh: Array<string>;
+}
 
-const addRefresh = (validatorID: string) => ({
-  type: ValidationReducingType.ADD_REFRESH,
-  validatorID,
-});
-
-const removeRefresh = (validatorID: string) => ({
-  type: ValidationReducingType.REMOVE_REFRESH,
-  validatorID,
-});
-
-const addDependency = (validatorID: string, dependedValidatorID: string) => ({
-  type: ValidationReducingType.ADD_DEPENDENCY,
-  validatorID,
-  dependedValidatorID,
-});
-
-const removeDependency = (
-  validatorID: string,
-  dependencies: Array<string>
-) => ({
-  type: ValidationReducingType.REMOVE_DEPENDENCY,
-  validatorID,
-  dependencies,
-});
-
-type ValidationReducingAction =
-  | ReturnType<typeof addValidation>
-  | ReturnType<typeof removeValidation>
-  | ReturnType<typeof resetValidation>
-  | ReturnType<typeof addRefresh>
-  | ReturnType<typeof removeRefresh>
-  | ReturnType<typeof addDependency>
-  | ReturnType<typeof removeDependency>;
-
-const copy = (data: ValidationData) => {
-  return {
-    ...data,
-
-    data: Map.copy(data.data, (validation) => ({
-      ...validation,
-      messages: [...validation.messages],
-    })),
-
-    dependencies: Map.copy(data.dependencies, (ids) => [...ids]),
-
-    refresh: [...data.refresh],
-  };
+const initialState: ValidationState = {
+  data: {},
+  dependencies: {},
+  refresh: [],
 };
 
-const validationReducer: Reducer<ValidationData, ValidationReducingAction> = (
-  state = INITIAL_STATE,
-  action
-) => {
-  const copied = copy(state);
+const validationSlice = createSlice({
+  name: REDUCER_NAME,
+  initialState,
+  reducers: {
+    reset: () => initialState,
+    addValidation: (state, action: PayloadAction<{ validatorID: string, validation: UntypedValidationResponse }>) => {
+      Map.replace(state.data, action.payload.validatorID, (validation) => ({
+        ...action.payload.validation,
+        version: 1 + (validation?.version || 0),
+      }));
+    },
+    removeValidation: (state, action: PayloadAction<{ validatorID: string }>) => {
+      Map.remove(state.data, action.payload.validatorID);
+      Map.remove(state.dependencies, action.payload.validatorID);
+      state.refresh = state.refresh.filter(
+        (validatorID) => validatorID !== action.payload.validatorID
+      );
+    },
+    addRefresh: (state, action: PayloadAction<{ validatorID: string }>) => {
+      state.refresh.push(action.payload.validatorID);
+    },
+    removeRefresh: (state, action: PayloadAction<{ validatorID: string }>) => {
+      state.refresh = state.refresh.filter(
+        (validatorID) => validatorID !== action.payload.validatorID
+      );
+    },
+    addDependency: (state, action: PayloadAction<{ validatorID: string, dependedValidatorID: string }>) => {
+      Map.replace(
+        state.dependencies,
+        action.payload.validatorID,
+        (dependencies) =>
+          dependencies?.concat(action.payload.dependedValidatorID) || [
+            action.payload.dependedValidatorID,
+          ]
+      );
+    },
+    removeDependency: (
+      state,
+      action: PayloadAction<{ validatorID: string, dependencies: Array<string> }>
+    ) => {
+      Map.replace(
+        state.dependencies,
+        action.payload.validatorID,
+        (dependencies) =>
+          dependencies?.filter(
+            (dependency) => !action.payload.dependencies.includes(dependency)
+          ) || []
+      );
+    },
+  },
+});
 
-  switch (action.type) {
-    case ValidationReducingType.ADD:
-      return {
-        ...copied,
-        data: {
-          ...copied.data,
-          [action.validatorID]: {
-            ...action.validation,
-            version: copied.data[action.validatorID]?.version + 1 || 0,
-          },
-        },
-      };
-    case ValidationReducingType.REMOVE:
-      return {
-        ...copied,
-        data: Map.remove(copied.data, action.validatorID),
-        refresh: copied.refresh.filter(
-          (validatorID) => validatorID !== action.validatorID
-        ),
-        dependencies: Map.remove(copied.dependencies, action.validatorID),
-      };
-    case ValidationReducingType.RESET:
-      return INITIAL_STATE;
-    case ValidationReducingType.ADD_REFRESH:
-      return {
-        ...copied,
-        refresh: copied.refresh.concat(action.validatorID),
-      };
-    case ValidationReducingType.REMOVE_REFRESH:
-      return {
-        ...copied,
-        refresh: copied.refresh.filter(
-          (validatorID) => validatorID !== action.validatorID
-        ),
-      };
-    case ValidationReducingType.ADD_DEPENDENCY:
-      return {
-        ...copied,
-        dependencies: {
-          ...copied.dependencies,
-          [action.validatorID]: copied.dependencies[action.validatorID]?.concat(
-            action.dependedValidatorID
-          ) || [action.dependedValidatorID],
-        },
-      };
-    case ValidationReducingType.REMOVE_DEPENDENCY:
-      return {
-        ...copied,
-        dependencies: {
-          ...copied.dependencies,
-          [action.validatorID]:
-            copied.dependencies[action.validatorID]?.filter(
-              (validatorID) => !action.dependencies.includes(validatorID)
-            ) || [],
-        },
-      };
-    default:
-      return state;
-  }
-};
-
-export {
-  validationReducer,
+export const {
+  reset,
   addValidation,
   removeValidation,
-  resetValidation,
   addRefresh,
   removeRefresh,
   addDependency,
   removeDependency,
-};
+} = validationSlice.actions;
+export { REDUCER_NAME };
+export type { ValidationState, ValidationContainer, ValidationDependencies };
+export default validationSlice.reducer;

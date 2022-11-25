@@ -7,7 +7,7 @@ import { Logo } from "../../components/logo";
 import { Profile } from "../../components/profile";
 import * as Style from "./header.style";
 import { updateHeaderHeight } from "../../utils/reducers/page";
-import { MenuEnum, MenuProps } from "../../utils/reducers/header/header.type";
+import { MenuEnum, MenuProps } from "../../utils/hooks/header/header.type";
 import { HeaderMenu } from "./menu";
 import { RootState } from "../../utils/reducers";
 
@@ -92,7 +92,7 @@ const Header = <E extends MenuEnum>(props: HeaderProps<E>) => {
   useEffect(() => {
     !!headerRef?.current &&
       dispatch(
-        updateHeaderHeight(headerRef.current.getBoundingClientRect().height)
+        updateHeaderHeight({ headerHeight: headerRef.current.getBoundingClientRect().height })
       );
   }, [dispatch]);
 
@@ -102,7 +102,7 @@ const Header = <E extends MenuEnum>(props: HeaderProps<E>) => {
     (_) =>
       !!headerRef?.current &&
       dispatch(
-        updateHeaderHeight(headerRef.current.getBoundingClientRect().height)
+        updateHeaderHeight({ headerHeight: headerRef.current.getBoundingClientRect().height })
       )
   );
 

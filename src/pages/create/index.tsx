@@ -28,7 +28,7 @@ const CreatePage = () => {
 
   // Guest 권한으로 접근할 경우 돌려보낸다.
   useEffect(() => {
-    if (!auth.authenticated) {
+    if (!auth.authorized) {
       /* For Test */
       //navigate("/", { replace: true });
     }

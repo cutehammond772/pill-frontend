@@ -9,7 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HomeIcon from "@mui/icons-material/Home";
 
 import { useEffect } from "react";
-import { initHeader } from "../../../utils/reducers/header";
+import { init } from "../../../utils/reducers/header";
 import { useDispatch } from "react-redux";
 import { useLocalization } from "../../../utils/hooks/localization";
 import { L10N } from "../../../localization";
@@ -20,7 +20,7 @@ const NotFoundPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(initHeader());
+    dispatch(init());
   }, [dispatch]);
 
   return (

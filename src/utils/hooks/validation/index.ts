@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import * as reducer from "../../reducers/validation";
-import { ValidationContainer } from "../../reducers/validation/validation.type";
+import { ValidationContainer } from "../../reducers/validation";
 import {
   DomainValidator,
   ValidatedType,
@@ -210,7 +210,7 @@ const useValidation = <T, E extends ValidationMessages>(
 
   // 다른 Validator에 재검증을 요청한다.
   const refreshValidator = useCallback(
-    (validatorID: string) => dispatch(reducer.addRefresh(validatorID)),
+    (validatorID: string) => dispatch(reducer.addRefresh({ validatorID })),
     [dispatch]
   );
 
@@ -218,7 +218,7 @@ const useValidation = <T, E extends ValidationMessages>(
   useEffect(() => {
     if (!removed.current && refresh) {
       lockValidate.reset();
-      dispatch(reducer.removeRefresh(validatorID.current));
+      dispatch(reducer.removeRefresh({ validatorID: validatorID.current }));
     }
   }, [dispatch, refresh, lockValidate]);
 
@@ -235,7 +235,7 @@ const useValidation = <T, E extends ValidationMessages>(
     }
 
     // 이 Validator의 모든 정보를 삭제한다.
-    dispatch(reducer.removeValidation(validatorID.current));
+    dispatch(reducer.removeValidation({ validatorID: validatorID.current }));
 
     // runOnce 정보를 삭제한다.
     lockValidate.reset();
@@ -248,7 +248,7 @@ const useValidation = <T, E extends ValidationMessages>(
 
     // 의존 Validator를 모두 삭제한다.
     listDependencies?.forEach((validatorID) =>
-      dispatch(reducer.removeValidation(validatorID))
+      dispatch(reducer.removeValidation({ validatorID }))
     );
 
     removed.current = true;
@@ -270,7 +270,9 @@ const useValidation = <T, E extends ValidationMessages>(
       }
 
       // 검증 결과를 저장한다.
-      dispatch(reducer.addValidation(validation, validatorID.current));
+      dispatch(
+        reducer.addValidation({ validation, validatorID: validatorID.current })
+      );
 
       // 처음에 단 한 번만 실행된다.
       initOnce.runOnce(() => {
@@ -278,7 +280,10 @@ const useValidation = <T, E extends ValidationMessages>(
         if (validator.dependency !== undefined) {
           // 상위 Validator에 의존성을 추가한다.
           dispatch(
-            reducer.addDependency(validator.dependency, validatorID.current)
+            reducer.addDependency({
+              validatorID: validator.dependency,
+              dependedValidatorID: validatorID.current,
+            })
           );
 
           // 상위 Validator에 재검증을 요청한다.
@@ -422,7 +427,10 @@ const useValidation = <T, E extends ValidationMessages>(
 
     removedDependencies.length !== 0 &&
       dispatch(
-        reducer.removeDependency(validatorID.current, removedDependencies)
+        reducer.removeDependency({
+          validatorID: validatorID.current,
+          dependencies: removedDependencies,
+        })
       );
   }, [dispatch, data, combine, listDependencies, dependencies, validator]);
 

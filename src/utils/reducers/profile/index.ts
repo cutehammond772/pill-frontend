@@ -1,36 +1,30 @@
-import { ProfileReducingType, INITIAL_STATE } from "./profile.type";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
-import { Reducer } from "redux";
-import { ProfileData } from "../../../components/profile/profile.avatar";
+interface ProfileState {
+  userName?: string;
+  profileUrl?: string;
+}
 
-// updating profile (if null, Guest Profile)
-const updateProfile = (profile: ProfileData) => ({
-  type: ProfileReducingType.UPDATE,
-  payload: profile,
+const REDUCER_NAME = "profile";
+const initialState: ProfileState = {};
+
+const profileSlice = createSlice({
+  name: REDUCER_NAME,
+  initialState,
+  reducers: {
+    setToUser: (
+      _,
+      action: PayloadAction<{
+        userName: string;
+        profileUrl: string;
+      }>
+    ) => action.payload,
+
+    setToAnonymous: () => initialState,
+  },
 });
 
-// removing profile (to Guest Profile)
-const removeProfile = () => ({
-  type: ProfileReducingType.REMOVE,
-});
-
-type ProfileReducingAction =
-  | ReturnType<typeof updateProfile>
-  | ReturnType<typeof removeProfile>;
-
-// initial state: Loading Profile
-const profileReducer: Reducer<ProfileData, ProfileReducingAction> = (
-  state = INITIAL_STATE,
-  action
-) => {
-  switch (action.type) {
-    case ProfileReducingType.UPDATE:
-      return { ...action.payload };
-    case ProfileReducingType.REMOVE:
-      return INITIAL_STATE;
-    default:
-      return state;
-  }
-};
-
-export { updateProfile, removeProfile, profileReducer };
+export const { setToUser, setToAnonymous } = profileSlice.actions;
+export { REDUCER_NAME, type ProfileState };
+export default profileSlice.reducer;

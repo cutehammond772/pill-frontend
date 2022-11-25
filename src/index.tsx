@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 
 import { BrowserRouter } from "react-router-dom";
-import { rootReducer } from "./utils/reducers";
+import rootReducer from "./utils/reducers";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import GlobalStyles from "./GlobalStyles";
@@ -47,6 +47,7 @@ import {
 import { CommonColors } from "@mui/material/styles/createPalette";
 import { TypeBackground } from "@mui/material";
 import { SnackbarProvider } from "notistack";
+import rootSaga, { sagaMiddleware } from "./utils/sagas";
 
 // extends Joy theme to include tokens from Material UI
 declare module "@mui/joy/styles" {
@@ -174,10 +175,16 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-const store = configureStore({
-  reducer: rootReducer,
-  devTools: process.env.NODE_ENV !== "production",
-});
+const createStore = () => {
+  const store = configureStore({
+    reducer: rootReducer,
+    devTools: process.env.NODE_ENV !== "production",
+    middleware: [sagaMiddleware],
+  });
+
+  sagaMiddleware.run(rootSaga);
+  return store;
+};
 
 root.render(
   <BrowserRouter>
@@ -187,7 +194,7 @@ root.render(
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <GlobalStyles />
-        <Provider store={store}>
+        <Provider store={createStore()}>
           <App />
         </Provider>
       </SnackbarProvider>

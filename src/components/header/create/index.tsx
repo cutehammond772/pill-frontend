@@ -12,7 +12,7 @@ import * as Pill from "../../../utils/validators/create/pill";
 import { useSnackbar } from "notistack";
 import { ValidatedType } from "../../../utils/validators/validator.type";
 import { usePillDefaultEditor } from "../../../utils/hooks/pill_creator";
-import { MenuEnum } from "../../../utils/reducers/header/header.type";
+import { MenuEnum } from "../../../utils/hooks/header/header.type";
 import { L10N } from "../../../localization";
 import { useLocalization } from "../../../utils/hooks/localization";
 

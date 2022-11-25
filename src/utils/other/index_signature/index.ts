@@ -2,13 +2,40 @@
 
 type IndexSignatureMap<T> = { [key: string]: T };
 
-const copy = <T>(map: IndexSignatureMap<T>, copyFn?: (value: T) => T) => {
+// 맵 객체를 복사합니다. copyFn 함수를 통해 내부 원소를 복사합니다.
+const copy = <T>(map: IndexSignatureMap<T>, copyFn: (value: T) => T) => {
   return Object.keys(map).reduce((acc, key) => {
     acc[key] = !!copyFn ? copyFn(map[key]) : map[key];
     return acc;
   }, {} as IndexSignatureMap<T>);
 };
 
+// 특정한 원소를 수정합니다. 이때, 존재하지 않는 경우 put과 동일한 기능을 가집니다.
+const replace = <T>(
+  map: IndexSignatureMap<T>,
+  key: string,
+  replaceFn: (value?: T) => T,
+  copyFn?: (value: T) => T
+) => {
+  const copied = !!copyFn ? copy(map, copyFn) : map;
+  copied[key] = replaceFn(copied[key]);
+
+  return copied;
+};
+
+const replaceAll = <T>(
+  map: IndexSignatureMap<T>,
+  keys: Array<string>,
+  replaceFn: (value?: T) => T,
+  copyFn?: (value: T) => T
+) => {
+  const copied = !!copyFn ? copy(map, copyFn) : map;
+  keys.forEach((key) => copied[key] = replaceFn(copied[key]));
+
+  return copied;
+};
+
+// 맵에 (key, value) 쌍을 추가합니다.
 const put = <T>(
   map: IndexSignatureMap<T>,
   key: string,
@@ -32,6 +59,7 @@ const putAll = <T>(
   return copied;
 };
 
+// 맵의 특정한 원소를 삭제합니다.
 const remove = <T>(
   map: IndexSignatureMap<T>,
   key: string,
@@ -58,4 +86,4 @@ const removeAll = <T>(
   }, {} as IndexSignatureMap<T>);
 };
 
-export { copy, put, putAll, remove, removeAll, type IndexSignatureMap };
+export { copy, replace, replaceAll, put, putAll, remove, removeAll, type IndexSignatureMap };

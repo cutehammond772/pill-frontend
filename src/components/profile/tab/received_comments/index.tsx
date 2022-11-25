@@ -4,7 +4,6 @@ import * as Style from "./rc.style";
 import { History } from "./rc.history";
 
 import { ReceivedCommentData, ReceivedCommentsStats } from "./rc.type";
-
 import { ReceivedComment } from "./rc.comment";
 
 interface ReceivedCommentsProps {

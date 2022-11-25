@@ -3,7 +3,7 @@ import { Header } from "../../../layouts/header";
 import * as React from "react";
 import { useHeader } from "../../../utils/hooks/header";
 import { L10N } from "../../../localization";
-import { MenuEnum } from "../../../utils/reducers/header/header.type";
+import { MenuEnum } from "../../../utils/hooks/header/header.type";
 
 const DefaultHeaderSignature = "DefaultHeader";
 

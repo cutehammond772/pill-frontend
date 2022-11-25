@@ -1,7 +1,6 @@
 import { Chip } from "@mui/joy";
 
 import * as Style from "./profile.style";
-
 import CopyrightIcon from "@mui/icons-material/Copyright";
 
 interface ProfilePointInfoProps {

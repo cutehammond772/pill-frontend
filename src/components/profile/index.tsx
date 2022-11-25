@@ -3,19 +3,17 @@ import { ProfileAvatar } from "./profile.avatar";
 import { ProfilePointInfo } from "./profile.point_info";
 import { ProfileTab } from "./tab";
 
-import { useProfile } from "../../utils/hooks/profile";
 import * as Style from "./profile.style";
-
-import { INITIAL_STATE } from "../../utils/reducers/profile/profile.type";
+import { useAuth } from "../../utils/hooks/auth";
 
 const Profile = () => {
-  const profile = useProfile();
+  const auth = useAuth();
   const [checked, setChecked] = useState<boolean>(false);
 
   return (
     <>
       <Style.Container>
-        {(profile.data !== INITIAL_STATE) && <ProfilePointInfo point={30000} />}
+        {auth.authorized && <ProfilePointInfo point={30000} />}
         <ProfileAvatar onClick={() => setChecked(!checked)} />
       </Style.Container>
 

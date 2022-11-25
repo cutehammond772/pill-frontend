@@ -19,9 +19,9 @@ const HomePage = () => {
 
   return (
     <Page
-      layout={auth.authenticated ? UserStyle.Background : GuestStyle.Background}
+      layout={auth.authorized ? UserStyle.Background : GuestStyle.Background}
     >
-      {auth.authenticated ? <UserHome /> : <GuestHome />}
+      {auth.authorized ? <UserHome /> : <GuestHome />}
     </Page>
   );
 };

@@ -13,7 +13,7 @@ import { useValidation } from "../../../../utils/hooks/validation";
 import * as Index from "../../../../utils/validators/create/index/";
 import * as Content from "../../../../utils/validators/create/content";
 
-import { PillContentTypeMapper } from "../../../../utils/reducers/pill/pill.type";
+import { PillContentTypeMapper } from "../../../../utils/reducers/creator";
 import {
   usePillIndexEditor,
   usePillOrder,

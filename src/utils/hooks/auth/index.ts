@@ -5,7 +5,7 @@ import * as config from "../../../config";
 import * as RequestError from "./auth.error";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
-import { confirmAuth, confirmUnauth } from "../../reducers/auth";
+import * as reducer from "../../reducers/auth";
 import { useRunOnce } from "../run_once";
 
 // Axios 인스턴스 객체이다.
@@ -39,16 +39,14 @@ const useAuth = (loader?: boolean) => {
   const loaded = useSelector((state: RootState) => state.auth.loaded);
 
   // 인증 정보를 성공적으로 가져온 여부를 나타낸다.
-  const authenticated = useSelector(
-    (state: RootState) => state.auth.authenticated
-  );
+  const authorized = useSelector((state: RootState) => state.auth.authorized);
 
   // 로그아웃 함수
   const logout = useCallback(() => {
     !!instance.defaults.headers.common["Authorization"] &&
       delete instance.defaults.headers.common["Authorization"];
 
-    dispatch(confirmUnauth());
+    dispatch(reducer.logout());
   }, [dispatch]);
 
   // 인증 정보를 새로고침한다.
@@ -56,7 +54,7 @@ const useAuth = (loader?: boolean) => {
     fetchAccessToken()
       .then(() => {
         RequestError.resolve(RequestError.Type.SUCCESS);
-        dispatch(confirmAuth());
+        dispatch(reducer.authorize({ authorized: true }));
       })
       .catch((ex) => {
         RequestError.resolve(
@@ -64,7 +62,7 @@ const useAuth = (loader?: boolean) => {
             ? RequestError.convert(ex.message)
             : RequestError.Type.UNKNOWN
         );
-        dispatch(confirmUnauth());
+        dispatch(reducer.logout());
       });
   }, [dispatch]);
 
@@ -75,7 +73,7 @@ const useAuth = (loader?: boolean) => {
 
   return {
     axios: instance,
-    authenticated: loaded && authenticated,
+    authorized: loaded && authorized,
     loaded,
     refresh,
     logout,

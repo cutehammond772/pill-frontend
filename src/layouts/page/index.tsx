@@ -35,7 +35,11 @@ const Page = (props: PageProps) => {
 
   useEffect(() => {
     !!ref?.current &&
-      dispatch(updatePageHeight(ref.current.getBoundingClientRect().height));
+      dispatch(
+        updatePageHeight({
+          pageHeight: ref.current.getBoundingClientRect().height,
+        })
+      );
   }, [dispatch]);
 
   useEffect(() => {
@@ -46,7 +50,9 @@ const Page = (props: PageProps) => {
     ref,
     (_) =>
       !!ref?.current &&
-      dispatch(updatePageHeight(ref.current.getBoundingClientRect().height))
+      dispatch(updatePageHeight({
+        pageHeight: ref.current.getBoundingClientRect().height,
+      }))
   );
   return (
     <Style.Page ref={ref} layout={props.layout}>

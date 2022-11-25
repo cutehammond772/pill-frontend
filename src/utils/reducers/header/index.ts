@@ -1,151 +1,66 @@
-import { Reducer } from "redux";
-import {
-  HeaderContainer,
-  HeaderNode,
-  HeaderReducingType,
-  INITIAL_STATE,
-} from "./header.type";
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { HeaderContainer } from "../../hooks/header/header.type";
 
-const initHeader = () => ({
-  type: HeaderReducingType.INIT,
-});
+interface HeaderState {
+  title?: string;
+  preventClick: boolean;
 
-const changeHeaderTitle = (title: string) => ({
-  type: HeaderReducingType.CHANGE_TITLE,
-  title: title,
-});
+  selected: HeaderContainer;
+  disabled: HeaderContainer;
+}
 
-const addHeaderSelected = (header: string, selected: string) => ({
-  type: HeaderReducingType.ADD_SELECTED,
-  header: header,
-  selected: selected,
-});
-
-const addHeaderDisabled = (header: string, disabled: string) => ({
-  type: HeaderReducingType.ADD_DISABLED,
-  header: header,
-  disabled: disabled,
-});
-
-const resetHeaderSelected = (header: string) => ({
-  type: HeaderReducingType.RESET_SELECTED,
-  header: header,
-});
-
-const resetHeaderDisabled = (header: string) => ({
-  type: HeaderReducingType.RESET_DISABLED,
-  header: header,
-});
-
-const lockMenuClick = () => ({
-  type: HeaderReducingType.LOCK_CLICK,
-});
-
-const unlockMenuClick = () => ({
-  type: HeaderReducingType.UNLOCK_CLICK,
-});
-
-type HeaderReducingAction =
-  | ReturnType<typeof initHeader>
-  | ReturnType<typeof changeHeaderTitle>
-  | ReturnType<typeof addHeaderSelected>
-  | ReturnType<typeof addHeaderDisabled>
-  | ReturnType<typeof resetHeaderSelected>
-  | ReturnType<typeof resetHeaderDisabled>
-  | ReturnType<typeof lockMenuClick>
-  | ReturnType<typeof unlockMenuClick>;
-
-const copyHeaderContainer = (container: HeaderContainer) => {
-  return Object.keys(container).reduce((acc, key) => {
-    acc[key] = [...container[key]];
-    return acc;
-  }, {} as HeaderContainer);
+const REDUCER_NAME = "header";
+const initialState: HeaderState = {
+  selected: {},
+  disabled: {},
+  preventClick: false,
 };
 
-const copy = (node: HeaderNode) => {
-  const selected = copyHeaderContainer(node.selected);
-  const disabled = copyHeaderContainer(node.disabled);
+const headerSlice = createSlice({
+  name: REDUCER_NAME,
+  initialState,
+  reducers: {
+    init: () => initialState,
+    changeTitle: (state, action: PayloadAction<{ title: string }>) => {
+      state.title = action.payload.title;
+    },
+    selectItem: (state, action: PayloadAction<{ header: string, item: string }>) => {
+      state.selected[action.payload.header] = [
+        ...state.selected[action.payload.header],
+        action.payload.item,
+      ];
+    },
+    disableItem: (state, action: PayloadAction<{ header: string, item: string }>) => {
+      state.disabled[action.payload.header] = [
+        ...state.disabled[action.payload.header],
+        action.payload.item,
+      ];
+    },
+    resetHeaderSelection: (state, action: PayloadAction<{ header: string }>) => {
+      state.selected[action.payload.header] = [];
+    },
+    resetHeaderDisabled: (state, action: PayloadAction<{ header: string }>) => {
+      state.disabled[action.payload.header] = [];
+    },
+    lockInteraction: (state) => {
+      state.preventClick = true;
+    },
+    unlockInteraction: (state) => {
+      state.preventClick = false;
+    },
+  },
+});
 
-  return {
-    ...node,
-    selected: selected,
-    disabled: disabled,
-  };
-};
-
-const headerReducer: Reducer<HeaderNode, HeaderReducingAction> = (
-  state = INITIAL_STATE,
-  action
-) => {
-  const copied = copy(state);
-
-  switch (action.type) {
-    case HeaderReducingType.INIT:
-      return INITIAL_STATE;
-    case HeaderReducingType.CHANGE_TITLE:
-      return {
-        ...copied,
-        title: action.title,
-      };
-    case HeaderReducingType.ADD_SELECTED:
-      return {
-        ...copied,
-        selected: {
-          ...copied.selected,
-          [action.header]: copied?.selected[action.header]?.concat(
-            action.selected
-          ) || [action.selected],
-        },
-      };
-    case HeaderReducingType.ADD_DISABLED:
-      return {
-        ...copied,
-        disabled: {
-          ...copied.disabled,
-          [action.header]: copied?.disabled[action.header]?.concat(
-            action.disabled
-          ) || [action.disabled],
-        },
-      };
-    case HeaderReducingType.RESET_SELECTED:
-      return {
-        ...copied,
-        selected: {
-          ...copied.selected,
-          [action.header]: []
-        },
-      };
-    case HeaderReducingType.RESET_DISABLED:
-      return {
-        ...copied,
-        disabled: {
-          ...copied.disabled,
-          [action.header]: []
-        },
-      };
-    case HeaderReducingType.LOCK_CLICK:
-      return {
-        ...copied,
-        preventClick: true,
-      };
-    case HeaderReducingType.UNLOCK_CLICK:
-      return {
-        ...copied,
-        preventClick: false,
-      };
-    default:
-      return state;
-  }
-};
-
-export {
-  initHeader,
-  changeHeaderTitle,
-  addHeaderSelected,
-  addHeaderDisabled,
-  resetHeaderSelected,
+export const {
+  init,
+  changeTitle,
+  selectItem,
+  disableItem,
+  resetHeaderSelection,
   resetHeaderDisabled,
-  lockMenuClick,
-  unlockMenuClick,
-  headerReducer,
-};
+  lockInteraction,
+  unlockInteraction,
+} = headerSlice.actions;
+export { REDUCER_NAME, type HeaderState };
+export default headerSlice.reducer;

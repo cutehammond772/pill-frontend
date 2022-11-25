@@ -1,19 +1,9 @@
-import {
-  MenuEnum,
-  MenuItemRef,
-} from "../../../utils/reducers/header/header.type";
-
 import { useRef, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
-import {
-  addHeaderSelected,
-  addHeaderDisabled,
-  changeHeaderTitle,
-  resetHeaderSelected,
-  resetHeaderDisabled,
-} from "../../reducers/header";
+import * as reducer from "../../reducers/header";
+import { MenuEnum, MenuItemRef } from "./header.type";
 
 // Header 설정을 간편하게 할 수 있는 커스텀 Hook이다.
 // 특정 Header의 최상단에만 위치할 수 있다.
@@ -47,7 +37,7 @@ const useHeader = <E extends MenuEnum>(
   // Title을 수정한다.
   const changeTitle = useCallback(
     (title: string) => {
-      dispatch(changeHeaderTitle(title));
+      dispatch(reducer.changeTitle({ title }));
     },
     [dispatch]
   );
@@ -55,7 +45,7 @@ const useHeader = <E extends MenuEnum>(
   // 선택된 아이템을 추가한다. (= 특정 아이템을 선택시킨다.)
   const addSelected = useCallback(
     (item: MenuItem) => {
-      dispatch(addHeaderSelected(header, item));
+      dispatch(reducer.selectItem({ header, item }));
     },
     [dispatch, header]
   );
@@ -63,19 +53,19 @@ const useHeader = <E extends MenuEnum>(
   // 비활성화된 아이템을 추가한다. (= 특정 아이템을 비활성화시킨다.)
   const addDisabled = useCallback(
     (item: MenuItem) => {
-      dispatch(addHeaderDisabled(header, item));
+      dispatch(reducer.disableItem({ header, item }));
     },
     [dispatch, header]
   );
 
   // 선택된 아이템들을 초기화한다.
   const resetSelected = useCallback(() => {
-    dispatch(resetHeaderSelected(header));
+    dispatch(reducer.resetHeaderSelection({ header }));
   }, [dispatch, header]);
 
   // 비활성화된 아이템들을 초기화한다.
   const resetDisabled = useCallback(() => {
-    dispatch(resetHeaderDisabled(header));
+    dispatch(reducer.resetHeaderDisabled({ header }));
   }, [dispatch, header]);
 
   // 아이템을 클릭 시 mapper에 명시된 경로로 이동하는 핸들러를 반환한다.

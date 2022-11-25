@@ -17,7 +17,7 @@ import { AddContentButton } from "../add";
 import { ImageContentModal } from "./modal";
 
 import * as Content from "../../../../../../utils/validators/create/content";
-import { PillContentType } from "../../../../../../utils/reducers/pill/pill.type";
+import { PillContentType } from "../../../../../../utils/reducers/creator";
 import {
   usePillContentEditor,
   usePillIndexEditor,

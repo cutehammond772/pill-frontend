@@ -15,12 +15,12 @@ const Footer = () => {
 
   useEffect(() => {
     !!ref?.current &&
-      dispatch(updateFooterHeight(ref.current.getBoundingClientRect().height));
+      dispatch(updateFooterHeight({ footerHeight: ref.current.getBoundingClientRect().height }));
   }, [dispatch]);
 
   useResizeObserver(ref, (_) => {
     !!ref?.current &&
-      dispatch(updateFooterHeight(ref.current.getBoundingClientRect().height));
+      dispatch(updateFooterHeight({ footerHeight: ref.current.getBoundingClientRect().height }));
   });
 
   return (

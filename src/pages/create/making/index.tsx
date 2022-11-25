@@ -3,7 +3,6 @@ import * as Style from "./making.style";
 import { IndexContainer as IndexContainerElement } from "./index/index";
 import { AddIndex } from "./add_index";
 
-import * as React from "react";
 import { useEffect } from "react";
 
 import { Collapse } from "@mui/material";
@@ -20,7 +19,7 @@ import { L10N } from "../../../localization";
 const Content = () => {
   const { text } = useLocalization();
   const editor = usePillDefaultEditor();
-  const indexes = useSelector((state: RootState) => state.pill.indexes);
+  const indexes = useSelector((state: RootState) => state.creator.indexes);
   const validator = useValidation(IndexContainer.Validator);
   const validation = validator.validation;
 

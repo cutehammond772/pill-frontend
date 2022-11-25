@@ -10,11 +10,11 @@ import ENGTexts from "../../../localization/eng";
 import KORTexts from "../../../localization/kor";
 import { RootState } from "../../reducers";
 
-import * as reducer from "../../reducers/localization";
+import * as reducer from "../../reducers/l10n";
 
 export const L10NMap = {
-    [LanguageType.Korean]: KORTexts,
-    [LanguageType.English]: ENGTexts,
+  [LanguageType.Korean]: KORTexts,
+  [LanguageType.English]: ENGTexts,
 } as const;
 
 const useLocalization = () => {
@@ -22,18 +22,20 @@ const useLocalization = () => {
   const dispatch = useDispatch();
 
   const changeLanguage = useCallback(
-    (language: Language) => dispatch(reducer.changeLanguage(language)),
+    (language: Language) => dispatch(reducer.changeLanguage({ language })),
     [dispatch]
   );
 
   const resetLanguage = useCallback(
-    (language: Language) => dispatch(reducer.resetLanguage()),
+    () => dispatch(reducer.resetLanguage()),
     [dispatch]
   );
 
-  const text = (message: L10NText) =>
-    L10NMap[language][message] || L10NMap[DEFUALT_LANGUAGE][message];
-
+  const text = useCallback(
+    (message: L10NText) =>
+      L10NMap[language][message] || L10NMap[DEFUALT_LANGUAGE][message],
+    [language]
+  );
   return { language, changeLanguage, resetLanguage, text };
 };
 

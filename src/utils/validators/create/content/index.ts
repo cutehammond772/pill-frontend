@@ -1,5 +1,5 @@
 import { begin } from "../../validator.factory";
-import { PillContent, PillContentType } from "../../../reducers/pill/pill.type";
+import { PillContent, PillContentType } from "../../../reducers/creator";
 
 import * as Index from "../index";
 import { DomainValidator, validatorID } from "../../validator.type";

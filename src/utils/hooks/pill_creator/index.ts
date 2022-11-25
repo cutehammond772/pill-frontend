@@ -2,8 +2,8 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 
-import * as reducer from "../../reducers/pill";
-import { PillContent } from "../../reducers/pill/pill.type";
+import * as reducer from "../../reducers/creator";
+import { PillContent } from "../../reducers/creator";
 import { useRollback } from "../rollback";
 
 // Pill의 제목이나 카테고리, 빈 인덱스 추가 등을 담당한다.
@@ -12,14 +12,20 @@ const usePillDefaultEditor = () => {
   const rollback = useRollback();
 
   // 바로 접근할 수 있는 immutable 데이터이다.
-  const title = useSelector((state: RootState) => state.pill.title);
-  const categories = useSelector((state: RootState) => state.pill.categories);
+  const title = useSelector((state: RootState) => state.creator.title);
+  const categories = useSelector(
+    (state: RootState) => state.creator.categories
+  );
 
   // 롤백 데이터 저장을 위한 인덱스이다.
-  const indexes = useSelector((state: RootState) => state.pill.indexes);
+  // 추후 수정
+  const indexes = useSelector((state: RootState) => state.creator.indexes);
 
   // 새로운 빈 인덱스를 추가한다.
-  const addIndex = useCallback(() => dispatch(reducer.addIndex()), [dispatch]);
+  const addIndex = useCallback(
+    () => dispatch(reducer.createIndex()),
+    [dispatch]
+  );
 
   // 새로운 카테고리를 추가한다.
   const addCategory = useCallback(
@@ -28,7 +34,7 @@ const usePillDefaultEditor = () => {
         throw new Error();
       }
 
-      dispatch(reducer.addCategory(category));
+      dispatch(reducer.addCategory({ category }));
     },
     [categories, dispatch]
   );
@@ -40,14 +46,14 @@ const usePillDefaultEditor = () => {
         throw new Error();
       }
 
-      dispatch(reducer.removeCategory(categoryId));
+      dispatch(reducer.removeCategory({ categoryId }));
     },
     [categories, dispatch]
   );
 
   // 제목을 업데이트한다.
   const updateTitle = useCallback(
-    (title: string) => dispatch(reducer.updateTitle(title)),
+    (title: string) => dispatch(reducer.updateTitle({ title })),
     [dispatch]
   );
 
@@ -55,8 +61,8 @@ const usePillDefaultEditor = () => {
   const resetAll = useCallback(() => {
     // 인덱스 데이터를 롤백 데이터에 저장한다.
     indexes.forEach((index) => rollback.captureIndex(index));
-    
-    dispatch(reducer.resetPill());
+
+    dispatch(reducer.reset());
   }, [indexes, rollback, dispatch]);
 
   // 카테고리를 초기화한다.
@@ -79,7 +85,7 @@ const usePillDefaultEditor = () => {
 
 // 인덱스 또는 카테고리의 순서(=위치)를 구하는 데 사용한다.
 const usePillOrder = () => {
-  const indexes = useSelector((state: RootState) => state.pill.indexes);
+  const indexes = useSelector((state: RootState) => state.creator.indexes);
 
   // id를 가진 인덱스의 순서를 구한다.
   const getIndexOrder = useCallback(
@@ -134,7 +140,7 @@ const usePillIndexEditor = (id: string) => {
 
   // 삭제된 데이터인 경우 롤백 데이터를 대신 반환한다.
   const index = useSelector((state: RootState) =>
-    state.pill.indexes.find((index) => index.id === id)
+    state.creator.indexes.find((index) => index.id === id)
   );
 
   if (!index && !removed) {
@@ -159,7 +165,7 @@ const usePillIndexEditor = (id: string) => {
   const addContent = useCallback(
     (contentType: PillContent, content: string, subContent?: string) =>
       checkRemoved(() =>
-        dispatch(reducer.addIndexContent(id, contentType, content, subContent))
+        dispatch(reducer.addContent({ id, contentType, content, subContent }))
       ),
     [dispatch, checkRemoved, id]
   );
@@ -168,7 +174,7 @@ const usePillIndexEditor = (id: string) => {
   const exchangeContent = useCallback(
     (contentId: string, exchangeId: string) =>
       checkRemoved(() =>
-        dispatch(reducer.exchangeIndexContent(id, contentId, exchangeId))
+        dispatch(reducer.exchangeContent({ id, contentId, exchangeId }))
       ),
     [dispatch, checkRemoved, id]
   );
@@ -176,7 +182,7 @@ const usePillIndexEditor = (id: string) => {
   // 인덱스의 제목을 업데이트한다.
   const updateTitle = useCallback(
     (title: string) =>
-      checkRemoved(() => dispatch(reducer.updateIndexTitle(id, title))),
+      checkRemoved(() => dispatch(reducer.updateIndexTitle({ id, title }))),
     [dispatch, checkRemoved, id]
   );
 
@@ -185,7 +191,7 @@ const usePillIndexEditor = (id: string) => {
     () =>
       checkRemoved(() => {
         !!index && rollback.captureIndex(index);
-        dispatch(reducer.removeIndex(id));
+        dispatch(reducer.removeIndex({ id }));
       }),
     [dispatch, checkRemoved, id, index, rollback]
   );
@@ -229,7 +235,7 @@ const usePillContentEditor = (id: string, contentId: string) => {
 
   // 삭제된 데이터인 경우 롤백 데이터를 대신 반환한다.
   const content = useSelector((state: RootState) =>
-    state.pill.indexes
+    state.creator.indexes
       .find((index) => index.id === id)
       ?.contents.find((content) => content.contentId === contentId)
   );
@@ -256,7 +262,7 @@ const usePillContentEditor = (id: string, contentId: string) => {
   const update = useCallback(
     (content: string, subContent?: string) =>
       checkRemoved(() =>
-        dispatch(reducer.updateIndexContent(id, contentId, content, subContent))
+        dispatch(reducer.updateContent({ id, contentId, content, subContent }))
       ),
     [dispatch, checkRemoved, id, contentId]
   );
@@ -266,7 +272,7 @@ const usePillContentEditor = (id: string, contentId: string) => {
     () =>
       checkRemoved(() => {
         !!content && rollback.captureContent(content);
-        dispatch(reducer.removeIndexContent(id, contentId));
+        dispatch(reducer.removeContent({ id, contentId }));
       }),
     [dispatch, checkRemoved, id, contentId, content, rollback]
   );
