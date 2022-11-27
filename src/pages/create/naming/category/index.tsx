@@ -5,9 +5,9 @@ import { useSnackbar } from "notistack";
 import * as Style from "./category.style";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import { usePillDefaultEditor } from "../../../../utils/hooks/pill_creator";
+import { usePillDefaultEditor } from "../../../../utils/hooks/pill-creator";
 import { L10N } from "../../../../localization";
-import { useLocalization } from "../../../../utils/hooks/localization";
+import { useLocalization } from "../../../../utils/hooks/l10n";
 
 const validateContent = (value: string) => {
   if (value.trim() !== value) {

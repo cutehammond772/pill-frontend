@@ -12,9 +12,15 @@ const Container = styled.div`
 `;
 
 const Text = styled.h1`
-  color: var(--dark);
   padding-top: 256px;
-  font-size: 2.5rem;
+  color: var(--dark);
+
+  font-size: 40px;
+  word-break: keep-all;
+
+  @media screen and (max-width: 768px){
+    font-size: 30px;
+  }
 `;
 
 const Background = css`

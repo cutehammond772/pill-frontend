@@ -20,31 +20,31 @@ const begin = <T, E>(t: T, skipAfterFirstInvalid?: boolean) => {
     skipAfterFirstInvalid: skipAfterFirstInvalid,
   };
 
-  return chainFunctions(t, chain);
+  return next(t, chain);
 };
 
-const chainFunctions = <T, E>(t: T, chain: ValidationChain<E>) => ({
+const next = <T, E>(t: T, chain: ValidationChain<E>) => ({
   // 특정 조건에 부합하면 'PASS' 한다. 이 경우 나머지 검증 과정은 생략된다.
   // 되도록이면 로직의 맨 처음에 pass가 위치하도록 한다.
-  pass: (predicate: (t: T) => boolean) => func_pass(t, predicate(t), chain),
+  pass: (predicate: (t: T) => boolean) => passFn(t, predicate(t), chain),
 
   // 검증을 진행한다.
   validate: (predicate: (t: T) => boolean, e: E[keyof E]) =>
-    func_validate(t, predicate(t), e, chain),
+    validateFn(t, predicate(t), e, chain),
 
   // 검증 과정을 끝낸다. 이때 'INVALID'가 없고 'VALID'가 하나라도 존재하면 'VALID'로 저장된다.
-  done: () => func_done(chain),
+  done: () => doneFn(chain),
 });
 
-const func_pass = <T, E>(t: T, pass: boolean, chain: ValidationChain<E>) => {
+const passFn = <T, E>(t: T, pass: boolean, chain: ValidationChain<E>) => {
   if (!chain.alreadyPassed && pass) {
     chain.alreadyPassed = true;
   }
 
-  return chainFunctions(t, chain);
+  return next(t, chain);
 };
 
-const func_validate = <T, E>(
+const validateFn = <T, E>(
   t: T,
   validate: boolean,
   e: E[keyof E],
@@ -61,10 +61,10 @@ const func_validate = <T, E>(
     }
   }
 
-  return chainFunctions(t, chain);
+  return next(t, chain);
 };
 
-const func_done = <E>(chain: ValidationChain<E>) => {
+const doneFn = <E>(chain: ValidationChain<E>) => {
   return {
     result: !!chain.alreadyPassed
       ? ValidatedType.PASS

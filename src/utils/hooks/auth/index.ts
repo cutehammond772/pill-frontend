@@ -6,7 +6,7 @@ import * as RequestError from "./auth.error";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import * as reducer from "../../reducers/auth";
-import { useRunOnce } from "../run_once";
+import { useRunOnce } from "../run-once";
 
 // Axios 인스턴스 객체이다.
 const instance: AxiosInstance = axios.create({

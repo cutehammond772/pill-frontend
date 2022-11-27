@@ -10,7 +10,6 @@ const Container = styled.div`
 
   display: flex;
   flex-flow: column;
-  row-gap: 512px;
 `;
 
 const Background = css`

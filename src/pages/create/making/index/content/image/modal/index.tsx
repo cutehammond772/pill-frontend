@@ -12,7 +12,7 @@ import * as Style from "./modal.style";
 
 import { Message } from "../../../../../../../components/message";
 import { Modal } from "../../../../../../../components/modal";
-import { useLocalization } from "../../../../../../../utils/hooks/localization";
+import { useLocalization } from "../../../../../../../utils/hooks/l10n";
 import { L10N } from "../../../../../../../localization";
 
 interface ImageContentEditProps {

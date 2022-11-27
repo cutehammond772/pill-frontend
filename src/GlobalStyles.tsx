@@ -187,6 +187,12 @@ const style = css`
 
     // Footer Size
     --size-footer: 100px;
+
+    // Screen Sizes
+    --large-desktop: 1200px;
+    --desktop: 992px;
+    --tablet: 768px;
+    --mobile: 576px;
   }
 
   html {

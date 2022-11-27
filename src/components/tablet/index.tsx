@@ -1,6 +1,6 @@
 import * as React from "react";
 import { L10N } from "../../localization";
-import { useLocalization } from "../../utils/hooks/localization";
+import { useLocalization } from "../../utils/hooks/l10n";
 import * as Style from "./tablet.style";
 
 interface PillTabletProps {

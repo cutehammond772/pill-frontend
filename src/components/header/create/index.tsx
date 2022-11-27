@@ -11,10 +11,10 @@ import { useValidation } from "../../../utils/hooks/validation";
 import * as Pill from "../../../utils/validators/create/pill";
 import { useSnackbar } from "notistack";
 import { ValidatedType } from "../../../utils/validators/validator.type";
-import { usePillDefaultEditor } from "../../../utils/hooks/pill_creator";
+import { usePillDefaultEditor } from "../../../utils/hooks/pill-creator";
 import { MenuEnum } from "../../../utils/hooks/header/header.type";
 import { L10N } from "../../../localization";
-import { useLocalization } from "../../../utils/hooks/localization";
+import { useLocalization } from "../../../utils/hooks/l10n";
 
 const CreateHeaderSignature = "CreateHeader";
 
@@ -104,7 +104,6 @@ const CreateHeader = () => {
         title={header.title}
         menu={{
           enum: CreateMenu,
-          refs: header.refs,
           selected: header.selectedItems,
           disabled: header.disabledItems,
           onClick: handleClick,

@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import * as React from "react";
 import * as Style from "./title.style";
-import { useLocalization } from "../../../../../utils/hooks/localization";
+import { useLocalization } from "../../../../../utils/hooks/l10n";
 import { L10N } from "../../../../../localization";
 
 interface TitleProps {

@@ -15,12 +15,12 @@ import { AddContentButton } from "../add";
 import {
   usePillContentEditor,
   usePillIndexEditor,
-} from "../../../../../../utils/hooks/pill_creator";
+} from "../../../../../../utils/hooks/pill-creator";
 import { PillContentType } from "../../../../../../utils/reducers/creator";
 import { IndexContentProps } from "../content.type";
 import * as Content from "../../../../../../utils/validators/create/content";
 import { useValidation } from "../../../../../../utils/hooks/validation";
-import { useLocalization } from "../../../../../../utils/hooks/localization";
+import { useLocalization } from "../../../../../../utils/hooks/l10n";
 import { L10N } from "../../../../../../localization";
 
 interface AddTextButtonProps {

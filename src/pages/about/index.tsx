@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Page } from "../../layouts/page";
-import { usePageSelect } from "../../utils/hooks/header/page_select";
+import { usePageSelect } from "../../utils/hooks/header/page-select";
 import {
   DefaultHeaderSignature,
   DefaultMenu,

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Page } from "../../layouts/page";
-import { usePageSelect } from "../../utils/hooks/header/page_select";
+import { usePageSelect } from "../../utils/hooks/header/page-select";
 import {
   DefaultHeaderSignature,
   DefaultMenu,
@@ -18,7 +18,7 @@ import TitleIcon from "@mui/icons-material/Title";
 import PropaneIcon from "@mui/icons-material/Propane";
 import { Pagination, PaginationItem } from "@mui/material";
 import { Option, Select, TextField } from "@mui/joy";
-import { useLocalization } from "../../utils/hooks/localization";
+import { useLocalization } from "../../utils/hooks/l10n";
 import { L10N } from "../../localization";
 import { format } from "../../utils/other/format";
 

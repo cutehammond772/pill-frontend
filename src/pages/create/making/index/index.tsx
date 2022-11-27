@@ -10,14 +10,14 @@ import { Collapse } from "@mui/material";
 import { TransitionGroup } from "react-transition-group";
 import { useValidation } from "../../../../utils/hooks/validation";
 
-import * as Index from "../../../../utils/validators/create/index/";
+import * as Index from "../../../../utils/validators/create";
 import * as Content from "../../../../utils/validators/create/content";
 
 import { PillContentTypeMapper } from "../../../../utils/reducers/creator";
 import {
   usePillIndexEditor,
   usePillOrder,
-} from "../../../../utils/hooks/pill_creator";
+} from "../../../../utils/hooks/pill-creator";
 import { IndexContentProps } from "./content/content.type";
 import { validatorID } from "../../../../utils/validators/validator.type";
 

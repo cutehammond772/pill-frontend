@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { AddImageButton } from "../image";
 import { AddTextButton } from "../text";
-import { useLocalization } from "../../../../../../utils/hooks/localization";
+import { useLocalization } from "../../../../../../utils/hooks/l10n";
 import { L10N } from "../../../../../../localization";
 
 interface AddContentButtonProps {

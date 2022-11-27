@@ -7,7 +7,7 @@ import pageReducer from "./page";
 import creatorReducer from "./creator";
 import rollbackReducer from "./rollback";
 import profileReducer from "./profile";
-import runOnceReducer from "./run_once";
+import runOnceReducer from "./run-once";
 import validationReducer from "./validation";
 
 const rootReducer = combineReducers({

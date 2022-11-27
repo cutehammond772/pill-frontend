@@ -32,7 +32,6 @@ const DefaultHeader = () => {
       title={header.title}
       menu={{
         enum: DefaultMenu,
-        refs: header.refs,
         selected: header.selectedItems,
         disabled: header.disabledItems,
         onClick: (item) => header.getSimpleLinkHandler(item, mapper),

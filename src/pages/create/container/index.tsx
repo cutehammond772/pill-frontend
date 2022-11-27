@@ -5,7 +5,7 @@ import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CheckIcon from "@mui/icons-material/Check";
 
 import * as Style from "./container.style";
-import { useLocalization } from "../../../utils/hooks/localization";
+import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
 interface CreatingPillContainerProps {

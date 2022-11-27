@@ -12,12 +12,18 @@ const Header = styled.header`
   flex-flow: row nowrap;
   align-items: center;
 
-  box-shadow: 0px 5px 15px var(--shadow);
-
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 40px;
+  padding-bottom: 40px;
 
   ${DefaultPageLayout};
+
+  // tablet (768px)
+  @media screen and (max-width: 768px) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  background-color: var(--dark);
 `;
 
 const Title = styled.div`
@@ -28,9 +34,23 @@ const Title = styled.div`
 
   & > .title {
     font-weight: 700;
-    font-size: 2.5rem;
+    font-size: 40px;
     
-    color: var(--dark);
+    color: var(--light);
+  }
+
+  // desktop (992px)
+  @media screen and (max-width: 992px) {
+    & > .title {
+      font-size: 30px;
+    }
+  }
+
+  // tablet (768px)
+  @media screen and (max-width: 768px) {
+    & > .title {
+      opacity: 0;
+    }
   }
 `;
 

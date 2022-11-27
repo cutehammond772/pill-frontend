@@ -3,7 +3,7 @@ import * as React from "react";
 
 import * as config from "../../../config";
 import * as Style from "./guest.style";
-import { useLocalization } from "../../../utils/hooks/localization";
+import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
 const GuestHome = React.memo(() => {

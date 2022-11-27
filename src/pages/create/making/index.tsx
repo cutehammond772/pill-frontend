@@ -1,19 +1,19 @@
 import { Container } from "../container";
 import * as Style from "./making.style";
 import { IndexContainer as IndexContainerElement } from "./index/index";
-import { AddIndex } from "./add_index";
+import { AddIndex } from "./add-index/index";
 
 import { useEffect } from "react";
 
 import { Collapse } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
-import { usePillDefaultEditor } from "../../../utils/hooks/pill_creator";
+import { usePillDefaultEditor } from "../../../utils/hooks/pill-creator";
 import { useValidation } from "../../../utils/hooks/validation";
 
-import * as IndexContainer from "../../../utils/validators/create/index_container/";
+import * as IndexContainer from "../../../utils/validators/create/index-container";
 import { ValidatedType } from "../../../utils/validators/validator.type";
-import { useLocalization } from "../../../utils/hooks/localization";
+import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
 const Content = () => {

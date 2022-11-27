@@ -4,11 +4,11 @@ import { useColorScheme } from "@mui/joy/styles";
 
 import { CreatePage } from "./pages/create";
 import { HomePage } from "./pages/home/";
-import { NotFoundPage } from "./pages/error/not_found";
-import { MyPillPage } from "./pages/my_pill";
+import { NotFoundPage } from "./pages/error/not-found";
+import { MyPillPage } from "./pages/my-pill";
 import { ExplorePage } from "./pages/explore";
 import { AboutPage } from "./pages/about";
-import { CreatePreviewPage } from "./pages/create_preview";
+import { CreatePreviewPage } from "./pages/create-preview";
 import { UserPage } from "./pages/user";
 import { PillPage } from "./pages/pill";
 
@@ -25,7 +25,7 @@ import { DefaultHeader } from "./components/header/default";
 import { CreateHeader } from "./components/header/create";
 import { EmptyHeader } from "./components/header/empty";
 import { useDispatch } from "react-redux";
-import { lockMenuClick, unlockMenuClick } from "./utils/reducers/header";
+import { lockInteraction, unlockInteraction } from "./utils/reducers/header";
 
 const App = () => {
   // 기본적으로 라이트 모드로 설정한다.
@@ -67,8 +67,8 @@ const App = () => {
           key={location.pathname}
           classNames="page"
           timeout={300}
-          onEnter={() => dispatch(lockMenuClick())}
-          onEntered={() => dispatch(unlockMenuClick())}
+          onEnter={() => dispatch(lockInteraction())}
+          onEntered={() => dispatch(unlockInteraction())}
           onExited={() => alert("응애")}
           unmountOnExit
         >

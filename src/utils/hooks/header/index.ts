@@ -1,9 +1,9 @@
-import { useRef, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import * as reducer from "../../reducers/header";
-import { MenuEnum, MenuItemRef } from "./header.type";
+import { MenuEnum } from "./header.type";
 
 // Header 설정을 간편하게 할 수 있는 커스텀 Hook이다.
 // 특정 Header의 최상단에만 위치할 수 있다.
@@ -12,9 +12,6 @@ const useHeader = <E extends MenuEnum>(
   defaultSelectedItem?: E[keyof E]
 ) => {
   type MenuItem = E[keyof E];
-
-  // Header 메뉴의 아이템을 가리키는 ref 리스트이다.
-  const refs = useRef<MenuItemRef[]>([]);
 
   // Header의 Title이다.
   const title = useSelector((state: RootState) => state.header.title);
@@ -109,7 +106,6 @@ const useHeader = <E extends MenuEnum>(
   ]);
 
   return {
-    refs,
     title,
     selectedItems,
     disabledItems,

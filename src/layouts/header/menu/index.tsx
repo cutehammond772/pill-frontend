@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useLocalization } from "../../../utils/hooks/localization";
+import { useLocalization } from "../../../utils/hooks/l10n";
 import {
   MenuEnum,
   MenuProps,
@@ -21,7 +21,6 @@ const HeaderMenu = <E extends MenuEnum>(props: MenuProps<E>) => {
 
         return (
           <Style.MenuItem
-            ref={(ref) => (props.refs.current[index] = ref)}
             key={index}
             selected={selected}
             {...(!selected && {

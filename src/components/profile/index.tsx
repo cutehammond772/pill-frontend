@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ProfileAvatar } from "./profile.avatar";
-import { ProfilePointInfo } from "./profile.point_info";
+import { ProfilePointInfo } from "./profile.point-info";
 import { ProfileTab } from "./tab";
 
 import * as Style from "./profile.style";

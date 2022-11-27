@@ -18,10 +18,7 @@ interface HeaderProps<E extends MenuEnum> {
 }
 
 const Header = <E extends MenuEnum>(props: HeaderProps<E>) => {
-  // Header의 Background 변경을 담당하는 ref이다.
   const headerRef = useRef<HTMLElement>(null);
-
-  // Title의 TextColor 변경을 담당하는 ref이다.
   const titleRef = useRef<HTMLSpanElement>(null);
 
   const dispatch = useDispatch();
@@ -30,39 +27,6 @@ const Header = <E extends MenuEnum>(props: HeaderProps<E>) => {
   const preventClick = useSelector(
     (state: RootState) => state.header.preventClick
   );
-
-  // 대표 컬러 상수이다.
-  const light: number = 255;
-  const dark: number = 48;
-
-  // 화면 스크롤 시 Header 색상을 동적으로 변경하는 부분을 담당한다.
-  const handleScroll = useCallback(() => {
-    // 스크롤 값을 나타낸다. (0 ~ 100 범위이며, 100을 초과하면 100으로 표시)
-    const percentage = Math.min(window.scrollY, 100);
-
-    const darkToLight = (light * percentage + dark * (100 - percentage)) / 100;
-    const LightToDark = (light * (100 - percentage) + dark * percentage) / 100;
-
-    // Header Background
-    if (!!headerRef?.current) {
-      headerRef.current.style.background = `rgb(${LightToDark}, ${LightToDark}, ${LightToDark})`;
-    }
-
-    // Title TextColor
-    if (!!titleRef?.current) {
-      titleRef.current.style.color = `rgb(${darkToLight}, ${darkToLight}, ${darkToLight})`;
-    }
-
-    // MenuItems Color
-    if (!!props?.menu?.refs?.current) {
-      props.menu.refs.current.forEach((ref) => {
-        if (!!ref) {
-          ref.style.color = `rgb(${darkToLight}, ${darkToLight}, ${darkToLight})`;
-          ref.style.backgroundColor = `rgb(${LightToDark}, ${LightToDark}, ${LightToDark})`;
-        }
-      });
-    }
-  }, [props?.menu?.refs]);
 
   // 특정 함수를 호출하기 전에 아이템의 클릭 이벤트 허용 여부를 확인한다.
   const checkPrevention = useCallback(
@@ -73,20 +37,6 @@ const Header = <E extends MenuEnum>(props: HeaderProps<E>) => {
     },
     [preventClick]
   );
-
-  // Scroll EventHander를 설정한다.
-  useEffect(() => {
-    const timer = setInterval(() => {
-      window.addEventListener("scroll", handleScroll);
-    }, 50);
-
-    handleScroll();
-
-    return () => {
-      clearInterval(timer);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [handleScroll]);
 
   // 첫 로드 시 Header의 height 값을 redux container에 저장한다.
   useEffect(() => {

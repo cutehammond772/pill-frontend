@@ -4,7 +4,7 @@ import * as Style from "./modal.style";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 import EditIcon from "@mui/icons-material/Edit";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { useLocalization } from "../../../../utils/hooks/localization";
+import { useLocalization } from "../../../../utils/hooks/l10n";
 import { L10N } from "../../../../localization";
 
 interface ConfirmModalProps {

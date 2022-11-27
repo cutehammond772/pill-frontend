@@ -5,7 +5,7 @@ import { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useResizeObserver from "@react-hook/resize-observer";
 import { updateFooterHeight } from "../../utils/reducers/page";
-import { useLocalization } from "../../utils/hooks/localization";
+import { useLocalization } from "../../utils/hooks/l10n";
 import { LanguageType } from "../../localization";
 
 const Footer = () => {

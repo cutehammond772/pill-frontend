@@ -3,7 +3,7 @@ import { Avatar } from "@mui/joy";
 import { Tooltip } from "@mui/material";
 
 import { useProfile } from "../../utils/hooks/profile";
-import { useLocalization } from "../../utils/hooks/localization";
+import { useLocalization } from "../../utils/hooks/l10n";
 import { L10N } from "../../localization";
 
 interface ProfileData {

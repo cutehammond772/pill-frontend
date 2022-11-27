@@ -4,7 +4,7 @@ import * as Style from "./user.style";
 import AddIcon from "@mui/icons-material/Add";
 import ExploreIcon from "@mui/icons-material/Explore";
 import { useNavigate } from "react-router-dom";
-import { useLocalization } from "../../../utils/hooks/localization";
+import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
 const UserHome = React.memo(() => {

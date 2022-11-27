@@ -43,7 +43,6 @@ const PageSubjectText = styled.div`
   color: var(--dark);
 `;
 
-// border color를 props로 수정 가능하도록 한다.
 const BehaviorButton = styled(Button)`
   width: auto;
   height: 150px;

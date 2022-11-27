@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef } from "react";
 import { Divider } from "./tab.divider";
 import * as Style from "./tab.style";
 
-import { ReceivedComments } from "./received_comments/";
+import { ReceivedComments } from "./received-comments";
 
 import { useProfile } from "../../../utils/hooks/profile";
 
@@ -16,7 +16,7 @@ import { AuthButtonProps, Login, Logout } from "../../auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import { Modal } from "../../modal";
-import { useLocalization } from "../../../utils/hooks/localization";
+import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
 const LOGIN_PROPS: AuthButtonProps = {

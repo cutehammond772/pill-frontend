@@ -5,7 +5,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import * as Style from "./auth.style";
-import { useLocalization } from "../../utils/hooks/localization";
+import { useLocalization } from "../../utils/hooks/l10n";
 import { L10N } from "../../localization";
 
 interface AuthButtonProps extends React.PropsWithChildren {

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { LogoStyle } from "./logo.style";
+import * as Style from "./logo.style";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 interface LogoProps {
   onClick?: () => void;
@@ -7,8 +8,15 @@ interface LogoProps {
 
 const Logo = (props: LogoProps) => {
   const navigate = useNavigate();
-  
-  return <LogoStyle onClick={props.onClick || (() => navigate("/"))} />;
+
+  return (
+    <Style.Logo onClick={props.onClick || (() => navigate("/"))}>
+      <div className="title_container">
+        <div className="title">cutehammond</div>
+        <span className="icon"><KeyboardArrowDownIcon /></span>
+      </div>
+    </Style.Logo>
+  );
 };
 
 export { Logo };

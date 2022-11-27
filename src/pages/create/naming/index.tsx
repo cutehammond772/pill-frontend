@@ -5,7 +5,7 @@ import * as Style from "./naming.style";
 import * as CategoryStyle from "./category/category.style";
 
 import PillTablet from "../../../components/tablet";
-import { usePillDefaultEditor } from "../../../utils/hooks/pill_creator";
+import { usePillDefaultEditor } from "../../../utils/hooks/pill-creator";
 
 import * as React from "react";
 import { useState, useEffect } from "react";
@@ -16,7 +16,7 @@ import * as Naming from "../../../utils/validators/create/naming";
 import { ValidatedType } from "../../../utils/validators/validator.type";
 import { useValidation } from "../../../utils/hooks/validation";
 import { useProfile } from "../../../utils/hooks/profile";
-import { useLocalization } from "../../../utils/hooks/localization";
+import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
 const RANDOM_TITLES_LENGTH = 13;
