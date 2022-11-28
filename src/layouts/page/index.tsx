@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Style from "./page.style";
-import { SerializedStyles } from "@emotion/serialize";
+import { SerializedStyles } from "@emotion/react";
 
 import { useRef, useLayoutEffect, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

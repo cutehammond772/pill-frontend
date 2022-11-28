@@ -1,5 +1,5 @@
 import { Chip } from "@mui/joy";
-import { SerializedStyles } from "@emotion/serialize";
+import { SerializedStyles } from "@emotion/react";
 
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CheckIcon from "@mui/icons-material/Check";
@@ -20,7 +20,7 @@ const Container = (
   const { text } = useLocalization();
 
   return (
-    <>
+    <div>
       <Style.Title>
         {props.complete ? (
           <Chip variant="solid" color="success" startDecorator={<CheckIcon />}>
@@ -39,7 +39,7 @@ const Container = (
         <span className="title">{props.title}</span>
       </Style.Title>
       <Style.Container layout={props.layout}>{props.children}</Style.Container>
-    </>
+    </div>
   );
 };
 

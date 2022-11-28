@@ -9,7 +9,6 @@ import {
 } from "../other/data-structure/options";
 
 interface HeaderState {
-  title?: string;
   preventClick: boolean;
 
   selected: HeaderContainer;
@@ -30,10 +29,6 @@ const headerSlice = createSlice({
   initialState,
   reducers: {
     init: () => initialState,
-
-    changeTitle: (state, action: PayloadAction<{ title: string }>) => {
-      state.title = action.payload.title;
-    },
 
     selectItem: (
       state,
@@ -80,7 +75,6 @@ const headerSlice = createSlice({
 
 export const {
   init,
-  changeTitle,
   selectItem,
   disableItem,
   resetHeaderSelection,

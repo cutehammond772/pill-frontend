@@ -10,14 +10,20 @@ const Border = styled.div`
   height: auto;
 
   border-radius: 300px;
-  background: linear-gradient(45deg, var(--tablet-pink) 20%, var(--tablet-blue) 80%);
+  padding: 5px;
+
+  position: relative;
+  z-index: 3;
+
+  background: linear-gradient(
+    45deg,
+    var(--tablet-pink) 20%,
+    var(--tablet-blue) 80%
+  );
 `;
 
 const Container = styled.div`
   border-radius: inherit;
-
-  padding: 13px 35px 13px 35px;
-  box-shadow: 0px 3px 10px var(--shadow);
 
   background: linear-gradient(
     45deg,
@@ -25,19 +31,22 @@ const Container = styled.div`
     var(--tablet-blue-hover) 80%
   );
 
+  :hover {
+    box-shadow: 0px 3px 10px var(--shadow);
+    padding: 13px 35px 13px 35px;
+  }
+
   :not(:hover) {
+    padding: 8px 30px 8px 30px;
+    box-shadow: none;
+
     --tablet-pink-hover: var(--light);
     --tablet-blue-hover: var(--light);
-
-    margin: 5px;
-    padding: 8px 30px 8px 30px;
-
-    box-shadow: none;
   }
 
   & {
-    transition: --tablet-pink-hover 800ms, --tablet-blue-hover 400ms, margin 200ms,
-      padding 200ms, box-shadow 500ms;
+    transition: --tablet-pink-hover 800ms, --tablet-blue-hover 400ms,
+      margin 200ms, padding 200ms, box-shadow 500ms;
   }
 
   display: flex;
@@ -54,7 +63,6 @@ const Container = styled.div`
 
     line-height: 100%;
 
-    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }

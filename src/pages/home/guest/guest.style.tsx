@@ -3,23 +3,32 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 const Container = styled.div`
-  height: 1536px;
+  min-height: 1536px;
 
   display: flex;
   flex-flow: column;
   row-gap: 50px;
   align-items: flex-start;
+
+  // mobile
+  @media screen and (max-width: 768px) {
+    min-height: 1024px;
+    row-gap: 100px;
+    align-items: stretch;
+  }
 `;
 
 const Text = styled.h1`
-  padding-top: 256px;
+  margin-top: 256px;
   color: var(--dark);
 
   font-size: 40px;
   word-break: keep-all;
 
-  @media screen and (max-width: 768px){
-    font-size: 30px;
+  // mobile
+  @media screen and (max-width: 768px) {
+    margin-top: 192px;
+    font-size: 35px;
   }
 `;
 

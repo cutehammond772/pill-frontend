@@ -11,12 +11,10 @@ const GuestHome = React.memo(() => {
 
   return (
     <Style.Container>
-      <Style.Text>
-        {text(L10N.PAGE_GUEST_01)}
-      </Style.Text>
+      <Style.Text>{text(L10N.PAGE_GUEST_01)}</Style.Text>
 
       <Login redirect={config.INDEX} provider="google">
-      {text(L10N.PAGE_GUEST_02)}
+        {text(L10N.PAGE_GUEST_02)}
       </Login>
     </Style.Container>
   );

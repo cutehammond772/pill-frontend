@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { SerializedStyles } from "@emotion/serialize";
+import { SerializedStyles } from "@emotion/react";
 
 import { IconButton } from "@mui/joy";
 import { ModalTransition, ModalTransitionType } from ".";

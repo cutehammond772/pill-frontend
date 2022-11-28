@@ -3,13 +3,13 @@ import { L10N } from "../../localization";
 import { useLocalization } from "../../utils/hooks/l10n";
 import * as Style from "./tablet.style";
 
-interface PillTabletProps {
+export interface PillTabletProps {
   title?: string;
   author?: string;
 
   likes?: number;
   views?: number;
-}
+};
 
 const PillTablet = (props: PillTabletProps) => {
   const { text } = useLocalization();
@@ -22,9 +22,9 @@ const PillTablet = (props: PillTabletProps) => {
           <div className="author">{props.author || text(L10N.TABLET_02)}</div>
           <div className="menu">
             <Style.Heart />
-            {props.likes || -1}
+            {props.likes || 0}
             <Style.View />
-            {props.views || -1}
+            {props.views || 0}
           </div>
         </div>
       </Style.Container>

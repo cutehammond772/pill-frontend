@@ -13,9 +13,6 @@ const useHeader = <E extends MenuEnum>(
 ) => {
   type MenuItem = E[keyof E];
 
-  // Header의 Title이다.
-  const title = useSelector((state: RootState) => state.header.title);
-
   // 각각 선택된 아이템과 비활성화된 아이템 리스트이다.
   // 여기서는 타입 체킹을 맞추기 위해 'as MenuItem[]'를 통해 강제로 타입을 설정하였다.
   // 이때 리스트에 추가되는 아이템의 타입은 무조건 MenuItem (= E[keyof E])이다.
@@ -30,14 +27,6 @@ const useHeader = <E extends MenuEnum>(
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // Title을 수정한다.
-  const changeTitle = useCallback(
-    (title: string) => {
-      dispatch(reducer.changeTitle({ title }));
-    },
-    [dispatch]
-  );
 
   // 선택된 아이템을 추가한다. (= 특정 아이템을 선택시킨다.)
   const addSelected = useCallback(
@@ -106,10 +95,8 @@ const useHeader = <E extends MenuEnum>(
   ]);
 
   return {
-    title,
     selectedItems,
     disabledItems,
-    changeTitle,
     addSelected,
     addDisabled,
     resetSelected,

@@ -21,7 +21,7 @@ const HomePage = () => {
     <Page
       layout={auth.authorized ? UserStyle.Background : GuestStyle.Background}
     >
-      {auth.authorized ? <UserHome /> : <GuestHome />}
+      {auth.authorized ? <UserHome /> : <UserHome />}
     </Page>
   );
 };

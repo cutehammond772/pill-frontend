@@ -11,13 +11,13 @@ const Menu = styled.div`
 
   left: 50%;
 
-  // desktop (992px)
+  // tablet
   @media screen and (max-width: 992px) {
     column-gap: 10px;
     border-radius: 100px;
   }
 
-  // tablet (768px)
+  // mobile
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -60,7 +60,7 @@ const MenuItem = styled.button<{ selected?: boolean }>`
       }};
   }
 
-  // desktop (992px)
+  // tablet
   @media screen and (max-width: 992px) {
     font-size: 18px;
   }

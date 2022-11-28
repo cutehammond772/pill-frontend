@@ -101,7 +101,6 @@ const CreateHeader = () => {
   return (
     <>
       <Header
-        title={header.title}
         menu={{
           enum: CreateMenu,
           selected: header.selectedItems,

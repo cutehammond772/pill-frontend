@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 import * as Style from "./modal.style";
-import { SerializedStyles } from "@emotion/serialize";
+import { SerializedStyles } from "@emotion/react";
 
 interface ModalProps extends React.PropsWithChildren {
   open: boolean;

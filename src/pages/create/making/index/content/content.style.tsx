@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { SerializedStyles } from "@emotion/serialize";
+import { SerializedStyles } from "@emotion/react";
 
 const Container = styled.div<{ layout: SerializedStyles }>`
   width: auto;

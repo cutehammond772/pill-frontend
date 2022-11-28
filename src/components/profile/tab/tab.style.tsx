@@ -6,9 +6,8 @@ import { Divider as DividerComponent } from "@mui/joy";
 
 const Layout = css`
   position: fixed;
-  right: 0px;
 
-  width: 300px;
+  width: auto;
   height: auto;
   padding: 1rem;
 
@@ -16,14 +15,6 @@ const Layout = css`
   
   background: var(--light);
   box-shadow: 0px 0px 30px var(--shadow);
-
-  margin-left: calc(50% - 512px);
-  margin-right: calc(50% - 512px);
-
-  @media screen and (max-width: 1280px) {
-    margin-left: 10%;
-    margin-right: 10%;
-  }
 
   z-index: var(--z-header-tab);
 `;

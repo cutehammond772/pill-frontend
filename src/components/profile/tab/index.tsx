@@ -60,8 +60,7 @@ interface ProfileTabProps {
 
 const ProfileTab = (props: ProfileTabProps) => {
   const { text } = useLocalization();
-
-  // Code
+  
   const profile = useProfile();
   const modalRef = useRef<HTMLDivElement>(null);
   const headerHeight = useSelector(
@@ -70,7 +69,7 @@ const ProfileTab = (props: ProfileTabProps) => {
 
   useLayoutEffect(() => {
     if (!!modalRef?.current) {
-      modalRef.current.style.top = `${headerHeight - 20}px`;
+      modalRef.current.style.top = `${headerHeight + 20}px`;
     }
   }, [modalRef, headerHeight]);
 
@@ -80,7 +79,6 @@ const ProfileTab = (props: ProfileTabProps) => {
       open={props.checked}
       layout={Style.Layout}
       ref={modalRef}
-      dialogMode
     >
       {!profile.data.userName ? (
         <>

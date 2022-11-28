@@ -20,11 +20,7 @@ const Login = (props: AuthButtonProps) => {
   const { text } = useLocalization();
 
   return (
-    <Style.AuthButton
-      color={props.color || "primary"}
-      size={props.size || "lg"}
-      startDecorator={<LoginIcon />}
-    >
+    <Style.AuthButton bgColor="var(--primary)" textColor="var(--light)">
       <a
         href={
           `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}/${config.API_LOGIN_REQUEST}/` +
@@ -32,6 +28,7 @@ const Login = (props: AuthButtonProps) => {
         }
         className="link"
       >
+        <LoginIcon />
         {props.children || text(L10N.AUTH_01)}
       </a>
     </Style.AuthButton>
@@ -42,11 +39,8 @@ const Logout = (props: AuthButtonProps) => {
   const { text } = useLocalization();
 
   return (
-    <Style.AuthButton
-      color={props.color || "primary"}
-      size={props.size || "lg"}
-      startDecorator={<LogoutIcon />}
-    >
+    <Style.AuthButton bgColor="var(--blue)" textColor="var(--light)">
+      <LogoutIcon />
       <a
         href={
           `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}/` +

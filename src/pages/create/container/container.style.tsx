@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { SerializedStyles } from "@emotion/serialize";
+import { SerializedStyles } from "@emotion/react";
 
 const Container = styled.div<{ layout: SerializedStyles }>`
   width: auto;
@@ -23,7 +23,7 @@ const Title = styled.div`
     font-weight: 700;
     font-size: 40px;
     
-    line-height: 100%;
+    line-height: 150%;
     color: var(--dark);
   }
 `;

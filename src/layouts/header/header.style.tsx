@@ -3,7 +3,7 @@ import { DefaultPageLayout } from "../page/page.style";
 
 const Header = styled.header`
   position: sticky;
-  top: 0;
+  height: 120px;
 
   z-index: var(--z-header);
 
@@ -12,15 +12,14 @@ const Header = styled.header`
   flex-flow: row nowrap;
   align-items: center;
 
-  padding-top: 40px;
-  padding-bottom: 40px;
-
   ${DefaultPageLayout};
 
-  // tablet (768px)
+  // mobile
   @media screen and (max-width: 768px) {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    height: 80px;
+    padding: 10px 20px 10px 20px;
+
+    transition: padding 300ms, height 300ms;
   }
 
   background-color: var(--dark);
@@ -39,14 +38,14 @@ const Title = styled.div`
     color: var(--light);
   }
 
-  // desktop (992px)
+  // tablet
   @media screen and (max-width: 992px) {
     & > .title {
       font-size: 30px;
     }
   }
 
-  // tablet (768px)
+  // mobile
   @media screen and (max-width: 768px) {
     & > .title {
       opacity: 0;

@@ -5,6 +5,25 @@ import { Global, css } from "@emotion/react";
 import "@fontsource/inter/500.css";
 import "@fontsource/noto-sans-kr/500.css";
 
+export const ColorAttributes = {
+  LIGHT: "var(--light)",
+  DARK: "var(--dark)",
+  SHADOW: "var(--shadow)",
+
+  SUB: "var(--sub)",
+
+  RED: "var(--red)",
+  PINK: "var(--pink)",
+  BLUE: "var(--blue)",
+  PANEL: "var(--white)",
+
+  PRIMARY: "var(--primary)",
+  WARNING: "var(--warning)",
+  DANGER: "var(--danger)",
+} as const;
+
+export type ColorAttribute = typeof ColorAttributes[keyof typeof ColorAttributes];
+
 const style = css`
   html * {
     font-family: "Inter", "Noto Sans KR", sans-serif !important;
@@ -21,10 +40,13 @@ const style = css`
 
     --red: red;
     --pink: pink;
-    --blue: lightblue;
+    --blue: skyblue;
+
     --panel: white;
 
-    --warning: darkred;
+    --primary: #3939be;
+    --warning: #ffae00;
+    --danger: #9c0000;
 
     // Default Background
     // --bg-(1)-(2)-(3)-(4)

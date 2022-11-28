@@ -29,7 +29,6 @@ const DefaultHeader = () => {
 
   return (
     <Header
-      title={header.title}
       menu={{
         enum: DefaultMenu,
         selected: header.selectedItems,

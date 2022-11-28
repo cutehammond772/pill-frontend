@@ -10,7 +10,7 @@ const Layout = css`
   top: 50%;
   transform: translate(-50%, -50%);
 
-  min-width: 350px;
+  min-width: 400px;
   max-width: 600px;
 
   box-shadow: 0px 0px 10px var(--shadow);
@@ -31,7 +31,7 @@ const InfoBanner = styled.div`
   padding: 20px 40px 20px 40px;
   border-radius: 20px 20px 0 0;
 
-  background-color: var(--warning);
+  background-color: var(--danger);
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -63,19 +63,11 @@ const Container = styled.div`
 
   & > .content {
     grid-column: 1 / 3;
-    font-size: 20px;
     margin-bottom: 20px;
-  }
-
-  @media only screen and (max-width: 1024px) {
-    display: flex;
-    flex-flow: column;
-    row-gap: 10px;
-    align-items: stretch;
-
-    & > .content {
-      font-size: 20px;
-    }
+    
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 150%;
   }
 `;
 

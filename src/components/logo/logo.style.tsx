@@ -54,7 +54,7 @@ const Logo = styled.div`
     }
   }
 
-  // tablet (768px)
+  // mobile
   @media screen and (max-width: 768px) {
     & > .title_container {
       width: auto;
