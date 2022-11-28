@@ -1,4 +1,4 @@
-import { Container } from "../container";
+import Container from "../container";
 import { TextField } from "@mui/joy";
 
 import * as Style from "./naming.style";
@@ -20,7 +20,7 @@ import { useProfile } from "../../../utils/hooks/profile";
 import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
-const Content = () => {
+export const Content = () => {
   const { text } = useLocalization();
   const validator = useValidation(Naming.Validator);
   const validation = validator.validation;
@@ -119,5 +119,3 @@ const Content = () => {
     </Container>
   );
 };
-
-export { Content };

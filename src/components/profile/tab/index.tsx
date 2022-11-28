@@ -2,10 +2,10 @@ import * as React from "react";
 import * as config from "../../../config";
 import { useLayoutEffect, useRef } from "react";
 
-import { Divider } from "./tab.divider";
+import Divider from "./tab.divider";
 import * as Style from "./tab.style";
 
-import { ReceivedComments } from "./received-comments";
+import ReceivedComments from "./received-comments";
 
 import { useProfile } from "../../../utils/hooks/profile";
 
@@ -15,19 +15,17 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { AuthButtonProps, Login, Logout } from "../../auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
-import { Modal } from "../../modal";
+import Modal from "../../modal";
 import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
 const LOGIN_PROPS: AuthButtonProps = {
   redirect: config.INDEX,
   provider: "google",
-  size: "md",
 };
 
 const LOGOUT_PROPS: AuthButtonProps = {
   redirect: config.INDEX,
-  size: "md",
 };
 
 const Dummy = {
@@ -60,7 +58,7 @@ interface ProfileTabProps {
 
 const ProfileTab = (props: ProfileTabProps) => {
   const { text } = useLocalization();
-  
+
   const profile = useProfile();
   const modalRef = useRef<HTMLDivElement>(null);
   const headerHeight = useSelector(
@@ -84,10 +82,8 @@ const ProfileTab = (props: ProfileTabProps) => {
         <>
           <Style.Title>{text(L10N.TAB_01)}</Style.Title>
           <Style.GuestBanner>
-            <ThumbUpIcon className="icon"/>
-            <span className="content">
-            {text(L10N.TAB_02)}
-            </span>
+            <ThumbUpIcon className="icon" />
+            <span className="content">{text(L10N.TAB_02)}</span>
           </Style.GuestBanner>
 
           <Divider title={text(L10N.TAB_03)} />

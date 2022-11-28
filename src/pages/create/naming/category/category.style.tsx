@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
 import { TransitionGroup as TransitionGroupComponent } from "react-transition-group";
 
-const EDIT_WIDTH = "160px";
-const BUTTON_WIDTH = "80px";
+export const EDIT_WIDTH = "160px";
+export const BUTTON_WIDTH = "80px";
 
-const Container = styled.div`
+export const Container = styled.div`
   width: ${BUTTON_WIDTH};
   height: auto;
 
@@ -20,7 +20,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const TransitionGroup = styled(TransitionGroupComponent)`
+export const TransitionGroup = styled(TransitionGroupComponent)`
   display: flex;
   flex-flow: row wrap;
   column-gap: 10px;
@@ -30,7 +30,7 @@ const TransitionGroup = styled(TransitionGroupComponent)`
   justify-content: flex-start;
 `;
 
-const Button = styled.button<{
+export const Button = styled.button<{
   addButton?: boolean;
 }>`
   width: ${(props) => (!!props.addButton ? "100%" : "auto")};
@@ -62,7 +62,7 @@ const Button = styled.button<{
     !!props.addButton ? "var(--dark)" : "var(--bg-h-br-t-a)"};
 `;
 
-const InputField = styled.input`
+export const InputField = styled.input`
   width: 100%;
   height: auto;
 
@@ -89,12 +89,3 @@ const InputField = styled.input`
     color: var(--light);
   }
 `;
-
-export {
-  Container,
-  Button,
-  InputField,
-  TransitionGroup,
-  EDIT_WIDTH,
-  BUTTON_WIDTH,
-};

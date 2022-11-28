@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const IndexContainer = styled.div`
+export const IndexContainer = styled.div`
   width: auto;
   height: auto;
 
@@ -12,5 +12,3 @@ const IndexContainer = styled.div`
 
   background-color: var(--panel);
 `;
-
-export { IndexContainer };

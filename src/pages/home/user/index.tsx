@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
-const UserHome = React.memo(() => {
+const UserHome = () => {
   const navigate = useNavigate();
   const { text } = useLocalization();
 
@@ -39,6 +39,6 @@ const UserHome = React.memo(() => {
       <Style.Subject>{text(L10N.PAGE_USER_03)}</Style.Subject>
     </Style.Container>
   );
-});
+};
 
-export { UserHome };
+export default UserHome;

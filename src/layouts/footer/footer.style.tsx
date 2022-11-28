@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { DefaultPageLayout } from "../page/page.style";
 
-const Footer = styled.footer`
+export const Footer = styled.footer`
   position: absolute;
   width: 100%;
   bottom: 0;
@@ -14,27 +14,33 @@ const Footer = styled.footer`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  
+
   background-color: var(--dark);
 
-  & > * {
-    font-size: 1.2rem;
-    color: var(--light);
+  & > .copyright {
+    font-size: 1.25rem;
     user-select: none;
     text-decoration: none;
+
+    color: var(--light);
   }
 
-  & > .button {
-    padding: 10px;
-    font-size: 15px;
+  & > .languages {
+    display: flex;
+    flex-flow: row nowrap;
+    column-gap: 10px;
 
-    cursor: pointer;
-    background-color: var(--light);
-    color: var(--dark);
-    border-radius: 20px;
+    & > .button {
+      padding: 5px;
+      font-size: 1rem;
+      border-radius: 10px;
+
+      cursor: pointer;
+      
+      background-color: var(--light);
+      color: var(--dark);
+    }
   }
 
   ${DefaultPageLayout};
 `;
-
-export { Footer };

@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import * as Style from "./modal.style";
 import { SerializedStyles } from "@emotion/react";
 
-interface ModalProps extends React.PropsWithChildren {
+export interface ModalProps extends React.PropsWithChildren {
   open: boolean;
   onClose: () => void;
 
@@ -16,16 +16,16 @@ interface ModalProps extends React.PropsWithChildren {
   duration?: number;
 }
 
-const DEFAULT_DURATION: number = 300;
+export const DEFAULT_DURATION: number = 300;
 
-const ModalTransitionType = {
+export const ModalTransitionType = {
   ENTERING: "Entering",
   ENTERED: "Entered",
   EXITING: "Exiting",
   EXITED: "Exited",
 } as const;
 
-type ModalTransition =
+export type ModalTransition =
   typeof ModalTransitionType[keyof typeof ModalTransitionType];
 
 const Modal = React.forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
@@ -84,10 +84,4 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
   );
 });
 
-export {
-  Modal,
-  type ModalProps,
-  type ModalTransition,
-  DEFAULT_DURATION,
-  ModalTransitionType,
-};
+export default Modal;

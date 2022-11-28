@@ -9,47 +9,61 @@ import { useLocalization } from "../../utils/hooks/l10n";
 import { L10N } from "../../localization";
 import { ColorAttributes } from "../../GlobalStyles";
 
-interface AuthButtonProps extends React.PropsWithChildren {
+export interface AuthButtonProps extends React.PropsWithChildren {
   redirect: string;
   provider?: string;
 }
 
-const Login = (props: AuthButtonProps) => {
+export const Login = (props: AuthButtonProps) => {
   const { text } = useLocalization();
+  const link = `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}/${config.API_LOGIN_REQUEST}/
+          ${props.provider}?redirect_uri=${props.redirect}`;
 
   return (
-    <Style.AuthButton bgColor={ColorAttributes.PRIMARY} textColor={ColorAttributes.LIGHT}>
-      <a
-        href={
-          `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}/${config.API_LOGIN_REQUEST}/` +
-          `${props.provider}?redirect_uri=${props.redirect}`
-        }
-        className="link"
-      >
+    <MemoizedLogin
+      link={link}
+      children={props.children || text(L10N.AUTH_01)}
+    />
+  );
+};
+
+export const Logout = (props: AuthButtonProps) => {
+  const { text } = useLocalization();
+  const link = `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}/
+  ${config.API_LOGOUT_REQUEST}`;
+
+  return (
+    <MemoizedLogout
+      link={link}
+      children={props.children || text(L10N.AUTH_02)}
+    />
+    );
+};
+
+const MemoizedLogin = React.memo(
+  (props: { link: string; children: React.ReactNode }) => (
+    <Style.AuthButton
+      bgColor={ColorAttributes.PRIMARY}
+      textColor={ColorAttributes.LIGHT}
+    >
+      <a href={props.link} className="link">
         <LoginIcon />
-        {props.children || text(L10N.AUTH_01)}
+        {props.children}
       </a>
     </Style.AuthButton>
-  );
-};
+  )
+);
 
-const Logout = (props: AuthButtonProps) => {
-  const { text } = useLocalization();
-
-  return (
-    <Style.AuthButton bgColor="var(--blue)" textColor="var(--light)">
-      <LogoutIcon />
-      <a
-        href={
-          `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}/` +
-          `${config.API_LOGOUT_REQUEST}`
-        }
-        className="link"
-      >
-        {props.children || text(L10N.AUTH_01)}
+const MemoizedLogout = React.memo(
+  (props: { link: string; children: React.ReactNode }) => (
+    <Style.AuthButton
+      bgColor={ColorAttributes.BLUE}
+      textColor={ColorAttributes.LIGHT}
+    >
+      <a href={props.link} className="link">
+        <LogoutIcon />
+        {props.children}
       </a>
     </Style.AuthButton>
-  );
-};
-
-export { Login, Logout, type AuthButtonProps };
+  )
+);

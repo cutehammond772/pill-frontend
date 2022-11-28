@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import { Divider as DividerComponent } from "@mui/joy";
 
-const Layout = css`
+export const Layout = css`
   position: fixed;
 
   width: auto;
@@ -19,29 +19,29 @@ const Layout = css`
   z-index: var(--z-header-tab);
 `;
 
-const Title = styled.span`
+export const Title = styled.span`
   position: relative;
   top: 0.5rem;
 
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 2rem;
   
   color: var(--dark);
 `;
 
-const Divider = styled(DividerComponent)`
+export const Divider = styled(DividerComponent)`
   padding-top: 20px;
   padding-bottom: 10px;
 
-  letter-spacing: 0.15rem;
-  font-size: 0.5rem;
+  letter-spacing: 0.05rem;
+  font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
 
   color: var(--dark);
 `;
 
-const Menu = styled.div`
+export const Menu = styled.div`
   display: flex;
   flex-wrap: wrap;
   column-gap: 5px;
@@ -49,7 +49,7 @@ const Menu = styled.div`
   justify-content: center;
 `;
 
-const GuestBanner = styled.div`
+export const GuestBanner = styled.div`
   display: flex;
   flex-flow: column;
   justify-content: space-around;
@@ -63,7 +63,7 @@ const GuestBanner = styled.div`
 
   // ThumbUp Icon
   & > .icon {
-    font-size: 60px;
+    font-size: 4rem;
   }
 
   // Tect Content
@@ -73,11 +73,3 @@ const GuestBanner = styled.div`
     font-size: 1rem;
   }
 `;
-
-export {
-  Layout,
-  Title,
-  Divider,
-  Menu,
-  GuestBanner
-};

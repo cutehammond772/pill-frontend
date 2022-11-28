@@ -6,7 +6,7 @@ import * as Style from "./guest.style";
 import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
-const GuestHome = React.memo(() => {
+const GuestHome = () => {
   const { text } = useLocalization();
 
   return (
@@ -18,6 +18,6 @@ const GuestHome = React.memo(() => {
       </Login>
     </Style.Container>
   );
-});
+};
 
-export { GuestHome };
+export default React.memo(GuestHome);

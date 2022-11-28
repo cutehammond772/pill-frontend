@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 
 import { Button } from "@mui/joy";
 
-const ContainerLayout = css`
+export const ContainerLayout = css`
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: stretch;
@@ -14,11 +14,11 @@ const ContainerLayout = css`
   background-color: rgba(255, 255, 255, 0);
 `;
 
-const TitleLayout = css`
+export const TitleLayout = css`
   grid-column: 1 / 3;
 `;
 
-const AddContentButton = styled(Button)`
+export const AddContentButton = styled(Button)`
   width: auto;
   height: auto;
   border-radius: 15px;
@@ -36,21 +36,19 @@ const AddContentButton = styled(Button)`
   // Icon
   & > .icon {
     grid-row: 1 / 3;
-    font-size: 45px;
+    font-size: 2.75rem;
   }
 
   // Title
   & > .title {
     font-weight: 600;
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 
   // Description
   & > .description {
     font-weight: 500;
-    font-size: 18px;
+    font-size: 1.25rem;
     padding-top: 10px;
   }
 `;
-
-export { ContainerLayout, TitleLayout, AddContentButton };

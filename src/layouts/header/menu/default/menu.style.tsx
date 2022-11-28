@@ -47,7 +47,7 @@ export const Menu = styled.button<{ selected?: boolean }>`
   border: none;
 
   font-weight: 600;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 100%;
 
   transition: background-color 200ms, color 200ms;
@@ -62,7 +62,7 @@ export const Menu = styled.button<{ selected?: boolean }>`
 
   // tablet
   @media screen and (max-width: 992px) {
-    font-size: 18px;
+    font-size: 1rem;
   }
   
 `;

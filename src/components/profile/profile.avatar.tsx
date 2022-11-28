@@ -6,7 +6,7 @@ import { useProfile } from "../../utils/hooks/profile";
 import { useLocalization } from "../../utils/hooks/l10n";
 import { L10N } from "../../localization";
 
-interface ProfileData {
+export interface ProfileData {
   userName?: string;
   profileUrl?: string;
 }
@@ -60,4 +60,4 @@ const UserAvatar = React.forwardRef<HTMLDivElement, AvatarProps>((props, ref) =>
   )
 );
 
-export { ProfileAvatar, type ProfileData };
+export default ProfileAvatar;

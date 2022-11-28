@@ -1,13 +1,11 @@
-interface ReceivedCommentData {
+export interface ReceivedCommentData {
   title: string;
   userName: string;
   comment: string;
   key: number;
-}
+};
 
-interface ReceivedCommentsStats {
+export interface ReceivedCommentsStats {
   timeUnit: string;
   commentsCount: number;
-}
-
-export type { ReceivedCommentData, ReceivedCommentsStats };
+};

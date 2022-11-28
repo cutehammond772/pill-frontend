@@ -5,9 +5,9 @@ import { L10N } from "../../../localization";
 import { useHeader } from "../../../utils/hooks/header";
 import { Menus } from "../../../utils/hooks/header/header.type";
 
-const EmptyHeaderSignature = "EmptyHeader";
+export const EmptyHeaderSignature = "EmptyHeader";
 
-const EmptyMenus: Menus = {
+export const EmptyMenus: Menus = {
   HOME: L10N.HEADER_EMPTY_01,
   PAGE: L10N.HEADER_EMPTY_02,
 } as const;
@@ -30,4 +30,4 @@ const EmptyHeader = () => {
   return <Header menu={{ enum: EmptyMenus, selected: header.selectedMenu, onClick: handleClick }}/>;
 };
 
-export { EmptyHeader, EmptyHeaderSignature, EmptyMenus };
+export default EmptyHeader;

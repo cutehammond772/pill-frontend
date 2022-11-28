@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const Layout = css`
+export const Layout = css`
   position: absolute;
   padding: 30px;
   border-radius: 20px;
@@ -20,7 +20,7 @@ const Layout = css`
   align-items: center;
 `;
 
-const ImagePreview = styled.div`
+export const ImagePreview = styled.div`
   display: flex;
   justify-content: center;
 
@@ -55,7 +55,7 @@ const ImagePreview = styled.div`
 
     // Icon
     & > .icon {
-      font-size: 40px;
+      font-size: 2.5rem;
       color: var(--dark);
     }
 
@@ -72,7 +72,7 @@ const ImagePreview = styled.div`
   }
 `;
 
-const Form = styled.div`
+export const Form = styled.div`
   display: flex;
   flex-flow: column;
   row-gap: 20px;
@@ -86,22 +86,20 @@ const Form = styled.div`
     align-items: center;
 
     & > .icon {
-      font-size: 30px;
+      font-size: 2rem;
     }
 
     & > .content {
       font-weight: 700;
-      font-size: 27px;
+      font-size: 1.75rem;
       line-height: 100%;
     }
   }
 `;
 
-const ImageInputForm = styled.div`
+export const ImageInputForm = styled.div`
   display: flex;
   flex-flow: row;
   align-items: flex-end;
   column-gap: 5px;
 `;
-
-export { ImagePreview, Form, ImageInputForm, Layout };

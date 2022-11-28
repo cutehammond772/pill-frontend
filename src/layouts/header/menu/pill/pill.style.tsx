@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export const DropdownIcon = styled(KeyboardArrowDownIcon)`
-  font-size: 30px;
+  font-size: 2rem;
   line-height: 100%;
 
   color: var(--light);
@@ -35,7 +35,7 @@ export const PillMenu = styled.div`
 
     & > .title {
       font-weight: 500;
-      font-size: 20px;
+      font-size: 1.25rem;
       line-height: 100%;
 
       color: var(--light);

@@ -22,7 +22,7 @@ interface AddContentContainerProps {
   id: string;
 }
 
-const AddContentContainer = React.memo((props: AddContentContainerProps) => {
+export const AddContentContainer = React.memo((props: AddContentContainerProps) => {
   const { text } = useLocalization();
 
   return (
@@ -40,7 +40,7 @@ const AddContentContainer = React.memo((props: AddContentContainerProps) => {
   );
 });
 
-const AddContentButton = React.memo((props: AddContentButtonProps) => (
+export const AddContentButton = React.memo((props: AddContentButtonProps) => (
   <Style.AddContentButton
     color="neutral"
     variant="soft"
@@ -51,5 +51,3 @@ const AddContentButton = React.memo((props: AddContentButtonProps) => (
     <span className="description">{props.description}</span>
   </Style.AddContentButton>
 ));
-
-export { AddContentContainer, AddContentButton };

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const Button = styled.div`
+export const Button = styled.div`
   width: auto;
   height: auto;
 
@@ -24,7 +24,7 @@ const Button = styled.div`
   & > .count {
     color: var(--light);
     font-weight: 700;
-    font-size: 20px;
+    font-size: 1.25rem;
     line-height: 100%;
   }
 
@@ -41,5 +41,3 @@ const Button = styled.div`
     transition: color 300ms;
   }
 `;
-
-export { Button };

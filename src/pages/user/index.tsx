@@ -15,4 +15,4 @@ const UserPage = () => {
   );
 };
 
-export { UserPage };
+export default UserPage;

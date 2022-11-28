@@ -43,4 +43,4 @@ const Container = (
   );
 };
 
-export { Container };
+export default Container;

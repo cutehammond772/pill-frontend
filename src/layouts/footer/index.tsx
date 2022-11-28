@@ -15,28 +15,39 @@ const Footer = () => {
 
   useEffect(() => {
     !!ref?.current &&
-      dispatch(updateFooterHeight({ footerHeight: ref.current.getBoundingClientRect().height }));
+      dispatch(
+        updateFooterHeight({
+          footerHeight: ref.current.getBoundingClientRect().height,
+        })
+      );
   }, [dispatch]);
 
   useResizeObserver(ref, (_) => {
     !!ref?.current &&
-      dispatch(updateFooterHeight({ footerHeight: ref.current.getBoundingClientRect().height }));
+      dispatch(
+        updateFooterHeight({
+          footerHeight: ref.current.getBoundingClientRect().height,
+        })
+      );
   });
 
   return (
     <Style.Footer ref={ref}>
       <span className="copyright">&copy; 2022 Jungheon Lee</span>
-      <div
-        className="button"
-        onClick={() => changeLanguage(LanguageType.English)}
-      >
-        ENG
-      </div>
-      <div
-        className="button"
-        onClick={() => changeLanguage(LanguageType.Korean)}
-      >
-        KOR
+
+      <div className="languages">
+        <div
+          className="button"
+          onClick={() => changeLanguage(LanguageType.English)}
+        >
+          ENG
+        </div>
+        <div
+          className="button"
+          onClick={() => changeLanguage(LanguageType.Korean)}
+        >
+          KOR
+        </div>
       </div>
     </Style.Footer>
   );

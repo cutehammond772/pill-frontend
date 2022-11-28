@@ -33,7 +33,8 @@ export const AuthButton = styled.div<{ bgColor: string; textColor: string }>`
   border-radius: 20px;
 
   & * {
-    font-size: 20px;
+    // 아이콘과 텍스트 모두 적용하기 위해서이다.
+    font-size: 1.25rem;
   }
 
   // mobile
@@ -41,7 +42,7 @@ export const AuthButton = styled.div<{ bgColor: string; textColor: string }>`
     border-radius: 25px;
 
     & * {
-      font-size: 25px;
+      font-size: 1.5rem;
     }
 
     & > .link {

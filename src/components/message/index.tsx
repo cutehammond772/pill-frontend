@@ -43,4 +43,4 @@ const Message = (props: MessageProps) => {
   );
 };
 
-export { Message };
+export default Message;

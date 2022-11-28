@@ -12,7 +12,7 @@ interface PageProps extends React.PropsWithChildren {
   layout?: SerializedStyles;
 }
 
-const DynamicPageProvider = (props: React.PropsWithChildren) => {
+export const DynamicPageProvider = (props: React.PropsWithChildren) => {
   const ref = useRef<HTMLDivElement>(null);
   const attributes = useSelector((state: RootState) => state.page);
 
@@ -29,7 +29,7 @@ const DynamicPageProvider = (props: React.PropsWithChildren) => {
   return <Style.Container ref={ref}>{props.children}</Style.Container>;
 };
 
-const Page = (props: PageProps) => {
+export const Page = (props: PageProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
@@ -60,5 +60,3 @@ const Page = (props: PageProps) => {
     </Style.Page>
   );
 };
-
-export { DynamicPageProvider, Page };

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 
-const AddIndexButton = styled(Button)`
+export const AddIndexButton = styled(Button)`
 width: auto;
 height: auto;
 border-radius: 15px;
@@ -16,17 +16,15 @@ box-shadow: 0px 0px 5px var(--shadow);
 
 // Add Icon
 & > .icon {
-  font-size: 40px;
+  font-size: 2.5rem;
 
   color: var(--dark);
 }
 
 & > .title {
   font-weight: 700;
-  font-size: 30px;
+  font-size: 2rem;
   
   color: var(--dark);
 }
 `;
-
-export { AddIndexButton };

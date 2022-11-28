@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { Button } from "@mui/joy";
 
-const Title = styled.div`
+export const Title = styled.div`
   width: auto;
   height: auto;
   padding: 15px 10px 15px 10px;
@@ -31,7 +31,7 @@ const Title = styled.div`
   }
 `;
 
-const TitleEditButton = styled(Button)`
+export const TitleEditButton = styled(Button)`
   width: auto;
   height: auto;
 
@@ -54,5 +54,3 @@ const TitleEditButton = styled(Button)`
 
   color: var(--dark);
 `;
-
-export { Title, TitleEditButton };

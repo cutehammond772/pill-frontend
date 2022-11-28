@@ -22,4 +22,4 @@ const AddIndex = (props: AddIndexProps) => {
   );
 };
 
-export { AddIndex };
+export default AddIndex;

@@ -1,4 +1,4 @@
-
+import * as React from "react";
 import * as Style from "./tab.style";
 
 interface DividerProps {
@@ -13,4 +13,4 @@ const Divider = (props: DividerProps) => {
   );
 };
 
-export { Divider };
+export default React.memo(Divider);

@@ -23,7 +23,7 @@ export const Logo = styled.div`
   & > .title {
     line-height: 100%;
     font-weight: 700;
-    font-size: 40px;
+    font-size: 2.5rem;
 
     color: var(--light);
   }
@@ -33,7 +33,7 @@ export const Logo = styled.div`
     column-gap: 10px;
 
     & > .title {
-      font-size: 30px;
+      font-size: 2rem;
     }
   }
 

@@ -4,7 +4,7 @@ import { SerializedStyles } from "@emotion/react";
 import { IconButton } from "@mui/joy";
 import { ModalTransition, ModalTransitionType } from ".";
 
-const Backdrop = styled.div<{
+export const Backdrop = styled.div<{
   dialogMode?: boolean;
   duration: number;
   state: ModalTransition;
@@ -36,7 +36,7 @@ const Backdrop = styled.div<{
     props.state === ModalTransitionType.EXITED ? "hidden" : "visible"};
 `;
 
-const Modal = styled.div<{
+export const Modal = styled.div<{
   duration: number;
   layout: SerializedStyles;
   state: ModalTransition;
@@ -61,10 +61,8 @@ const Modal = styled.div<{
     props.state === ModalTransitionType.EXITED ? "hidden" : "visible"};
 `;
 
-const CloseButton = styled(IconButton)`
+export const CloseButton = styled(IconButton)`
   position: absolute;
   top: 15px;
   right: 15px;
 `;
-
-export { CloseButton, Backdrop, Modal };

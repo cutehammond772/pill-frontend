@@ -1,3 +1,4 @@
+import * as React from "react";
 import { ListItem, ListItemContent } from "@mui/joy";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -33,4 +34,4 @@ const ReceivedComment = (props: ReceivedCommentProps) => {
   );
 };
 
-export { ReceivedComment };
+export default React.memo(ReceivedComment);

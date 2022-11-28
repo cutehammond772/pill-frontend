@@ -1,8 +1,11 @@
-import HistoryIcon from "@mui/icons-material/History";
+import * as React from "react";
+
 import { L10N } from "../../../../localization";
 import { useLocalization } from "../../../../utils/hooks/l10n";
 import { format } from "../../../../utils/other/format";
+
 import * as Style from "./rc.style";
+import HistoryIcon from "@mui/icons-material/History";
 
 interface HistoryProps {
   unit: string;
@@ -21,4 +24,4 @@ const History = (props: HistoryProps) => {
   );
 };
 
-export { History };
+export default React.memo(History);

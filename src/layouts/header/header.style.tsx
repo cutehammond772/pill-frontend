@@ -40,7 +40,7 @@ export const Header = styled.header`
     & > .selected-menu {
       font-weight: 700;
       line-height: 100%;
-      font-size: 40px;
+      font-size: 2.5rem;
 
       color: var(--blue);
     }
@@ -48,7 +48,7 @@ export const Header = styled.header`
     & > .menu {
       font-weight: 700;
       line-height: 100%;
-      font-size: 40px;
+      font-size: 2.5rem;
 
       color: var(--light);
 

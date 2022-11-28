@@ -24,7 +24,9 @@ export const Behaviors = styled.div`
     display: grid;
     grid-template-columns: 1fr 4fr;
     grid-template-rows: 2fr 3fr;
+
     text-transform: none;
+    word-break: keep-all;
 
     box-shadow: 0px 0px 10px var(--shadow);
 
@@ -37,7 +39,7 @@ export const Behaviors = styled.div`
     & > .icon {
       grid-row: 1 / 3;
 
-      font-size: 80px;
+      font-size: 5rem;
       align-self: center;
       color: var(--light);
     }
@@ -47,7 +49,7 @@ export const Behaviors = styled.div`
       text-align: start;
 
       font-weight: 700;
-      font-size: 30px;
+      font-size: 2rem;
       color: var(--light);
     }
 
@@ -56,7 +58,7 @@ export const Behaviors = styled.div`
       align-self: flex-start;
 
       font-weight: 700;
-      font-size: 25px;
+      font-size: 1.5rem;
       color: var(--light);
     }
   }
@@ -87,7 +89,7 @@ export const RecentPills = styled.div`
 `;
 
 export const Subject = styled.div`
-  font-size: 50px;
+  font-size: 3rem;
   font-weight: 700;
 
   padding-top: 150px;
@@ -97,7 +99,7 @@ export const Subject = styled.div`
   color: var(--dark);
 
   @media screen and (max-width: 768px) {
-    font-size: 40px;
+    font-size: 2.5rem;
   }
 `;
 

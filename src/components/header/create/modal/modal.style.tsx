@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Button as ButtonComponent } from "@mui/joy";
 
-const Layout = css`
+export const Layout = css`
   position: absolute;
 
   left: 50%;
@@ -25,7 +25,7 @@ const Layout = css`
   justify-content: stretch;
 `;
 
-const InfoBanner = styled.div`
+export const InfoBanner = styled.div`
   width: auto;
   height: auto;
   padding: 20px 40px 20px 40px;
@@ -40,23 +40,23 @@ const InfoBanner = styled.div`
   color: var(--light);
 
   & > .icon {
-    font-size: 40px;
+    font-size: 2.5rem;
   }
 
   & > .title {
-    font-size: 30px;
+    font-size: 2rem;
     line-height: 100%;
   }
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   background-color: var(--light);
   padding: 20px 40px 20px 40px;
   border-radius: 20px;
 
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr 40px;
+  // 수정 필요
+  display: flex;
+  flex-flow: column nowrap;
 
   row-gap: 20px;
   column-gap: 10px;
@@ -65,14 +65,12 @@ const Container = styled.div`
     grid-column: 1 / 3;
     margin-bottom: 20px;
     
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 700;
     line-height: 150%;
   }
 `;
 
-const Button = styled(ButtonComponent)`
-  font-size: 18px;
+export const Button = styled(ButtonComponent)`
+  font-size: 1.25rem;
 `;
-
-export { Layout, InfoBanner, Container, Button };

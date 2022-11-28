@@ -18,7 +18,7 @@ import {
 } from "../../utils/reducers/creator";
 
 import { useNavigate } from "react-router-dom";
-import { LikeButton } from "./buttons/like";
+import LikeButton from "./buttons/like";
 import { useLocalization } from "../../utils/hooks/l10n";
 import { L10N } from "../../localization";
 import { format } from "../../utils/other/format";
@@ -111,4 +111,4 @@ const resolveContent = (content: PillContentData) => {
   }
 };
 
-export { CreatePreviewPage };
+export default CreatePreviewPage;

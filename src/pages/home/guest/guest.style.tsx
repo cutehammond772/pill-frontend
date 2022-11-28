@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const Container = styled.div`
+export const Container = styled.div`
   min-height: 1536px;
 
   display: flex;
@@ -18,22 +18,20 @@ const Container = styled.div`
   }
 `;
 
-const Text = styled.h1`
+export const Text = styled.h1`
   margin-top: 256px;
   color: var(--dark);
 
-  font-size: 40px;
+  font-size: 2.5rem;
   word-break: keep-all;
 
   // mobile
   @media screen and (max-width: 768px) {
     margin-top: 192px;
-    font-size: 35px;
+    font-size: 2rem;
   }
 `;
 
-const Background = css`
+export const Background = css`
   background: var(--bg-h-br-t-a);
 `;
-
-export { Container, Text, Background };

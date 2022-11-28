@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { SerializedStyles } from "@emotion/react";
 
-const Container = styled.div<{ layout: SerializedStyles }>`
+export const Container = styled.div<{ layout: SerializedStyles }>`
   width: auto;
   height: auto;
   padding: 10px;
@@ -14,7 +14,7 @@ const Container = styled.div<{ layout: SerializedStyles }>`
   ${(props) => props.layout};
 `;
 
-const Title = styled.div<{ layout?: SerializedStyles }>`
+export const Title = styled.div<{ layout?: SerializedStyles }>`
   display: flex;
   flex-flow: row;
   column-gap: 10px;
@@ -30,12 +30,12 @@ const Title = styled.div<{ layout?: SerializedStyles }>`
   }
 
   & > .container > .icon {
-    font-size: 30px;
+    font-size: 2rem;
   }
 
   & > .container > .title {
     font-weight: 600;
-    font-size: 20px;
+    font-size: 1.5rem;
     line-height: 100%;
   }
 
@@ -49,5 +49,3 @@ const Title = styled.div<{ layout?: SerializedStyles }>`
 
   ${(props) => props.layout};
 `;
-
-export { Container, Title };

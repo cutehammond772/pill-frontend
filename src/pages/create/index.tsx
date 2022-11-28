@@ -44,4 +44,4 @@ const CreatePage = () => {
   );
 };
 
-export { CreatePage };
+export default CreatePage;

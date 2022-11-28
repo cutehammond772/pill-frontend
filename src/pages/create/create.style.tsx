@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const Container = styled.div`
+export const Container = styled.div`
   min-height: 1536px;
 
   padding-top: 128px;
@@ -14,8 +14,6 @@ const Container = styled.div`
   row-gap: 512px;
 `;
 
-const Background = css`
+export const Background = css`
   background: var(--light);
 `;
-
-export { Container, Background };

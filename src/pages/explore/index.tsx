@@ -238,4 +238,4 @@ const SearchOption = (props: SearchOptionProps) => (
   </Style.SearchOption>
 );
 
-export { ExplorePage };
+export default ExplorePage;

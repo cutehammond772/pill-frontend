@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import { List, ListItem } from "@mui/joy";
 
-const Container = styled(List)`
+export const Container = styled(List)`
   min-width: 240;
   border-radius: 10px;
 `;
 
-const Header = styled.div`
+export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,19 +14,19 @@ const Header = styled.div`
   padding-bottom: 5px;
 `;
 
-const Title = styled.span`
+export const Title = styled.span`
   font-weight: 700;
   font-size: 1rem;
 `;
 
-const Buttons = styled.div`
+export const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
   column-gap: 10px;
   align-items: center;
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   color: var(--sub);
   font-size: 0.8rem;
 
@@ -49,7 +49,7 @@ const Content = styled.div`
   }
 `;
 
-const History = styled.div`
+export const History = styled.div`
   display: flex;
   column-gap: 4px;
   align-items: center;
@@ -62,17 +62,7 @@ const History = styled.div`
   }
 `;
 
-const Footer = styled(ListItem)`
+export const Footer = styled(ListItem)`
   display: flex;
   justify-content: space-between;
 `;
-
-export {
-  Container,
-  Content,
-  Header,
-  Title,
-  Buttons,
-  History,
-  Footer,
-};

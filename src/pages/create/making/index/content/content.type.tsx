@@ -1,5 +1,4 @@
-
-interface IndexContentProps {
+export interface IndexContentProps {
   removed: boolean;
   order: number;
   isEnd: boolean;
@@ -7,6 +6,4 @@ interface IndexContentProps {
   
   id: string;
   contentId: string;
-}
-
-export type { IndexContentProps };
+};

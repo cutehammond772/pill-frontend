@@ -2,15 +2,15 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useColorScheme } from "@mui/joy/styles";
 
-import { CreatePage } from "./pages/create";
-import { HomePage } from "./pages/home/";
-import { NotFoundPage } from "./pages/error/not-found";
+import CreatePage from "./pages/create";
+import HomePage from "./pages/home/";
+import NotFoundPage from "./pages/error/not-found";
 import { MyPillPage } from "./pages/my-pill";
-import { ExplorePage } from "./pages/explore";
-import { AboutPage } from "./pages/about";
-import { CreatePreviewPage } from "./pages/create-preview";
-import { UserPage } from "./pages/user";
-import { PillPage } from "./pages/pill";
+import ExplorePage from "./pages/explore";
+import AboutPage from "./pages/about";
+import CreatePreviewPage from "./pages/create-preview";
+import UserPage from "./pages/user";
+import PillPage from "./pages/pill";
 
 import { useAuth } from "./utils/hooks/auth";
 import { useProfile } from "./utils/hooks/profile";
@@ -21,9 +21,9 @@ import { Footer } from "./layouts/footer";
 import * as React from "react";
 
 import { DynamicPageProvider } from "./layouts/page";
-import { DefaultHeader } from "./components/header/default";
-import { CreateHeader } from "./components/header/create";
-import { EmptyHeader } from "./components/header/empty";
+import DefaultHeader from "./components/header/default";
+import CreateHeader from "./components/header/create";
+import EmptyHeader from "./components/header/empty";
 import { useDispatch } from "react-redux";
 import { lockInteraction, unlockInteraction } from "./utils/reducers/header";
 

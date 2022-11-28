@@ -15,4 +15,4 @@ const PillPage = () => {
   );
 };
 
-export { PillPage };
+export default PillPage;

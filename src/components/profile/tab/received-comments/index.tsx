@@ -1,10 +1,11 @@
+import * as React from "react";
 import { Button, ListDivider } from "@mui/joy";
 
 import * as Style from "./rc.style";
-import { History } from "./rc.history";
+import History from "./rc.history";
 
 import { ReceivedCommentData, ReceivedCommentsStats } from "./rc.type";
-import { ReceivedComment } from "./rc.comment";
+import ReceivedComment from "./rc.comment";
 
 interface ReceivedCommentsProps {
   receivedComments?: Array<ReceivedCommentData>;
@@ -44,8 +45,4 @@ const ReceivedComments = (props: ReceivedCommentsProps) => {
   );
 };
 
-export {
-  ReceivedComments,
-  type ReceivedCommentData,
-  type ReceivedCommentsStats,
-};
+export default React.memo(ReceivedComments);

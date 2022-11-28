@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const Container = styled.div`
+export const Container = styled.div`
   min-height: 2048px;
 
   display: flex;
@@ -8,15 +8,15 @@ const Container = styled.div`
   row-gap: 20px;
 `;
 
-const Title = styled.div`
-  font-size: 45px;
+export const Title = styled.div`
+  font-size: 2.75rem;
   font-weight: 700;
 
   margin-top: 256px;
   margin-bottom: 36px;
 `;
 
-const ResultContainer = styled.div`
+export const ResultContainer = styled.div`
   display: flex;
   flex-flow: column;
   row-gap: 20px;
@@ -25,7 +25,7 @@ const ResultContainer = styled.div`
   border-bottom: 2px solid var(--dark);
 `;
 
-const Result = styled.div`
+export const Result = styled.div`
   width: auto;
   min-height: 50px;
   border-radius: 15px;
@@ -39,18 +39,18 @@ const Result = styled.div`
 
   // Result Type Icon
   & > .type {
-    font-size: 30px;
+    font-size: 2rem;
     justify-self: center;
   }
 
   // GoTo Icon
   & > .goto {
-    font-size: 20px;
+    font-size: 1.25rem;
     justify-self: center;
   }
 `;
 
-const ResultContent = styled.div`
+export const ResultContent = styled.div`
   margin-left: 10px;
   margin-right: 10px;
 
@@ -61,13 +61,13 @@ const ResultContent = styled.div`
   row-gap: 10px;
 `;
 
-const ResultTitle = styled.div`
+export const ResultTitle = styled.div`
   display: flex;
   flex-flow: row;
   column-gap: 20px;
 
   & > .title {
-    font-size: 25px;
+    font-size: 1.5rem;
     font-weight: 600;
 
     & > .keyword {
@@ -80,11 +80,11 @@ const ResultTitle = styled.div`
     color: grey;
     align-self: center;
     line-height: 100%;
-    font-size: 18px;
+    font-size: 0.9rem;
   }
 `;
 
-const ResultTagContainer = styled.div`
+export const ResultTagContainer = styled.div`
   display: flex;
   flex-flow: row wrap;
   column-gap: 5px;
@@ -92,14 +92,14 @@ const ResultTagContainer = styled.div`
   align-items: center;
 `;
 
-const ResultTag = styled.div`
+export const ResultTag = styled.div`
   width: auto;
   height: auto;
   border-radius: 5px;
   background-color: var(--dark);
   padding: 5px 10px 5px 10px;
   color: var(--light);
-  font-size: 14px;
+  font-size: 0.8rem;
 
   display: flex;
   flex-flow: row;
@@ -107,7 +107,7 @@ const ResultTag = styled.div`
   column-gap: 5px;
 `;
 
-const SearchOptions = styled.div`
+export const SearchOptions = styled.div`
   display: flex;
   flex-flow: row wrap;
   column-gap: 10px;
@@ -115,7 +115,7 @@ const SearchOptions = styled.div`
   align-items: center;
 `;
 
-const SearchOption = styled.div<{ checked?: boolean }>`
+export const SearchOption = styled.div<{ checked?: boolean }>`
   width: auto;
   height: 40px;
   border-radius: 20px;
@@ -137,7 +137,7 @@ const SearchOption = styled.div<{ checked?: boolean }>`
   // Option Text
   & > .option {
     font-weight: 600;
-    font-size: 18px;
+    font-size: 1.2rem;
     color: ${(props) => (!!props.checked ? "var(--dark)" : "var(--light)")};
 
     transition: color 300ms;
@@ -145,14 +145,14 @@ const SearchOption = styled.div<{ checked?: boolean }>`
 
   // Check Icon
   & > .check {
-    font-size: 20px;
+    font-size: 1.25rem;
     color: var(--dark);
 
     display: ${(props) => (!!props.checked ? "inline" : "none")};
   }
 `;
 
-const SearchBar = styled.div`
+export const SearchBar = styled.div`
   width: auto;
   height: 80px;
   border-radius: 20px;
@@ -168,27 +168,12 @@ const SearchBar = styled.div`
   box-shadow: 0px 0px 5px var(--shadow);
 
   & > .icon {
-    font-size: 40px;
+    font-size: 2.5rem;
   }
 `;
 
-const PageOptions = styled.div`
+export const PageOptions = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
 `;
-
-export {
-  Container,
-  Title,
-  Result,
-  ResultContainer,
-  ResultContent,
-  ResultTitle,
-  ResultTagContainer,
-  ResultTag,
-  SearchOptions,
-  SearchOption,
-  SearchBar,
-  PageOptions,
-};

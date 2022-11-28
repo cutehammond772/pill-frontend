@@ -1,12 +1,12 @@
 import { SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const Blur = styled.div`
+export const Blur = styled.div`
   filter: blur(4px);
   margin: 10px;
 `;
 
-const DummyContainer = styled.div<{
+export const DummyContainer = styled.div<{
   dummyLayout?: SerializedStyles;
 }>`
   position: relative;
@@ -56,5 +56,3 @@ const DummyContainer = styled.div<{
     ${(props) => props.dummyLayout};
   }
 `;
-
-export { Blur, DummyContainer };

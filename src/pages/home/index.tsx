@@ -1,7 +1,7 @@
 import { useAuth } from "../../utils/hooks/auth";
 
-import { UserHome } from "./user";
-import { GuestHome } from "./guest";
+import UserHome from "./user";
+import GuestHome from "./guest";
 
 import * as React from "react";
 
@@ -26,4 +26,4 @@ const HomePage = () => {
   );
 };
 
-export { HomePage };
+export default HomePage;

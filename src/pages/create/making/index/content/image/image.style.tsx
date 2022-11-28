@@ -1,7 +1,7 @@
 /** @jsxImportSource '@emotion/react' */
 import { css } from "@emotion/react";
 
-const ImageContentLayout = css`
+export const ImageContentLayout = css`
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -17,9 +17,7 @@ const ImageContentLayout = css`
   }
 `;
 
-const ImageContentTitleLayout = css`
+export const ImageContentTitleLayout = css`
   width: auto;
   align-self: stretch;
 `;
-
-export { ImageContentLayout, ImageContentTitleLayout };

@@ -16,9 +16,9 @@ import { Menus } from "../../../utils/hooks/header/header.type";
 import { L10N } from "../../../localization";
 import { useLocalization } from "../../../utils/hooks/l10n";
 
-const CreateHeaderSignature = "CreateHeader";
+export const CreateHeaderSignature = "CreateHeader";
 
-const CreateMenus: Menus = {
+export const CreateMenus: Menus = {
   EDITOR: L10N.HEADER_CREATE_01,
   PREVIEW: L10N.HEADER_CREATE_02,
   SAVE: L10N.HEADER_CREATE_03,
@@ -34,8 +34,9 @@ const CreateHeader = () => {
   );
 
   const navigate = useNavigate();
-  const validator = useValidation(Pill.Validator);
   const { enqueueSnackbar } = useSnackbar();
+  
+  const validator = useValidation(Pill.Validator);
   const editor = usePillDefaultEditor();
 
   const [exitConfirm, setExitConfirm] = useState<boolean>(false);
@@ -109,6 +110,7 @@ const CreateHeader = () => {
         }}
         onHomeClick={handleHomeClick}
       />
+
       <ConfirmModal
         open={exitConfirm}
         onClose={() => setExitConfirm(false)}
@@ -118,4 +120,4 @@ const CreateHeader = () => {
   );
 };
 
-export { CreateHeader, CreateMenus, CreateHeaderSignature };
+export default CreateHeader;

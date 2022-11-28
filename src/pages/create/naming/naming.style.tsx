@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const Layout = css`
+export const Layout = css`
   margin-top: 50px;
 `;
 
@@ -24,7 +24,7 @@ const Animation = css`
   animation-timing-function: ease-in-out;
 `;
 
-const DummyLayout = css`
+export const DummyLayout = css`
   width: 2048px;
   height: auto;
   
@@ -35,7 +35,7 @@ const DummyLayout = css`
   ${Animation};
 `;
 
-const Form = styled.div`
+export const Form = styled.div`
   width: 600px;
   height: auto;
 
@@ -59,7 +59,7 @@ const Form = styled.div`
   }
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   padding: 15px;
   border-radius: 15px;
 
@@ -78,7 +78,7 @@ const Title = styled.div`
   }
 `;
 
-const Categories = styled.div`
+export const Categories = styled.div`
   padding: 15px;
   border-radius: 15px;
 
@@ -106,5 +106,3 @@ const Categories = styled.div`
     text-transform: uppercase;
   }
 `;
-
-export { Layout, Categories, Title, DummyLayout, Form, Animation };

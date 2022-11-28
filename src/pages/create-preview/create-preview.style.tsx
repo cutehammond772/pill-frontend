@@ -2,11 +2,11 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-const Background = css`
+export const Background = css`
   background: var(--bg-h-br-t-a);
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   min-height: 1536px;
 
   display: flex;
@@ -19,7 +19,7 @@ const Container = styled.div`
   padding-bottom: 512px;
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   width: auto;
   height: auto;
 
@@ -32,7 +32,7 @@ const Title = styled.div`
   color: var(--dark);
 
   & > .title {
-    font-size: 70px;
+    font-size: 4.5rem;
     font-weight: 700;
 
     word-break: keep-all;
@@ -52,7 +52,7 @@ const Title = styled.div`
     padding-top: 20px;
 
     & > .user {
-      font-size: 30px;
+      font-size: 2rem;
       font-weight: 700;
 
       user-select: text;
@@ -74,7 +74,7 @@ const Title = styled.div`
       column-gap: 20px;
 
       & > .category {
-        font-size: 20px;
+        font-size: 1.25rem;
         font-weight: 700;
 
         padding: 10px 15px 10px 15px;
@@ -88,7 +88,7 @@ const Title = styled.div`
   }
 `;
 
-const Index = styled.div`
+export const Index = styled.div`
   width: auto;
   height: auto;
   box-shadow: 0px 0px 20px lightgray;
@@ -112,11 +112,11 @@ const Index = styled.div`
 
     & > .icon {
       width: 50px;
-      font-size: 45px;
+      font-size: 2.75rem;
     }
 
     & > .title {
-      font-size: 28px;
+      font-size: 1.75rem;
       font-weight: 700;
       line-height: 100%;
     }
@@ -129,8 +129,9 @@ const Index = styled.div`
     align-items: stretch;
     padding-left: 10px;
     & > .index {
-      font-size: 22px;
+      font-size: 1.5rem;
       font-weight: 700;
+
       cursor: pointer;
 
       :hover {
@@ -145,7 +146,7 @@ const Index = styled.div`
   }
 `;
 
-const ContentContainer = styled.div`
+export const ContentContainer = styled.div`
   width: auto;
   height: auto;
 
@@ -154,7 +155,7 @@ const ContentContainer = styled.div`
   row-gap: 200px;
 `;
 
-const Content = styled.div`
+export const Content = styled.div`
   width: auto;
   height: auto;
   box-shadow: 0px 0px 20px lightgray;
@@ -183,7 +184,7 @@ const Content = styled.div`
       padding: 5px 15px 5px 15px;
       border-radius: 0px 10px 10px 0px;
       font-weight: 700;
-      font-size: 35px;
+      font-size: 2.25rem;
       line-height: 100%;
 
       color: var(--dark);
@@ -192,7 +193,7 @@ const Content = styled.div`
 
     & > .title {
       font-weight: 700;
-      font-size: 35px;
+      font-size: 2rem;
       line-height: 100%;
 
       user-select: text;
@@ -220,7 +221,7 @@ const Content = styled.div`
       word-wrap: break-word;
       white-space: pre-line;
 
-      font-size: 25px;
+      font-size: 1.5rem;
       font-weight: 700;
       line-height: 150%;
 
@@ -229,11 +230,7 @@ const Content = styled.div`
       user-select: text;
 
       :hover {
-        font-size: 30px;
-      }
-
-      & {
-        transition: font-size .5s;
+        font-size: 1.75rem;
       }
     }
 
@@ -241,12 +238,3 @@ const Content = styled.div`
     }
   }
 `;
-
-export {
-  Container,
-  Title,
-  Index,
-  Content,
-  ContentContainer,
-  Background,
-};

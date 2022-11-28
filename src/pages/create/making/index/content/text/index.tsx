@@ -27,7 +27,7 @@ interface AddTextButtonProps {
   id: string;
 }
 
-const AddTextButton = (props: AddTextButtonProps) => {
+export const AddTextButton = (props: AddTextButtonProps) => {
   const { text } = useLocalization();
   const editor = usePillIndexEditor(props.id);
 
@@ -43,7 +43,7 @@ const AddTextButton = (props: AddTextButtonProps) => {
   />;
 };
 
-const TextContent = (props: IndexContentProps) => {
+export const TextContent = (props: IndexContentProps) => {
   const { text } = useLocalization();
   const editor = usePillContentEditor(props.id, props.contentId);
   const validator = useValidation(Content.Validator(props.contentId, props.id));
@@ -134,5 +134,3 @@ const TextContent = (props: IndexContentProps) => {
     </Style.Container>
   );
 };
-
-export { TextContent, AddTextButton };

@@ -25,13 +25,13 @@ const validateContent = (value: string) => {
   return null;
 };
 
-interface CategoryProps {
+export interface CategoryProps {
   category: string;
   onRemove: () => void;
   disabled?: boolean;
 }
 
-const CategoryButton = React.memo((props: CategoryProps) => {
+export const CategoryButton = React.memo((props: CategoryProps) => {
   return (
     <Style.Button
       onClick={props.onRemove}
@@ -47,7 +47,7 @@ interface AddCategoryButtonProps {
   onAdd: (category: string) => void;
 }
 
-const AddCategoryButton = (props: AddCategoryButtonProps) => {
+export const AddCategoryButton = (props: AddCategoryButtonProps) => {
   const { text } = useLocalization();
   const editor = usePillDefaultEditor();
 
@@ -131,5 +131,3 @@ const AddCategoryButton = (props: AddCategoryButtonProps) => {
     </Style.Container>
   );
 };
-
-export { CategoryButton, type CategoryProps, AddCategoryButton };

@@ -14,7 +14,7 @@ import { ImageContentLayout, ImageContentTitleLayout } from "./image.style";
 import * as React from "react";
 import { useState, useEffect, useCallback } from "react";
 import { AddContentButton } from "../add";
-import { ImageContentModal } from "./modal";
+import ImageContentModal from "./modal";
 
 import * as Content from "../../../../../../utils/validators/create/content";
 import { PillContentType } from "../../../../../../utils/reducers/creator";
@@ -31,7 +31,7 @@ interface AddImageButtonProps {
   id: string;
 }
 
-const AddImageButton = (props: AddImageButtonProps) => {
+export const AddImageButton = (props: AddImageButtonProps) => {
   const { text } = useLocalization();
   const editor = usePillIndexEditor(props.id);
 
@@ -62,7 +62,7 @@ const AddImageButton = (props: AddImageButtonProps) => {
   );
 };
 
-const ImageContent = (props: IndexContentProps) => {
+export const ImageContent = (props: IndexContentProps) => {
   const { text } = useLocalization();
   const editor = usePillContentEditor(props.id, props.contentId);
   const validator = useValidation(Content.Validator(props.contentId, props.id));
@@ -181,5 +181,3 @@ const ImageContent = (props: IndexContentProps) => {
     </Style.Container>
   );
 };
-
-export { ImageContent, AddImageButton };

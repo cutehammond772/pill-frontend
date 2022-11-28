@@ -1,7 +1,7 @@
-import { Container } from "../container";
+import Container from "../container";
 import * as Style from "./making.style";
 import { IndexContainer as IndexContainerElement } from "./index/index";
-import { AddIndex } from "./add-index/index";
+import AddIndex from "./add-index/index";
 
 import { useEffect } from "react";
 
@@ -16,7 +16,7 @@ import { ValidatedType } from "../../../utils/validators/validator.type";
 import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
 
-const Content = () => {
+export const Content = () => {
   const { text } = useLocalization();
   const editor = usePillDefaultEditor();
   const indexes = useSelector((state: RootState) => state.creator.indexes);
@@ -45,5 +45,3 @@ const Content = () => {
     </Container>
   );
 };
-
-export { Content };

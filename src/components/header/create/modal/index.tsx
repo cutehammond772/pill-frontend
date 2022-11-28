@@ -1,4 +1,4 @@
-import { Modal } from "../../../modal";
+import Modal from "../../../modal";
 import * as Style from "./modal.style";
 
 import WarningIcon from "@mui/icons-material/WarningAmber";
@@ -7,14 +7,14 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useLocalization } from "../../../../utils/hooks/l10n";
 import { L10N } from "../../../../localization";
 
-interface ConfirmModalProps {
+export interface ConfirmModalProps {
   open: boolean;
 
   onClose: () => void;
   onConfirm: () => void;
 }
 
-const ConfirmModal = (props: ConfirmModalProps) => {
+export const ConfirmModal = (props: ConfirmModalProps) => {
   const { text } = useLocalization();
 
   return (
@@ -23,6 +23,7 @@ const ConfirmModal = (props: ConfirmModalProps) => {
         <WarningIcon className="icon" />
         <span className="title">{text(L10N.HEADER_CREATE_06)}</span>
       </Style.InfoBanner>
+
       <Style.Container>
         <span className="content">{text(L10N.HEADER_CREATE_07)}</span>
 
@@ -44,5 +45,3 @@ const ConfirmModal = (props: ConfirmModalProps) => {
     </Modal>
   );
 };
-
-export { ConfirmModal };

@@ -5,7 +5,7 @@ import ViewIcon from "@mui/icons-material/Visibility";
 
 import "./tablet.transition.css";
 
-const Border = styled.div`
+export const Border = styled.div`
   min-width: 400px;
   height: auto;
 
@@ -22,7 +22,7 @@ const Border = styled.div`
   );
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   border-radius: inherit;
 
   background: linear-gradient(
@@ -58,7 +58,7 @@ const Container = styled.div`
 
   & > .title {
     font-weight: 700;
-    font-size: 25px;
+    font-size: 1.5rem;
     color: var(--dark);
 
     line-height: 100%;
@@ -76,7 +76,7 @@ const Container = styled.div`
     align-content: center;
 
     & > .author {
-      font-size: 18px;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--dark);
     }
@@ -88,19 +88,17 @@ const Container = styled.div`
       align-self: flex-end;
       column-gap: 5px;
 
-      font-size: 15px;
+      font-size: 0.8rem;
       line-height: 100%;
       color: var(--dark);
     }
   }
 `;
 
-const Heart = styled(HeartIcon)`
-  font-size: 15px;
+export const Heart = styled(HeartIcon)`
+  font-size: 0.8rem;
 `;
 
-const View = styled(ViewIcon)`
-  font-size: 15px;
+export const View = styled(ViewIcon)`
+  font-size: 0.8rem;
 `;
-
-export { Container, Border, Heart, View };

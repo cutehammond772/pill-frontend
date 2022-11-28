@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { SerializedStyles } from "@emotion/react";
 
-const DefaultPageLayout = css`
+export const DefaultPageLayout = css`
   // mobile (width < 768px)
   padding-left: 36px;
   padding-right: 36px;
@@ -27,7 +27,7 @@ const DefaultPageLayout = css`
   }
 `;
 
-const Page = styled.div<{ layout?: SerializedStyles }>`
+export const Page = styled.div<{ layout?: SerializedStyles }>`
   // 트랜지션을 위해 필요하다.
   position: absolute;
   width: 100%;
@@ -37,11 +37,9 @@ const Page = styled.div<{ layout?: SerializedStyles }>`
   ${(props) => props.layout};
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
   height: 100%;
 
   position: relative;
 `;
-
-export { Page, Container, DefaultPageLayout };
