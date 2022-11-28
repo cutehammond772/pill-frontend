@@ -12,8 +12,8 @@ import * as Style from "./modal.style";
 
 import Message from "../../../../../../../components/message";
 import Modal from "../../../../../../../components/modal";
-import { useLocalization } from "../../../../../../../utils/hooks/l10n";
-import { L10N } from "../../../../../../../localization";
+import { useI18n } from "../../../../../../../utils/hooks/i18n";
+import { I18N } from "../../../../../../../i18n";
 
 export interface ImageContentEditProps {
   link: string;
@@ -31,7 +31,7 @@ interface ImageContentModalProps {
 }
 
 const ImageContentModal = (props: ImageContentModalProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   
   // Image Content
   const [confirm, setConfirm] = useState<boolean>(!!props.edit);
@@ -115,7 +115,7 @@ const ImageContentModal = (props: ImageContentModalProps) => {
         ) : (
           <div className="preview">
             <ImageSearchIcon className="icon" />
-            <span className="message">{text(L10N.PAGE_CREATE_16)}</span>
+            <span className="message">{text(I18N.PAGE_CREATE_16)}</span>
           </div>
         )}
       </Style.ImagePreview>
@@ -124,18 +124,18 @@ const ImageContentModal = (props: ImageContentModalProps) => {
         {!!props.edit ? (
           <div className="title">
             <EditIcon className="icon" />
-            <span className="content">{text(L10N.PAGE_CREATE_21)}</span>
+            <span className="content">{text(I18N.PAGE_CREATE_21)}</span>
           </div>
         ) : (
           <div className="title">
             <AddIcon className="icon" />
-            <span className="content">{text(L10N.PAGE_CREATE_15)}</span>
+            <span className="content">{text(I18N.PAGE_CREATE_15)}</span>
           </div>
         )}
 
         <Style.ImageInputForm>
           <TextField
-            label={text(L10N.PAGE_CREATE_17)}
+            label={text(I18N.PAGE_CREATE_17)}
             variant="soft"
             color="neutral"
             fullWidth
@@ -154,7 +154,7 @@ const ImageContentModal = (props: ImageContentModalProps) => {
                 setLoad(false);
               }}
             >
-              {text(L10N.PAGE_CREATE_20)}
+              {text(I18N.PAGE_CREATE_20)}
             </Button>
           ) : (
             <Button
@@ -163,16 +163,16 @@ const ImageContentModal = (props: ImageContentModalProps) => {
               startDecorator={<CheckIcon />}
               onClick={() => setConfirm(true)}
             >
-              {text(L10N.PAGE_CREATE_19)}
+              {text(I18N.PAGE_CREATE_19)}
             </Button>
           )}
         </Style.ImageInputForm>
 
         <TextField
-          label={text(L10N.PAGE_CREATE_18)}
+          label={text(I18N.PAGE_CREATE_18)}
           variant="soft"
           onChange={handleDescription}
-          placeholder={text(L10N.PAGE_CREATE_22)}
+          placeholder={text(I18N.PAGE_CREATE_22)}
           value={description || ""}
         />
 
@@ -180,12 +180,12 @@ const ImageContentModal = (props: ImageContentModalProps) => {
           disabled={!(confirm && load && !!description.trim())}
           onClick={handleAddImage}
         >
-          {text(L10N.PAGE_CREATE_24)}
+          {text(I18N.PAGE_CREATE_24)}
         </Button>
       </Style.Form>
 
       <Message
-        message={text(L10N.PAGE_CREATE_23)}
+        message={text(I18N.PAGE_CREATE_23)}
         type="error"
         state={{ open: message, setOpen: setMessage }}
       />

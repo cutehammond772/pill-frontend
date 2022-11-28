@@ -2,16 +2,16 @@ import { Header } from "../../../layouts/header";
 
 import * as React from "react";
 import { useHeader } from "../../../utils/hooks/header";
-import { L10N } from "../../../localization";
+import { I18N } from "../../../i18n";
 import { Menus } from "../../../utils/hooks/header/header.type";
 
 export const DefaultHeaderSignature = "DefaultHeader";
 
 export const DefaultMenus: Menus = {
-  HOME: L10N.HEADER_DEFAULT_01,
-  MY_PILL: L10N.HEADER_DEFAULT_02,
-  EXPLORE: L10N.HEADER_DEFAULT_03,
-  ABOUT: L10N.HEADER_DEFAULT_04,
+  HOME: I18N.HEADER_DEFAULT_01,
+  MY_PILL: I18N.HEADER_DEFAULT_02,
+  EXPLORE: I18N.HEADER_DEFAULT_03,
+  ABOUT: I18N.HEADER_DEFAULT_04,
 } as const;
 
 const mapper = {

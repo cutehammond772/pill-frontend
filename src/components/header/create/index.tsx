@@ -13,21 +13,21 @@ import { useSnackbar } from "notistack";
 import { ValidatedType } from "../../../utils/validators/validator.type";
 import { usePillDefaultEditor } from "../../../utils/hooks/pill-creator";
 import { Menus } from "../../../utils/hooks/header/header.type";
-import { L10N } from "../../../localization";
-import { useLocalization } from "../../../utils/hooks/l10n";
+import { I18N } from "../../../i18n";
+import { useI18n } from "../../../utils/hooks/i18n";
 
 export const CreateHeaderSignature = "CreateHeader";
 
 export const CreateMenus: Menus = {
-  EDITOR: L10N.HEADER_CREATE_01,
-  PREVIEW: L10N.HEADER_CREATE_02,
-  SAVE: L10N.HEADER_CREATE_03,
+  EDITOR: I18N.HEADER_CREATE_01,
+  PREVIEW: I18N.HEADER_CREATE_02,
+  SAVE: I18N.HEADER_CREATE_03,
 } as const;
 
 type CreateMenu = typeof CreateMenus[keyof typeof CreateMenus];
 
 const CreateHeader = () => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   const header = useHeader<typeof CreateMenus>(
     CreateHeaderSignature,
     CreateMenus.EDITOR
@@ -51,7 +51,7 @@ const CreateHeader = () => {
           break;
         case CreateMenus.PREVIEW:
           if (validator.validation.result !== ValidatedType.VALID) {
-            enqueueSnackbar(text(L10N.HEADER_CREATE_04), {
+            enqueueSnackbar(text(I18N.HEADER_CREATE_04), {
               variant: "error",
               preventDuplicate: true,
             });
@@ -63,7 +63,7 @@ const CreateHeader = () => {
           break;
         case CreateMenus.SAVE:
           if (validator.validation.result !== ValidatedType.VALID) {
-            enqueueSnackbar(text(L10N.HEADER_CREATE_05), {
+            enqueueSnackbar(text(I18N.HEADER_CREATE_05), {
               variant: "error",
               preventDuplicate: true,
             });

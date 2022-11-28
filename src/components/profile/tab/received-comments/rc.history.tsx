@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { L10N } from "../../../../localization";
-import { useLocalization } from "../../../../utils/hooks/l10n";
+import { I18N } from "../../../../i18n";
+import { useI18n } from "../../../../utils/hooks/i18n";
 import { format } from "../../../../utils/other/format";
 
 import * as Style from "./rc.style";
@@ -13,12 +13,12 @@ interface HistoryProps {
 }
 
 const History = (props: HistoryProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   return (
     <Style.History>
       <HistoryIcon />
       <span className="info">
-        {format(text(L10N.TAB_05), props.unit, `${props.comments}`)}
+        {format(text(I18N.TAB_05), props.unit, `${props.comments}`)}
       </span>
     </Style.History>
   );

@@ -6,8 +6,8 @@ import * as Style from "./category.style";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { usePillDefaultEditor } from "../../../../utils/hooks/pill-creator";
-import { L10N } from "../../../../localization";
-import { useLocalization } from "../../../../utils/hooks/l10n";
+import { I18N } from "../../../../i18n";
+import { useI18n } from "../../../../utils/hooks/i18n";
 
 const validateContent = (value: string) => {
   if (value.trim() !== value) {
@@ -48,7 +48,7 @@ interface AddCategoryButtonProps {
 }
 
 export const AddCategoryButton = (props: AddCategoryButtonProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   const editor = usePillDefaultEditor();
 
   const [edit, setEdit] = useState<boolean>(false);
@@ -119,12 +119,12 @@ export const AddCategoryButton = (props: AddCategoryButtonProps) => {
           onBlur={toggleEdit}
           onKeyDown={handleEnter}
           value={content || ""}
-          placeholder={text(L10N.PAGE_CREATE_06)}
+          placeholder={text(I18N.PAGE_CREATE_06)}
           autoFocus
         />
       ) : (
         <Style.Button onClick={toggleEdit} addButton>
-          <span className="title">{text(L10N.PAGE_CREATE_05)}</span>
+          <span className="title">{text(I18N.PAGE_CREATE_05)}</span>
           <AddIcon />
         </Style.Button>
       )}

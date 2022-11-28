@@ -7,8 +7,8 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { AddImageButton } from "../image";
 import { AddTextButton } from "../text";
-import { useLocalization } from "../../../../../../utils/hooks/l10n";
-import { L10N } from "../../../../../../localization";
+import { useI18n } from "../../../../../../utils/hooks/i18n";
+import { I18N } from "../../../../../../i18n";
 
 interface AddContentButtonProps {
   icon: React.ComponentType<{ className: string }>;
@@ -23,14 +23,14 @@ interface AddContentContainerProps {
 }
 
 export const AddContentContainer = React.memo((props: AddContentContainerProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
 
   return (
     <ContentStyle.Container layout={Style.ContainerLayout}>
       <ContentStyle.Title layout={Style.TitleLayout}>
         <div className="container">
           <AddIcon className="icon" />
-          <span className="title">{text(L10N.PAGE_CREATE_10)}</span>
+          <span className="title">{text(I18N.PAGE_CREATE_10)}</span>
         </div>
       </ContentStyle.Title>
 

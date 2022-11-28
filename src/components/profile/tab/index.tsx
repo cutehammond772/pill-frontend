@@ -16,8 +16,8 @@ import { AuthButtonProps, Login, Logout } from "../../auth";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import Modal from "../../modal";
-import { useLocalization } from "../../../utils/hooks/l10n";
-import { L10N } from "../../../localization";
+import { useI18n } from "../../../utils/hooks/i18n";
+import { I18N } from "../../../i18n";
 
 const LOGIN_PROPS: AuthButtonProps = {
   redirect: config.INDEX,
@@ -57,7 +57,7 @@ interface ProfileTabProps {
 }
 
 const ProfileTab = (props: ProfileTabProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
 
   const profile = useProfile();
   const modalRef = useRef<HTMLDivElement>(null);
@@ -80,13 +80,13 @@ const ProfileTab = (props: ProfileTabProps) => {
     >
       {!profile.data.userName ? (
         <>
-          <Style.Title>{text(L10N.TAB_01)}</Style.Title>
+          <Style.Title>{text(I18N.TAB_01)}</Style.Title>
           <Style.GuestBanner>
             <ThumbUpIcon className="icon" />
-            <span className="content">{text(L10N.TAB_02)}</span>
+            <span className="content">{text(I18N.TAB_02)}</span>
           </Style.GuestBanner>
 
-          <Divider title={text(L10N.TAB_03)} />
+          <Divider title={text(I18N.TAB_03)} />
           <Style.Menu>
             <Login {...LOGIN_PROPS} />
           </Style.Menu>
@@ -95,13 +95,13 @@ const ProfileTab = (props: ProfileTabProps) => {
         <>
           <Style.Title>{profile.data.userName}</Style.Title>
 
-          <Divider title={text(L10N.TAB_04)} />
+          <Divider title={text(I18N.TAB_04)} />
           <ReceivedComments
             receivedComments={Dummy.comments}
             stats={Dummy.stats}
           />
 
-          <Divider title={text(L10N.TAB_03)} />
+          <Divider title={text(I18N.TAB_03)} />
           <Style.Menu>
             <MyPillButton onClick={() => {}} />
             <ManageProfileButton onClick={() => {}} />

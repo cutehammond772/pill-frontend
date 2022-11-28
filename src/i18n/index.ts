@@ -6,7 +6,7 @@ export const LanguageType = {
 export const DEFUALT_LANGUAGE = LanguageType.Korean;
 export type Language = typeof LanguageType[keyof typeof LanguageType];
 
-export const L10N = {
+export const I18N = {
 
     /* Header */
 
@@ -140,6 +140,6 @@ export const L10N = {
 
 } as const;
 
-export type L10NText = typeof L10N[keyof typeof L10N];
-export type DefaultL10NMapper = { [type in L10NText]: string };
-export type L10NMapper = Partial<{ [type in L10NText]: string }>;
+export type I18NText = typeof I18N[keyof typeof I18N];
+export type DefaultI18NMapper = { [type in I18NText]: string };
+export type I18NMapper = Partial<{ [type in I18NText]: string }>;

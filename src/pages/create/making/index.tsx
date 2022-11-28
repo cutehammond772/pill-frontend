@@ -13,11 +13,11 @@ import { useValidation } from "../../../utils/hooks/validation";
 
 import * as IndexContainer from "../../../utils/validators/create/index-container";
 import { ValidatedType } from "../../../utils/validators/validator.type";
-import { useLocalization } from "../../../utils/hooks/l10n";
-import { L10N } from "../../../localization";
+import { useI18n } from "../../../utils/hooks/i18n";
+import { I18N } from "../../../i18n";
 
 export const Content = () => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   const editor = usePillDefaultEditor();
   const indexes = useSelector((state: RootState) => state.creator.indexes);
   const validator = useValidation(IndexContainer.Validator);
@@ -29,7 +29,7 @@ export const Content = () => {
 
   return (
     <Container
-      title={text(L10N.PAGE_CREATE_07)}
+      title={text(I18N.PAGE_CREATE_07)}
       complete={!!validation && validation.result === ValidatedType.VALID}
       layout={Style.Layout}
     >

@@ -5,8 +5,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import * as React from "react";
 import * as Style from "./title.style";
-import { useLocalization } from "../../../../../utils/hooks/l10n";
-import { L10N } from "../../../../../localization";
+import { useI18n } from "../../../../../utils/hooks/i18n";
+import { I18N } from "../../../../../i18n";
 
 interface TitleProps {
   order: number;
@@ -18,13 +18,13 @@ interface TitleProps {
 }
 
 const Title = (props: TitleProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
 
   return (
     <Style.Title>
       <span className="index">#{props.order + 1}</span>
       <TextField
-        placeholder={text(L10N.PAGE_CREATE_09)}
+        placeholder={text(I18N.PAGE_CREATE_09)}
         fullWidth
         onChange={props.onTextChange}
         value={props.title || ""}
@@ -41,7 +41,7 @@ const Title = (props: TitleProps) => {
         }}
       />
 
-      <Tooltip title={text(L10N.PAGE_CREATE_30)}>
+      <Tooltip title={text(I18N.PAGE_CREATE_30)}>
         <IconButton
           variant="soft"
           color="danger"

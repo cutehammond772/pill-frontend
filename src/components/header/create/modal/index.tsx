@@ -4,8 +4,8 @@ import * as Style from "./modal.style";
 import WarningIcon from "@mui/icons-material/WarningAmber";
 import EditIcon from "@mui/icons-material/Edit";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { useLocalization } from "../../../../utils/hooks/l10n";
-import { L10N } from "../../../../localization";
+import { useI18n } from "../../../../utils/hooks/i18n";
+import { I18N } from "../../../../i18n";
 
 export interface ConfirmModalProps {
   open: boolean;
@@ -15,31 +15,31 @@ export interface ConfirmModalProps {
 }
 
 export const ConfirmModal = (props: ConfirmModalProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
 
   return (
     <Modal open={props.open} onClose={props.onClose} layout={Style.Layout}>
       <Style.InfoBanner>
         <WarningIcon className="icon" />
-        <span className="title">{text(L10N.HEADER_CREATE_06)}</span>
+        <span className="title">{text(I18N.HEADER_CREATE_06)}</span>
       </Style.InfoBanner>
 
       <Style.Container>
-        <span className="content">{text(L10N.HEADER_CREATE_07)}</span>
+        <span className="content">{text(I18N.HEADER_CREATE_07)}</span>
 
         <Style.Button
           color="primary"
           startDecorator={<EditIcon />}
           onClick={props.onClose}
         >
-          {text(L10N.HEADER_CREATE_09)}
+          {text(I18N.HEADER_CREATE_09)}
         </Style.Button>
         <Style.Button
           color="neutral"
           startDecorator={<ExitToAppIcon />}
           onClick={props.onConfirm}
         >
-          {text(L10N.HEADER_CREATE_08)}
+          {text(I18N.HEADER_CREATE_08)}
         </Style.Button>
       </Style.Container>
     </Modal>

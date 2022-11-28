@@ -13,8 +13,8 @@ import { useNavigate } from "react-router-dom";
 import * as Style from "./header.style";
 import Logo from "./logo";
 import PillMenu from "./menu/pill";
-import { useLocalization } from "../../utils/hooks/l10n";
-import { L10N } from "../../localization";
+import { useI18n } from "../../utils/hooks/i18n";
+import { I18N } from "../../i18n";
 
 interface HeaderProps<E extends Menus> {
   onHomeClick?: () => void;
@@ -27,7 +27,7 @@ const Header = <E extends Menus>(props: HeaderProps<E>) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { text } = useLocalization();
+  const { text } = useI18n();
 
   const [dropdown, setDropdown] = useState<boolean>(false);
   const menus = Object.values(props.menu.enum).filter(
@@ -102,7 +102,7 @@ const Header = <E extends Menus>(props: HeaderProps<E>) => {
         <Logo onClick={props.onHomeClick || (() => navigate("/"))} />
         <PillMenu
           onClick={() => setDropdown(!dropdown)}
-          title={text(props.menu?.selected || L10N.HEADER_01)}
+          title={text(props.menu?.selected || I18N.HEADER_01)}
         />
         <Profile />
       </div>

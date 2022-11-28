@@ -5,8 +5,8 @@ import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import CheckIcon from "@mui/icons-material/Check";
 
 import * as Style from "./container.style";
-import { useLocalization } from "../../../utils/hooks/l10n";
-import { L10N } from "../../../localization";
+import { useI18n } from "../../../utils/hooks/i18n";
+import { I18N } from "../../../i18n";
 
 interface CreatingPillContainerProps {
   title: string;
@@ -17,14 +17,14 @@ interface CreatingPillContainerProps {
 const Container = (
   props: React.PropsWithChildren<CreatingPillContainerProps>
 ) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
 
   return (
     <div>
       <Style.Title>
         {props.complete ? (
           <Chip variant="solid" color="success" startDecorator={<CheckIcon />}>
-            {text(L10N.PAGE_CREATE_32)}
+            {text(I18N.PAGE_CREATE_32)}
           </Chip>
         ) : (
           <Chip
@@ -32,7 +32,7 @@ const Container = (
             color="warning"
             startDecorator={<PriorityHighIcon />}
           >
-            {text(L10N.PAGE_CREATE_31)}
+            {text(I18N.PAGE_CREATE_31)}
           </Chip>
         )}
 

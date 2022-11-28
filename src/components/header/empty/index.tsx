@@ -1,15 +1,15 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../../layouts/header";
-import { L10N } from "../../../localization";
+import { I18N } from "../../../i18n";
 import { useHeader } from "../../../utils/hooks/header";
 import { Menus } from "../../../utils/hooks/header/header.type";
 
 export const EmptyHeaderSignature = "EmptyHeader";
 
 export const EmptyMenus: Menus = {
-  HOME: L10N.HEADER_EMPTY_01,
-  PAGE: L10N.HEADER_EMPTY_02,
+  HOME: I18N.HEADER_EMPTY_01,
+  PAGE: I18N.HEADER_EMPTY_02,
 } as const;
 
 type EmptyMenu = typeof EmptyMenus[keyof typeof EmptyMenus];

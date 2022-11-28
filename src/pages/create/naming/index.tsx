@@ -17,11 +17,11 @@ import * as Naming from "../../../utils/validators/create/naming";
 import { ValidatedType } from "../../../utils/validators/validator.type";
 import { useValidation } from "../../../utils/hooks/validation";
 import { useProfile } from "../../../utils/hooks/profile";
-import { useLocalization } from "../../../utils/hooks/l10n";
-import { L10N } from "../../../localization";
+import { useI18n } from "../../../utils/hooks/i18n";
+import { I18N } from "../../../i18n";
 
 export const Content = () => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   const validator = useValidation(Naming.Validator);
   const validation = validator.validation;
 
@@ -61,7 +61,7 @@ export const Content = () => {
 
   return (
     <Container
-      title={text(L10N.PAGE_CREATE_01)}
+      title={text(I18N.PAGE_CREATE_01)}
       complete={!!validation && validation.result === ValidatedType.VALID}
       layout={Style.Layout}
     >
@@ -79,9 +79,9 @@ export const Content = () => {
 
           <Style.Form>
             <Style.Title>
-              <span className="title">{text(L10N.PAGE_CREATE_02)}</span>
+              <span className="title">{text(I18N.PAGE_CREATE_02)}</span>
               <TextField
-                placeholder={text(L10N.PAGE_CREATE_03)}
+                placeholder={text(I18N.PAGE_CREATE_03)}
                 color="neutral"
                 variant="soft"
                 fullWidth
@@ -91,7 +91,7 @@ export const Content = () => {
             </Style.Title>
 
             <Style.Categories>
-              <span className="title">{text(L10N.PAGE_CREATE_04)}</span>
+              <span className="title">{text(I18N.PAGE_CREATE_04)}</span>
               <div className="container">
                 <CategoryStyle.TransitionGroup>
                   {editor.categories.map((category) => (

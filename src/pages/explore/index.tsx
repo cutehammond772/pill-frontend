@@ -18,25 +18,25 @@ import TitleIcon from "@mui/icons-material/Title";
 import PropaneIcon from "@mui/icons-material/Propane";
 import { Pagination, PaginationItem } from "@mui/material";
 import { Option, Select, TextField } from "@mui/joy";
-import { useLocalization } from "../../utils/hooks/l10n";
-import { L10N } from "../../localization";
+import { useI18n } from "../../utils/hooks/i18n";
+import { I18N } from "../../i18n";
 import { format } from "../../utils/other/format";
 
 const ExplorePage = () => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   usePageSelect(DefaultHeaderSignature, DefaultMenus.EXPLORE);
 
   return (
     <Page>
       <Style.Container>
-        <Style.Title>{text(L10N.PAGE_EXPLORE_01)}</Style.Title>
-        <SearchBar placeholder={text(L10N.PAGE_EXPLORE_02)} />
+        <Style.Title>{text(I18N.PAGE_EXPLORE_01)}</Style.Title>
+        <SearchBar placeholder={text(I18N.PAGE_EXPLORE_02)} />
         <Style.SearchOptions>
-          <SearchOption name={text(L10N.PAGE_EXPLORE_03)} checked />
-          <SearchOption name={text(L10N.PAGE_EXPLORE_04)} />
-          <SearchOption name={text(L10N.PAGE_EXPLORE_05)} />
-          <SearchOption name={text(L10N.PAGE_EXPLORE_06)} />
-          <SearchOption name={text(L10N.PAGE_EXPLORE_07)} />
+          <SearchOption name={text(I18N.PAGE_EXPLORE_03)} checked />
+          <SearchOption name={text(I18N.PAGE_EXPLORE_04)} />
+          <SearchOption name={text(I18N.PAGE_EXPLORE_05)} />
+          <SearchOption name={text(I18N.PAGE_EXPLORE_06)} />
+          <SearchOption name={text(I18N.PAGE_EXPLORE_07)} />
         </Style.SearchOptions>
 
         <Style.ResultContainer>
@@ -45,7 +45,7 @@ const ExplorePage = () => {
             keyword="hammond"
             pills={236}
             comments={102}
-            subText={text(L10N.PAGE_EXPLORE_08)}
+            subText={text(I18N.PAGE_EXPLORE_08)}
           />
 
           <TitleResult
@@ -80,11 +80,11 @@ const ExplorePage = () => {
           />
 
           <Select defaultValue="10">
-            <Option value="10">{format(text(L10N.PAGE_EXPLORE_09), '10')}</Option>
-            <Option value="20">{format(text(L10N.PAGE_EXPLORE_09), '20')}</Option>
-            <Option value="30">{format(text(L10N.PAGE_EXPLORE_09), '30')}</Option>
-            <Option value="40">{format(text(L10N.PAGE_EXPLORE_09), '40')}</Option>
-            <Option value="50">{format(text(L10N.PAGE_EXPLORE_09), '50')}</Option>
+            <Option value="10">{format(text(I18N.PAGE_EXPLORE_09), '10')}</Option>
+            <Option value="20">{format(text(I18N.PAGE_EXPLORE_09), '20')}</Option>
+            <Option value="30">{format(text(I18N.PAGE_EXPLORE_09), '30')}</Option>
+            <Option value="40">{format(text(I18N.PAGE_EXPLORE_09), '40')}</Option>
+            <Option value="50">{format(text(I18N.PAGE_EXPLORE_09), '50')}</Option>
           </Select>
         </Style.PageOptions>
       </Style.Container>

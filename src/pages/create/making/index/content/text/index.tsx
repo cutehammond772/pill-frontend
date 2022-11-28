@@ -20,15 +20,15 @@ import { PillContentType } from "../../../../../../utils/reducers/creator";
 import { IndexContentProps } from "../content.type";
 import * as Content from "../../../../../../utils/validators/create/content";
 import { useValidation } from "../../../../../../utils/hooks/validation";
-import { useLocalization } from "../../../../../../utils/hooks/l10n";
-import { L10N } from "../../../../../../localization";
+import { useI18n } from "../../../../../../utils/hooks/i18n";
+import { I18N } from "../../../../../../i18n";
 
 interface AddTextButtonProps {
   id: string;
 }
 
 export const AddTextButton = (props: AddTextButtonProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   const editor = usePillIndexEditor(props.id);
 
   const handleAddText = useCallback(() => {
@@ -37,14 +37,14 @@ export const AddTextButton = (props: AddTextButtonProps) => {
 
   return <AddContentButton
     icon={ArticleIcon}
-    title={text(L10N.PAGE_CREATE_13)}
-    description={text(L10N.PAGE_CREATE_14)}
+    title={text(I18N.PAGE_CREATE_13)}
+    description={text(I18N.PAGE_CREATE_14)}
     onClick={handleAddText}
   />;
 };
 
 export const TextContent = (props: IndexContentProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   const editor = usePillContentEditor(props.id, props.contentId);
   const validator = useValidation(Content.Validator(props.contentId, props.id));
 
@@ -81,11 +81,11 @@ export const TextContent = (props: IndexContentProps) => {
       <Style.Title layout={TextContentTitleLayout}>
         <div className="container">
           <ArticleIcon className="icon" />
-          <span className="title">{text(L10N.PAGE_CREATE_26)}</span>
+          <span className="title">{text(I18N.PAGE_CREATE_26)}</span>
         </div>
         <div className="buttons">
           {props.order !== 0 && (
-            <Tooltip title={text(L10N.PAGE_CREATE_27)}>
+            <Tooltip title={text(I18N.PAGE_CREATE_27)}>
               <IconButton
                 variant="outlined"
                 color="primary"
@@ -98,7 +98,7 @@ export const TextContent = (props: IndexContentProps) => {
           )}
 
           {!props.isEnd && (
-            <Tooltip title={text(L10N.PAGE_CREATE_28)}>
+            <Tooltip title={text(I18N.PAGE_CREATE_28)}>
               <IconButton
                 variant="outlined"
                 color="primary"
@@ -110,7 +110,7 @@ export const TextContent = (props: IndexContentProps) => {
             </Tooltip>
           )}
 
-          <Tooltip title={text(L10N.PAGE_CREATE_30)}>
+          <Tooltip title={text(I18N.PAGE_CREATE_30)}>
             <IconButton
               variant="soft"
               color="danger"

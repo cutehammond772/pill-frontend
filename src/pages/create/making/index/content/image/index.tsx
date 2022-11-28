@@ -24,15 +24,15 @@ import {
 } from "../../../../../../utils/hooks/pill-creator";
 import { IndexContentProps } from "../content.type";
 import { useValidation } from "../../../../../../utils/hooks/validation";
-import { useLocalization } from "../../../../../../utils/hooks/l10n";
-import { L10N } from "../../../../../../localization";
+import { useI18n } from "../../../../../../utils/hooks/i18n";
+import { I18N } from "../../../../../../i18n";
 
 interface AddImageButtonProps {
   id: string;
 }
 
 export const AddImageButton = (props: AddImageButtonProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   const editor = usePillIndexEditor(props.id);
 
   const [open, setOpen] = useState<boolean>(false);
@@ -49,8 +49,8 @@ export const AddImageButton = (props: AddImageButtonProps) => {
     <>
       <AddContentButton
         icon={ImageIcon}
-        title={text(L10N.PAGE_CREATE_11)}
-        description={text(L10N.PAGE_CREATE_12)}
+        title={text(I18N.PAGE_CREATE_11)}
+        description={text(I18N.PAGE_CREATE_12)}
         onClick={handleOpen}
       />
       <ImageContentModal
@@ -63,7 +63,7 @@ export const AddImageButton = (props: AddImageButtonProps) => {
 };
 
 export const ImageContent = (props: IndexContentProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   const editor = usePillContentEditor(props.id, props.contentId);
   const validator = useValidation(Content.Validator(props.contentId, props.id));
 
@@ -97,7 +97,7 @@ export const ImageContent = (props: IndexContentProps) => {
       <Style.Title layout={ImageContentTitleLayout}>
         <div className="container">
           <ImageIcon className="icon" />
-          <span className="title">{text(L10N.PAGE_CREATE_25)}</span>
+          <span className="title">{text(I18N.PAGE_CREATE_25)}</span>
         </div>
 
         <Chip
@@ -113,7 +113,7 @@ export const ImageContent = (props: IndexContentProps) => {
 
         <div className="buttons">
           {props.order !== 0 && (
-            <Tooltip title={text(L10N.PAGE_CREATE_27)}>
+            <Tooltip title={text(I18N.PAGE_CREATE_27)}>
               <IconButton
                 variant="outlined"
                 color="primary"
@@ -126,7 +126,7 @@ export const ImageContent = (props: IndexContentProps) => {
           )}
 
           {!props.isEnd && (
-            <Tooltip title={text(L10N.PAGE_CREATE_28)}>
+            <Tooltip title={text(I18N.PAGE_CREATE_28)}>
               <IconButton
                 variant="outlined"
                 color="primary"
@@ -138,7 +138,7 @@ export const ImageContent = (props: IndexContentProps) => {
             </Tooltip>
           )}
 
-          <Tooltip title={text(L10N.PAGE_CREATE_29)}>
+          <Tooltip title={text(I18N.PAGE_CREATE_29)}>
             <IconButton
               variant="solid"
               color="info"
@@ -149,7 +149,7 @@ export const ImageContent = (props: IndexContentProps) => {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={text(L10N.PAGE_CREATE_30)}>
+          <Tooltip title={text(I18N.PAGE_CREATE_30)}>
             <IconButton
               variant="soft"
               color="danger"

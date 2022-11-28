@@ -3,8 +3,8 @@ import { Avatar } from "@mui/joy";
 import { Tooltip } from "@mui/material";
 
 import { useProfile } from "../../utils/hooks/profile";
-import { useLocalization } from "../../utils/hooks/l10n";
-import { L10N } from "../../localization";
+import { useI18n } from "../../utils/hooks/i18n";
+import { I18N } from "../../i18n";
 
 export interface ProfileData {
   userName?: string;
@@ -21,12 +21,12 @@ interface ProfileAvatarProps {
 }
 
 const ProfileAvatar = (props: ProfileAvatarProps) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   const profile = useProfile();
   const data = profile.data;
 
   return (
-    <Tooltip title={data.userName || text(L10N.PROFILE_01)} disableInteractive>
+    <Tooltip title={data.userName || text(I18N.PROFILE_01)} disableInteractive>
       {!data.userName ? (
         <DefaultAvatar onClick={props.onClick} />
       ) : (

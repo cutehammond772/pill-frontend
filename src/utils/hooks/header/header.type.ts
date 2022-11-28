@@ -1,7 +1,7 @@
-import { L10NText } from "../../../localization";
+import { I18NText } from "../../../i18n";
 
 export type MenuRef = HTMLButtonElement | null;
-export type Menus = { [s: string]: L10NText };
+export type Menus = { [s: string]: I18NText };
 export type DisabledMenus = { [header: string]: Array<string> };
 export type SelectedMenu = { [header: string]: string };
 

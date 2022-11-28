@@ -19,12 +19,12 @@ import {
 
 import { useNavigate } from "react-router-dom";
 import LikeButton from "./buttons/like";
-import { useLocalization } from "../../utils/hooks/l10n";
-import { L10N } from "../../localization";
+import { useI18n } from "../../utils/hooks/i18n";
+import { I18N } from "../../i18n";
 import { format } from "../../utils/other/format";
 
 const CreatePreviewPage = () => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
   usePageSelect(CreateHeaderSignature, CreateMenus.PREVIEW);
   const navigate = useNavigate();
 
@@ -37,13 +37,13 @@ const CreatePreviewPage = () => {
         <Style.Title>
           <LikeButton />
           <span className="title">
-            {pill.title || text(L10N.PAGE_PREVIEW_03)}
+            {pill.title || text(I18N.PAGE_PREVIEW_03)}
           </span>
           <div className="info">
             <span className="user">
               {format(
-                text(L10N.PAGE_PREVIEW_01),
-                profile.userName || text(L10N.PAGE_PREVIEW_04)
+                text(I18N.PAGE_PREVIEW_01),
+                profile.userName || text(I18N.PAGE_PREVIEW_04)
               )}
             </span>
             <div className="categories">
@@ -59,7 +59,7 @@ const CreatePreviewPage = () => {
         <Style.Index>
           <div className="index_title">
             <ListIcon className="icon" />
-            <span className="title">{text(L10N.PAGE_PREVIEW_02)}</span>
+            <span className="title">{text(I18N.PAGE_PREVIEW_02)}</span>
           </div>
           <div className="index_list">
             {pill.indexes.map((index, order) => (

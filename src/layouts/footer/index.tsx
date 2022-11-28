@@ -5,11 +5,11 @@ import { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useResizeObserver from "@react-hook/resize-observer";
 import { updateFooterHeight } from "../../utils/reducers/page";
-import { useLocalization } from "../../utils/hooks/l10n";
-import { LanguageType } from "../../localization";
+import { useI18n } from "../../utils/hooks/i18n";
+import { LanguageType } from "../../i18n";
 
 const Footer = () => {
-  const { text, changeLanguage } = useLocalization();
+  const { text, changeLanguage } = useI18n();
   const ref = useRef<HTMLElement>(null);
   const dispatch = useDispatch();
 

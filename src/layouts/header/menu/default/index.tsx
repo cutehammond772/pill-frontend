@@ -1,11 +1,11 @@
 import * as React from "react";
-import { useLocalization } from "../../../../utils/hooks/l10n";
+import { useI18n } from "../../../../utils/hooks/i18n";
 import { Menus, MenuProps } from "../../../../utils/hooks/header/header.type";
 
 import * as Style from "./menu.style";
 
 const HeaderMenu = <E extends Menus>(props: MenuProps<E>) => {
-  const { text } = useLocalization();
+  const { text } = useI18n();
 
   // 이 Header의 메뉴를 나타낸다.
   const menus = Object.values(props.enum).filter(
