@@ -3,11 +3,11 @@ import { Header } from "../../../layouts/header";
 import * as React from "react";
 import { useHeader } from "../../../utils/hooks/header";
 import { L10N } from "../../../localization";
-import { MenuEnum } from "../../../utils/hooks/header/header.type";
+import { Menus } from "../../../utils/hooks/header/header.type";
 
 const DefaultHeaderSignature = "DefaultHeader";
 
-const DefaultMenu: MenuEnum = {
+const DefaultMenus: Menus = {
   HOME: L10N.HEADER_DEFAULT_01,
   MY_PILL: L10N.HEADER_DEFAULT_02,
   EXPLORE: L10N.HEADER_DEFAULT_03,
@@ -15,28 +15,28 @@ const DefaultMenu: MenuEnum = {
 } as const;
 
 const DefaultHeader = () => {
-  const header = useHeader<typeof DefaultMenu>(
+  const header = useHeader<typeof DefaultMenus>(
     DefaultHeaderSignature,
-    DefaultMenu.HOME
+    DefaultMenus.HOME
   );
 
   const mapper = {
-    [DefaultMenu.HOME]: "",
-    [DefaultMenu.MY_PILL]: "my",
-    [DefaultMenu.EXPLORE]: "explore",
-    [DefaultMenu.ABOUT]: "about",
+    [DefaultMenus.HOME]: "",
+    [DefaultMenus.MY_PILL]: "my",
+    [DefaultMenus.EXPLORE]: "explore",
+    [DefaultMenus.ABOUT]: "about",
   };
 
   return (
     <Header
       menu={{
-        enum: DefaultMenu,
-        selected: header.selectedItems,
-        disabled: header.disabledItems,
-        onClick: (item) => header.getSimpleLinkHandler(item, mapper),
+        enum: DefaultMenus,
+        selected: header.selectedMenu,
+        disabled: header.disabledMenus,
+        onClick: (menu) => header.getSimpleLinkHandler(menu, mapper),
       }}
     />
   );
 };
 
-export { DefaultHeader, DefaultMenu, DefaultHeaderSignature };
+export { DefaultHeader, DefaultMenus, DefaultHeaderSignature };

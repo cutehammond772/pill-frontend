@@ -8,20 +8,16 @@ import { Page } from "../../../layouts/page";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HomeIcon from "@mui/icons-material/Home";
 
-import { useEffect } from "react";
-import { init } from "../../../utils/reducers/header";
-import { useDispatch } from "react-redux";
 import { useLocalization } from "../../../utils/hooks/l10n";
 import { L10N } from "../../../localization";
+import usePageSelect from "../../../utils/hooks/header/page-select";
+import { EmptyHeaderSignature, EmptyMenus } from "../../../components/header/empty";
 
 const NotFoundPage = () => {
+  usePageSelect(EmptyHeaderSignature, EmptyMenus.PAGE);
+  
   const { text } = useLocalization();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(init());
-  }, [dispatch]);
 
   return (
     <Page layout={Style.Background}>

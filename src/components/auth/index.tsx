@@ -7,20 +7,18 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import * as Style from "./auth.style";
 import { useLocalization } from "../../utils/hooks/l10n";
 import { L10N } from "../../localization";
+import { ColorAttributes } from "../../GlobalStyles";
 
 interface AuthButtonProps extends React.PropsWithChildren {
   redirect: string;
   provider?: string;
-
-  size?: "lg" | "md" | "sm";
-  color?: "primary" | "neutral" | "danger" | "info" | "success" | "warning";
 }
 
 const Login = (props: AuthButtonProps) => {
   const { text } = useLocalization();
 
   return (
-    <Style.AuthButton bgColor="var(--primary)" textColor="var(--light)">
+    <Style.AuthButton bgColor={ColorAttributes.PRIMARY} textColor={ColorAttributes.LIGHT}>
       <a
         href={
           `http://${config.BACKEND_DOMAIN}:${config.BACKEND_PORT}/${config.API_LOGIN_REQUEST}/` +

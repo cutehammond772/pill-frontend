@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { HeaderContainer } from "../hooks/header/header.type";
 
 import * as Array from "../other/data-structure/optional-array";
 import {
   CopyNothing,
   CopyOptionSignatures,
 } from "../other/data-structure/options";
+import { DisabledMenus, SelectedMenu } from "../hooks/header/header.type";
 
 interface HeaderState {
   preventClick: boolean;
 
-  selected: HeaderContainer;
-  disabled: HeaderContainer;
+  selected: SelectedMenu;
+  disabled: DisabledMenus;
 }
 
 const REDUCER_NAME = "header";
@@ -30,23 +30,19 @@ const headerSlice = createSlice({
   reducers: {
     init: () => initialState,
 
-    selectItem: (
+    select: (
       state,
-      action: PayloadAction<{ header: string; item: string }>
+      action: PayloadAction<{ header: string; menu: string }>
     ) => {
-      Array.push(
-        action.payload.item,
-        state.selected[action.payload.header],
-        option
-      );
+      state.selected[action.payload.header] = action.payload.menu;
     },
 
-    disableItem: (
+    disable: (
       state,
-      action: PayloadAction<{ header: string; item: string }>
+      action: PayloadAction<{ header: string; menu: string }>
     ) => {
       Array.removeAll(
-        (item) => item === action.payload.item,
+        (item) => item === action.payload.menu,
         state.disabled[action.payload.header],
         option
       );
@@ -56,7 +52,7 @@ const headerSlice = createSlice({
       state,
       action: PayloadAction<{ header: string }>
     ) => {
-      state.selected[action.payload.header] = [];
+      delete state.selected[action.payload.header];
     },
 
     resetHeaderDisabled: (state, action: PayloadAction<{ header: string }>) => {
@@ -75,8 +71,8 @@ const headerSlice = createSlice({
 
 export const {
   init,
-  selectItem,
-  disableItem,
+  select,
+  disable,
   resetHeaderSelection,
   resetHeaderDisabled,
   lockInteraction,

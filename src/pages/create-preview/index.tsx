@@ -2,11 +2,11 @@ import * as React from "react";
 
 import {
   CreateHeaderSignature,
-  CreateMenu,
+  CreateMenus,
 } from "../../components/header/create";
 
 import { Page } from "../../layouts/page";
-import { usePageSelect } from "../../utils/hooks/header/page-select";
+import usePageSelect from "../../utils/hooks/header/page-select";
 
 import * as Style from "./create-preview.style";
 import ListIcon from "@mui/icons-material/List";
@@ -25,7 +25,7 @@ import { format } from "../../utils/other/format";
 
 const CreatePreviewPage = () => {
   const { text } = useLocalization();
-  usePageSelect(CreateHeaderSignature, CreateMenu.PREVIEW);
+  usePageSelect(CreateHeaderSignature, CreateMenus.PREVIEW);
   const navigate = useNavigate();
 
   const pill = useSelector((state: RootState) => state.creator);

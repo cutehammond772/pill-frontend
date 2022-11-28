@@ -12,10 +12,10 @@ const Profile = () => {
 
   return (
     <>
-      <Style.Container>
+      <Style.Profile>
         {auth.authorized && <ProfilePointInfo point={30000} />}
         <ProfileAvatar onClick={() => setChecked(!checked)} />
-      </Style.Container>
+      </Style.Profile>
 
       <ProfileTab checked={checked} onClose={() => setChecked(false)} />
     </>

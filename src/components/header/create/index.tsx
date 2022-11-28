@@ -12,25 +12,25 @@ import * as Pill from "../../../utils/validators/create/pill";
 import { useSnackbar } from "notistack";
 import { ValidatedType } from "../../../utils/validators/validator.type";
 import { usePillDefaultEditor } from "../../../utils/hooks/pill-creator";
-import { MenuEnum } from "../../../utils/hooks/header/header.type";
+import { Menus } from "../../../utils/hooks/header/header.type";
 import { L10N } from "../../../localization";
 import { useLocalization } from "../../../utils/hooks/l10n";
 
 const CreateHeaderSignature = "CreateHeader";
 
-const CreateMenu: MenuEnum = {
+const CreateMenus: Menus = {
   EDITOR: L10N.HEADER_CREATE_01,
   PREVIEW: L10N.HEADER_CREATE_02,
   SAVE: L10N.HEADER_CREATE_03,
 } as const;
 
-type CreateMenuItem = typeof CreateMenu[keyof typeof CreateMenu];
+type CreateMenu = typeof CreateMenus[keyof typeof CreateMenus];
 
 const CreateHeader = () => {
   const { text } = useLocalization();
-  const header = useHeader<typeof CreateMenu>(
+  const header = useHeader<typeof CreateMenus>(
     CreateHeaderSignature,
-    CreateMenu.EDITOR
+    CreateMenus.EDITOR
   );
 
   const navigate = useNavigate();
@@ -41,14 +41,14 @@ const CreateHeader = () => {
   const [exitConfirm, setExitConfirm] = useState<boolean>(false);
 
   const handleClick = useCallback(
-    (type: CreateMenuItem) => {
+    (type: CreateMenu) => {
       switch (type) {
-        case CreateMenu.EDITOR:
+        case CreateMenus.EDITOR:
           // 편집 페이지로 전환 시 검증 제한을 초기화한다.
           validator.needValidateAll("validator\\.create\\.");
           navigate("/create");
           break;
-        case CreateMenu.PREVIEW:
+        case CreateMenus.PREVIEW:
           if (validator.validation.result !== ValidatedType.VALID) {
             enqueueSnackbar(text(L10N.HEADER_CREATE_04), {
               variant: "error",
@@ -60,7 +60,7 @@ const CreateHeader = () => {
 
           navigate("/create/preview");
           break;
-        case CreateMenu.SAVE:
+        case CreateMenus.SAVE:
           if (validator.validation.result !== ValidatedType.VALID) {
             enqueueSnackbar(text(L10N.HEADER_CREATE_05), {
               variant: "error",
@@ -102,9 +102,9 @@ const CreateHeader = () => {
     <>
       <Header
         menu={{
-          enum: CreateMenu,
-          selected: header.selectedItems,
-          disabled: header.disabledItems,
+          enum: CreateMenus,
+          selected: header.selectedMenu,
+          disabled: header.disabledMenus,
           onClick: handleClick,
         }}
         onHomeClick={handleHomeClick}
@@ -118,4 +118,4 @@ const CreateHeader = () => {
   );
 };
 
-export { CreateHeader, CreateMenu, CreateHeaderSignature };
+export { CreateHeader, CreateMenus, CreateHeaderSignature };

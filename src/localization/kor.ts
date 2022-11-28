@@ -2,6 +2,11 @@ import { L10N, DefaultL10NMapper } from "./index";
 
 const KORTexts: DefaultL10NMapper = {
 
+    [L10N.HEADER_01]: "메뉴 없음",
+
+    [L10N.HEADER_EMPTY_01]: "홈",
+    [L10N.HEADER_EMPTY_02]: "기본 페이지",
+
     [L10N.HEADER_DEFAULT_01]: "홈",
     [L10N.HEADER_DEFAULT_02]: "내 Pill",
     [L10N.HEADER_DEFAULT_03]: "찾아보기",

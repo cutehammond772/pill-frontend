@@ -1,16 +1,16 @@
 import * as React from "react";
 
 import { Page } from "../../layouts/page";
-import { usePageSelect } from "../../utils/hooks/header/page-select";
+import usePageSelect from "../../utils/hooks/header/page-select";
 import {
   DefaultHeaderSignature,
-  DefaultMenu,
+  DefaultMenus,
 } from "../../components/header/default";
 
 import * as Style from "./about.style";
 
 const AboutPage = () => {
-  usePageSelect(DefaultHeaderSignature, DefaultMenu.ABOUT);
+  usePageSelect(DefaultHeaderSignature, DefaultMenus.ABOUT);
 
   return (
     <Page>

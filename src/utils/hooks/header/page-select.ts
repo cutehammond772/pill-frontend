@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { selectItem, resetHeaderSelection } from "../../reducers/header";
-import { MenuEnum } from "./header.type";
+import { select, resetHeaderSelection } from "../../reducers/header";
+import { Menus } from "./header.type";
 
 // 이 Hook을 통해 헤더의 메뉴를 선택한다.
-const usePageSelect = <E extends MenuEnum>(header: string, item: E[keyof E]) => {
+const usePageSelect = <E extends Menus>(header: string, menu: E[keyof E]) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(resetHeaderSelection({ header }));
-    dispatch(selectItem({ header, item }));
-  }, [dispatch, header, item]);
+    dispatch(select({ header, menu }));
+  }, [dispatch, header, menu]);
 };
 
-export { usePageSelect };
+export default usePageSelect;

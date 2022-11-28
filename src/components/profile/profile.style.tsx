@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const Container = styled.div`
+export const Profile = styled.div`
   display: flex;
   flex-flow: row;
   column-gap: 3px;
@@ -13,7 +13,7 @@ const Container = styled.div`
   }
 `;
 
-const Info = styled.div`
+export const Info = styled.div`
   display: flex;
   column-gap: 30px;
   flex-flow: row;
@@ -25,5 +25,3 @@ const Info = styled.div`
     color: var(--light);
   }
 `;
-
-export { Container, Info };

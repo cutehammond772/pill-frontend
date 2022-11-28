@@ -1,6 +1,12 @@
 import { L10N, L10NMapper } from ".";
 
 const ENGTexts: L10NMapper = {
+
+  [L10N.HEADER_01]: "Undefined",
+
+  [L10N.HEADER_EMPTY_01]: "Home",
+  [L10N.HEADER_EMPTY_02]: "Default",
+
   [L10N.HEADER_DEFAULT_01]: "Home",
   [L10N.HEADER_DEFAULT_02]: "My Pill",
   [L10N.HEADER_DEFAULT_03]: "Explore",

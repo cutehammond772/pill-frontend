@@ -1,56 +1,80 @@
 import styled from "@emotion/styled";
 import { DefaultPageLayout } from "../page/page.style";
 
-const Header = styled.header`
+export const Header = styled.header`
   position: sticky;
-  height: 120px;
+  height: auto;
+  padding-top: 40px;
+  padding-bottom: 40px;
 
   z-index: var(--z-header);
 
   display: flex;
-  justify-content: space-between;
-  flex-flow: row nowrap;
-  align-items: center;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  overflow: hidden;
 
   ${DefaultPageLayout};
 
+  & > .default-menu {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row nowrap;
+    align-items: center;
+  }
+
+  & > .dropdown-menu {
+    width: 100%;
+    border-radius: 20px;
+    padding-bottom: 20px;
+
+    display: none;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    row-gap: 20px;
+
+    transition: height 500ms, padding-bottom 500ms;
+
+    & > .selected-menu {
+      font-weight: 700;
+      line-height: 100%;
+      font-size: 40px;
+
+      color: var(--blue);
+    }
+
+    & > .menu {
+      font-weight: 700;
+      line-height: 100%;
+      font-size: 40px;
+
+      color: var(--light);
+
+      :hover {
+        color: var(--pink);
+      }
+
+      transition: color 300ms;
+    }
+  }
+
   // mobile
   @media screen and (max-width: 768px) {
-    height: 80px;
-    padding: 10px 20px 10px 20px;
+    padding-top: 20px;
+    padding-bottom: 0px;
 
-    transition: padding 300ms, height 300ms;
+    & > .default-menu {
+      padding-bottom: 20px;
+    }
+
+    & > .dropdown-menu {
+      display: flex;
+    }
+
+    transition: padding 300ms, height 300ms ease-in-out;
   }
 
   background-color: var(--dark);
 `;
-
-const Title = styled.div`
-  display: flex;
-  flex-flow: row;
-  column-gap: 15px;
-  align-items: center;
-
-  & > .title {
-    font-weight: 700;
-    font-size: 40px;
-    
-    color: var(--light);
-  }
-
-  // tablet
-  @media screen and (max-width: 992px) {
-    & > .title {
-      font-size: 30px;
-    }
-  }
-
-  // mobile
-  @media screen and (max-width: 768px) {
-    & > .title {
-      opacity: 0;
-    }
-  }
-`;
-
-export { Header, Title };

@@ -3,68 +3,62 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import * as reducer from "../../reducers/header";
-import { MenuEnum } from "./header.type";
+import { Menus } from "./header.type";
 
 // Header 설정을 간편하게 할 수 있는 커스텀 Hook이다.
 // 특정 Header의 최상단에만 위치할 수 있다.
-const useHeader = <E extends MenuEnum>(
+const useHeader = <E extends Menus>(
   header: string,
-  defaultSelectedItem?: E[keyof E]
+  defaultSelectedMenu?: E[keyof E]
 ) => {
-  type MenuItem = E[keyof E];
+  type Menu = E[keyof E];
 
-  // 각각 선택된 아이템과 비활성화된 아이템 리스트이다.
-  // 여기서는 타입 체킹을 맞추기 위해 'as MenuItem[]'를 통해 강제로 타입을 설정하였다.
-  // 이때 리스트에 추가되는 아이템의 타입은 무조건 MenuItem (= E[keyof E])이다.
-  // 왜냐하면 아이템을 추가하는 로직은 useHeader 로직 내에만 있으며,
-  // 그 로직을 담당하는 함수에서 파라미터로 들어오는 아이템의 타입을 MenuItem으로 설정했기 때문이다.
-  const selectedItems = useSelector(
+  const selectedMenu = useSelector(
     (state: RootState) => state.header.selected[header]
-  ) as MenuItem[];
-  const disabledItems = useSelector(
+  ) as Menu;
+
+  const disabledMenus = useSelector(
     (state: RootState) => state.header.disabled[header]
-  ) as MenuItem[];
+  ) as Menu[];
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // 선택된 아이템을 추가한다. (= 특정 아이템을 선택시킨다.)
-  const addSelected = useCallback(
-    (item: MenuItem) => {
-      dispatch(reducer.selectItem({ header, item }));
+  // 특정 메뉴를 선택한다.
+  const selectMenu = useCallback(
+    (menu: Menu) => {
+      dispatch(reducer.select({ header, menu }));
     },
     [dispatch, header]
   );
 
-  // 비활성화된 아이템을 추가한다. (= 특정 아이템을 비활성화시킨다.)
-  const addDisabled = useCallback(
-    (item: MenuItem) => {
-      dispatch(reducer.disableItem({ header, item }));
+  // 특정 메뉴를 비활성화한다.
+  const disableMenu = useCallback(
+    (menu: Menu) => {
+      dispatch(reducer.disable({ header, menu }));
     },
     [dispatch, header]
   );
 
-  // 선택된 아이템들을 초기화한다.
-  const resetSelected = useCallback(() => {
+  // 메뉴의 선택을 해제한다.
+  const resetSelectedMenu = useCallback(() => {
     dispatch(reducer.resetHeaderSelection({ header }));
   }, [dispatch, header]);
 
-  // 비활성화된 아이템들을 초기화한다.
-  const resetDisabled = useCallback(() => {
+  // 비활성화된 메뉴들을 초기화한다.
+  const resetDisabledMenus = useCallback(() => {
     dispatch(reducer.resetHeaderDisabled({ header }));
   }, [dispatch, header]);
 
-  // 아이템을 클릭 시 mapper에 명시된 경로로 이동하는 핸들러를 반환한다.
+  // 메뉴 클릭 시 mapper에 명시된 경로로 이동하는 핸들러를 반환한다.
   // 별도로 콜백 함수를 추가할 수 있다.
   const getSimpleLinkHandler = useCallback(
     (
-      item: MenuItem,
-      mapper: Partial<{ [item in MenuItem]: string }>,
-      callback?: (item: MenuItem) => void
+      item: Menu,
+      mapper: Partial<{ [item in Menu]: string }>,
+      callback?: (item: Menu) => void
     ) => {
-      navigate(
-        `/${mapper[item]}`
-      );
+      navigate(`/${mapper[item]}`);
 
       // 콜백 함수를 호출한다.
       !!callback && callback(item);
@@ -72,35 +66,21 @@ const useHeader = <E extends MenuEnum>(
     [navigate]
   );
 
-  // 만약 첫 로드라면, redux container 내에 이 Header의 정보는 아무것도 없으므로 초기화를 수행한다.
   useEffect(() => {
-    if (selectedItems === undefined) {
-      if (defaultSelectedItem === undefined) {
-        resetSelected();
-      } else {
-        addSelected(defaultSelectedItem);
+    if (selectedMenu === undefined) {
+      if (!!defaultSelectedMenu) {
+        selectMenu(defaultSelectedMenu);
       }
     }
-
-    if (disabledItems === undefined) {
-      resetDisabled();
-    }
-  }, [
-    selectedItems,
-    disabledItems,
-    defaultSelectedItem,
-    addSelected,
-    resetSelected,
-    resetDisabled,
-  ]);
+  }, [selectedMenu, disabledMenus, defaultSelectedMenu, selectMenu]);
 
   return {
-    selectedItems,
-    disabledItems,
-    addSelected,
-    addDisabled,
-    resetSelected,
-    resetDisabled,
+    selectedMenu,
+    disabledMenus,
+    selectMenu,
+    disableMenu,
+    resetSelectedMenu,
+    resetDisabledMenus,
     getSimpleLinkHandler,
   };
 };

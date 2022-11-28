@@ -10,6 +10,12 @@ export const L10N = {
 
     /* Header */
 
+    HEADER_01: "HEADER_UNDEFINED",
+
+    // Empty Header
+    HEADER_EMPTY_01: "HEADER_EMPTY_HOME",
+    HEADER_EMPTY_02: "HEADER_EMPTY_PAGE",
+
     // Default Header
     HEADER_DEFAULT_01: "HEADER_DEFAULT_HOME",
     HEADER_DEFAULT_02: "HEADER_DEFAULT_MYPILLS",

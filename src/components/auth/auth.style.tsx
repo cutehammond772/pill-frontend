@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const AuthButton = styled.div<{ bgColor: string; textColor: string }>`
+export const AuthButton = styled.div<{ bgColor: string; textColor: string }>`
   width: auto;
   height: auto;
 
@@ -51,4 +51,3 @@ const AuthButton = styled.div<{ bgColor: string; textColor: string }>`
   }
 `;
 
-export { AuthButton };

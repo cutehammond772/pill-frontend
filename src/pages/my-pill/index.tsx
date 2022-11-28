@@ -5,17 +5,16 @@ import * as React from "react";
 
 import {
   DefaultHeaderSignature,
-  DefaultMenu,
+  DefaultMenus,
 } from "../../components/header/default";
 
 import { Page } from "../../layouts/page";
-import { usePageSelect } from "../../utils/hooks/header/page-select";
+import usePageSelect from "../../utils/hooks/header/page-select";
 
 import * as Style from "./my-pill.style";
 
 const MyPillPage = () => {
-  // DefaultHeader에서 Board 아이템을 선택한다.
-  usePageSelect(DefaultHeaderSignature, DefaultMenu.MY_PILL);
+  usePageSelect(DefaultHeaderSignature, DefaultMenus.MY_PILL);
 
   return (
     <Page>

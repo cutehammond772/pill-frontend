@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import { Page } from "../../layouts/page";
-import { usePageSelect } from "../../utils/hooks/header/page-select";
+import usePageSelect from "../../utils/hooks/header/page-select";
 import {
   DefaultHeaderSignature,
-  DefaultMenu,
+  DefaultMenus,
 } from "../../components/header/default";
 
 import * as Style from "./explore.style";
@@ -24,8 +24,7 @@ import { format } from "../../utils/other/format";
 
 const ExplorePage = () => {
   const { text } = useLocalization();
-  // DefaultHeader에서 Search 아이템을 선택한다.
-  usePageSelect(DefaultHeaderSignature, DefaultMenu.EXPLORE);
+  usePageSelect(DefaultHeaderSignature, DefaultMenus.EXPLORE);
 
   return (
     <Page>

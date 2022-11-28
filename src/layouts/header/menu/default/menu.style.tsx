@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-const Menu = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-flow: row nowrap;
   column-gap: 15px;
@@ -23,7 +23,7 @@ const Menu = styled.div`
   }
 `;
 
-const MenuItem = styled.button<{ selected?: boolean }>`
+export const Menu = styled.button<{ selected?: boolean }>`
   width: auto;
   height: 40px;
   border-radius: 20px;
@@ -66,5 +66,3 @@ const MenuItem = styled.button<{ selected?: boolean }>`
   }
   
 `;
-
-export { Menu, MenuItem };
