@@ -6,19 +6,19 @@ import * as CategoryStyle from "./category/category.style";
 
 import PillTablet from "../../../components/tablet";
 import { Dummies, DummyContainer } from "../../../components/tablet/dummy";
-import { usePillDefaultEditor } from "../../../utils/hooks/pill-creator";
+import { usePillDefaultEditor } from "../../../utils/hooks/creator";
 
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AddCategoryButton, CategoryButton } from "./category";
 import { Collapse } from "@mui/material";
 
 import * as Naming from "../../../utils/validators/create/naming";
-import { ValidatedType } from "../../../utils/validators/validator.type";
 import { useValidation } from "../../../utils/hooks/validation";
-import { useProfile } from "../../../utils/hooks/profile";
 import { useI18n } from "../../../utils/hooks/i18n";
-import { I18N } from "../../../i18n";
+import { I18N } from "../../../utils/i18n";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../utils/reducers";
 
 export const Content = () => {
   const { text } = useI18n();
@@ -26,7 +26,7 @@ export const Content = () => {
   const validation = validator.validation;
 
   const editor = usePillDefaultEditor();
-  const profile = useProfile();
+  const profile = useSelector((state: RootState) => state.profile);
 
   // 마운트와 관계 없이 값 유지
   const [title, setTitle] = useState<string>(editor.title);
@@ -36,33 +36,38 @@ export const Content = () => {
 
     setTitle(value);
     editor.updateTitle(value);
-    validator.needValidate();
+    
+    validator.validate({
+      categoriesSize: editor.categories.length,
+      title: value,
+    });
   };
 
   const handleCategoryAdd = (category: string) => {
     editor.addCategory(category);
-    validator.needValidate();
+
+    validator.validate({
+      categoriesSize: editor.categories.length,
+      title,
+    });
   };
 
   const handleCategoryRemove = (categoryId: string) => {
     editor.removeCategory(categoryId);
-    validator.needValidate();
+
+    validator.validate({
+      categoriesSize: editor.categories.length,
+      title,
+    });
   };
 
   const isCategoryRemoved = (categoryId: string) =>
     !editor.categories.find((category) => category.categoryId === categoryId);
 
-  useEffect(() => {
-    validator.validate({
-      title: title,
-      categoriesSize: editor.categories.length,
-    });
-  }, [editor, title, validator]);
-
   return (
     <Container
       title={text(I18N.PAGE_CREATE_01)}
-      complete={!!validation && validation.result === ValidatedType.VALID}
+      complete={!!validation && validation.valid}
       layout={Style.Layout}
     >
       <DummyContainer dummyLayout={Style.DummyLayout}>
@@ -72,7 +77,7 @@ export const Content = () => {
         <div className="items">
           <PillTablet
             title={title}
-            author={profile.data.userName}
+            author={profile.userName}
             likes={0}
             views={0}
           />

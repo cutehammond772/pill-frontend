@@ -7,8 +7,6 @@ import * as Style from "./tab.style";
 
 import ReceivedComments from "./received-comments";
 
-import { useProfile } from "../../../utils/hooks/profile";
-
 import { ManageProfileButton, MyPillButton } from "./tab.menu";
 
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -17,7 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import Modal from "../../modal";
 import { useI18n } from "../../../utils/hooks/i18n";
-import { I18N } from "../../../i18n";
+import { I18N } from "../../../utils/i18n";
 
 const LOGIN_PROPS: AuthButtonProps = {
   redirect: config.INDEX,
@@ -59,11 +57,12 @@ interface ProfileTabProps {
 const ProfileTab = (props: ProfileTabProps) => {
   const { text } = useI18n();
 
-  const profile = useProfile();
   const modalRef = useRef<HTMLDivElement>(null);
   const headerHeight = useSelector(
     (state: RootState) => state.page.headerHeight
   );
+
+  const profile = useSelector((state: RootState) => state.profile);
 
   useLayoutEffect(() => {
     if (!!modalRef?.current) {
@@ -78,7 +77,7 @@ const ProfileTab = (props: ProfileTabProps) => {
       layout={Style.Layout}
       ref={modalRef}
     >
-      {!profile.data.userName ? (
+      {!profile.userName ? (
         <>
           <Style.Title>{text(I18N.TAB_01)}</Style.Title>
           <Style.GuestBanner>
@@ -93,7 +92,7 @@ const ProfileTab = (props: ProfileTabProps) => {
         </>
       ) : (
         <>
-          <Style.Title>{profile.data.userName}</Style.Title>
+          <Style.Title>{profile.userName}</Style.Title>
 
           <Divider title={text(I18N.TAB_04)} />
           <ReceivedComments

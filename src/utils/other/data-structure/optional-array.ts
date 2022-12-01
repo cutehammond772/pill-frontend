@@ -21,7 +21,7 @@ const resolve = <T>(
     const resolved = array || [];
     !!exclude &&
       resolved
-        .filter((element) => !exclude(element))
+        .filter((element) => exclude(element))
         .forEach((element) => resolved.splice(resolved.indexOf(element), 1));
 
     !!include && include.forEach((element) => resolved.push(element));
@@ -32,7 +32,7 @@ const resolve = <T>(
   if (copyOption.type === CopyOptionSignatures.SWALLOW_COPY) {
     // 얕은 복사를 진행할 경우
     let resolved = !!array ? [...array] : [];
-    !!exclude && (resolved = resolved.filter(exclude));
+    !!exclude && (resolved = resolved.filter((element) => !exclude(element)));
     !!include && include.forEach((element) => resolved.push(element));
 
     return resolved;
@@ -43,7 +43,7 @@ const resolve = <T>(
     let resolved = !!array
       ? array.map((element) => copyOption.copyFn(element))
       : [];
-    !!exclude && (resolved = resolved.filter(exclude));
+    !!exclude && (resolved = resolved.filter((element) => !exclude(element)));
     !!include && include.forEach((element) => resolved.push(element));
 
     return resolved;
@@ -73,6 +73,8 @@ const pushAll = <T>(
   );
 
 // filter 함수를 통해 삭제할 원소를 골라낸다.
+// 이때, 기존 filter 함수와 달리 'filter에 통과하는 원소만 삭제'함에 유의한다.
+// => 조건에 맞는 원소만 뽑아내는 기존 filter와 달리, 조건에 맞는 원소만 삭제한다.
 // => 엄격한 비교 (===) 사용에 유의해야 한다. 만약 깊은 복사가 진행된 경우 객체의 참조가 달라지기 때문이다.
 const removeAll = <T>(
   filter: Filter<T>,

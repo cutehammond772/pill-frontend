@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import * as React from "react";
 import * as Style from "./title.style";
 import { useI18n } from "../../../../../utils/hooks/i18n";
-import { I18N } from "../../../../../i18n";
+import { I18N } from "../../../../../utils/i18n";
 
 interface TitleProps {
   order: number;

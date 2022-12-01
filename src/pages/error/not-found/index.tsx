@@ -9,8 +9,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HomeIcon from "@mui/icons-material/Home";
 
 import { useI18n } from "../../../utils/hooks/i18n";
-import { I18N } from "../../../i18n";
-import usePageSelect from "../../../utils/hooks/header/page-select";
+import { I18N } from "../../../utils/i18n";
+import { usePageSelect } from "../../../utils/hooks/header/page-select";
 import { EmptyHeaderSignature, EmptyMenus } from "../../../components/header/empty";
 
 const NotFoundPage = () => {

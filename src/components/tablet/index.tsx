@@ -1,5 +1,5 @@
 import * as React from "react";
-import { I18N } from "../../i18n";
+import { I18N } from "../../utils/i18n";
 import { useI18n } from "../../utils/hooks/i18n";
 import * as Style from "./tablet.style";
 

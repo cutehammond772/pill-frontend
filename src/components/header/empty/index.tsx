@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../../../layouts/header";
-import { I18N } from "../../../i18n";
+import { I18N } from "../../../utils/i18n";
 import { useHeader } from "../../../utils/hooks/header";
 import { Menus } from "../../../utils/hooks/header/header.type";
 

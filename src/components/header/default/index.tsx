@@ -2,7 +2,7 @@ import { Header } from "../../../layouts/header";
 
 import * as React from "react";
 import { useHeader } from "../../../utils/hooks/header";
-import { I18N } from "../../../i18n";
+import { I18N } from "../../../utils/i18n";
 import { Menus } from "../../../utils/hooks/header/header.type";
 
 export const DefaultHeaderSignature = "DefaultHeader";

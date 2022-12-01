@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import * as Style from "./index.style";
 
@@ -11,15 +11,13 @@ import { TransitionGroup } from "react-transition-group";
 import { useValidation } from "../../../../utils/hooks/validation";
 
 import * as Index from "../../../../utils/validators/create";
-import * as Content from "../../../../utils/validators/create/content";
 
-import { PillContentTypeMapper } from "../../../../utils/reducers/creator";
 import {
   usePillIndexEditor,
   usePillOrder,
-} from "../../../../utils/hooks/pill-creator";
+} from "../../../../utils/hooks/creator";
 import { IndexContentProps } from "./content/content.type";
-import { validatorID } from "../../../../utils/validators/validator.type";
+import { PillContentMapper } from "../../../../utils/pill/pill.type";
 
 interface IndexContainerProps {
   id: string;
@@ -44,7 +42,10 @@ export const IndexContainer = (props: IndexContainerProps) => {
     if (value.length <= 40) {
       setTitle(value);
       editor.updateTitle(value);
-      validator.needValidate();
+      validator.validate({
+        title: value,
+        contentsSize: editor.index.contents.length,
+      });
     }
   };
 
@@ -58,18 +59,12 @@ export const IndexContainer = (props: IndexContainerProps) => {
       editor.index.contents[to].contentId
     );
 
-    validator.needValidate();
-    validator.refreshValidator(
-      validatorID(Content.SIGNATURE, editor.index.contents[to].contentId)
-    );
-  };
-
-  useEffect(() => {
+    // .
     validator.validate({
       title: editor.index.title,
       contentsSize: editor.index.contents.length,
     });
-  }, [editor.index, validator]);
+  };
 
   const handleRemove = () => {
     editor.remove();
@@ -88,10 +83,10 @@ export const IndexContainer = (props: IndexContainerProps) => {
 
       <TransitionGroup>
         {editor.index.contents.map((content) => {
-          const Content = PillContentTypeMapper[content.type];
+          const Content = PillContentMapper(content.type);
           const contentOrder = editor.removed
             ? 0
-            : order.getContentOrder(props.id, content.contentId);
+            : order.content(props.id, content.contentId);
 
           const contentProps: IndexContentProps = {
             removed: editor.removed,

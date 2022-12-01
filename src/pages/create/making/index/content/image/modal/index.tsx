@@ -13,7 +13,7 @@ import * as Style from "./modal.style";
 import Message from "../../../../../../../components/message";
 import Modal from "../../../../../../../components/modal";
 import { useI18n } from "../../../../../../../utils/hooks/i18n";
-import { I18N } from "../../../../../../../i18n";
+import { I18N } from "../../../../../../../utils/i18n";
 
 export interface ImageContentEditProps {
   link: string;

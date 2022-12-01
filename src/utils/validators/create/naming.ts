@@ -15,16 +15,17 @@ interface Data {
   categoriesSize: number;
 }
 
+// 수정*
 const DefaultValidator = (data: Data) =>
-  begin<Data, typeof Messages>(data)
+  begin<Data>(data)
     .validate((data) => !!data.title.trim(), Messages.TITLE_EMPTY)
     .validate((data) => data.categoriesSize !== 0, Messages.CATEGORY_EMPTY)
     .done();
 
-const Validator: DomainValidator<Data, typeof Messages> = {
+const Validator: DomainValidator<Data> = {
   signature: SIGNATURE,
   validators: [DefaultValidator],
-  dependency: validatorID(Pill.SIGNATURE)
+  dependency: validatorID(Pill.SIGNATURE),
 };
 
 export { SIGNATURE, type Data, Validator, Messages };

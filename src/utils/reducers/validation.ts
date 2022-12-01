@@ -1,133 +1,192 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 import * as Map from "../other/data-structure/index-signature-map";
-import {
-  UntypedValidationResponse,
-  Validation,
-} from "../validators/validator.type";
 
 import * as Array from "../other/data-structure/optional-array";
 import {
   CopyNothing,
   CopyOptionSignatures,
 } from "../other/data-structure/options";
+import {
+  ValidationResponse,
+  ValidatorInfo,
+} from "../validators/validator.type";
 
-const REDUCER_NAME = "validation";
+export const REDUCER_NAME = "validation";
 
-type ValidationContainer = { [validatorID: string]: Validation };
-type ValidationDependencies = { [validatorID: string]: Array<string> };
+export type Validators = { [validatorID: string]: ValidatorInfo };
+export type ValidationContainer = { [validatorID: string]: ValidationResponse };
+export type ValidationDependencies = { [validatorID: string]: Array<string> };
 
-interface ValidationState {
+export interface ValidationState {
   data: ValidationContainer;
   dependencies: ValidationDependencies;
-
-  refresh: Array<string>;
+  validators: Validators;
 }
 
 const initialState: ValidationState = {
   data: {},
   dependencies: {},
-  refresh: [],
+  validators: {},
 };
+
+export const ActionTypes = {
+  SET_VALIDATION: `${REDUCER_NAME}/SET_VALIDATION`,
+  REMOVE_VALIDATION: `${REDUCER_NAME}/REMOVE_VALIDATION`,
+
+  ADD_DEPENDENCY: `${REDUCER_NAME}/ADD_DEPENDENCY`,
+  REMOVE_DEPENDENCY: `${REDUCER_NAME}/REMOVE_DEPENDENCY`,
+  CLEAR_DEPENDENCIES: `${REDUCER_NAME}/CLEAR_DEPENDENCIES`,
+
+  ADD_VALIDATOR: `${REDUCER_NAME}/ADD_VALIDATOR`,
+  REMOVE_VALIDATOR: `${REDUCER_NAME}/REMOVE_VALIDATOR`,
+
+  SAGA_ADD_DEPENDENCY: `${REDUCER_NAME}/SAGA_ADD_DEPENDENCY`,
+  SAGA_REMOVE_DEPENDENCY: `${REDUCER_NAME}/SAGA_REMOVE_DEPENDENCY`,
+
+  SAGA_UPDATE_VALIDATION: `${REDUCER_NAME}/SAGA_UPDATE_VALIDATION`,
+
+  SAGA_ADD_VALIDATOR: `${REDUCER_NAME}/SAGA_ADD_VALIDATOR`,
+  SAGA_REMOVE_VALIDATOR: `${REDUCER_NAME}/SAGA_REMOVE_VALIDATOR`,
+} as const;
+
+export const InternalActions = {
+  // For Reducer
+  setValidation: createAction<{
+    validatorID: string;
+    validation: ValidationResponse;
+  }>(ActionTypes.SET_VALIDATION),
+
+  removeValidation: createAction<{
+    validatorID: string;
+  }>(ActionTypes.REMOVE_VALIDATION),
+
+  addDependency: createAction<{
+    validatorID: string;
+    dependedValidatorID: string;
+  }>(ActionTypes.ADD_DEPENDENCY),
+
+  removeDependency: createAction<{
+    validatorID: string;
+    dependedValidatorID: string;
+  }>(ActionTypes.REMOVE_DEPENDENCY),
+
+  clearDependencies: createAction<{
+    validatorID: string;
+  }>(ActionTypes.CLEAR_DEPENDENCIES),
+
+  addValidator: createAction<{ data: ValidatorInfo }>(
+    ActionTypes.ADD_VALIDATOR
+  ),
+
+  removeValidator: createAction<{ validatorID: string }>(
+    ActionTypes.REMOVE_VALIDATOR
+  ),
+
+  // For Saga
+  sagaAddDependency: createAction<{
+    validatorID: string;
+    dependedValidatorID: string;
+  }>(ActionTypes.SAGA_ADD_DEPENDENCY),
+
+  sagaRemoveDependency: createAction<{
+    validatorID: string;
+    dependedValidatorID: string;
+  }>(ActionTypes.SAGA_REMOVE_DEPENDENCY),
+} as const;
+
+export const Actions = {
+  // For Saga
+  updateValidation: createAction<{
+    validatorID: string;
+    response?: ValidationResponse;
+  }>(ActionTypes.SAGA_UPDATE_VALIDATION),
+
+  addValidator: createAction<{ data: ValidatorInfo }>(
+    ActionTypes.SAGA_ADD_VALIDATOR
+  ),
+
+  removeValidator: createAction<{ validatorID: string }>(
+    ActionTypes.SAGA_REMOVE_VALIDATOR
+  ),
+} as const;
 
 const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
 
-const validationSlice = createSlice({
-  name: REDUCER_NAME,
-  initialState,
-  reducers: {
-    reset: () => initialState,
+const validationReducer = createReducer(initialState, {
+  [ActionTypes.SET_VALIDATION]: (
+    state,
+    action: ReturnType<typeof InternalActions.setValidation>
+  ) => {
+    Map.put(
+      state.data,
+      action.payload.validatorID,
+      action.payload.validation,
+      option
+    );
+  },
 
-    addValidation: (
-      state,
-      action: PayloadAction<{
-        validatorID: string;
-        validation: UntypedValidationResponse;
-      }>
-    ) => {
-      Map.replace(
-        state.data,
-        action.payload.validatorID,
-        (validation) => ({
-          ...action.payload.validation,
-          version: 1 + (validation?.version || 0),
-        }),
-        option
-      );
-    },
+  [ActionTypes.REMOVE_VALIDATION]: (
+    state,
+    action: ReturnType<typeof InternalActions.removeValidation>
+  ) => {
+    Map.removeAll(state.data, [action.payload.validatorID], option);
+  },
 
-    removeValidation: (
-      state,
-      action: PayloadAction<{ validatorID: string }>
-    ) => {
-      Map.remove(state.data, action.payload.validatorID, option);
-      Map.remove(state.dependencies, action.payload.validatorID, option);
-      Array.removeAll(
-        (validatorID) => validatorID !== action.payload.validatorID,
-        state.refresh,
-        option
-      );
-    },
+  [ActionTypes.ADD_VALIDATOR]: (
+    state,
+    action: ReturnType<typeof InternalActions.addValidator>
+  ) => {
+    Map.put(
+      state.validators,
+      action.payload.data.validatorID,
+      action.payload.data,
+      option
+    );
+  },
 
-    addRefresh: (state, action: PayloadAction<{ validatorID: string }>) => {
-      Array.push(action.payload.validatorID, state.refresh, option);
-    },
+  [ActionTypes.REMOVE_VALIDATOR]: (
+    state,
+    action: ReturnType<typeof InternalActions.removeValidator>
+  ) => {
+    Map.remove(state.validators, action.payload.validatorID, option);
+  },
 
-    removeRefresh: (state, action: PayloadAction<{ validatorID: string }>) => {
-      Array.removeAll(
-        (validatorID) => validatorID !== action.payload.validatorID,
-        state.refresh,
-        option
-      );
-    },
+  [ActionTypes.ADD_DEPENDENCY]: (
+    state,
+    action: ReturnType<typeof InternalActions.addDependency>
+  ) => {
+    Map.replace(
+      state.dependencies,
+      action.payload.validatorID,
+      (dependencies) =>
+        Array.push(action.payload.dependedValidatorID, dependencies, option),
+      option
+    );
+  },
 
-    addDependency: (
-      state,
-      action: PayloadAction<{
-        validatorID: string;
-        dependedValidatorID: string;
-      }>
-    ) => {
-      Map.replace(
-        state.dependencies,
-        action.payload.validatorID,
-        (dependencies) =>
-          Array.push(action.payload.dependedValidatorID, dependencies, option),
-        option
-      );
-    },
+  [ActionTypes.REMOVE_DEPENDENCY]: (
+    state,
+    action: ReturnType<typeof InternalActions.removeDependency>
+  ) => {
+    Map.replace(
+      state.dependencies,
+      action.payload.validatorID,
+      (dependencies) =>
+        Array.removeAll(
+          (dependency) => action.payload.dependedValidatorID === dependency,
+          dependencies,
+          option
+        ),
+      option
+    );
+  },
 
-    removeDependency: (
-      state,
-      action: PayloadAction<{
-        validatorID: string;
-        dependencies: Array<string>;
-      }>
-    ) => {
-      Map.replace(
-        state.dependencies,
-        action.payload.validatorID,
-        (dependencies) =>
-          Array.removeAll(
-            (dependency) => !action.payload.dependencies.includes(dependency),
-            dependencies,
-            option
-          ),
-        option
-      );
-    },
+  [ActionTypes.CLEAR_DEPENDENCIES]: (
+    state,
+    action: ReturnType<typeof InternalActions.clearDependencies>
+  ) => {
+    Map.remove(state.dependencies, action.payload.validatorID, option);
   },
 });
 
-export const {
-  reset,
-  addValidation,
-  removeValidation,
-  addRefresh,
-  removeRefresh,
-  addDependency,
-  removeDependency,
-} = validationSlice.actions;
-export { REDUCER_NAME };
-export type { ValidationState, ValidationContainer, ValidationDependencies };
-export default validationSlice.reducer;
+export default validationReducer;

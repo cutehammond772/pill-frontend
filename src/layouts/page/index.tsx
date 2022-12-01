@@ -6,7 +6,7 @@ import { useRef, useLayoutEffect, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../utils/reducers";
 import useResizeObserver from "@react-hook/resize-observer";
-import { updatePageHeight } from "../../utils/reducers/page";
+import { Actions as actions } from "../../utils/reducers/page";
 
 interface PageProps extends React.PropsWithChildren {
   layout?: SerializedStyles;
@@ -36,7 +36,7 @@ export const Page = (props: PageProps) => {
   useEffect(() => {
     !!ref?.current &&
       dispatch(
-        updatePageHeight({
+        actions.updatePageHeight({
           pageHeight: ref.current.getBoundingClientRect().height,
         })
       );
@@ -50,9 +50,11 @@ export const Page = (props: PageProps) => {
     ref,
     (_) =>
       !!ref?.current &&
-      dispatch(updatePageHeight({
-        pageHeight: ref.current.getBoundingClientRect().height,
-      }))
+      dispatch(
+        actions.updatePageHeight({
+          pageHeight: ref.current.getBoundingClientRect().height,
+        })
+      )
   );
   return (
     <Style.Page ref={ref} layout={props.layout}>

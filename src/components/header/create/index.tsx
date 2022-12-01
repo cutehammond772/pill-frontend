@@ -10,10 +10,9 @@ import { useValidation } from "../../../utils/hooks/validation";
 
 import * as Pill from "../../../utils/validators/create/pill";
 import { useSnackbar } from "notistack";
-import { ValidatedType } from "../../../utils/validators/validator.type";
-import { usePillDefaultEditor } from "../../../utils/hooks/pill-creator";
+import { usePillDefaultEditor } from "../../../utils/hooks/creator";
 import { Menus } from "../../../utils/hooks/header/header.type";
-import { I18N } from "../../../i18n";
+import { I18N } from "../../../utils/i18n";
 import { useI18n } from "../../../utils/hooks/i18n";
 
 export const CreateHeaderSignature = "CreateHeader";
@@ -45,12 +44,10 @@ const CreateHeader = () => {
     (type: CreateMenu) => {
       switch (type) {
         case CreateMenus.EDITOR:
-          // 편집 페이지로 전환 시 검증 제한을 초기화한다.
-          validator.needValidateAll("validator\\.create\\.");
           navigate("/create");
           break;
         case CreateMenus.PREVIEW:
-          if (validator.validation.result !== ValidatedType.VALID) {
+          if (!validator.validation.valid) {
             enqueueSnackbar(text(I18N.HEADER_CREATE_04), {
               variant: "error",
               preventDuplicate: true,
@@ -62,7 +59,7 @@ const CreateHeader = () => {
           navigate("/create/preview");
           break;
         case CreateMenus.SAVE:
-          if (validator.validation.result !== ValidatedType.VALID) {
+          if (!validator.validation.valid) {
             enqueueSnackbar(text(I18N.HEADER_CREATE_05), {
               variant: "error",
               preventDuplicate: true,
@@ -93,7 +90,7 @@ const CreateHeader = () => {
   }, []);
 
   const handleHomeConfirm = useCallback(() => {
-    editor.resetAll();
+    editor.finishEditor();
     
     // 뒤로가기를 통해 다시 되돌아가지 않도록 한다.
     navigate("/", { replace: true });

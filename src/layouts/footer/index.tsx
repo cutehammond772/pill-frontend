@@ -4,9 +4,9 @@ import * as React from "react";
 import { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import useResizeObserver from "@react-hook/resize-observer";
-import { updateFooterHeight } from "../../utils/reducers/page";
+import { Actions as actions } from "../../utils/reducers/page";
 import { useI18n } from "../../utils/hooks/i18n";
-import { LanguageType } from "../../i18n";
+import { LanguageType } from "../../utils/i18n";
 
 const Footer = () => {
   const { text, changeLanguage } = useI18n();
@@ -16,7 +16,7 @@ const Footer = () => {
   useEffect(() => {
     !!ref?.current &&
       dispatch(
-        updateFooterHeight({
+        actions.updateFooterHeight({
           footerHeight: ref.current.getBoundingClientRect().height,
         })
       );
@@ -25,7 +25,7 @@ const Footer = () => {
   useResizeObserver(ref, (_) => {
     !!ref?.current &&
       dispatch(
-        updateFooterHeight({
+        actions.updateFooterHeight({
           footerHeight: ref.current.getBoundingClientRect().height,
         })
       );

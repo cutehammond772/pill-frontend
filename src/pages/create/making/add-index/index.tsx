@@ -1,7 +1,7 @@
 import * as Style from "./add-index.style";
 import AddIcon from "@mui/icons-material/Add";
 import { useI18n } from "../../../../utils/hooks/i18n";
-import { I18N } from "../../../../i18n";
+import { I18N } from "../../../../utils/i18n";
 
 interface AddIndexProps {
   onClick: () => void;

@@ -2,12 +2,12 @@ import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
-import * as reducer from "../../reducers/header";
+import { Actions as actions } from "../../reducers/header";
 import { Menus } from "./header.type";
 
 // Header 설정을 간편하게 할 수 있는 커스텀 Hook이다.
 // 특정 Header의 최상단에만 위치할 수 있다.
-const useHeader = <E extends Menus>(
+export const useHeader = <E extends Menus>(
   header: string,
   defaultSelectedMenu?: E[keyof E]
 ) => {
@@ -27,7 +27,7 @@ const useHeader = <E extends Menus>(
   // 특정 메뉴를 선택한다.
   const selectMenu = useCallback(
     (menu: Menu) => {
-      dispatch(reducer.select({ header, menu }));
+      dispatch(actions.select({ header, menu }));
     },
     [dispatch, header]
   );
@@ -35,19 +35,19 @@ const useHeader = <E extends Menus>(
   // 특정 메뉴를 비활성화한다.
   const disableMenu = useCallback(
     (menu: Menu) => {
-      dispatch(reducer.disable({ header, menu }));
+      dispatch(actions.disable({ header, menu }));
     },
     [dispatch, header]
   );
 
   // 메뉴의 선택을 해제한다.
   const resetSelectedMenu = useCallback(() => {
-    dispatch(reducer.resetHeaderSelection({ header }));
+    dispatch(actions.resetHeaderSelection({ header }));
   }, [dispatch, header]);
 
   // 비활성화된 메뉴들을 초기화한다.
   const resetDisabledMenus = useCallback(() => {
-    dispatch(reducer.resetHeaderDisabled({ header }));
+    dispatch(actions.resetHeaderDisabled({ header }));
   }, [dispatch, header]);
 
   // 메뉴 클릭 시 mapper에 명시된 경로로 이동하는 핸들러를 반환한다.
@@ -84,5 +84,3 @@ const useHeader = <E extends Menus>(
     getSimpleLinkHandler,
   };
 };
-
-export { useHeader };

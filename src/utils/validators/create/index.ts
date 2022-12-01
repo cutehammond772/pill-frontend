@@ -16,12 +16,12 @@ interface Data {
 }
 
 const DefaultValidator = (data: Data) =>
-  begin<Data, typeof Messages>(data)
+  begin<Data>(data)
     .validate((data) => !!data.title, Messages.TITLE_EMPTY)
     .validate((data) => data.contentsSize !== 0, Messages.CONTENT_EMPTY)
     .done();
 
-const Validator: (id: string) => DomainValidator<Data, typeof Messages> = (id) => ({
+const Validator: (id: string) => DomainValidator<Data> = (id) => ({
   signature: SIGNATURE,
   validators: [DefaultValidator],
   minDependencies: 1,

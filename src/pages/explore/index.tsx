@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Page } from "../../layouts/page";
-import usePageSelect from "../../utils/hooks/header/page-select";
+import { usePageSelect } from "../../utils/hooks/header/page-select";
 import {
   DefaultHeaderSignature,
   DefaultMenus,
@@ -19,7 +19,7 @@ import PropaneIcon from "@mui/icons-material/Propane";
 import { Pagination, PaginationItem } from "@mui/material";
 import { Option, Select, TextField } from "@mui/joy";
 import { useI18n } from "../../utils/hooks/i18n";
-import { I18N } from "../../i18n";
+import { I18N } from "../../utils/i18n";
 import { format } from "../../utils/other/format";
 
 const ExplorePage = () => {

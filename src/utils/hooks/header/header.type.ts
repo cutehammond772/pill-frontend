@@ -1,4 +1,4 @@
-import { I18NText } from "../../../i18n";
+import { I18NText } from "../../i18n";
 
 export type MenuRef = HTMLButtonElement | null;
 export type Menus = { [s: string]: I18NText };

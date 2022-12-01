@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { AddImageButton } from "../image";
 import { AddTextButton } from "../text";
 import { useI18n } from "../../../../../../utils/hooks/i18n";
-import { I18N } from "../../../../../../i18n";
+import { I18N } from "../../../../../../utils/i18n";
 
 interface AddContentButtonProps {
   icon: React.ComponentType<{ className: string }>;

@@ -1,38 +1,59 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
-interface PageState {
+export const REDUCER_NAME = "page";
+
+export interface PageState {
   pageHeight: number;
   headerHeight: number;
   footerHeight: number;
 }
 
-const REDUCER_NAME = "page";
 const initialState: PageState = {
   pageHeight: 0,
   headerHeight: 0,
   footerHeight: 0,
 };
 
-const pageSlice = createSlice({
-  name: REDUCER_NAME,
-  initialState,
-  reducers: {
-    updatePageHeight: (state, action: PayloadAction<{ pageHeight: number }>) => {
-      state.pageHeight = action.payload.pageHeight;
-    },
+export const ActionTypes = {
+  UPDATE_PAGE_HEIGHT: `${REDUCER_NAME}/UPDATE_PAGE_HEIGHT`,
+  UPDATE_HEADER_HEIGHT: `${REDUCER_NAME}/UPDATE_HEADER_HEIGHT`,
+  UPDATE_FOOTER_HEIGHT: `${REDUCER_NAME}/UPDATE_FOOTER_HEIGHT`,
+} as const;
 
-    updateHeaderHeight: (state, action: PayloadAction<{ headerHeight: number }>) => {
-      state.headerHeight = action.payload.headerHeight;
-    },
+export const Actions = {
+  // For Reducer
+  updatePageHeight: createAction<{ pageHeight: number }>(
+    ActionTypes.UPDATE_PAGE_HEIGHT
+  ),
+  updateHeaderHeight: createAction<{ headerHeight: number }>(
+    ActionTypes.UPDATE_HEADER_HEIGHT
+  ),
+  updateFooterHeight: createAction<{ footerHeight: number }>(
+    ActionTypes.UPDATE_FOOTER_HEIGHT
+  ),
+} as const;
 
-    updateFooterHeight: (state, action: PayloadAction<{ footerHeight: number }>) => {
-      state.footerHeight = action.payload.footerHeight;
-    },
+const pageReducer = createReducer(initialState, {
+  [ActionTypes.UPDATE_PAGE_HEIGHT]: (
+    state,
+    action: ReturnType<typeof Actions.updatePageHeight>
+  ) => {
+    state.pageHeight = action.payload.pageHeight;
+  },
+
+  [ActionTypes.UPDATE_HEADER_HEIGHT]: (
+    state,
+    action: ReturnType<typeof Actions.updateHeaderHeight>
+  ) => {
+    state.headerHeight = action.payload.headerHeight;
+  },
+
+  [ActionTypes.UPDATE_FOOTER_HEIGHT]: (
+    state,
+    action: ReturnType<typeof Actions.updateFooterHeight>
+  ) => {
+    state.footerHeight = action.payload.footerHeight;
   },
 });
 
-export const { updatePageHeight, updateHeaderHeight, updateFooterHeight } =
-  pageSlice.actions;
-export { REDUCER_NAME, type PageState };
-export default pageSlice.reducer;
+export default pageReducer;

@@ -1,15 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { PillContentData, PillIndexData } from "./creator";
+import { createAction, createReducer } from "@reduxjs/toolkit";
+import { PillContentData, PillIndexData } from "../pill/pill.type";
 import * as Array from "../other/data-structure/optional-array";
 import {
   CopyNothing,
   CopyOptionSignatures,
 } from "../other/data-structure/options";
 
-const REDUCER_NAME = "rollback";
+export const REDUCER_NAME = "rollback";
 
-interface RollbackState {
+export interface RollbackState {
   indexes: Array<PillIndexData>;
   contents: Array<PillContentData>;
 }
@@ -26,47 +25,71 @@ const copyIndex = (data: PillIndexData) => ({
 
 const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
 
-const rollbackSlice = createSlice({
-  name: REDUCER_NAME,
-  initialState,
-  reducers: {
-    reset: () => initialState,
+export const ActionTypes = {
+  RESET: `${REDUCER_NAME}/RESET`,
 
-    captureIndex: (state, action: PayloadAction<{ data: PillIndexData }>) => {
-      Array.push(copyIndex(action.payload.data), state.indexes, option);
-    },
+  CAPTURE_INDEX: `${REDUCER_NAME}/CAPTURE_INDEX`,
+  REMOVE_INDEX: `${REDUCER_NAME}/REMOVE_INDEX`,
 
-    removeIndex: (state, action: PayloadAction<{ id: string }>) => {
-      Array.removeAll(
-        (index) => index.id !== action.payload.id,
-        state.indexes,
-        option
-      );
-    },
+  CAPTURE_CONTENT: `${REDUCER_NAME}/CAPTURE_CONTENT`,
+  REMOVE_CONTENT: `${REDUCER_NAME}/REMOVE_CONTENT`,
+} as const;
 
-    captureContent: (
-      state,
-      action: PayloadAction<{ data: PillContentData }>
-    ) => {
-      Array.push({ ...action.payload.data }, state.contents, option);
-    },
+export const Actions = {
+  // For Reducer
+  reset: createAction(ActionTypes.RESET),
 
-    removeContent: (state, action: PayloadAction<{ contentId: string }>) => {
-      Array.removeAll(
-        (content) => content.contentId !== action.payload.contentId,
-        state.contents,
-        option
-      );
-    },
+  captureIndex: createAction<{ data: PillIndexData }>(
+    ActionTypes.CAPTURE_INDEX
+  ),
+  removeIndex: createAction<{ id: string }>(ActionTypes.REMOVE_INDEX),
+
+  captureContent: createAction<{ data: PillContentData }>(
+    ActionTypes.CAPTURE_CONTENT
+  ),
+  removeContent: createAction<{ contentId: string }>(
+    ActionTypes.REMOVE_CONTENT
+  ),
+} as const;
+
+const rollbackReducer = createReducer(initialState, {
+  [ActionTypes.RESET]: () => initialState,
+
+  [ActionTypes.CAPTURE_INDEX]: (
+    state,
+    action: ReturnType<typeof Actions.captureIndex>
+  ) => {
+    Array.push(copyIndex(action.payload.data), state.indexes, option);
+  },
+
+  [ActionTypes.REMOVE_INDEX]: (
+    state,
+    action: ReturnType<typeof Actions.removeIndex>
+  ) => {
+    Array.removeAll(
+      (index) => index.id === action.payload.id,
+      state.indexes,
+      option
+    );
+  },
+
+  [ActionTypes.CAPTURE_CONTENT]: (
+    state,
+    action: ReturnType<typeof Actions.captureContent>
+  ) => {
+    Array.push({ ...action.payload.data }, state.contents, option);
+  },
+
+  [ActionTypes.REMOVE_CONTENT]: (
+    state,
+    action: ReturnType<typeof Actions.removeContent>
+  ) => {
+    Array.removeAll(
+      (content) => content.contentId === action.payload.contentId,
+      state.contents,
+      option
+    );
   },
 });
 
-export const {
-  reset,
-  captureIndex,
-  removeIndex,
-  captureContent,
-  removeContent,
-} = rollbackSlice.actions;
-export { REDUCER_NAME, type RollbackState };
-export default rollbackSlice.reducer;
+export default rollbackReducer;

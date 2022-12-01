@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
 import * as Array from "../other/data-structure/optional-array";
 import {
@@ -8,75 +7,93 @@ import {
 } from "../other/data-structure/options";
 import { DisabledMenus, SelectedMenu } from "../hooks/header/header.type";
 
-interface HeaderState {
+export const REDUCER_NAME = "header";
+
+export interface HeaderState {
   preventClick: boolean;
 
   selected: SelectedMenu;
   disabled: DisabledMenus;
 }
 
-const REDUCER_NAME = "header";
 const initialState: HeaderState = {
   selected: {},
   disabled: {},
   preventClick: false,
 };
 
+export const ActionTypes = {
+  RESET: `${REDUCER_NAME}/RESET`,
+
+  SELECT: `${REDUCER_NAME}/SELECT`,
+  RESET_HEADER_SELECTION: `${REDUCER_NAME}/RESET_HEADER_SELECTION`,
+
+  DISABLE: `${REDUCER_NAME}/DISABLE`,
+  RESET_HEADER_DISABLED: `${REDUCER_NAME}/RESET_HEADER_DISABLED`,
+
+  LOCK_INTERACTION: `${REDUCER_NAME}/LOCK_INTERACTION`,
+  UNLOCK_INTERACTION: `${REDUCER_NAME}/UNLOCK_INTERACTION`,
+} as const;
+
+export const Actions = {
+  // For Reducer
+  reset: createAction(ActionTypes.RESET),
+
+  select: createAction<{ header: string; menu: string }>(ActionTypes.SELECT),
+  resetHeaderSelection: createAction<{ header: string }>(
+    ActionTypes.RESET_HEADER_SELECTION
+  ),
+
+  disable: createAction<{ header: string; menu: string }>(ActionTypes.DISABLE),
+  resetHeaderDisabled: createAction<{ header: string }>(
+    ActionTypes.RESET_HEADER_DISABLED
+  ),
+
+  lockInteraction: createAction(ActionTypes.LOCK_INTERACTION),
+  unlockInteraction: createAction(ActionTypes.UNLOCK_INTERACTION),
+} as const;
+
 const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
 
-const headerSlice = createSlice({
-  name: REDUCER_NAME,
-  initialState,
-  reducers: {
-    init: () => initialState,
+const headerReducer = createReducer(initialState, {
+  [ActionTypes.RESET]: () => initialState,
 
-    select: (
-      state,
-      action: PayloadAction<{ header: string; menu: string }>
-    ) => {
-      state.selected[action.payload.header] = action.payload.menu;
-    },
+  [ActionTypes.SELECT]: (state, action: ReturnType<typeof Actions.select>) => {
+    state.selected[action.payload.header] = action.payload.menu;
+  },
 
-    disable: (
-      state,
-      action: PayloadAction<{ header: string; menu: string }>
-    ) => {
-      Array.removeAll(
-        (item) => item === action.payload.menu,
-        state.disabled[action.payload.header],
-        option
-      );
-    },
+  [ActionTypes.RESET_HEADER_SELECTION]: (
+    state,
+    action: ReturnType<typeof Actions.resetHeaderSelection>
+  ) => {
+    delete state.selected[action.payload.header];
+  },
 
-    resetHeaderSelection: (
-      state,
-      action: PayloadAction<{ header: string }>
-    ) => {
-      delete state.selected[action.payload.header];
-    },
+  [ActionTypes.DISABLE]: (
+    state,
+    action: ReturnType<typeof Actions.disable>
+  ) => {
+    Array.removeAll(
+      (item) => item === action.payload.menu,
+      state.disabled[action.payload.header],
+      option
+    );
+  },
 
-    resetHeaderDisabled: (state, action: PayloadAction<{ header: string }>) => {
-      state.disabled[action.payload.header] = [];
-    },
+  [ActionTypes.RESET_HEADER_DISABLED]: (
+    state,
+    action: ReturnType<typeof Actions.resetHeaderDisabled>
+  ) => {
+    state.disabled[action.payload.header] = [];
+  },
 
-    lockInteraction: (state) => {
-      state.preventClick = true;
-    },
+  [ActionTypes.LOCK_INTERACTION]: (state) => {
+    state.preventClick = true;
+  },
 
-    unlockInteraction: (state) => {
-      state.preventClick = false;
-    },
+  [ActionTypes.UNLOCK_INTERACTION]: (state) => {
+    state.preventClick = false;
   },
 });
 
-export const {
-  init,
-  select,
-  disable,
-  resetHeaderSelection,
-  resetHeaderDisabled,
-  lockInteraction,
-  unlockInteraction,
-} = headerSlice.actions;
-export { REDUCER_NAME, type HeaderState };
-export default headerSlice.reducer;
+export default headerReducer;

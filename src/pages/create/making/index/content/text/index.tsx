@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 
 import * as Style from "../content.style";
 import { IconButton, Textarea } from "@mui/joy";
@@ -15,13 +15,14 @@ import { AddContentButton } from "../add";
 import {
   usePillContentEditor,
   usePillIndexEditor,
-} from "../../../../../../utils/hooks/pill-creator";
-import { PillContentType } from "../../../../../../utils/reducers/creator";
+} from "../../../../../../utils/hooks/creator";
+import { PillContentType } from "../../../../../../utils/pill/pill.type";
 import { IndexContentProps } from "../content.type";
-import * as Content from "../../../../../../utils/validators/create/content";
 import { useValidation } from "../../../../../../utils/hooks/validation";
 import { useI18n } from "../../../../../../utils/hooks/i18n";
-import { I18N } from "../../../../../../i18n";
+import { I18N } from "../../../../../../utils/i18n";
+
+import * as Text from "../../../../../../utils/validators/create/content/text";
 
 interface AddTextButtonProps {
   id: string;
@@ -35,18 +36,20 @@ export const AddTextButton = (props: AddTextButtonProps) => {
     editor.addContent(PillContentType.TEXT, "");
   }, [editor]);
 
-  return <AddContentButton
-    icon={ArticleIcon}
-    title={text(I18N.PAGE_CREATE_13)}
-    description={text(I18N.PAGE_CREATE_14)}
-    onClick={handleAddText}
-  />;
+  return (
+    <AddContentButton
+      icon={ArticleIcon}
+      title={text(I18N.PAGE_CREATE_13)}
+      description={text(I18N.PAGE_CREATE_14)}
+      onClick={handleAddText}
+    />
+  );
 };
 
 export const TextContent = (props: IndexContentProps) => {
   const { text } = useI18n();
   const editor = usePillContentEditor(props.id, props.contentId);
-  const validator = useValidation(Content.Validator(props.contentId, props.id));
+  const validator = useValidation(Text.Validator(props.contentId, props.id));
 
   const [content, setContent] = useState<string>(editor.content.content);
 
@@ -55,21 +58,16 @@ export const TextContent = (props: IndexContentProps) => {
 
     setContent(value);
     editor.update(value);
-    validator.needValidate();
+
+    validator.validate({ content: value });
   };
 
   const handleExchange = (relation: number) => {
     props.onExchange(relation);
-    validator.needValidate();
-  };
 
-  useEffect(() => {
-    validator.validate({
-      type: PillContentType.TEXT,
-      content: editor.content.content,
-      subContent: "",
-    });
-  }, [validator, editor.content]);
+    // 수정*
+    validator.validate({ content: editor.content.content });
+  };
 
   const handleRemove = () => {
     editor.remove();

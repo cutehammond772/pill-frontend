@@ -12,9 +12,6 @@ import CreatePreviewPage from "./pages/create-preview";
 import UserPage from "./pages/user";
 import PillPage from "./pages/pill";
 
-import { useAuth } from "./utils/hooks/auth";
-import { useProfile } from "./utils/hooks/profile";
-
 import "./transition.css";
 import { Footer } from "./layouts/footer";
 
@@ -25,7 +22,8 @@ import DefaultHeader from "./components/header/default";
 import CreateHeader from "./components/header/create";
 import EmptyHeader from "./components/header/empty";
 import { useDispatch } from "react-redux";
-import { lockInteraction, unlockInteraction } from "./utils/reducers/header";
+
+import { Actions as actions } from "./utils/reducers/page-transition";
 
 const App = () => {
   // 기본적으로 라이트 모드로 설정한다.
@@ -34,11 +32,6 @@ const App = () => {
 
   // 트랜지션 키로 필요하다.
   const location = useLocation();
-
-  // Loader 역할을 수행한다.
-  useAuth(true);
-  useProfile(true);
-
   const dispatch = useDispatch();
 
   return (
@@ -67,9 +60,9 @@ const App = () => {
           key={location.pathname}
           classNames="page"
           timeout={300}
-          onEnter={() => dispatch(lockInteraction())}
-          onEntered={() => dispatch(unlockInteraction())}
-          onExited={() => alert("응애")}
+          onEnter={() => dispatch(actions.startTransition())}
+          onEntering={() => dispatch(actions.inTransition())}
+          onEntered={() => dispatch(actions.endTransition())}
           unmountOnExit
         >
           <Routes location={location}>

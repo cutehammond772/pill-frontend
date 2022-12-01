@@ -5,8 +5,8 @@ import { useSnackbar } from "notistack";
 import * as Style from "./category.style";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import { usePillDefaultEditor } from "../../../../utils/hooks/pill-creator";
-import { I18N } from "../../../../i18n";
+import { usePillDefaultEditor } from "../../../../utils/hooks/creator";
+import { I18N } from "../../../../utils/i18n";
 import { useI18n } from "../../../../utils/hooks/i18n";
 
 const validateContent = (value: string) => {

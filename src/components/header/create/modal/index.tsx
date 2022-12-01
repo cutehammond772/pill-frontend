@@ -5,7 +5,7 @@ import WarningIcon from "@mui/icons-material/WarningAmber";
 import EditIcon from "@mui/icons-material/Edit";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useI18n } from "../../../../utils/hooks/i18n";
-import { I18N } from "../../../../i18n";
+import { I18N } from "../../../../utils/i18n";
 
 export interface ConfirmModalProps {
   open: boolean;

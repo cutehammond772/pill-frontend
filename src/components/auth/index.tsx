@@ -6,7 +6,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 import * as Style from "./auth.style";
 import { useI18n } from "../../utils/hooks/i18n";
-import { I18N } from "../../i18n";
+import { I18N } from "../../utils/i18n";
 import { ColorAttributes } from "../../GlobalStyles";
 
 export interface AuthButtonProps extends React.PropsWithChildren {

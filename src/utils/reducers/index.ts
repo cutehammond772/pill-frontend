@@ -7,8 +7,8 @@ import pageReducer from "./page";
 import creatorReducer from "./creator";
 import rollbackReducer from "./rollback";
 import profileReducer from "./profile";
-import runOnceReducer from "./run-once";
 import validationReducer from "./validation";
+import pageTransitionReducer from "./page-transition";
 
 const rootReducer = combineReducers({
     profile: profileReducer,
@@ -18,8 +18,8 @@ const rootReducer = combineReducers({
     page: pageReducer,
     header: headerReducer,
     validation: validationReducer,
-    runOnce: runOnceReducer,
     i18n: i18nReducer,
+    pageTransition: pageTransitionReducer,
 });
 
 type RootState = ReturnType<typeof rootReducer>;

@@ -1,30 +1,35 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
-interface ProfileState {
+export const REDUCER_NAME = "profile";
+
+export interface ProfileState {
   userName?: string;
   profileUrl?: string;
 }
 
-const REDUCER_NAME = "profile";
 const initialState: ProfileState = {};
 
-const profileSlice = createSlice({
-  name: REDUCER_NAME,
-  initialState,
-  reducers: {
-    setToUser: (
-      _,
-      action: PayloadAction<{
-        userName: string;
-        profileUrl: string;
-      }>
-    ) => action.payload,
+export const ActionTypes = {
+  SET_TO_USER: `${REDUCER_NAME}/SET_TO_USER`,
+  SET_TO_ANONYMOUS: `${REDUCER_NAME}/SET_TO_ANONYMOUS`,
+} as const;
 
-    setToAnonymous: () => initialState,
-  },
+export const Actions = {
+  // For Reducer
+  setToUser: createAction<{
+    userName: string;
+    profileUrl: string;
+  }>(ActionTypes.SET_TO_USER),
+
+  setToAnonymous: createAction(ActionTypes.SET_TO_ANONYMOUS),
+} as const;
+
+const profileReducer = createReducer(initialState, {
+  [ActionTypes.SET_TO_ANONYMOUS]: () => initialState,
+  [ActionTypes.SET_TO_USER]: (
+    _,
+    action: ReturnType<typeof Actions.setToUser>
+  ) => action.payload,
 });
 
-export const { setToUser, setToAnonymous } = profileSlice.actions;
-export { REDUCER_NAME, type ProfileState };
-export default profileSlice.reducer;
+export default profileReducer;

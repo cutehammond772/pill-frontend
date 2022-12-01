@@ -2,9 +2,10 @@ import * as React from "react";
 import { Avatar } from "@mui/joy";
 import { Tooltip } from "@mui/material";
 
-import { useProfile } from "../../utils/hooks/profile";
 import { useI18n } from "../../utils/hooks/i18n";
-import { I18N } from "../../i18n";
+import { I18N } from "../../utils/i18n";
+import { useSelector } from "react-redux";
+import { RootState } from "../../utils/reducers";
 
 export interface ProfileData {
   userName?: string;
@@ -22,15 +23,14 @@ interface ProfileAvatarProps {
 
 const ProfileAvatar = (props: ProfileAvatarProps) => {
   const { text } = useI18n();
-  const profile = useProfile();
-  const data = profile.data;
+  const profile = useSelector((state: RootState) => state.profile);
 
   return (
-    <Tooltip title={data.userName || text(I18N.PROFILE_01)} disableInteractive>
-      {!data.userName ? (
+    <Tooltip title={profile.userName || text(I18N.PROFILE_01)} disableInteractive>
+      {!profile.userName ? (
         <DefaultAvatar onClick={props.onClick} />
       ) : (
-        <UserAvatar profile={data} onClick={props.onClick} />
+        <UserAvatar profile={profile} onClick={props.onClick} />
       )}
     </Tooltip>
   );

@@ -6,21 +6,18 @@ import {
 } from "../../components/header/create";
 
 import { Page } from "../../layouts/page";
-import usePageSelect from "../../utils/hooks/header/page-select";
+import { usePageSelect } from "../../utils/hooks/header/page-select";
 
 import * as Style from "./create-preview.style";
 import ListIcon from "@mui/icons-material/List";
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/reducers";
-import {
-  PillContentData,
-  PillContentType,
-} from "../../utils/reducers/creator";
+import { PillContentData, PillContentType } from "../../utils/pill/pill.type";
 
 import { useNavigate } from "react-router-dom";
 import LikeButton from "./buttons/like";
 import { useI18n } from "../../utils/hooks/i18n";
-import { I18N } from "../../i18n";
+import { I18N } from "../../utils/i18n";
 import { format } from "../../utils/other/format";
 
 const CreatePreviewPage = () => {

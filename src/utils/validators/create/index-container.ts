@@ -14,15 +14,15 @@ interface Data {
 }
 
 const DefaultValidator = (data: Data) =>
-  begin<Data, typeof Messages>(data)
+  begin<Data>(data)
     .validate((data) => data.indexSize !== 0, Messages.INDEX_EMPTY)
     .done();
 
-const Validator: DomainValidator<Data, typeof Messages> = ({
+const Validator: DomainValidator<Data> = {
   signature: SIGNATURE,
   validators: [DefaultValidator],
   minDependencies: 1,
   dependency: validatorID(Pill.SIGNATURE),
-});
+};
 
 export { Validator, type Data, SIGNATURE, Messages };

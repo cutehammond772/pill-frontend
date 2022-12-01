@@ -5,7 +5,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ExploreIcon from "@mui/icons-material/Explore";
 import { useNavigate } from "react-router-dom";
 import { useI18n } from "../../../utils/hooks/i18n";
-import { I18N } from "../../../i18n";
+import { I18N } from "../../../utils/i18n";
 
 const UserHome = () => {
   const navigate = useNavigate();

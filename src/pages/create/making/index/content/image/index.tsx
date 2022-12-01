@@ -12,20 +12,20 @@ import EditIcon from "@mui/icons-material/Edit";
 import { ImageContentLayout, ImageContentTitleLayout } from "./image.style";
 
 import * as React from "react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { AddContentButton } from "../add";
 import ImageContentModal from "./modal";
 
-import * as Content from "../../../../../../utils/validators/create/content";
-import { PillContentType } from "../../../../../../utils/reducers/creator";
+import * as Image from "../../../../../../utils/validators/create/content/image";
+import { PillContentType } from "../../../../../../utils/pill/pill.type";
 import {
   usePillContentEditor,
   usePillIndexEditor,
-} from "../../../../../../utils/hooks/pill-creator";
+} from "../../../../../../utils/hooks/creator";
 import { IndexContentProps } from "../content.type";
 import { useValidation } from "../../../../../../utils/hooks/validation";
 import { useI18n } from "../../../../../../utils/hooks/i18n";
-import { I18N } from "../../../../../../i18n";
+import { I18N } from "../../../../../../utils/i18n";
 
 interface AddImageButtonProps {
   id: string;
@@ -65,27 +65,24 @@ export const AddImageButton = (props: AddImageButtonProps) => {
 export const ImageContent = (props: IndexContentProps) => {
   const { text } = useI18n();
   const editor = usePillContentEditor(props.id, props.contentId);
-  const validator = useValidation(Content.Validator(props.contentId, props.id));
+  const validator = useValidation(Image.Validator(props.contentId, props.id));
 
   const [open, setOpen] = useState<boolean>(false);
 
   const handleUpdateImage = (link: string, description: string) => {
     editor.update(link, description);
-    validator.needValidate();
+    validator.validate({ link, description });
   };
 
   const handleExchange = (relation: number) => {
     props.onExchange(relation);
-    validator.needValidate();
-  };
-
-  useEffect(() => {
+    
+    // 수정*
     validator.validate({
-      type: PillContentType.IMAGE,
-      content: editor.content.content,
-      subContent: editor.content.subContent,
+      link: editor.content.content,
+      description: editor.content.subContent,
     });
-  }, [validator, editor.content]);
+  };
 
   const handleRemove = () => {
     editor.remove();

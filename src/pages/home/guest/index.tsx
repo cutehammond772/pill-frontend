@@ -4,7 +4,7 @@ import * as React from "react";
 import * as config from "../../../config";
 import * as Style from "./guest.style";
 import { useI18n } from "../../../utils/hooks/i18n";
-import { I18N } from "../../../i18n";
+import { I18N } from "../../../utils/i18n";
 
 const GuestHome = () => {
   const { text } = useI18n();

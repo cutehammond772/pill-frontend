@@ -6,7 +6,7 @@ import CheckIcon from "@mui/icons-material/Check";
 
 import * as Style from "./container.style";
 import { useI18n } from "../../../utils/hooks/i18n";
-import { I18N } from "../../../i18n";
+import { I18N } from "../../../utils/i18n";
 
 interface CreatingPillContainerProps {
   title: string;

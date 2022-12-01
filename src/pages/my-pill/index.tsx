@@ -9,7 +9,7 @@ import {
 } from "../../components/header/default";
 
 import { Page } from "../../layouts/page";
-import usePageSelect from "../../utils/hooks/header/page-select";
+import { usePageSelect } from "../../utils/hooks/header/page-select";
 
 import * as Style from "./my-pill.style";
 

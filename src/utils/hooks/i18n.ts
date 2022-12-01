@@ -5,12 +5,12 @@ import {
   I18NText,
   Language,
   LanguageType,
-} from "../../i18n";
-import ENGTexts from "../../i18n/eng";
-import KORTexts from "../../i18n/kor";
+} from "../i18n";
+import ENGTexts from "../i18n/eng";
+import KORTexts from "../i18n/kor";
 import { RootState } from "../reducers";
 
-import * as reducer from "../reducers/i18n";
+import { Actions as actions } from "../reducers/i18n";
 
 // 각 LanguageType 당 언어 데이터를 매핑한 데이터이다.
 export const I18NMap = {
@@ -25,13 +25,13 @@ export const useI18n = () => {
 
   // 언어를 변경한다.
   const changeLanguage = useCallback(
-    (language: Language) => dispatch(reducer.changeLanguage({ language })),
+    (language: Language) => dispatch(actions.changeLanguage({ language })),
     [dispatch]
   );
 
   // 기본 언어 (= 한국어)로 설정한다.
   const resetLanguage = useCallback(
-    () => dispatch(reducer.resetLanguage()),
+    () => dispatch(actions.resetLanguage()),
     [dispatch]
   );
 
