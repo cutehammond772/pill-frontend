@@ -1,32 +1,28 @@
 import { begin } from "../../validator.factory";
 
 import * as Index from "../index";
-import { DomainValidator, validatorID } from "../../validator.type";
+import { Validator, validatorID } from "../../validator.type";
 
-const SIGNATURE = "validator.create.content.image";
+export const SIGNATURE = "validator.create.content.image";
 
-const Messages = {
-  IMAGE_EMPTY: "이미지를 추가하세요.",
-} as const;
-
-interface Data {
-  link?: string;
-  description?: string;
+export interface ImageContentData {
+  link: string;
+  description: string;
 }
 
-const ImageContentValidator = (data: Data) =>
-  begin(data)
-    .validate((data) => !!data.link && !!data.description, Messages.IMAGE_EMPTY)
-    .done();
+export type Data = Partial<ImageContentData>;
 
-const Validator: (id: string, dependencyID: string) => DomainValidator<Data> = (
-  id,
-  dependencyID
-) => ({
+const ImageContent = begin<Data>()
+  .filter(["link", "description"])
+  .validate((data) => !!data.link && !!data.description, "이미지를 추가하세요.")
+  .done();
+
+const ImageValidator = (contentId: string, topId: string): Validator<Data> => ({
+  validatorID: validatorID(SIGNATURE, contentId),
   signature: SIGNATURE,
-  validators: [ImageContentValidator],
-  dependency: validatorID(Index.SIGNATURE, dependencyID),
-  id,
+  validators: { [ImageContent.name]: ImageContent },
+  
+  top: validatorID(Index.SIGNATURE, topId),
 });
 
-export { Validator, type Data, SIGNATURE, Messages };
+export default ImageValidator;

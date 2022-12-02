@@ -25,7 +25,7 @@ const CreatePreviewPage = () => {
   usePageSelect(CreateHeaderSignature, CreateMenus.PREVIEW);
   const navigate = useNavigate();
 
-  const pill = useSelector((state: RootState) => state.creator);
+  const pill = useSelector((state: RootState) => state.editor);
   const profile = useSelector((state: RootState) => state.profile);
 
   return (

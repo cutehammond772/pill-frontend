@@ -16,12 +16,12 @@ import { useState, useCallback } from "react";
 import { AddContentButton } from "../add";
 import ImageContentModal from "./modal";
 
-import * as Image from "../../../../../../utils/validators/create/content/image";
+import ImageValidator from "../../../../../../utils/validators/create/content/image";
 import { PillContentType } from "../../../../../../utils/pill/pill.type";
 import {
   usePillContentEditor,
   usePillIndexEditor,
-} from "../../../../../../utils/hooks/creator";
+} from "../../../../../../utils/hooks/editor";
 import { IndexContentProps } from "../content.type";
 import { useValidation } from "../../../../../../utils/hooks/validation";
 import { useI18n } from "../../../../../../utils/hooks/i18n";
@@ -65,7 +65,7 @@ export const AddImageButton = (props: AddImageButtonProps) => {
 export const ImageContent = (props: IndexContentProps) => {
   const { text } = useI18n();
   const editor = usePillContentEditor(props.id, props.contentId);
-  const validator = useValidation(Image.Validator(props.contentId, props.id));
+  const validator = useValidation(ImageValidator(props.contentId, props.id));
 
   const [open, setOpen] = useState<boolean>(false);
 

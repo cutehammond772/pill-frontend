@@ -6,18 +6,18 @@ import AddIndex from "./add-index/index";
 import { Collapse } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
-import { usePillDefaultEditor } from "../../../utils/hooks/creator";
+import { usePillDefaultEditor } from "../../../utils/hooks/editor";
 import { useValidation } from "../../../utils/hooks/validation";
 
-import * as IndexContainer from "../../../utils/validators/create/index-container";
+import IndexContainerValidator from "../../../utils/validators/create/index-container";
 import { useI18n } from "../../../utils/hooks/i18n";
 import { I18N } from "../../../utils/i18n";
 
 export const Content = () => {
   const { text } = useI18n();
   const editor = usePillDefaultEditor();
-  const indexes = useSelector((state: RootState) => state.creator.indexes);
-  const validator = useValidation(IndexContainer.Validator);
+  const indexes = useSelector((state: RootState) => state.editor.indexes);
+  const validator = useValidation(IndexContainerValidator());
   const validation = validator.validation;
 
   return (

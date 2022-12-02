@@ -6,26 +6,23 @@ import {
   CopyNothing,
   CopyOptionSignatures,
 } from "../other/data-structure/options";
-import {
-  ValidationResponse,
-  ValidatorInfo,
-} from "../validators/validator.type";
+import { Validation, ValidatorInfo } from "../validators/validator.type";
 
 export const REDUCER_NAME = "validation";
 
 export type Validators = { [validatorID: string]: ValidatorInfo };
-export type ValidationContainer = { [validatorID: string]: ValidationResponse };
-export type ValidationDependencies = { [validatorID: string]: Array<string> };
+export type ValidationContainer = { [validatorID: string]: Validation };
+export type SubValidators = { [validatorID: string]: Array<string> };
 
 export interface ValidationState {
   data: ValidationContainer;
-  dependencies: ValidationDependencies;
+  subs: SubValidators;
   validators: Validators;
 }
 
 const initialState: ValidationState = {
   data: {},
-  dependencies: {},
+  subs: {},
   validators: {},
 };
 
@@ -33,19 +30,18 @@ export const ActionTypes = {
   SET_VALIDATION: `${REDUCER_NAME}/SET_VALIDATION`,
   REMOVE_VALIDATION: `${REDUCER_NAME}/REMOVE_VALIDATION`,
 
-  ADD_DEPENDENCY: `${REDUCER_NAME}/ADD_DEPENDENCY`,
-  REMOVE_DEPENDENCY: `${REDUCER_NAME}/REMOVE_DEPENDENCY`,
-  CLEAR_DEPENDENCIES: `${REDUCER_NAME}/CLEAR_DEPENDENCIES`,
+  ADD_SUB_VALIDATOR: `${REDUCER_NAME}/ADD_SUB_VALIDATOR`,
+  REMOVE_SUB_VALIDATOR: `${REDUCER_NAME}/REMOVE_SUB_VALIDATOR`,
+  CLEAR_SUB_VALIDATORS: `${REDUCER_NAME}/CLEAR_SUB_VALIDATORS`,
 
-  ADD_VALIDATOR: `${REDUCER_NAME}/ADD_VALIDATOR`,
+  REGISTER_VALIDATOR: `${REDUCER_NAME}/REGISTER_VALIDATOR`,
   REMOVE_VALIDATOR: `${REDUCER_NAME}/REMOVE_VALIDATOR`,
 
-  SAGA_ADD_DEPENDENCY: `${REDUCER_NAME}/SAGA_ADD_DEPENDENCY`,
-  SAGA_REMOVE_DEPENDENCY: `${REDUCER_NAME}/SAGA_REMOVE_DEPENDENCY`,
+  SAGA_REGISTER_VALIDATOR: `${REDUCER_NAME}/SAGA_REGISTER_VALIDATOR`,
 
+  SAGA_ADD_SUB_VALIDATOR: `${REDUCER_NAME}/SAGA_ADD_SUB_VALIDATOR`,
+  SAGA_REMOVE_SUB_VALIDATOR: `${REDUCER_NAME}/SAGA_REMOVE_SUB_VALIDATOR`,
   SAGA_UPDATE_VALIDATION: `${REDUCER_NAME}/SAGA_UPDATE_VALIDATION`,
-
-  SAGA_ADD_VALIDATOR: `${REDUCER_NAME}/SAGA_ADD_VALIDATOR`,
   SAGA_REMOVE_VALIDATOR: `${REDUCER_NAME}/SAGA_REMOVE_VALIDATOR`,
 } as const;
 
@@ -53,29 +49,29 @@ export const InternalActions = {
   // For Reducer
   setValidation: createAction<{
     validatorID: string;
-    validation: ValidationResponse;
+    validation: Validation;
   }>(ActionTypes.SET_VALIDATION),
 
   removeValidation: createAction<{
     validatorID: string;
   }>(ActionTypes.REMOVE_VALIDATION),
 
-  addDependency: createAction<{
+  addSubValidator: createAction<{
     validatorID: string;
-    dependedValidatorID: string;
-  }>(ActionTypes.ADD_DEPENDENCY),
+    subValidatorID: string;
+  }>(ActionTypes.ADD_SUB_VALIDATOR),
 
-  removeDependency: createAction<{
+  removeSubValidator: createAction<{
     validatorID: string;
-    dependedValidatorID: string;
-  }>(ActionTypes.REMOVE_DEPENDENCY),
+    subValidatorID: string;
+  }>(ActionTypes.REMOVE_SUB_VALIDATOR),
 
-  clearDependencies: createAction<{
+  clearSubValidators: createAction<{
     validatorID: string;
-  }>(ActionTypes.CLEAR_DEPENDENCIES),
+  }>(ActionTypes.CLEAR_SUB_VALIDATORS),
 
-  addValidator: createAction<{ data: ValidatorInfo }>(
-    ActionTypes.ADD_VALIDATOR
+  registerValidator: createAction<{ data: ValidatorInfo }>(
+    ActionTypes.REGISTER_VALIDATOR
   ),
 
   removeValidator: createAction<{ validatorID: string }>(
@@ -83,26 +79,26 @@ export const InternalActions = {
   ),
 
   // For Saga
-  sagaAddDependency: createAction<{
+  sagaAddSubValidator: createAction<{
     validatorID: string;
-    dependedValidatorID: string;
-  }>(ActionTypes.SAGA_ADD_DEPENDENCY),
+    subValidatorID: string;
+  }>(ActionTypes.SAGA_ADD_SUB_VALIDATOR),
 
-  sagaRemoveDependency: createAction<{
+  sagaRemoveSubValidator: createAction<{
     validatorID: string;
-    dependedValidatorID: string;
-  }>(ActionTypes.SAGA_REMOVE_DEPENDENCY),
+    subValidatorID: string;
+  }>(ActionTypes.SAGA_REMOVE_SUB_VALIDATOR),
 } as const;
 
 export const Actions = {
   // For Saga
   updateValidation: createAction<{
     validatorID: string;
-    response?: ValidationResponse;
+    validation?: Validation;
   }>(ActionTypes.SAGA_UPDATE_VALIDATION),
 
-  addValidator: createAction<{ data: ValidatorInfo }>(
-    ActionTypes.SAGA_ADD_VALIDATOR
+  registerValidator: createAction<{ validatorID: string; data: ValidatorInfo }>(
+    ActionTypes.SAGA_REGISTER_VALIDATOR
   ),
 
   removeValidator: createAction<{ validatorID: string }>(
@@ -132,9 +128,9 @@ const validationReducer = createReducer(initialState, {
     Map.removeAll(state.data, [action.payload.validatorID], option);
   },
 
-  [ActionTypes.ADD_VALIDATOR]: (
+  [ActionTypes.REGISTER_VALIDATOR]: (
     state,
-    action: ReturnType<typeof InternalActions.addValidator>
+    action: ReturnType<typeof InternalActions.registerValidator>
   ) => {
     Map.put(
       state.validators,
@@ -151,41 +147,40 @@ const validationReducer = createReducer(initialState, {
     Map.remove(state.validators, action.payload.validatorID, option);
   },
 
-  [ActionTypes.ADD_DEPENDENCY]: (
+  [ActionTypes.ADD_SUB_VALIDATOR]: (
     state,
-    action: ReturnType<typeof InternalActions.addDependency>
+    action: ReturnType<typeof InternalActions.addSubValidator>
   ) => {
     Map.replace(
-      state.dependencies,
+      state.subs,
       action.payload.validatorID,
-      (dependencies) =>
-        Array.push(action.payload.dependedValidatorID, dependencies, option),
+      (subs) => Array.push(action.payload.subValidatorID, subs, option),
       option
     );
   },
 
-  [ActionTypes.REMOVE_DEPENDENCY]: (
+  [ActionTypes.REMOVE_SUB_VALIDATOR]: (
     state,
-    action: ReturnType<typeof InternalActions.removeDependency>
+    action: ReturnType<typeof InternalActions.removeSubValidator>
   ) => {
     Map.replace(
-      state.dependencies,
+      state.subs,
       action.payload.validatorID,
-      (dependencies) =>
+      (subs) =>
         Array.removeAll(
-          (dependency) => action.payload.dependedValidatorID === dependency,
-          dependencies,
+          (sub) => action.payload.subValidatorID === sub,
+          subs,
           option
         ),
       option
     );
   },
 
-  [ActionTypes.CLEAR_DEPENDENCIES]: (
+  [ActionTypes.CLEAR_SUB_VALIDATORS]: (
     state,
-    action: ReturnType<typeof InternalActions.clearDependencies>
+    action: ReturnType<typeof InternalActions.clearSubValidators>
   ) => {
-    Map.remove(state.dependencies, action.payload.validatorID, option);
+    Map.remove(state.subs, action.payload.validatorID, option);
   },
 });
 

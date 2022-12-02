@@ -7,7 +7,7 @@ import {
 import * as Array from "../other/data-structure/optional-array";
 import { CategoryData, PillContent, PillIndexData } from "../pill/pill.type";
 
-export interface CreatorState {
+export interface EditorState {
   title: string;
   categories: Array<CategoryData>;
   indexes: Array<PillIndexData>;
@@ -15,7 +15,7 @@ export interface CreatorState {
   available: boolean;
 }
 
-const initialState: CreatorState = {
+const initialState: EditorState = {
   title: "",
   categories: [],
   indexes: [],
@@ -23,7 +23,7 @@ const initialState: CreatorState = {
   available: false,
 };
 
-export const REDUCER_NAME = "creator";
+export const REDUCER_NAME = "editor";
 
 export const ActionTypes = {
   RESET: `${REDUCER_NAME}/RESET`,
@@ -108,7 +108,7 @@ export const Actions = {
 
 const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
 
-const creatorReducer = createReducer(initialState, {
+const editorReducer = createReducer(initialState, {
   [ActionTypes.RESET]: () => initialState,
 
   [ActionTypes.UPDATE_TITLE]: (
@@ -261,4 +261,4 @@ const creatorReducer = createReducer(initialState, {
   },
 });
 
-export default creatorReducer;
+export default editorReducer;

@@ -6,7 +6,7 @@ import {
   actionChannel,
   select,
 } from "redux-saga/effects";
-import { Actions as actions, ActionTypes } from "../reducers/creator";
+import { Actions as actions, ActionTypes } from "../reducers/editor";
 import { Actions as rollbackActions } from "../reducers/rollback";
 
 import { ActionTypes as PageTransitionActionTypes } from "../reducers/page-transition";
@@ -15,7 +15,7 @@ import { RootState } from "../reducers";
 import { Channel } from "redux-saga";
 
 // 편집 모드의 시퀀스를 나타낸다.
-const creatorFlow = function* () {
+const editorFlow = function* () {
   while (true) {
     // 편집 모드 시작을 기다린다.
     yield all([
@@ -50,7 +50,7 @@ const watchIndexRemove = function* () {
     const action: ReturnType<typeof actions.removeIndex> = yield take(channel);
     // redux store로부터 인덱스 데이터를 가져온다.
     const data: PillIndexData = yield select((state: RootState) =>
-      state.creator.indexes.find((index) => index.id === action.payload.id)
+      state.editor.indexes.find((index) => index.id === action.payload.id)
     );
 
     if (!data) {
@@ -78,7 +78,7 @@ const watchContentRemove = function* () {
 
     // redux store로부터 컨텐츠 데이터를 가져온다.
     const index: PillIndexData | undefined = yield select((state: RootState) =>
-      state.creator.indexes.find((index) => index.id === action.payload.id)
+      state.editor.indexes.find((index) => index.id === action.payload.id)
     );
 
     if (!index) {
@@ -100,9 +100,9 @@ const watchContentRemove = function* () {
   }
 };
 
-export default function* creatorSaga() {
+export default function* editorSaga() {
   yield all([
-    fork(creatorFlow),
+    fork(editorFlow),
     fork(watchIndexRemove),
     fork(watchContentRemove),
   ]);

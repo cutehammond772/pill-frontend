@@ -5,7 +5,7 @@ import { useSnackbar } from "notistack";
 import * as Style from "./category.style";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import { usePillDefaultEditor } from "../../../../utils/hooks/creator";
+import { usePillDefaultEditor } from "../../../../utils/hooks/editor";
 import { I18N } from "../../../../utils/i18n";
 import { useI18n } from "../../../../utils/hooks/i18n";
 

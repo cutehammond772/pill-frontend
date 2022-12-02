@@ -15,14 +15,14 @@ import { AddContentButton } from "../add";
 import {
   usePillContentEditor,
   usePillIndexEditor,
-} from "../../../../../../utils/hooks/creator";
+} from "../../../../../../utils/hooks/editor";
 import { PillContentType } from "../../../../../../utils/pill/pill.type";
 import { IndexContentProps } from "../content.type";
 import { useValidation } from "../../../../../../utils/hooks/validation";
 import { useI18n } from "../../../../../../utils/hooks/i18n";
 import { I18N } from "../../../../../../utils/i18n";
 
-import * as Text from "../../../../../../utils/validators/create/content/text";
+import TextValidator from "../../../../../../utils/validators/create/content/text";
 
 interface AddTextButtonProps {
   id: string;
@@ -49,7 +49,7 @@ export const AddTextButton = (props: AddTextButtonProps) => {
 export const TextContent = (props: IndexContentProps) => {
   const { text } = useI18n();
   const editor = usePillContentEditor(props.id, props.contentId);
-  const validator = useValidation(Text.Validator(props.contentId, props.id));
+  const validator = useValidation(TextValidator(props.contentId, props.id));
 
   const [content, setContent] = useState<string>(editor.content.content);
 

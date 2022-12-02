@@ -1,28 +1,33 @@
 import { begin } from "../validator.factory";
-import { DomainValidator, validatorID } from "../validator.type";
+import {
+  Validator,
+  validatorID,
+  ValidatorQuantifiers,
+} from "../validator.type";
 
 import * as Pill from "./pill";
+import * as Index from "./index";
 
-const SIGNATURE = "validator.create.index_container";
+export const SIGNATURE = "validator.create.index_container";
 
-const Messages = {
-  INDEX_EMPTY: "최소 하나의 인덱스가 필요합니다.",
-} as const;
-
-interface Data {
-  indexSize: number;
+export interface IndexCountData {
+  indexCount: number;
 }
 
-const DefaultValidator = (data: Data) =>
-  begin<Data>(data)
-    .validate((data) => data.indexSize !== 0, Messages.INDEX_EMPTY)
-    .done();
+export type Data = Partial<IndexCountData>;
 
-const Validator: DomainValidator<Data> = {
+const DefaultValidator = begin<Data>()
+  .filter(["indexCount"])
+  .validate((data) => data.indexCount !== 0, "최소 하나의 인덱스가 필요합니다.")
+  .done();
+
+const IndexContainerValidator = (): Validator<Data> => ({
+  validatorID: validatorID(SIGNATURE),
   signature: SIGNATURE,
-  validators: [DefaultValidator],
-  minDependencies: 1,
-  dependency: validatorID(Pill.SIGNATURE),
-};
+  validators: { [DefaultValidator.name]: DefaultValidator },
 
-export { Validator, type Data, SIGNATURE, Messages };
+  top: validatorID(Pill.SIGNATURE),
+  subPattern: { patterns: { [Index.SIGNATURE]: ValidatorQuantifiers.EXIST } },
+});
+
+export default IndexContainerValidator;

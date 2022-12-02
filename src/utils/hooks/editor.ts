@@ -2,13 +2,14 @@ import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reducers";
 
-import { Actions as actions } from "../reducers/creator";
+import { Actions as actions } from "../reducers/editor";
 import { PillContent } from "../pill/pill.type";
+import { AnyAction } from "redux";
 
 // 현재 편집 가능한 여부를 확인한다.
 export const useEditorAvailable = () => {
   const dispatch = useDispatch();
-  const available = useSelector((state: RootState) => state.creator.available);
+  const available = useSelector((state: RootState) => state.editor.available);
 
   const check = <T>(callbackFn: T) => {
     if (!available) {
@@ -25,7 +26,7 @@ export const useEditorAvailable = () => {
   const finishEditor = useCallback(() => {
     if (!available) {
       throw new Error(
-        "[useEditorAvailable] 편집 모드가 활성화된 상태에서 비활성화할 수 있습니다."
+        "[useEditorAvailable] 편집 모드가 비활성화된 상태에서 비활성화를 시도했습니다."
       );
     }
 
@@ -34,16 +35,16 @@ export const useEditorAvailable = () => {
 
   // 편집 모드를 시작한다.
   const beginEditor = useCallback(() => {
-    if (!available) {
+    if (available) {
       throw new Error(
-        "[useEditorAvailable] 편집 모드가 비활성화된 상태에서 활성화할 수 있습니다."
+        "[useEditorAvailable] 편집 모드가 이미 활성화된 상태에서 활성화를 시도했습니다."
       );
     }
 
     dispatch(actions.begin());
   }, [dispatch, available]);
 
-  return { available, check, finishEditor, beginEditor, dispatch: check(dispatch) };
+  return { available, check, finishEditor, beginEditor, dispatch: (argument: AnyAction) => check(dispatch(argument)) };
 };
 
 export const useEditorIndex = (id: string) => {
@@ -51,7 +52,7 @@ export const useEditorIndex = (id: string) => {
     state.rollback.indexes.find((index) => index.id === id)
   );
   const index = useSelector((state: RootState) =>
-    state.creator.indexes.find((index) => index.id === id)
+    state.editor.indexes.find((index) => index.id === id)
   );
 
   // 인덱스를 수정하기 전 삭제된 인덱스인지 확인한다.
@@ -129,9 +130,9 @@ export const useEditorContent = (id: string, contentId: string) => {
 export const usePillDefaultEditor = () => {
   const { available, beginEditor, finishEditor, dispatch } = useEditorAvailable();
 
-  const title = useSelector((state: RootState) => state.creator.title);
+  const title = useSelector((state: RootState) => state.editor.title);
   const categories = useSelector(
-    (state: RootState) => state.creator.categories
+    (state: RootState) => state.editor.categories
   );
 
   // 인덱스를 추가한다.
@@ -184,7 +185,7 @@ export const usePillDefaultEditor = () => {
     title,
     categories,
     available,
-    
+
     addCategory,
     removeCategory,
     resetCategories,
@@ -199,7 +200,7 @@ export const usePillDefaultEditor = () => {
 
 // 인덱스 또는 카테고리의 순서(=위치)를 구하는 데 사용한다.
 export const usePillOrder = () => {
-  const indexes = useSelector((state: RootState) => state.creator.indexes);
+  const indexes = useSelector((state: RootState) => state.editor.indexes);
 
   // id를 가진 인덱스의 순서를 구한다.
   const index = useCallback(

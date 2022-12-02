@@ -3,7 +3,7 @@ import createSagaMiddleware from "redux-saga";
 import pageSaga from "./page";
 import headerSaga from "./header";
 import authSaga from "./auth";
-import creatorSaga from "./creator";
+import editorSaga from "./editor";
 import profileSaga from "./profile";
 import validationSaga from "./validation";
 
@@ -14,7 +14,7 @@ export default function* rootSaga() {
     fork(pageSaga),
     fork(headerSaga),
     fork(authSaga),
-    fork(creatorSaga),
+    fork(editorSaga),
     fork(profileSaga),
     fork(validationSaga),
   ]);

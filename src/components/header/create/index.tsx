@@ -6,11 +6,9 @@ import { useEffect, useState, useCallback } from "react";
 import { useHeader } from "../../../utils/hooks/header";
 import { useNavigate } from "react-router-dom";
 import { ConfirmModal } from "./modal";
-import { useValidation } from "../../../utils/hooks/validation";
 
-import * as Pill from "../../../utils/validators/create/pill";
 import { useSnackbar } from "notistack";
-import { usePillDefaultEditor } from "../../../utils/hooks/creator";
+import { usePillDefaultEditor } from "../../../utils/hooks/editor";
 import { Menus } from "../../../utils/hooks/header/header.type";
 import { I18N } from "../../../utils/i18n";
 import { useI18n } from "../../../utils/hooks/i18n";
@@ -34,10 +32,8 @@ const CreateHeader = () => {
 
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  
-  const validator = useValidation(Pill.Validator);
-  const editor = usePillDefaultEditor();
 
+  const editor = usePillDefaultEditor();
   const [exitConfirm, setExitConfirm] = useState<boolean>(false);
 
   const handleClick = useCallback(
@@ -47,32 +43,32 @@ const CreateHeader = () => {
           navigate("/create");
           break;
         case CreateMenus.PREVIEW:
-          if (!validator.validation.valid) {
-            enqueueSnackbar(text(I18N.HEADER_CREATE_04), {
-              variant: "error",
-              preventDuplicate: true,
-            });
+          // if (!validator.validation.valid) {
+          //   enqueueSnackbar(text(I18N.HEADER_CREATE_04), {
+          //     variant: "error",
+          //     preventDuplicate: true,
+          //   });
 
-            return;
-          }
+          //   return;
+          // }
 
           navigate("/create/preview");
           break;
         case CreateMenus.SAVE:
-          if (!validator.validation.valid) {
-            enqueueSnackbar(text(I18N.HEADER_CREATE_05), {
-              variant: "error",
-              preventDuplicate: true,
-            });
+          // if (!validator.validation.valid) {
+          //   enqueueSnackbar(text(I18N.HEADER_CREATE_05), {
+          //     variant: "error",
+          //     preventDuplicate: true,
+          //   });
 
-            return;
-          }
+          //   return;
+          // }
 
           // SAVE logic
           break;
       }
     },
-    [enqueueSnackbar, navigate, validator, text]
+    [navigate]
   );
 
   const preventClose = useCallback((event: BeforeUnloadEvent) => {
@@ -91,7 +87,7 @@ const CreateHeader = () => {
 
   const handleHomeConfirm = useCallback(() => {
     editor.finishEditor();
-    
+
     // 뒤로가기를 통해 다시 되돌아가지 않도록 한다.
     navigate("/", { replace: true });
   }, [editor, navigate]);

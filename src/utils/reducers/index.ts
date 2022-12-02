@@ -4,7 +4,7 @@ import authReducer from "./auth";
 import headerReducer from "./header";
 import i18nReducer from "./i18n";
 import pageReducer from "./page";
-import creatorReducer from "./creator";
+import editorReducer from "./editor";
 import rollbackReducer from "./rollback";
 import profileReducer from "./profile";
 import validationReducer from "./validation";
@@ -13,7 +13,7 @@ import pageTransitionReducer from "./page-transition";
 const rootReducer = combineReducers({
     profile: profileReducer,
     auth: authReducer,
-    creator: creatorReducer,
+    editor: editorReducer,
     rollback: rollbackReducer,
     page: pageReducer,
     header: headerReducer,

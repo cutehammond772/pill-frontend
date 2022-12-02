@@ -1,31 +1,26 @@
 import { begin } from "../../validator.factory";
 
 import * as Index from "../index";
-import { DomainValidator, validatorID } from "../../validator.type";
+import { Validator, validatorID } from "../../validator.type";
 
-const SIGNATURE = "validator.create.content.text";
+export const SIGNATURE = "validator.create.content.text";
 
-const Messages = {
-  TEXT_EMPTY: "글을 작성하세요.",
-} as const;
-
-interface Data {
-  content?: string;
+export interface TextContentData {
+  content: string;
 }
 
-const TextContentValidator = (data: Data) =>
-  begin(data)
-    .validate((data) => !!data.content, Messages.TEXT_EMPTY)
-    .done();
+export type Data = Partial<TextContentData>;
 
-const Validator: (id: string, dependencyID: string) => DomainValidator<Data> = (
-  id,
-  dependencyID
-) => ({
+const TextContent = begin<Data>()
+  .filter(["content"])
+  .validate((data) => !!data.content, "글을 작성하세요.")
+  .done();
+
+const TextValidator = (contentId: string, topId: string): Validator<Data> => ({
+  validatorID: validatorID(SIGNATURE, contentId),
   signature: SIGNATURE,
-  validators: [TextContentValidator],
-  dependency: validatorID(Index.SIGNATURE, dependencyID),
-  id,
+  validators: { [TextContent.name]: TextContent },
+  top: validatorID(Index.SIGNATURE, topId),
 });
 
-export { Validator, type Data, SIGNATURE, Messages };
+export default TextValidator;

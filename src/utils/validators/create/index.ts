@@ -1,32 +1,54 @@
 import { begin } from "../validator.factory";
-import { DomainValidator, validatorID } from "../validator.type";
+import {
+  Validator,
+  validatorID,
+  ValidatorQuantifiers,
+} from "../validator.type";
 
 import * as IndexContainer from "./index-container";
 
-const SIGNATURE = "validator.create.index";
+import * as Text from "./content/text";
+import * as Image from "./content/image";
 
-const Messages = {
-  TITLE_EMPTY: "인덱스 제목을 입력해 주세요.",
-  CONTENT_EMPTY: "인덱스 내용을 입력해 주세요.",
-} as const;
+export const SIGNATURE = "validator.create.index";
 
-interface Data {
+export interface TitleData {
   title: string;
-  contentsSize: number;
 }
 
-const DefaultValidator = (data: Data) =>
-  begin<Data>(data)
-    .validate((data) => !!data.title, Messages.TITLE_EMPTY)
-    .validate((data) => data.contentsSize !== 0, Messages.CONTENT_EMPTY)
-    .done();
+export interface ContentData {
+  contents: number;
+}
 
-const Validator: (id: string) => DomainValidator<Data> = (id) => ({
+export type Data = Partial<TitleData & ContentData>;
+
+const TitleValidator = begin<Data>()
+  .filter(["title"])
+  .validate((data) => !!data.title?.trim(), "인덱스 제목을 입력해 주세요.")
+  .done();
+
+const ContentValidator = begin<Data>()
+  .filter(["contents"])
+  .validate((data) => data.contents !== 0, "인덱스 내용을 추가해 주세요.")
+  .done();
+
+const IndexValidator = (id: string): Validator<Data> => ({
+  validatorID: validatorID(SIGNATURE, id),
   signature: SIGNATURE,
-  validators: [DefaultValidator],
-  minDependencies: 1,
-  dependency: validatorID(IndexContainer.SIGNATURE),
-  id,
+  validators: {
+    [TitleValidator.name]: TitleValidator,
+    [ContentValidator.name]: ContentValidator,
+  },
+
+  top: validatorID(IndexContainer.SIGNATURE),
+  subPattern: {
+    patterns: {
+      ContentGroup: ValidatorQuantifiers.EXIST,
+    },
+    groups: {
+      ContentGroup: [Text.SIGNATURE, Image.SIGNATURE],
+    },
+  },
 });
 
-export { Validator, type Data, SIGNATURE, Messages };
+export default IndexValidator;

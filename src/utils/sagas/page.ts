@@ -1,5 +1,5 @@
-import { all, call, put, delay, fork, takeLatest } from "redux-saga/effects";
-import { Actions as actions, ActionTypes } from "../reducers/page";
+import { all, put, delay, fork, takeLatest } from "redux-saga/effects";
+import { Actions as actions, InternalActions as internal, ActionTypes } from "../reducers/page";
 
 const DEBOUNCE_DELAY = 300;
 
@@ -9,7 +9,7 @@ const pageHeightSaga = function* (
 ) {
   // 300ms 디바운싱
   yield delay(DEBOUNCE_DELAY);
-  yield put(actions.updatePageHeight(action.payload));
+  yield put(internal.updatePageHeight(action.payload));
 };
 
 const headerHeightSaga = function* (
@@ -17,7 +17,7 @@ const headerHeightSaga = function* (
 ) {
   // 300ms 디바운싱
   yield delay(DEBOUNCE_DELAY);
-  yield put(actions.updateHeaderHeight(action.payload));
+  yield put(internal.updateHeaderHeight(action.payload));
 };
 
 const footerHeightSaga = function* (
@@ -25,20 +25,20 @@ const footerHeightSaga = function* (
 ) {
   // 300ms 디바운싱
   yield delay(DEBOUNCE_DELAY);
-  yield put(actions.updateFooterHeight(action.payload));
+  yield put(internal.updateFooterHeight(action.payload));
 };
 
 // watch
 const watchPageHeight = function* () {
-  yield takeLatest(ActionTypes.UPDATE_PAGE_HEIGHT, pageHeightSaga);
+  yield takeLatest(ActionTypes.SAGA_UPDATE_PAGE_HEIGHT, pageHeightSaga);
 };
 
 const watchHeaderHeight = function* () {
-  yield takeLatest(ActionTypes.UPDATE_HEADER_HEIGHT, headerHeightSaga);
+  yield takeLatest(ActionTypes.SAGA_UPDATE_HEADER_HEIGHT, headerHeightSaga);
 };
 
 const watchFooterHeight = function* () {
-  yield takeLatest(ActionTypes.UPDATE_FOOTER_HEIGHT, footerHeightSaga);
+  yield takeLatest(ActionTypes.SAGA_UPDATE_FOOTER_HEIGHT, footerHeightSaga);
 };
 
 // total

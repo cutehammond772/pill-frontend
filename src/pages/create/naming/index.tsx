@@ -6,14 +6,14 @@ import * as CategoryStyle from "./category/category.style";
 
 import PillTablet from "../../../components/tablet";
 import { Dummies, DummyContainer } from "../../../components/tablet/dummy";
-import { usePillDefaultEditor } from "../../../utils/hooks/creator";
+import { usePillDefaultEditor } from "../../../utils/hooks/editor";
 
 import * as React from "react";
 import { useState } from "react";
 import { AddCategoryButton, CategoryButton } from "./category";
 import { Collapse } from "@mui/material";
 
-import * as Naming from "../../../utils/validators/create/naming";
+import NamingValidator from "../../../utils/validators/create/naming";
 import { useValidation } from "../../../utils/hooks/validation";
 import { useI18n } from "../../../utils/hooks/i18n";
 import { I18N } from "../../../utils/i18n";
@@ -22,7 +22,7 @@ import { RootState } from "../../../utils/reducers";
 
 export const Content = () => {
   const { text } = useI18n();
-  const validator = useValidation(Naming.Validator);
+  const validator = useValidation(NamingValidator());
   const validation = validator.validation;
 
   const editor = usePillDefaultEditor();
@@ -36,9 +36,9 @@ export const Content = () => {
 
     setTitle(value);
     editor.updateTitle(value);
-    
+
+    // 수정*
     validator.validate({
-      categoriesSize: editor.categories.length,
       title: value,
     });
   };
@@ -46,18 +46,18 @@ export const Content = () => {
   const handleCategoryAdd = (category: string) => {
     editor.addCategory(category);
 
+    // 수정*
     validator.validate({
-      categoriesSize: editor.categories.length,
-      title,
+      categories: editor.categories.length,
     });
   };
 
   const handleCategoryRemove = (categoryId: string) => {
     editor.removeCategory(categoryId);
 
+    // 수정*
     validator.validate({
-      categoriesSize: editor.categories.length,
-      title,
+      categories: editor.categories.length,
     });
   };
 

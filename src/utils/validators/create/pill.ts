@@ -1,17 +1,25 @@
-import { begin } from "../validator.factory";
-import { DomainValidator } from "../validator.type";
+import {
+  Validator,
+  validatorID,
+  ValidatorQuantifiers,
+} from "../validator.type";
 
-const SIGNATURE = "validator.create.pill";
+import * as IndexContainer from "./index-container";
+import * as Naming from "./naming";
 
-// 항상 'VALID'하다.
-const DefaultValidator = () => begin<{}>({}).done();
+export const SIGNATURE = "validator.create.pill";
 
-const Validator: DomainValidator<{}> = {
+const PillValidator = (): Validator<{}> => ({
+  validatorID: validatorID(SIGNATURE),
   signature: SIGNATURE,
-  validators: [DefaultValidator],
+  validators: {},
 
-  // IndexContainer, Naming
-  minDependencies: 2,
-};
+  subPattern: {
+    patterns: {
+      [IndexContainer.SIGNATURE]: ValidatorQuantifiers.ONE,
+      [Naming.SIGNATURE]: ValidatorQuantifiers.ONE,
+    },
+  },
+});
 
-export { Validator, SIGNATURE };
+export default PillValidator;
