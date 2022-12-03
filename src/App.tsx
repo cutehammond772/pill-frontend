@@ -7,7 +7,6 @@ import HomePage from "./pages/home/";
 import NotFoundPage from "./pages/error/not-found";
 import { MyPillPage } from "./pages/my-pill";
 import ExplorePage from "./pages/explore";
-import AboutPage from "./pages/about";
 import CreatePreviewPage from "./pages/create-preview";
 import UserPage from "./pages/user";
 import PillPage from "./pages/pill";
@@ -70,7 +69,6 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/my" element={<MyPillPage />} />
             <Route path="/explore" element={<ExplorePage />} />
-            <Route path="/about" element={<AboutPage />} />
 
             {/* CreateHeader */}
             <Route path="/create" element={<CreatePage />} />

@@ -3,6 +3,7 @@ import { I18N, I18NMapper } from ".";
 const ENGTexts: I18NMapper = {
 
   [I18N.HEADER_01]: "Undefined",
+  [I18N.HEADER_02]: "Back to Home",
 
   [I18N.HEADER_EMPTY_01]: "Home",
   [I18N.HEADER_EMPTY_02]: "Default",
@@ -10,7 +11,6 @@ const ENGTexts: I18NMapper = {
   [I18N.HEADER_DEFAULT_01]: "Home",
   [I18N.HEADER_DEFAULT_02]: "My Pill",
   [I18N.HEADER_DEFAULT_03]: "Explore",
-  [I18N.HEADER_DEFAULT_04]: "About",
 
   [I18N.HEADER_CREATE_01]: "Editor",
   [I18N.HEADER_CREATE_02]: "Preview",
@@ -84,17 +84,16 @@ const ENGTexts: I18NMapper = {
   [I18N.PAGE_NOT_FOUND_01]: "404 - Not Found.",
   [I18N.PAGE_NOT_FOUND_02]: "Back to Home",
   [I18N.PAGE_NOT_FOUND_03]: "Back to Previous Page",
-
-  [I18N.AUTH_01]: "Login",
-  [I18N.AUTH_02]: "Logout",
-
+  
   [I18N.PROFILE_01]: "Guest",
-
-  [I18N.TAB_01]: "Welcome, Guest!",
-  [I18N.TAB_02]: "Sign up with just one button without complicated registration process, and enjoy a variety of pills!",
-  [I18N.TAB_03]: "Menu",
-  [I18N.TAB_04]: "Recent Comments",
-  [I18N.TAB_05]: "Recent {0} (+{1})",
+  
+  [I18N.TAB_01]: "Sign up with just one button without complicated registration process, and enjoy a variety of pills!",
+  [I18N.TAB_02]: "Unknown",
+  [I18N.TAB_03]: "Notifications Not Found.",
+  [I18N.TAB_04]: "Login",
+  [I18N.TAB_05]: "Manage",
+  [I18N.TAB_06]: "Logout",
+  [I18N.TAB_07]: "Notifications (+{0})",
 
   [I18N.TABLET_01]: "Untitled",
   [I18N.TABLET_02]: "Unknown",

@@ -101,7 +101,6 @@ const ImageContentModal = (props: ImageContentModalProps) => {
       open={props.open}
       onClose={() => safeClose(false)}
       layout={Style.Layout}
-      closeButton
     >
       <Style.ImagePreview>
         {confirm ? (

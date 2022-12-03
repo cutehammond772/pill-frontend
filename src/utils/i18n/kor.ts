@@ -3,6 +3,7 @@ import { I18N, DefaultI18NMapper } from "./index";
 const KORTexts: DefaultI18NMapper = {
 
     [I18N.HEADER_01]: "메뉴 없음",
+    [I18N.HEADER_02]: "홈으로 돌아가기",
 
     [I18N.HEADER_EMPTY_01]: "홈",
     [I18N.HEADER_EMPTY_02]: "기본 페이지",
@@ -10,7 +11,6 @@ const KORTexts: DefaultI18NMapper = {
     [I18N.HEADER_DEFAULT_01]: "홈",
     [I18N.HEADER_DEFAULT_02]: "내 Pill",
     [I18N.HEADER_DEFAULT_03]: "찾아보기",
-    [I18N.HEADER_DEFAULT_04]: "About",
 
     [I18N.HEADER_CREATE_01]: "편집",
     [I18N.HEADER_CREATE_02]: "미리보기",
@@ -85,16 +85,15 @@ const KORTexts: DefaultI18NMapper = {
     [I18N.PAGE_NOT_FOUND_02]: "홈으로 돌아가기",
     [I18N.PAGE_NOT_FOUND_03]: "이전 페이지로 돌아가기",
 
-    [I18N.AUTH_01]: "로그인",
-    [I18N.AUTH_02]: "로그아웃",
-
     [I18N.PROFILE_01]: "손님",
 
-    [I18N.TAB_01]: "환영합니다!",
-    [I18N.TAB_02]: "복잡한 가입 과정 없이 버튼 하나로 가입하시고, 다양한 Pill을 누려보세요!",
-    [I18N.TAB_03]: "메뉴",
-    [I18N.TAB_04]: "최근 등록된 댓글",
-    [I18N.TAB_05]: "최근 {0} (+{1})",
+    [I18N.TAB_01]: "복잡한 가입 과정 없이 버튼 하나로 가입하시고, 다양한 Pill을 누려보세요!",
+    [I18N.TAB_02]: "이름 없음",
+    [I18N.TAB_03]: "알림이 없습니다.",
+    [I18N.TAB_04]: "로그인",
+    [I18N.TAB_05]: "관리",
+    [I18N.TAB_06]: "로그아웃",
+    [I18N.TAB_07]: "알림 (+{0})",
 
     [I18N.TABLET_01]: "제목 없음",
     [I18N.TABLET_02]: "작성자 미상",

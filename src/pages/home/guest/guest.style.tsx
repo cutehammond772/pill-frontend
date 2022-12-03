@@ -16,19 +16,20 @@ export const Container = styled.div`
     row-gap: 100px;
     align-items: stretch;
   }
-`;
 
-export const Text = styled.h1`
-  margin-top: 256px;
-  color: var(--dark);
+  & > .content {
+    margin-top: 256px;
+    color: var(--dark);
 
-  font-size: 2.5rem;
-  word-break: keep-all;
+    font-weight: 700;
+    font-size: 2.5rem;
+    word-break: keep-all;
 
-  // mobile
-  @media screen and (max-width: 768px) {
-    margin-top: 192px;
-    font-size: 2rem;
+    // mobile
+    @media screen and (max-width: 768px) {
+      margin-top: 192px;
+      font-size: 2rem;
+    }
   }
 `;
 

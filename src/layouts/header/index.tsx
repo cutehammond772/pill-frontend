@@ -18,6 +18,7 @@ import { I18N } from "../../utils/i18n";
 
 interface HeaderProps<E extends Menus> {
   onHomeClick?: () => void;
+  homeMenuOnDropdown?: boolean;
   menu: MenuProps<E>;
 }
 
@@ -41,17 +42,15 @@ const Header = <E extends Menus>(props: HeaderProps<E>) => {
 
   // 특정 함수를 호출하기 전에 아이템의 클릭 이벤트 허용 여부를 확인한다.
   const checkPrevention = useCallback(
-    <T extends Function>(callback: T) => {
-      if (preventClick) return () => {};
-
-      return callback;
-    },
+    <T extends Function>(callbackFn: T) =>
+      preventClick ? () => {} : callbackFn,
     [preventClick]
   );
 
   const handleDropdownMenu = useCallback(
     (menu: E[keyof E]) => {
       checkPrevention(() => {
+        // 메뉴를 누를 때마다 드롭다운이 닫히는 효과를 준다.
         setDropdown(false);
         props.menu.onClick(menu);
       })();
@@ -59,16 +58,25 @@ const Header = <E extends Menus>(props: HeaderProps<E>) => {
     [checkPrevention, props.menu]
   );
 
+  const handleBackToHomeMenu = useCallback(
+    () =>
+      checkPrevention(() => {
+        (props.onHomeClick || (() => navigate("/")))();
+      })(),
+    [checkPrevention, navigate, props.onHomeClick]
+  );
+
   useEffect(() => {
     if (!dropdownRef.current) {
       return;
     }
 
-    dropdownRef.current.style.height = dropdown
-      ? `${menus.length * 60 - 20}px`
-      : "0px";
+    let dropdownHeight = menus.length * 60 - 20;
+    !!props.homeMenuOnDropdown && (dropdownHeight += 60);
+
+    dropdownRef.current.style.height = dropdown ? `${dropdownHeight}px` : "0px";
     dropdownRef.current.style.paddingBottom = dropdown ? "20px" : "0px";
-  }, [menus, dropdown]);
+  }, [menus, dropdown, props.homeMenuOnDropdown]);
 
   useEffect(() => {
     !!headerRef?.current &&
@@ -121,6 +129,11 @@ const Header = <E extends Menus>(props: HeaderProps<E>) => {
             </div>
           );
         })}
+        {!!props.homeMenuOnDropdown && (
+          <div className="menu" onClick={handleBackToHomeMenu}>
+            {text(I18N.HEADER_02)}
+          </div>
+        )}
       </div>
     </Style.Header>
   );

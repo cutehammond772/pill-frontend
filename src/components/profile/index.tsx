@@ -8,16 +8,16 @@ import { useAuth } from "../../utils/hooks/auth";
 
 const Profile = () => {
   const auth = useAuth();
-  const [checked, setChecked] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
       <Style.Profile>
         {auth.authorized && <ProfilePointInfo point={30000} />}
-        <ProfileAvatar onClick={() => setChecked(!checked)} />
+        <ProfileAvatar onClick={() => setOpen(!open)} />
       </Style.Profile>
 
-      <ProfileTab checked={checked} onClose={() => setChecked(false)} />
+      <ProfileTab open={open} onClose={() => setOpen(false)} />
     </>
   );
 };

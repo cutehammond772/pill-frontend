@@ -50,6 +50,8 @@ export const Header = styled.header`
       line-height: 100%;
       font-size: 2.5rem;
 
+      cursor: pointer;
+
       color: var(--light);
 
       :hover {

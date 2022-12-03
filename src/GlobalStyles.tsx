@@ -217,21 +217,20 @@ const style = css`
     --mobile: 576px;
   }
 
-  html {
-    width: 100%;
-    height: 100%;
-
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-  }
-
-  body {
-    width: 100%;
-    height: auto;
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
 
     position: relative;
-    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
+
 `;
 
 const GlobalStyles = () => {

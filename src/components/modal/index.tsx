@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useRef, useEffect, useState } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 
 import * as Style from "./modal.style";
 import { SerializedStyles } from "@emotion/react";
@@ -10,8 +9,6 @@ export interface ModalProps extends React.PropsWithChildren {
   onClose: () => void;
 
   layout: SerializedStyles;
-
-  closeButton?: boolean;
   dialogMode?: boolean;
   duration?: number;
 }
@@ -69,16 +66,6 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
         duration={props.duration || DEFAULT_DURATION}
       >
         {props.children}
-        {!!props?.closeButton && (
-          <Style.CloseButton
-            size="sm"
-            color="neutral"
-            variant="plain"
-            onClick={props.onClose}
-          >
-            <CloseIcon />
-          </Style.CloseButton>
-        )}
       </Style.Modal>
     </Style.Backdrop>
   );

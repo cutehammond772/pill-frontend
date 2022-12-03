@@ -1,114 +1,53 @@
 import * as React from "react";
-import * as config from "../../../config";
-import { useLayoutEffect, useRef } from "react";
-
-import Divider from "./tab.divider";
 import * as Style from "./tab.style";
 
-import ReceivedComments from "./received-comments";
-
-import { ManageProfileButton, MyPillButton } from "./tab.menu";
-
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import { AuthButtonProps, Login, Logout } from "../../auth";
+import { useRef, useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
-import Modal from "../../modal";
 import { useI18n } from "../../../utils/hooks/i18n";
+import { DefaultModal } from "../../modal/default";
+import { GuestBanner, NotificationBanner, UserBanner } from "./banner";
+
+import { GuestMenu } from "./menu";
 import { I18N } from "../../../utils/i18n";
 
-const LOGIN_PROPS: AuthButtonProps = {
-  redirect: config.INDEX,
-  provider: "google",
-};
-
-const LOGOUT_PROPS: AuthButtonProps = {
-  redirect: config.INDEX,
-};
-
-const Dummy = {
-  comments: [
-    {
-      title: "Brunch this weekend?",
-      userName: "cutehammond",
-      comment:
-        "I'll be in your neighborhood doing errands this Tuesday. I'll be in your...",
-      key: 0,
-    },
-    {
-      title: "Summer BBQ",
-      userName: "udonehn",
-      comment: "Wish I could come, but I'm out of town.",
-      key: 1,
-    },
-  ],
-
-  stats: {
-    timeUnit: "24h",
-    commentsCount: 102,
-  },
-};
-
 interface ProfileTabProps {
-  checked: boolean;
+  open: boolean;
   onClose: () => void;
 }
 
 const ProfileTab = (props: ProfileTabProps) => {
   const { text } = useI18n();
-
-  const modalRef = useRef<HTMLDivElement>(null);
-  const headerHeight = useSelector(
-    (state: RootState) => state.page.headerHeight
-  );
-
   const profile = useSelector((state: RootState) => state.profile);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useLayoutEffect(() => {
-    if (!!modalRef?.current) {
-      modalRef.current.style.top = `${headerHeight + 20}px`;
+    if (props.open) {
+      !!containerRef?.current && containerRef.current.focus();
     }
-  }, [modalRef, headerHeight]);
+  }, [props.open]);
 
   return (
-    <Modal
-      onClose={props.onClose}
-      open={props.checked}
-      layout={Style.Layout}
-      ref={modalRef}
-    >
-      {!profile.userName ? (
-        <>
-          <Style.Title>{text(I18N.TAB_01)}</Style.Title>
-          <Style.GuestBanner>
-            <ThumbUpIcon className="icon" />
-            <span className="content">{text(I18N.TAB_02)}</span>
-          </Style.GuestBanner>
-
-          <Divider title={text(I18N.TAB_03)} />
-          <Style.Menu>
-            <Login {...LOGIN_PROPS} />
-          </Style.Menu>
-        </>
-      ) : (
-        <>
-          <Style.Title>{profile.userName}</Style.Title>
-
-          <Divider title={text(I18N.TAB_04)} />
-          <ReceivedComments
-            receivedComments={Dummy.comments}
-            stats={Dummy.stats}
-          />
-
-          <Divider title={text(I18N.TAB_03)} />
-          <Style.Menu>
-            <MyPillButton onClick={() => {}} />
-            <ManageProfileButton onClick={() => {}} />
-            <Logout {...LOGOUT_PROPS} />
-          </Style.Menu>
-        </>
-      )}
-    </Modal>
+    <DefaultModal {...props}>
+      <Style.Container ref={containerRef}>
+        {!profile.userName ? (
+          <>
+            <GuestBanner text={text} />
+            <GuestMenu text={text} />
+          </>
+        ) : (
+          <>
+            <UserBanner
+              userName={profile.userName || text(I18N.TAB_02)}
+              text={text}
+            />
+            {/* <EmptyNotificationBanner text={text} /> */}
+            <NotificationBanner text={text} count={5} />
+          </>
+        )}
+      </Style.Container>
+    </DefaultModal>
   );
 };
 

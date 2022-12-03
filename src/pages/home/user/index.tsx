@@ -26,7 +26,12 @@ const UserHome = () => {
           <span className="content">{text(I18N.PAGE_USER_05)}</span>
         </div>
 
-        <div className="button">
+        <div
+          className="button"
+          onClick={() => {
+            navigate("/explore");
+          }}
+        >
           <ExploreIcon className="icon" />
           <span className="title">{text(I18N.PAGE_USER_06)}</span>
           <span className="content">{text(I18N.PAGE_USER_07)}</span>

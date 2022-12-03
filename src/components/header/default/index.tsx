@@ -11,14 +11,12 @@ export const DefaultMenus: Menus = {
   HOME: I18N.HEADER_DEFAULT_01,
   MY_PILL: I18N.HEADER_DEFAULT_02,
   EXPLORE: I18N.HEADER_DEFAULT_03,
-  ABOUT: I18N.HEADER_DEFAULT_04,
 } as const;
 
 const mapper = {
   [DefaultMenus.HOME]: "",
   [DefaultMenus.MY_PILL]: "my",
   [DefaultMenus.EXPLORE]: "explore",
-  [DefaultMenus.ABOUT]: "about",
 };
 
 const DefaultHeader = () => {

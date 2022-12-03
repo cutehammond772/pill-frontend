@@ -102,6 +102,7 @@ const CreateHeader = () => {
           onClick: handleClick,
         }}
         onHomeClick={handleHomeClick}
+        homeMenuOnDropdown
       />
 
       <ConfirmModal
