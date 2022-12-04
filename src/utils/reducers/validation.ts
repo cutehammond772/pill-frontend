@@ -27,6 +27,7 @@ const initialState: ValidationState = {
 };
 
 export const ActionTypes = {
+  CLEAR: `${REDUCER_NAME}/CLEAR`,
   SET_VALIDATION: `${REDUCER_NAME}/SET_VALIDATION`,
   REMOVE_VALIDATION: `${REDUCER_NAME}/REMOVE_VALIDATION`,
 
@@ -46,7 +47,8 @@ export const ActionTypes = {
 } as const;
 
 export const InternalActions = {
-  // For Reducer
+  clear: createAction<{ prefix: string }>(ActionTypes.CLEAR),
+
   setValidation: createAction<{
     validatorID: string;
     validation: Validation;
@@ -78,7 +80,6 @@ export const InternalActions = {
     ActionTypes.REMOVE_VALIDATOR
   ),
 
-  // For Saga
   sagaAddSubValidator: createAction<{
     validatorID: string;
     subValidatorID: string;
@@ -91,7 +92,6 @@ export const InternalActions = {
 } as const;
 
 export const Actions = {
-  // For Saga
   updateValidation: createAction<{
     validatorID: string;
     validation?: Validation;
@@ -109,6 +109,18 @@ export const Actions = {
 const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
 
 const validationReducer = createReducer(initialState, {
+  [ActionTypes.CLEAR]: (
+    state,
+    action: ReturnType<typeof InternalActions.clear>
+  ) => {
+    const validatorIDs = Object.keys(state.validators).filter((validatorID) =>
+      validatorID.startsWith(action.payload.prefix)
+    );
+
+    Map.removeAll(state.data, validatorIDs, option);
+    Map.removeAll(state.subs, validatorIDs, option);
+    Map.removeAll(state.validators, validatorIDs, option);
+  },
   [ActionTypes.SET_VALIDATION]: (
     state,
     action: ReturnType<typeof InternalActions.setValidation>

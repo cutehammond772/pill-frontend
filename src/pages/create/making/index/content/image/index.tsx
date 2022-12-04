@@ -23,7 +23,10 @@ import {
   usePillIndexEditor,
 } from "../../../../../../utils/hooks/editor";
 import { IndexContentProps } from "../content.type";
-import { useValidation } from "../../../../../../utils/hooks/validation";
+import {
+  useValidation,
+  useValidator,
+} from "../../../../../../utils/hooks/validation";
 import { useI18n } from "../../../../../../utils/hooks/i18n";
 import { I18N } from "../../../../../../utils/i18n";
 
@@ -65,29 +68,27 @@ export const AddImageButton = (props: AddImageButtonProps) => {
 export const ImageContent = (props: IndexContentProps) => {
   const { text } = useI18n();
   const editor = usePillContentEditor(props.id, props.contentId);
-  const validator = useValidation(ImageValidator(props.contentId, props.id));
+  const validator = useValidator(ImageValidator(props.contentId, props.id));
 
   const [open, setOpen] = useState<boolean>(false);
 
   const handleUpdateImage = (link: string, description: string) => {
     editor.update(link, description);
-    validator.validate({ link, description });
   };
 
   const handleExchange = (relation: number) => {
     props.onExchange(relation);
-    
-    // 수정*
-    validator.validate({
-      link: editor.content.content,
-      description: editor.content.subContent,
-    });
   };
 
   const handleRemove = () => {
     editor.remove();
     validator.remove();
   };
+
+  useValidation(validator.validate, {
+    link: editor.content.content,
+    description: editor.content.subContent,
+  });
 
   return (
     <Style.Container layout={ImageContentLayout}>

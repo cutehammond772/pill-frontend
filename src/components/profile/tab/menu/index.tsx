@@ -7,7 +7,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { I18N, I18nProps } from "../../../../utils/i18n";
-import { NavigateFunction, useNavigate } from "react-router-dom";
+import { usePageNavigate } from "../../../../utils/hooks/page-navigate";
 
 export const UserMenu = React.memo((props: I18nProps) => (
   <Style.Menu>
@@ -34,8 +34,8 @@ const LoginMenuButton = React.memo((props: I18nProps) => (
 ));
 
 const ManageMenuButton = (props: I18nProps) => {
-  const navigate = useNavigate();
-  return <MemoizedManageMenuButton navigate={navigate} {...props} />;
+  const { navigate } = usePageNavigate();
+  return <MemoizedManageMenuButton navigate={ navigate } {...props} />;
 };
 
 const LogoutMenuButton = React.memo((props: I18nProps) => (
@@ -50,7 +50,7 @@ const LogoutMenuButton = React.memo((props: I18nProps) => (
 ));
 
 const MemoizedManageMenuButton = React.memo(
-  (props: I18nProps & { navigate: NavigateFunction }) => (
+  (props: I18nProps & { navigate: (to: string) => void }) => (
     <Style.MenuButton>
       <ManageAccountsIcon />
       <div onClick={() => props.navigate("/manage")}>

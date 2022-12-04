@@ -18,7 +18,10 @@ import {
 } from "../../../../../../utils/hooks/editor";
 import { PillContentType } from "../../../../../../utils/pill/pill.type";
 import { IndexContentProps } from "../content.type";
-import { useValidation } from "../../../../../../utils/hooks/validation";
+import {
+  useValidation,
+  useValidator,
+} from "../../../../../../utils/hooks/validation";
 import { useI18n } from "../../../../../../utils/hooks/i18n";
 import { I18N } from "../../../../../../utils/i18n";
 
@@ -49,30 +52,23 @@ export const AddTextButton = (props: AddTextButtonProps) => {
 export const TextContent = (props: IndexContentProps) => {
   const { text } = useI18n();
   const editor = usePillContentEditor(props.id, props.contentId);
-  const validator = useValidation(TextValidator(props.contentId, props.id));
-
-  const [content, setContent] = useState<string>(editor.content.content);
+  const validator = useValidator(TextValidator(props.contentId, props.id));
 
   const handleText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
-
-    setContent(value);
     editor.update(value);
-
-    validator.validate({ content: value });
   };
 
   const handleExchange = (relation: number) => {
     props.onExchange(relation);
-
-    // 수정*
-    validator.validate({ content: editor.content.content });
   };
 
   const handleRemove = () => {
     editor.remove();
     validator.remove();
   };
+
+  useValidation(validator.validate, { content: editor.content.content });
 
   return (
     <Style.Container layout={TextContentLayout}>
@@ -127,7 +123,7 @@ export const TextContent = (props: IndexContentProps) => {
           fontSize: "20px",
         }}
         onChange={handleText}
-        value={content || ""}
+        value={editor.content.content || ""}
       />
     </Style.Container>
   );

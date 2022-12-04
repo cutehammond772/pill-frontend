@@ -36,8 +36,8 @@ const IndexValidator = (id: string): Validator<Data> => ({
   validatorID: validatorID(SIGNATURE, id),
   signature: SIGNATURE,
   validators: {
-    [TitleValidator.name]: TitleValidator,
-    [ContentValidator.name]: ContentValidator,
+    title: TitleValidator,
+    content: ContentValidator,
   },
 
   top: validatorID(IndexContainer.SIGNATURE),

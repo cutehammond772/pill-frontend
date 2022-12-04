@@ -14,7 +14,7 @@ import { AddCategoryButton, CategoryButton } from "./category";
 import { Collapse } from "@mui/material";
 
 import NamingValidator from "../../../utils/validators/create/naming";
-import { useValidation } from "../../../utils/hooks/validation";
+import { useValidation, useValidator } from "../../../utils/hooks/validation";
 import { useI18n } from "../../../utils/hooks/i18n";
 import { I18N } from "../../../utils/i18n";
 import { useSelector } from "react-redux";
@@ -22,7 +22,7 @@ import { RootState } from "../../../utils/reducers";
 
 export const Content = () => {
   const { text } = useI18n();
-  const validator = useValidation(NamingValidator());
+  const validator = useValidator(NamingValidator());
   const validation = validator.validation;
 
   const editor = usePillDefaultEditor();
@@ -36,29 +36,17 @@ export const Content = () => {
 
     setTitle(value);
     editor.updateTitle(value);
-
-    // 수정*
-    validator.validate({
-      title: value,
-    });
   };
+
+  useValidation(validator.validate, { title: editor.title });
+  useValidation(validator.validate, { categories: editor.categories.length });
 
   const handleCategoryAdd = (category: string) => {
     editor.addCategory(category);
-
-    // 수정*
-    validator.validate({
-      categories: editor.categories.length,
-    });
   };
 
   const handleCategoryRemove = (categoryId: string) => {
     editor.removeCategory(categoryId);
-
-    // 수정*
-    validator.validate({
-      categories: editor.categories.length,
-    });
   };
 
   const isCategoryRemoved = (categoryId: string) =>

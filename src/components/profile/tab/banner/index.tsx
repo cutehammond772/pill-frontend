@@ -75,21 +75,43 @@ export const NotificationBanner = React.memo(
         icon={<AcUnitIcon />}
         title="테스트 알림: Cutehammond"
         content="응애 내이름은 이정헌"
+        onClick={() => alert("응애")}
+        onRemove={() => alert("응애2")}
       />
       <Notification
         icon={<AcUnitIcon />}
         title="테스트 알림: Cutehammond"
         content="응애 내이름은 이정헌"
+        onClick={() => alert("응애")}
+        onRemove={() => alert("응애2")}
       />
       <Notification
         icon={<AcUnitIcon />}
         title="테스트 알림: Cutehammond"
         content="응애 내이름은 이정헌"
+        onClick={() => alert("응애")}
+        onRemove={() => alert("응애2")}
       />
       <Notification
         icon={<AcUnitIcon />}
         title="테스트 알림: Cutehammond"
         content="응애 내이름은 이정헌"
+        onClick={() => alert("응애")}
+        onRemove={() => alert("응애2")}
+      />
+      <Notification
+        icon={<AcUnitIcon />}
+        title="테스트 알림: Cutehammond"
+        content="응애 내이름은 이정헌"
+        onClick={() => alert("응애")}
+        onRemove={() => alert("응애2")}
+      />
+      <Notification
+        icon={<AcUnitIcon />}
+        title="테스트 알림: Cutehammond"
+        content="응애 내이름은 이정헌"
+        onClick={() => alert("응애")}
+        onRemove={() => alert("응애2")}
       />
     </Banner>
   )

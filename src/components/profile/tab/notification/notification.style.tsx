@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Notification = styled.div`
+  position: relative;
   width: auto;
   height: auto;
 
@@ -39,5 +40,43 @@ export const Notification = styled.div`
     word-break: keep-all;
   }
 
-  background: rgba(255, 255, 255, 0.6);
+  & > .remove {
+    width: auto;
+    height: auto;
+
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    font-size: 1rem;
+
+    color: var(--dark);
+  }
+
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.3);
+
+  :hover {
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  transition: background 300ms;
+
+  @media screen and (max-width: 768px) {
+    & > .icon {
+      & > * {
+        font-size: 3rem;
+      }
+    }
+
+    & > .title {
+      font-size: 1.5rem;
+    }
+
+    & > .content {
+      font-size: 1.25rem;
+    }
+  }
 `;

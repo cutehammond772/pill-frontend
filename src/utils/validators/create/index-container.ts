@@ -24,7 +24,7 @@ const DefaultValidator = begin<Data>()
 const IndexContainerValidator = (): Validator<Data> => ({
   validatorID: validatorID(SIGNATURE),
   signature: SIGNATURE,
-  validators: { [DefaultValidator.name]: DefaultValidator },
+  validators: { default: DefaultValidator },
 
   top: validatorID(Pill.SIGNATURE),
   subPattern: { patterns: { [Index.SIGNATURE]: ValidatorQuantifiers.EXIST } },

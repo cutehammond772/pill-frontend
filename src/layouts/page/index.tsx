@@ -6,7 +6,7 @@ import { useRef, useLayoutEffect, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../utils/reducers";
 import useResizeObserver from "@react-hook/resize-observer";
-import { Actions as actions } from "../../utils/reducers/page";
+import { Actions as actions } from "../../utils/reducers/page/size";
 
 interface PageProps extends React.PropsWithChildren {
   layout?: SerializedStyles;

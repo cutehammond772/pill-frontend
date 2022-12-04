@@ -54,35 +54,36 @@ const validator = <T extends {}>(
   element: T,
   sequence: ValidationSequence<T>
 ): ElementValidationResponse => {
-  const response: ElementValidationResponse = {
-    type: type.VALID,
-    messages: [],
-  };
-
   let isPassed = false;
 
-  sequence.functions.reduce((response, fn) => {
-    if (
-      (!!sequence.firstInvalidOnly && response.type === type.INVALID) ||
-      isPassed
-    ) {
-      return response;
-    }
-
-    const { valid, message, pass } = fn(element);
-
-    if (!valid) {
-      if (!!pass) {
-        isPassed = true;
+  const response = sequence.functions.reduce(
+    (response, fn) => {
+      if (
+        (!!sequence.firstInvalidOnly && response.type === type.INVALID) ||
+        isPassed
+      ) {
         return response;
       }
 
-      !!message && response.messages.push(message);
-      response.type = type.INVALID;
-    }
+      const { valid, message, pass } = fn(element);
 
-    return isPassed ? { type: type.EMPTY, messages: [] } : response;
-  }, response);
+      if (!valid) {
+        if (!!pass) {
+          isPassed = true;
+          return response;
+        }
 
-  return response;
+        !!message && response.messages.push(message);
+        response.type = type.INVALID;
+      }
+
+      return response;
+    },
+    {
+      type: type.VALID,
+      messages: [],
+    } as ElementValidationResponse
+  );
+
+  return isPassed ? { type: type.EMPTY, messages: [] } : response;
 };

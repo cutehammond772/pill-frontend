@@ -19,7 +19,7 @@ const TextContent = begin<Data>()
 const TextValidator = (contentId: string, topId: string): Validator<Data> => ({
   validatorID: validatorID(SIGNATURE, contentId),
   signature: SIGNATURE,
-  validators: { [TextContent.name]: TextContent },
+  validators: { text: TextContent },
   top: validatorID(Index.SIGNATURE, topId),
 });
 

@@ -3,12 +3,12 @@ import * as Style from "./user.style";
 
 import AddIcon from "@mui/icons-material/Add";
 import ExploreIcon from "@mui/icons-material/Explore";
-import { useNavigate } from "react-router-dom";
 import { useI18n } from "../../../utils/hooks/i18n";
 import { I18N } from "../../../utils/i18n";
+import { usePageNavigate } from "../../../utils/hooks/page-navigate";
 
 const UserHome = () => {
-  const navigate = useNavigate();
+  const { navigate } = usePageNavigate();
   const { text } = useI18n();
 
   return (

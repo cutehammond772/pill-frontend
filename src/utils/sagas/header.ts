@@ -1,5 +1,5 @@
 import { all, put, fork, take } from "redux-saga/effects";
-import { ActionTypes as PageTransitionActionTypes } from "../reducers/page-transition";
+import { ActionTypes as PageTransitionActionTypes } from "../reducers/page/transition";
 import { Actions as headerActions } from "../reducers/header";
 
 // Transition(페이지 전환)이 진행 중이면 메뉴의 클릭을 막는다.

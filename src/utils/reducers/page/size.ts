@@ -1,6 +1,6 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
-export const REDUCER_NAME = "page";
+export const REDUCER_NAME = "page/size";
 
 export interface PageState {
   pageHeight: number;

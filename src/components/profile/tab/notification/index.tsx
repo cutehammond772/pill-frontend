@@ -7,13 +7,22 @@ interface NotificationProps {
 
   icon: React.ReactElement;
   onClick?: () => void;
+  onRemove?: () => void;
 }
 
 export const Notification = React.memo((props: NotificationProps) => (
-  <Style.Notification>
+  <Style.Notification onClick={props.onClick}>
     <div className="icon">{props.icon}</div>
     <div className="title">{props.title}</div>
     <div className="content">{props.content}</div>
-    {/* onClose */}
+    <div
+      className="remove"
+      onClick={(event) => {
+        event.stopPropagation();
+        !!props.onRemove && props.onRemove();
+      }}
+    >
+      지우기
+    </div>
   </Style.Notification>
 ));

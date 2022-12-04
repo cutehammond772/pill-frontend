@@ -3,12 +3,14 @@ import { combineReducers } from "redux";
 import authReducer from "./auth";
 import headerReducer from "./header";
 import i18nReducer from "./i18n";
-import pageReducer from "./page";
+import pageReducer from "./page/size";
 import editorReducer from "./editor";
 import rollbackReducer from "./rollback";
 import profileReducer from "./profile";
 import validationReducer from "./validation";
-import pageTransitionReducer from "./page-transition";
+import pageTransitionReducer from "./page/transition";
+import pageNavigateReducer from "./page/navigate";
+import pageEventReducer from "./page/event";
 
 const rootReducer = combineReducers({
     profile: profileReducer,
@@ -20,6 +22,8 @@ const rootReducer = combineReducers({
     validation: validationReducer,
     i18n: i18nReducer,
     pageTransition: pageTransitionReducer,
+    pageNavigate: pageNavigateReducer,
+    pageEvent: pageEventReducer,
 });
 
 type RootState = ReturnType<typeof rootReducer>;

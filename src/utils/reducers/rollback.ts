@@ -27,7 +27,6 @@ const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
 
 export const ActionTypes = {
   RESET: `${REDUCER_NAME}/RESET`,
-
   CAPTURE_INDEX: `${REDUCER_NAME}/CAPTURE_INDEX`,
   REMOVE_INDEX: `${REDUCER_NAME}/REMOVE_INDEX`,
 
@@ -35,8 +34,7 @@ export const ActionTypes = {
   REMOVE_CONTENT: `${REDUCER_NAME}/REMOVE_CONTENT`,
 } as const;
 
-export const Actions = {
-  // For Reducer
+export const InternalActions = {
   reset: createAction(ActionTypes.RESET),
 
   captureIndex: createAction<{ data: PillIndexData }>(
@@ -54,17 +52,17 @@ export const Actions = {
 
 const rollbackReducer = createReducer(initialState, {
   [ActionTypes.RESET]: () => initialState,
-
+  
   [ActionTypes.CAPTURE_INDEX]: (
     state,
-    action: ReturnType<typeof Actions.captureIndex>
+    action: ReturnType<typeof InternalActions.captureIndex>
   ) => {
     Array.push(copyIndex(action.payload.data), state.indexes, option);
   },
 
   [ActionTypes.REMOVE_INDEX]: (
     state,
-    action: ReturnType<typeof Actions.removeIndex>
+    action: ReturnType<typeof InternalActions.removeIndex>
   ) => {
     Array.removeAll(
       (index) => index.id === action.payload.id,
@@ -75,14 +73,14 @@ const rollbackReducer = createReducer(initialState, {
 
   [ActionTypes.CAPTURE_CONTENT]: (
     state,
-    action: ReturnType<typeof Actions.captureContent>
+    action: ReturnType<typeof InternalActions.captureContent>
   ) => {
     Array.push({ ...action.payload.data }, state.contents, option);
   },
 
   [ActionTypes.REMOVE_CONTENT]: (
     state,
-    action: ReturnType<typeof Actions.removeContent>
+    action: ReturnType<typeof InternalActions.removeContent>
   ) => {
     Array.removeAll(
       (content) => content.contentId === action.payload.contentId,

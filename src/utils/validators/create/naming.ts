@@ -32,8 +32,8 @@ const NamingValidator = (): Validator<Data> => ({
   validatorID: validatorID(SIGNATURE),
   signature: SIGNATURE,
   validators: {
-    [TitleValidator.name]: TitleValidator,
-    [CategoryValidator.name]: CategoryValidator,
+    title: TitleValidator,
+    category: CategoryValidator,
   },
 
   top: validatorID(Pill.SIGNATURE),

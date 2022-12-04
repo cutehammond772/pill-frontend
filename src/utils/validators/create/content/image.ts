@@ -20,7 +20,7 @@ const ImageContent = begin<Data>()
 const ImageValidator = (contentId: string, topId: string): Validator<Data> => ({
   validatorID: validatorID(SIGNATURE, contentId),
   signature: SIGNATURE,
-  validators: { [ImageContent.name]: ImageContent },
+  validators: { image: ImageContent },
   
   top: validatorID(Index.SIGNATURE, topId),
 });

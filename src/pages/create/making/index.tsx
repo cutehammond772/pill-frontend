@@ -7,7 +7,7 @@ import { Collapse } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import { usePillDefaultEditor } from "../../../utils/hooks/editor";
-import { useValidation } from "../../../utils/hooks/validation";
+import { useValidator } from "../../../utils/hooks/validation";
 
 import IndexContainerValidator from "../../../utils/validators/create/index-container";
 import { useI18n } from "../../../utils/hooks/i18n";
@@ -17,7 +17,7 @@ export const Content = () => {
   const { text } = useI18n();
   const editor = usePillDefaultEditor();
   const indexes = useSelector((state: RootState) => state.editor.indexes);
-  const validator = useValidation(IndexContainerValidator());
+  const validator = useValidator(IndexContainerValidator());
   const validation = validator.validation;
 
   return (

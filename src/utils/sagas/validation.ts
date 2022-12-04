@@ -361,27 +361,24 @@ const validatorFlow = function* (action: RegisterValidatorAction) {
     }
 
     // 3-3. 하위 Validator 추가 요청
-    if (
-      validatorAction.type === ActionTypes.SAGA_ADD_SUB_VALIDATOR &&
-      "subValidatorID" in validatorAction
-    ) {
-      const action: AddSubValidatorAction = validatorAction;
+    if (validatorAction.type === ActionTypes.SAGA_ADD_SUB_VALIDATOR) {
+      const action = validatorAction as AddSubValidatorAction;
 
       // 다른 Validator 요청이면 건너뛴다.
       if (action.payload.validatorID !== validatorID) {
         continue;
       }
 
-      // 하위 Validator를 추가한다.
-      yield put(internal.addSubValidator(action.payload));
-
-      // 추가될 때까지 기다린다.
-      yield call(
-        waitWithTimeout,
-        call(waitAddSubValidator, validatorID),
-        5000,
-        "[validatorFlow] 하위 Validator를 추가하는 데 실패하였습니다."
-      );
+      // 하위 Validator가 추가될 때까지 기다린다.
+      yield all([
+        put(internal.addSubValidator(action.payload)),
+        call(
+          waitWithTimeout,
+          call(waitAddSubValidator, validatorID),
+          5000,
+          "[validatorFlow] 하위 Validator를 추가하는 데 실패하였습니다."
+        ),
+      ]);
 
       // 일반적으로는 맨 처음에 모두 Validator가 추가되지만,
       // 나중에 다른 Validator와 의존 관계를 형성할 경우 검증 결과를 갱신하기 위한 목적이다.
@@ -389,27 +386,24 @@ const validatorFlow = function* (action: RegisterValidatorAction) {
     }
 
     // 3-4. 하위 Validator 삭제 요청
-    if (
-      validatorAction.type === ActionTypes.SAGA_REMOVE_SUB_VALIDATOR &&
-      "subValidatorID" in validatorAction
-    ) {
-      const action: RemoveSubValidatorAction = validatorAction;
+    if (validatorAction.type === ActionTypes.SAGA_REMOVE_SUB_VALIDATOR) {
+      const action = validatorAction as RemoveSubValidatorAction;
 
       // 다른 Validator 요청이면 건너뛴다.
       if (action.payload.validatorID !== validatorID) {
         continue;
       }
 
-      // 하위 Validator를 삭제한다.
-      yield put(internal.removeSubValidator(action.payload));
-
-      // 삭제될 때까지 기다린다.
-      yield call(
-        waitWithTimeout,
-        call(waitRemoveSubValidator, validatorID),
-        5000,
-        "[validatorFlow] 하위 Validator를 삭제하는 데 실패하였습니다."
-      );
+      // 하위 Validator가 삭제될 때까지 기다린다.
+      yield all([
+        put(internal.removeSubValidator(action.payload)),
+        call(
+          waitWithTimeout,
+          call(waitRemoveSubValidator, validatorID),
+          5000,
+          "[validatorFlow] 하위 Validator를 삭제하는 데 실패하였습니다."
+        ),
+      ]);
 
       yield put(actions.updateValidation({ validatorID }));
     }

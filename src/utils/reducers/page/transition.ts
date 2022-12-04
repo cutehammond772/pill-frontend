@@ -1,6 +1,6 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
 
-export const REDUCER_NAME = "transition";
+export const REDUCER_NAME = "page/transition";
 
 export const PageTransitions = {
   START: "START",
@@ -26,7 +26,6 @@ export const ActionTypes = {
 } as const;
 
 export const Actions = {
-  // For Reducer
   startTransition: createAction(ActionTypes.START_TRANSITION),
   inTransition: createAction(ActionTypes.IN_TRANSITION),
   endTransition: createAction(ActionTypes.END_TRANSITION),

@@ -14,16 +14,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../utils/reducers";
 import { PillContentData, PillContentType } from "../../utils/pill/pill.type";
 
-import { useNavigate } from "react-router-dom";
 import LikeButton from "./buttons/like";
 import { useI18n } from "../../utils/hooks/i18n";
 import { I18N } from "../../utils/i18n";
 import { format } from "../../utils/other/format";
+import { usePageNavigate } from "../../utils/hooks/page-navigate";
 
 const CreatePreviewPage = () => {
   const { text } = useI18n();
   usePageSelect(CreateHeaderSignature, CreateMenus.PREVIEW);
-  const navigate = useNavigate();
+  const { navigate } = usePageNavigate();
 
   const pill = useSelector((state: RootState) => state.editor);
   const profile = useSelector((state: RootState) => state.profile);
@@ -54,11 +54,11 @@ const CreatePreviewPage = () => {
         </Style.Title>
 
         <Style.Index>
-          <div className="index_title">
+          <div className="index-title">
             <ListIcon className="icon" />
             <span className="title">{text(I18N.PAGE_PREVIEW_02)}</span>
           </div>
-          <div className="index_list">
+          <div className="index-list">
             {pill.indexes.map((index, order) => (
               <div
                 className="index"

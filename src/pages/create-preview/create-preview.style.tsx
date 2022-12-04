@@ -104,7 +104,7 @@ export const Index = styled.div`
   justify-content: flex-start;
   align-items: stretch;
 
-  & > .index_title {
+  & > .index-title {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -122,7 +122,7 @@ export const Index = styled.div`
     }
   }
 
-  & > .index_list {
+  & > .index-list {
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;

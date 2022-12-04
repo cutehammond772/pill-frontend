@@ -4,17 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import useResizeObserver from "@react-hook/resize-observer";
 
 import { Profile } from "../../components/profile";
-import { Actions as actions } from "../../utils/reducers/page";
+import { Actions as actions } from "../../utils/reducers/page/size";
 import { Menus, MenuProps } from "../../utils/hooks/header/header.type";
 import HeaderMenu from "./menu/default";
 import { RootState } from "../../utils/reducers";
-import { useNavigate } from "react-router-dom";
 
 import * as Style from "./header.style";
 import Logo from "./logo";
 import PillMenu from "./menu/pill";
 import { useI18n } from "../../utils/hooks/i18n";
 import { I18N } from "../../utils/i18n";
+import { usePageNavigate } from "../../utils/hooks/page-navigate";
 
 interface HeaderProps<E extends Menus> {
   onHomeClick?: () => void;
@@ -27,7 +27,7 @@ const Header = <E extends Menus>(props: HeaderProps<E>) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { navigate } = usePageNavigate();
   const { text } = useI18n();
 
   const [dropdown, setDropdown] = useState<boolean>(false);

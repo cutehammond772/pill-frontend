@@ -1,6 +1,5 @@
 import { useAuth } from "../../utils/hooks/auth";
 import * as Style from "./create.style";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
 import * as React from "react";
@@ -13,17 +12,18 @@ import {
   CreateHeaderSignature,
   CreateMenus,
 } from "../../components/header/create";
-import { useValidation } from "../../utils/hooks/validation";
+import { useValidator } from "../../utils/hooks/validation";
 
 import PillValidator from "../../utils/validators/create/pill";
 import { usePillDefaultEditor } from "../../utils/hooks/editor";
+import { usePageNavigate } from "../../utils/hooks/page-navigate";
 
 const CreatePage = () => {
   usePageSelect(CreateHeaderSignature, CreateMenus.EDITOR);
-  const validator = useValidation(PillValidator());
+  useValidator(PillValidator());
 
   const auth = useAuth();
-  const navigate = useNavigate();
+  const { navigate } = usePageNavigate();
   const editor = usePillDefaultEditor();
 
   const inited = useRef<boolean>(false);

@@ -1,5 +1,10 @@
+import * as React from "react";
+import { useEffect, useCallback } from "react";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import "./transition.css";
+
 import { useColorScheme } from "@mui/joy/styles";
 
 import CreatePage from "./pages/create";
@@ -11,18 +16,14 @@ import CreatePreviewPage from "./pages/create-preview";
 import UserPage from "./pages/user";
 import PillPage from "./pages/pill";
 
-import "./transition.css";
-import { Footer } from "./layouts/footer";
-
-import * as React from "react";
-
-import { DynamicPageProvider } from "./layouts/page";
 import DefaultHeader from "./components/header/default";
 import CreateHeader from "./components/header/create";
 import EmptyHeader from "./components/header/empty";
-import { useDispatch } from "react-redux";
 
-import { Actions as actions } from "./utils/reducers/page-transition";
+import { Footer } from "./layouts/footer";
+import { DynamicPageProvider } from "./layouts/page";
+import { Actions as actions } from "./utils/reducers/page/transition";
+import { Actions as events } from "./utils/reducers/page/event";
 
 const App = () => {
   // 기본적으로 라이트 모드로 설정한다.
@@ -32,6 +33,15 @@ const App = () => {
   // 트랜지션 키로 필요하다.
   const location = useLocation();
   const dispatch = useDispatch();
+
+  const handleLoad = useCallback(() => {
+    dispatch(events.broadcastLoad());
+  }, [dispatch]);
+
+  useEffect(() => {
+    window.addEventListener("load", handleLoad);
+    return () => window.removeEventListener("load", handleLoad);
+  }, [handleLoad]);
 
   return (
     <DynamicPageProvider>

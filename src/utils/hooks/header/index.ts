@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import { Actions as actions } from "../../reducers/header";
 import { Menus } from "./header.type";
+import { usePageNavigate } from "../page-navigate";
 
 // Header 설정을 간편하게 할 수 있는 커스텀 Hook이다.
 // 특정 Header의 최상단에만 위치할 수 있다.
@@ -22,7 +22,7 @@ export const useHeader = <E extends Menus>(
   ) as Menu[];
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { navigate } = usePageNavigate();
 
   // 특정 메뉴를 선택한다.
   const selectMenu = useCallback(

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import * as Style from "./index.style";
 
@@ -8,7 +8,10 @@ import { AddContentContainer } from "./content/add";
 
 import { Collapse } from "@mui/material";
 import { TransitionGroup } from "react-transition-group";
-import { useValidation } from "../../../../utils/hooks/validation";
+import {
+  useValidation,
+  useValidator,
+} from "../../../../utils/hooks/validation";
 
 import IndexValidator from "../../../../utils/validators/create";
 
@@ -33,7 +36,7 @@ export const IndexContainer = (props: IndexContainerProps) => {
   const editor = usePillIndexEditor(props.id);
   const order = usePillOrder();
 
-  const validator = useValidation(IndexValidator(props.id));
+  const validator = useValidator(IndexValidator(props.id));
   const [title, setTitle] = useState<string>(editor.index.title);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,11 +45,6 @@ export const IndexContainer = (props: IndexContainerProps) => {
     if (value.length <= 40) {
       setTitle(value);
       editor.updateTitle(value);
-
-      // 수정*
-      validator.validate({
-        title: value,
-      });
     }
   };
 
@@ -59,17 +57,15 @@ export const IndexContainer = (props: IndexContainerProps) => {
       editor.index.contents[from].contentId,
       editor.index.contents[to].contentId
     );
-
-    // 수정*
-    validator.validate({
-      contents: editor.index.contents.length,
-    });
   };
 
   const handleRemove = () => {
     editor.remove();
     validator.remove();
   };
+
+  useValidation(validator.validate, { contents: editor.index.contents.length });
+  useValidation(validator.validate, { title: editor.index.title });
 
   return (
     <Style.IndexContainer>

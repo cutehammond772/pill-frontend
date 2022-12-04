@@ -5,10 +5,12 @@ import { RootState } from "../reducers";
 import { Actions as actions } from "../reducers/editor";
 import { PillContent } from "../pill/pill.type";
 import { AnyAction } from "redux";
+import { usePageNavigate } from "./page-navigate";
 
 // 현재 편집 가능한 여부를 확인한다.
 export const useEditorAvailable = () => {
   const dispatch = useDispatch();
+  const { setLocked } = usePageNavigate();
   const available = useSelector((state: RootState) => state.editor.available);
 
   const check = <T>(callbackFn: T) => {

@@ -11,9 +11,58 @@ import {
   Validation,
 } from "../validators/validator.type";
 
+export const useValidation = <T extends { [key: string]: any }>(
+  validateFn: (element: T) => void,
+  data: T
+) => {
+  const dependency = useRef<T>(data);
+
+  useEffect(() => {
+    const modified = Object.keys(dependency.current).reduce((modified, key) => {
+      if (!(key in data)) {
+        throw new Error("[useValidation] 기존에 저장된 데이터와 다릅니다.");
+      }
+
+      if (data[key] !== dependency.current[key]) {
+        modified = true;
+      }
+
+      return modified;
+    }, false);
+
+    if (modified) {
+      validateFn(data);
+      dependency.current = data;
+    }
+  });
+};
+
+// 검증 데이터만 가져올 때 사용한다.
+export const useGetValidation = <T>(validator: Validator<T>) => {
+  const { validatorID } = validator;
+
+  // Redux store에 저장된 검증 데이터이다.
+  const validation = useSelector(
+    (state: RootState) => state.validation.data[validatorID]
+  );
+
+  // Validator의 정보를 나타낸다. Validator가 초기화될 시 생성된다.
+  const validatorInfo = useSelector(
+    (state: RootState) => state.validation.validators[validatorID]
+  );
+
+  return {
+    registered: !!validatorInfo,
+    validated: !!validation,
+
+    validation,
+    validatorInfo,
+  };
+};
+
 // 특정 컴포넌트에 대한 검증을 담당하는 Hook이다.
 // 하나의 Validator는 '반드시' 하나의 컴포넌트에만 할당해야 한다.
-export const useValidation = <T>(validator: Validator<T>) => {
+export const useValidator = <T>(validator: Validator<T>) => {
   const dispatch = useDispatch();
 
   const inited = useRef<boolean>(false);
@@ -26,6 +75,7 @@ export const useValidation = <T>(validator: Validator<T>) => {
     (state: RootState) => state.validation.data[validatorID]
   );
 
+  // Validator의 정보를 나타낸다. Validator가 초기화될 시 생성된다.
   const validatorInfo = useSelector(
     (state: RootState) => state.validation.validators[validatorID]
   );
@@ -80,7 +130,6 @@ export const useValidation = <T>(validator: Validator<T>) => {
         ...validator.validators[key](element),
       }));
 
-      // 수정*
       // 요소 검증 결과를 나타낸다.
       const response = responses.find(
         (response) => response.type !== ElementValidationTypes.EMPTY
@@ -88,7 +137,7 @@ export const useValidation = <T>(validator: Validator<T>) => {
 
       if (!response) {
         throw new Error(
-          "[useValidation] 검증 요청 대상인 특정한 요소를 검증하는 ElementValidator가 존재하지 않습니다."
+          "[useValidator] 검증 요청 대상인 특정한 요소를 검증하는 ElementValidator가 존재하지 않습니다."
         );
       }
 
@@ -109,7 +158,6 @@ export const useValidation = <T>(validator: Validator<T>) => {
   );
 
   // 맨 처음 로드 시 Validator를 추가한다.
-
   useEffect(() => {
     if (!inited.current) {
       if (!validatorInfo) {

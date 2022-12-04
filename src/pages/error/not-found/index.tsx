@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/joy";
 
 import * as Style from "./not-found.style";
@@ -12,12 +11,13 @@ import { useI18n } from "../../../utils/hooks/i18n";
 import { I18N } from "../../../utils/i18n";
 import { usePageSelect } from "../../../utils/hooks/header/page-select";
 import { EmptyHeaderSignature, EmptyMenus } from "../../../components/header/empty";
+import { usePageNavigate } from "../../../utils/hooks/page-navigate";
 
 const NotFoundPage = () => {
   usePageSelect(EmptyHeaderSignature, EmptyMenus.PAGE);
   
   const { text } = useI18n();
-  const navigate = useNavigate();
+  const { navigate, back } = usePageNavigate();
 
   return (
     <Page layout={Style.Background}>
@@ -39,7 +39,7 @@ const NotFoundPage = () => {
             variant="solid"
             color="primary"
             startDecorator={<ArrowBackIcon />}
-            onClick={() => navigate(-1)}
+            onClick={back}
           >
             {text(I18N.PAGE_NOT_FOUND_03)}
           </Button>

@@ -48,26 +48,24 @@ export const ActionTypes = {
   SAGA_FINISH: `${REDUCER_NAME}/SAGA_FINISH`,
 
   SAGA_REMOVE_INDEX: `${REDUCER_NAME}/SAGA_REMOVE_INDEX`,
-  SAGA_REMOVE_CONTENT: `${REDUCER_NAME}/SAGA_REMOVE_INDEX`,
+  SAGA_REMOVE_CONTENT: `${REDUCER_NAME}/SAGA_REMOVE_CONTENT`,
 } as const;
 
 export const Actions = {
-  // For Reducer
-  reset: createAction(ActionTypes.RESET),
   updateTitle: createAction<{ title: string }>(ActionTypes.UPDATE_TITLE),
 
   addCategory: createAction<{ category: string }>(ActionTypes.ADD_CATEGORY),
+
   removeCategory: createAction<{ categoryId: string }>(
     ActionTypes.REMOVE_CATEGORY
   ),
+
   resetCategories: createAction(ActionTypes.RESET_CATEGORIES),
 
   createIndex: createAction(ActionTypes.CREATE_INDEX),
+
   updateIndexTitle: createAction<{ id: string; title: string }>(
     ActionTypes.UPDATE_INDEX_TITLE
-  ),
-  removeIndexImmadiately: createAction<{ id: string }>(
-    ActionTypes.REMOVE_INDEX_IMMEDIATELY
   ),
 
   addContent: createAction<{
@@ -90,19 +88,28 @@ export const Actions = {
     exchangeId: string;
   }>(ActionTypes.EXCHANGE_CONTENT),
 
+  begin: createAction(ActionTypes.SAGA_BEGIN),
+
+  finish: createAction(ActionTypes.SAGA_FINISH),
+
+  removeIndex: createAction<{ id: string }>(ActionTypes.SAGA_REMOVE_INDEX),
+
+  removeContent: createAction<{ id: string; contentId: string }>(
+    ActionTypes.SAGA_REMOVE_CONTENT
+  ),
+} as const;
+
+export const InternalActions = {
+  reset: createAction(ActionTypes.RESET),
+
+  setAvailable: createAction<{ available: boolean }>(ActionTypes.SET_AVAILABLE),
+
   removeContentImmadiately: createAction<{ id: string; contentId: string }>(
     ActionTypes.REMOVE_CONTENT_IMMEDIATELY
   ),
 
-  setAvailable: createAction<{ available: boolean }>(ActionTypes.SET_AVAILABLE),
-
-  // For Saga
-  begin: createAction(ActionTypes.SAGA_BEGIN),
-  finish: createAction(ActionTypes.SAGA_FINISH),
-
-  removeIndex: createAction<{ id: string }>(ActionTypes.SAGA_REMOVE_INDEX),
-  removeContent: createAction<{ id: string; contentId: string }>(
-    ActionTypes.SAGA_REMOVE_CONTENT
+  removeIndexImmadiately: createAction<{ id: string }>(
+    ActionTypes.REMOVE_INDEX_IMMEDIATELY
   ),
 } as const;
 
@@ -169,7 +176,7 @@ const editorReducer = createReducer(initialState, {
 
   [ActionTypes.REMOVE_INDEX_IMMEDIATELY]: (
     state,
-    action: ReturnType<typeof Actions.removeIndexImmadiately>
+    action: ReturnType<typeof InternalActions.removeIndexImmadiately>
   ) => {
     Array.removeAll(
       (index) => index.id === action.payload.id,
@@ -216,7 +223,7 @@ const editorReducer = createReducer(initialState, {
 
   [ActionTypes.REMOVE_CONTENT_IMMEDIATELY]: (
     state,
-    action: ReturnType<typeof Actions.removeContentImmadiately>
+    action: ReturnType<typeof InternalActions.removeContentImmadiately>
   ) => {
     const index = state.indexes.find((index) => index.id === action.payload.id);
 
@@ -255,7 +262,7 @@ const editorReducer = createReducer(initialState, {
 
   [ActionTypes.SET_AVAILABLE]: (
     state,
-    action: ReturnType<typeof Actions.setAvailable>
+    action: ReturnType<typeof InternalActions.setAvailable>
   ) => {
     state.available = action.payload.available;
   },
