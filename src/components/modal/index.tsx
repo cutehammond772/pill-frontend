@@ -7,13 +7,14 @@ import { SerializedStyles } from "@emotion/react";
 export interface ModalProps extends React.PropsWithChildren {
   open: boolean;
   onClose: () => void;
-
+  
   layout: SerializedStyles;
   dialogMode?: boolean;
-  duration?: number;
+  
+  transition?: TransitionProps;
 }
 
-export const DEFAULT_DURATION: number = 300;
+export const DEFAULT_DURATION = 500;
 
 export const ModalTransitionType = {
   ENTERING: "Entering",
@@ -23,7 +24,12 @@ export const ModalTransitionType = {
 } as const;
 
 export type ModalTransition =
-  typeof ModalTransitionType[keyof typeof ModalTransitionType];
+typeof ModalTransitionType[keyof typeof ModalTransitionType];
+
+export interface TransitionProps {
+  transitions: { [type in ModalTransition]: SerializedStyles };
+  durations: SerializedStyles;
+}
 
 const Modal = React.forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
   const transitionID = useRef<NodeJS.Timeout>();
@@ -45,7 +51,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
         setTransition(
           props.open ? ModalTransitionType.ENTERED : ModalTransitionType.EXITED
         );
-      }, 300);
+      }, DEFAULT_DURATION);
     }
 
     return () => clearTimeout(transitionID.current);
@@ -56,14 +62,14 @@ const Modal = React.forwardRef<HTMLDivElement, ModalProps>((props, ref) => {
       dialogMode={props.dialogMode}
       state={transition}
       onClick={props.onClose}
-      duration={props.duration || DEFAULT_DURATION}
+      duration={DEFAULT_DURATION}
     >
       <Style.Modal
         layout={props.layout}
         state={transition}
         ref={ref}
         onClick={(event) => event.stopPropagation()}
-        duration={props.duration || DEFAULT_DURATION}
+        customTransition={props.transition || Style.DefaultTransition()}
       >
         {props.children}
       </Style.Modal>

@@ -22,32 +22,35 @@ interface AddContentContainerProps {
   id: string;
 }
 
-export const AddContentContainer = React.memo((props: AddContentContainerProps) => {
-  const { text } = useI18n();
+export const AddContentContainer = React.memo(
+  (props: AddContentContainerProps) => {
+    const { text } = useI18n();
 
-  return (
-    <ContentStyle.Container layout={Style.ContainerLayout}>
-      <ContentStyle.Title layout={Style.TitleLayout}>
-        <div className="container">
-          <AddIcon className="icon" />
-          <span className="title">{text(I18N.PAGE_CREATE_10)}</span>
+    return (
+      <ContentStyle.Container layout={Style.ContainerLayout}>
+        <ContentStyle.Title>
+          <div className="container">
+            <AddIcon className="icon" />
+            <span className="title">{text(I18N.PAGE_CREATE_10)}</span>
+          </div>
+        </ContentStyle.Title>
+
+        <div className="buttons">
+          <AddImageButton id={props.id} />
+          <AddTextButton id={props.id} />
         </div>
-      </ContentStyle.Title>
-
-      <AddImageButton id={props.id} />
-      <AddTextButton id={props.id} />
-    </ContentStyle.Container>
-  );
-});
+      </ContentStyle.Container>
+    );
+  }
+);
 
 export const AddContentButton = React.memo((props: AddContentButtonProps) => (
-  <Style.AddContentButton
-    color="neutral"
-    variant="soft"
-    onClick={props.onClick}
-  >
-    <props.icon className="icon" />
-    <span className="title">{props.title}</span>
-    <span className="description">{props.description}</span>
+  <Style.AddContentButton onClick={props.onClick}>
+    <div className="title">
+      <props.icon className="icon" />
+      <div className="content">{props.title}</div>
+    </div>
+
+    <div className="description">{props.description}</div>
   </Style.AddContentButton>
 ));

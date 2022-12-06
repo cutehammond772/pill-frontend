@@ -2,53 +2,97 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
-import { Button } from "@mui/joy";
-
 export const ContainerLayout = css`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: stretch;
-  justify-content: center;
+  display: flex;
+  flex-flow: column nowrap;
 
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0);
+  background-color: var(--light);
+
+  & > .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+
+    @media screen and (max-width: 768px) {
+      display: flex;
+      flex-flow: column nowrap;
+      row-gap: 10px;
+    }
+  }
 `;
 
-export const TitleLayout = css`
-  grid-column: 1 / 3;
-`;
-
-export const AddContentButton = styled(Button)`
+export const AddContentButton = styled.div`
   width: auto;
   height: auto;
+
   border-radius: 15px;
-  padding: 15px;
+  padding: 12px;
 
-  display: grid;
-  grid-template-columns: 60px 1fr;
-  grid-template-rows: 2fr 3fr;
-  align-items: center;
+  flex-grow: 1;
+  min-width: 0;
 
-  & > * {
-    text-align: left;
+  display: flex;
+  flex-flow: column nowrap;
+  row-gap: 10px;
+
+  background: var(--bg-h-br-t-a);
+  color: var(--dark);
+
+  cursor: pointer;
+
+  :hover {
+    box-shadow: 0px 0px 5px var(--shadow);
   }
 
-  // Icon
-  & > .icon {
-    grid-row: 1 / 3;
-    font-size: 2.75rem;
-  }
+  transition: box-shadow 300ms;
 
-  // Title
   & > .title {
-    font-weight: 600;
-    font-size: 1.5rem;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    column-gap: 10px;
+
+    & > .icon {
+      font-size: 2rem;
+      line-height: 100%;
+    }
+
+    & > .content {
+      font-weight: 600;
+      font-size: 1.5rem;
+      line-height: 100%;
+
+      white-space: nowrap;
+    }
   }
 
-  // Description
   & > .description {
     font-weight: 500;
-    font-size: 1.25rem;
-    padding-top: 10px;
+    font-size: 1.1rem;
+    line-height: 100%;
+
+    color: var(--dark);
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media screen and (max-width: 992px) {
+    padding: 10px;
+
+    & > .title {
+      & > .icon {
+        font-size: 1.75rem;
+      }
+
+      & > .content {
+        font-size: 1.25rem;
+      }
+    }
+
+    & > .description {
+      font-size: 1rem;
+    }
   }
 `;

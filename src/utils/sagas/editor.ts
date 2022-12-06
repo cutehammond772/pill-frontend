@@ -40,13 +40,11 @@ const editorFlow = function* () {
 
     // 편집 도중 //
 
-    // 편집이 완전히 종료되고 다른 페이지로 완전히 이동했을 때
-    // => 페이지 이동 구조상, 이동하는 과정에서 두 페이지가 공존하는데
+    // 다른 페이지로 완전히 이동한 뒤에 편집 모드를 비활성화한다.
+    // => 페이지 이동(transition) 구조상, 이동하는 과정에서 두 페이지가 공존하는데
     // 이때 편집 데이터를 삭제하면 기존 편집 페이지에서 오류가 발생하기 때문이다.
-    yield all([
-      take(ActionTypes.SAGA_FINISH),
-      take(PageTransitionActionTypes.END_TRANSITION),
-    ]);
+    yield take(ActionTypes.SAGA_FINISH);
+    yield take(PageTransitionActionTypes.END_TRANSITION);
 
     // 편집을 비활성화한다.
     yield put(internal.setAvailable({ available: false }));

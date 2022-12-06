@@ -6,15 +6,17 @@ export const Header = styled.header`
   height: auto;
   padding-top: 40px;
   padding-bottom: 40px;
-
+  top: 0;
+  
   z-index: var(--z-header);
-
+  
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: stretch;
   overflow: hidden;
-
+  background-color: var(--dark);
+  
   ${DefaultPageLayout};
 
   & > .default-menu {
@@ -77,6 +79,4 @@ export const Header = styled.header`
 
     transition: padding 300ms, height 300ms ease-in-out;
   }
-
-  background-color: var(--dark);
 `;

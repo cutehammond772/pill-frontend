@@ -1,7 +1,10 @@
+/** @jsxImportSource '@emotion/react' */
+import { css } from "@emotion/react";
+
 import styled from "@emotion/styled";
 import { SerializedStyles } from "@emotion/react";
 
-import { ModalTransition, ModalTransitionType } from ".";
+import { ModalTransition, ModalTransitionType, TransitionProps } from ".";
 
 export const Backdrop = styled.div<{
   dialogMode?: boolean;
@@ -15,7 +18,7 @@ export const Backdrop = styled.div<{
   width: 100%;
   height: 100%;
 
-  transition: ${(props) => `backdrop-filter ${ props.duration }ms`};
+  transition: ${(props) => `backdrop-filter ${props.duration}ms`};
   z-index: var(--z-modal);
 
   backdrop-filter: ${(props) => {
@@ -35,26 +38,35 @@ export const Backdrop = styled.div<{
 `;
 
 export const Modal = styled.div<{
-  duration: number;
   layout: SerializedStyles;
   state: ModalTransition;
+  customTransition: TransitionProps;
 }>`
   ${(props) => props.layout};
 
-  opacity: ${(props) => {
-    switch (props.state) {
-      case ModalTransitionType.ENTERING:
-      case ModalTransitionType.ENTERED:
-        return "1";
+  ${(props) => props.customTransition.transitions[props.state]};
+  ${(props) => props.customTransition.durations};
 
-      case ModalTransitionType.EXITING:
-      case ModalTransitionType.EXITED:
-        return "0";
-    }
-  }};
-
-  transition: ${(props) => `opacity ${ props.duration }ms`};
-  
   visibility: ${(props) =>
     props.state === ModalTransitionType.EXITED ? "hidden" : "visible"};
 `;
+
+export const DefaultTransition = (): TransitionProps => ({
+  transitions: {
+    [ModalTransitionType.ENTERING]: css`
+      opacity: 1;
+    `,
+    [ModalTransitionType.ENTERED]: css`
+      opacity: 1;
+    `,
+    [ModalTransitionType.EXITING]: css`
+      opacity: 0;
+    `,
+    [ModalTransitionType.EXITED]: css`
+      opacity: 0;
+    `,
+  },
+  durations: css`
+    transition: opacity 300ms;
+  `,
+});

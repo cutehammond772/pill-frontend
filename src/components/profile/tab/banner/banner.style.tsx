@@ -28,7 +28,7 @@ export const UserBanner = styled.div`
     white-space: nowrap;
 
     line-height: 100%;
-    color: var(--light);
+    color: var(--dark);
   }
 `;
 
@@ -47,7 +47,7 @@ export const GuestBanner = styled.div`
 
     & > * {
       font-size: 3.5rem;
-      color: var(--light);
+      color: var(--dark);
     }
   }
 
@@ -58,7 +58,7 @@ export const GuestBanner = styled.div`
 
     word-break: keep-all;
 
-    color: var(--light);
+    color: var(--dark);
 
     // mobile
     @media screen and (max-width: 768px) {
@@ -77,8 +77,6 @@ export const EmptyNotificationBanner = styled.div`
   justify-content: center;
   align-items: center;
   row-gap: 20px;
-
-  background: rgba(255, 255, 255, 0.3);
 
   & > .icon {
     font-size: 4rem;

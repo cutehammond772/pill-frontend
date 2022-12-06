@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   CreateHeaderSignature,
@@ -8,8 +9,6 @@ import {
 import { Page } from "../../layouts/page";
 import { usePageSelect } from "../../utils/hooks/header/page-select";
 
-import * as Style from "./create-preview.style";
-import ListIcon from "@mui/icons-material/List";
 import { useSelector } from "react-redux";
 import { RootState } from "../../utils/reducers";
 import { PillContentData, PillContentType } from "../../utils/pill/pill.type";
@@ -18,19 +17,48 @@ import LikeButton from "./buttons/like";
 import { useI18n } from "../../utils/hooks/i18n";
 import { I18N } from "../../utils/i18n";
 import { format } from "../../utils/other/format";
-import { usePageNavigate } from "../../utils/hooks/page-navigate";
+
+import * as Style from "./create-preview.style";
+import ListIcon from "@mui/icons-material/List";
+import useResizeObserver from "@react-hook/resize-observer";
 
 const CreatePreviewPage = () => {
   const { text } = useI18n();
   usePageSelect(CreateHeaderSignature, CreateMenus.PREVIEW);
-  const { navigate } = usePageNavigate();
 
   const pill = useSelector((state: RootState) => state.editor);
   const profile = useSelector((state: RootState) => state.profile);
+  const headerHeight = useSelector((state: RootState) => state.page.headerHeight);
+
+  const [width, setWidth] = useState<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const refs = useRef<{ [id: string]: HTMLDivElement | null }>({});
+  const offsets = useRef<{ [id: string]: number }>({});
+
+  const handleMoveIndex = useCallback((id: string) => {
+    const offset = offsets.current[id];
+    !!offset && window.scrollTo({ top: offset });
+  }, []);
+
+  useEffect(() => {
+    pill.indexes.forEach((index) => {
+      const ref = refs.current[index.id];
+      !!ref &&
+        (offsets.current[index.id] =
+          window.scrollY + ref.getBoundingClientRect().top - headerHeight - 20);
+    });
+  }, [pill.indexes, width, headerHeight]);
+
+  useResizeObserver(
+    containerRef,
+    (_) =>
+      !!containerRef?.current &&
+      setWidth(containerRef.current.getBoundingClientRect().width)
+  );
 
   return (
     <Page layout={Style.Background}>
-      <Style.Container>
+      <Style.Container ref={containerRef}>
         <Style.Title>
           <LikeButton />
           <span className="title">
@@ -62,7 +90,7 @@ const CreatePreviewPage = () => {
             {pill.indexes.map((index, order) => (
               <div
                 className="index"
-                onClick={() => navigate(`/create/preview#${order + 1}`)}
+                onClick={() => handleMoveIndex(index.id)}
                 key={index.id}
               >
                 #{order + 1}. {index.title}
@@ -73,12 +101,16 @@ const CreatePreviewPage = () => {
 
         <Style.ContentContainer>
           {pill.indexes.map((index, order) => (
-            <Style.Content id={`${order + 1}`} key={index.id}>
-              <div className="title_container">
+            <Style.Content
+              id={`${order + 1}`}
+              key={index.id}
+              ref={(ref) => (refs.current[index.id] = ref)}
+            >
+              <div className="title-container">
                 <div className="order">#{order + 1}</div>
                 <div className="title">{index.title}</div>
               </div>
-              <div className="content_container">
+              <div className="content-container">
                 {index.contents.map(resolveContent)}
               </div>
             </Style.Content>

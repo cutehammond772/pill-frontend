@@ -1,4 +1,6 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
+import { RootState } from ".";
+import { identity } from "../other/identity";
 
 export interface AuthState {
   loaded: boolean;
@@ -16,19 +18,21 @@ export const ActionTypes = {
   RESET: `${REDUCER_NAME}/RESET`,
   AUTHORIZE: `${REDUCER_NAME}/AUTHORIZE`,
   UNAUTHORIZE: `${REDUCER_NAME}/UNAUTHORIZE`,
-
   SAGA_LOGOUT: `${REDUCER_NAME}/SAGA_LOGOUT`,
 } as const;
 
 export const Actions = {
-  // For Reducer
   reset: createAction(ActionTypes.RESET),
   authorize: createAction(ActionTypes.AUTHORIZE),
   unauthorize: createAction(ActionTypes.UNAUTHORIZE),
-
-  // For Saga
   logout: createAction(ActionTypes.SAGA_LOGOUT),
 } as const;
+
+const loadedSelector = (state: RootState) => state.auth.loaded;
+const authorizedSelector = (state: RootState) => state.auth.authorized;
+
+export const AUTH_LOADED = createSelector([loadedSelector], identity);
+export const AUTH_AUTHORIZED = createSelector([authorizedSelector], identity);
 
 const authReducer = createReducer(initialState, {
   [ActionTypes.AUTHORIZE]: (state) => {

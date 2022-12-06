@@ -191,7 +191,7 @@ root.render(
     <CssVarsProvider theme={theme}>
       <SnackbarProvider
         maxSnack={3}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <GlobalStyles />
         <Provider store={createStore()}>

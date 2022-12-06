@@ -18,12 +18,21 @@ export const Title = styled.div`
 
   margin-bottom: 30px;
 
-  // Title
   & > .title {
     font-weight: 700;
     font-size: 2.5rem;
-    
+
     line-height: 150%;
     color: var(--dark);
+    word-break: keep-all;
+  }
+
+  @media screen and (max-width: 992px) {
+    row-gap: 15px;
+    margin-bottom: 20px;
+
+    & > .title {
+      font-size: 2rem;
+    }
   }
 `;

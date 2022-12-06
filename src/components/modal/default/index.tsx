@@ -2,11 +2,14 @@ import * as React from "react";
 import { useRef } from "react";
 
 import * as Style from "./default.style";
-import Modal from "../../modal";
+import Modal, { TransitionProps } from "../../modal";
 
 interface DefaultModalProps extends React.PropsWithChildren {
   open: boolean;
   onClose: () => void;
+
+  transition?: TransitionProps;
+  excludeBackgroundPill?: boolean;
 }
 
 export const DefaultModal = (props: DefaultModalProps) => {
@@ -17,8 +20,9 @@ export const DefaultModal = (props: DefaultModalProps) => {
       open={props.open}
       layout={Style.Layout}
       ref={modalRef}
+      transition={props.transition || Style.Transition()}
     >
-      <Style.Pill />
+      {!props.excludeBackgroundPill && <Style.Pill />}
       <div className="container">{props.children}</div>
     </Modal>
   );

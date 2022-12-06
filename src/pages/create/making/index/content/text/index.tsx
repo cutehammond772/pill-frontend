@@ -1,13 +1,8 @@
 import * as React from "react";
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 
 import * as Style from "../content.style";
-import { IconButton, Textarea } from "@mui/joy";
-import { Tooltip } from "@mui/material";
-
-import DeleteIcon from "@mui/icons-material/Delete";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Textarea } from "@mui/joy";
 import ArticleIcon from "@mui/icons-material/Article";
 
 import { TextContentLayout, TextContentTitleLayout } from "./text.style";
@@ -26,6 +21,7 @@ import { useI18n } from "../../../../../../utils/hooks/i18n";
 import { I18N } from "../../../../../../utils/i18n";
 
 import TextValidator from "../../../../../../utils/validators/create/content/text";
+import { DeleteButton, DownButton, MenuButton, UpButton } from "../buttons";
 
 interface AddTextButtonProps {
   id: string;
@@ -54,6 +50,8 @@ export const TextContent = (props: IndexContentProps) => {
   const editor = usePillContentEditor(props.id, props.contentId);
   const validator = useValidator(TextValidator(props.contentId, props.id));
 
+  const [open, setOpen] = useState<boolean>(false);
+
   const handleText = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target;
     editor.update(value);
@@ -77,44 +75,36 @@ export const TextContent = (props: IndexContentProps) => {
           <ArticleIcon className="icon" />
           <span className="title">{text(I18N.PAGE_CREATE_26)}</span>
         </div>
-        <div className="buttons">
+
+        <Style.MenuButtons open={open}>
+          <MenuButton
+            open={open}
+            onClick={() => setOpen(!open)}
+            disabled={props.removed}
+          />
+
           {props.order !== 0 && (
-            <Tooltip title={text(I18N.PAGE_CREATE_27)}>
-              <IconButton
-                variant="outlined"
-                color="primary"
-                onClick={() => handleExchange(-1)}
-                disabled={props.removed}
-              >
-                <KeyboardArrowUpIcon />
-              </IconButton>
-            </Tooltip>
+            <UpButton
+              text={text}
+              disabled={props.removed}
+              onClick={() => handleExchange(-1)}
+            />
           )}
 
           {!props.isEnd && (
-            <Tooltip title={text(I18N.PAGE_CREATE_28)}>
-              <IconButton
-                variant="outlined"
-                color="primary"
-                onClick={() => handleExchange(+1)}
-                disabled={props.removed}
-              >
-                <KeyboardArrowDownIcon />
-              </IconButton>
-            </Tooltip>
+            <DownButton
+              text={text}
+              disabled={props.removed}
+              onClick={() => handleExchange(+1)}
+            />
           )}
 
-          <Tooltip title={text(I18N.PAGE_CREATE_30)}>
-            <IconButton
-              variant="soft"
-              color="danger"
-              onClick={handleRemove}
-              disabled={props.removed}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
+          <DeleteButton
+            text={text}
+            disabled={props.removed}
+            onClick={handleRemove}
+          />
+        </Style.MenuButtons>
       </Style.Title>
 
       <Textarea

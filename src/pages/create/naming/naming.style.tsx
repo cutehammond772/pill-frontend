@@ -27,7 +27,7 @@ const Animation = css`
 export const DummyLayout = css`
   width: 2048px;
   height: auto;
-  
+
   position: relative;
   left: 50%;
   transform: translateX(-50%);
@@ -53,21 +53,20 @@ export const Form = styled.div`
 
   background-color: var(--panel);
 
-  // mobile
-  @media screen and (max-width: 768px) {
-    width: 100%;
+  // tablet
+  @media screen and (max-width: 992px) {
+    max-width: 80%;
+    padding: 10px;
   }
 `;
 
 export const Title = styled.div`
   padding: 15px;
-  border-radius: 15px;
 
-  display: flex;
-  flex-flow: column;
-  row-gap: 20px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 10px;
 
-  // Title Text
   & > .title {
     font-weight: 700;
     color: var(--dark);
@@ -75,6 +74,50 @@ export const Title = styled.div`
     line-height: 100%;
 
     text-transform: uppercase;
+  }
+
+  & > .input {
+    position: relative;
+
+    border: none;
+    outline: none;
+    border-bottom: 3px solid var(--dark);
+    padding-bottom: 5px;
+
+    font-weight: 700;
+    font-size: 1.25rem;
+
+    background-color: var(--panel);
+    color: var(--dark);
+
+    :disabled {
+      filter: blur(1.5px);
+
+      ::selection {
+        background-color: var(--light);
+      }
+    }
+
+    :focus {
+      border-bottom-color: var(--primary);
+
+      ::placeholder {
+        color: var(--panel);
+
+        transition: color 200ms;
+      }
+    }
+
+    transition: filter 300ms, border-bottom-color 300ms;
+  }
+
+  // mobile
+  @media screen and (max-width: 768px) {
+    padding: 10px;
+
+    & > .title {
+      font-size: 1.25rem;
+    }
   }
 `;
 
@@ -96,7 +139,6 @@ export const Categories = styled.div`
     justify-content: flex-start;
   }
 
-  // Categories Text
   & > .title {
     font-weight: 700;
     color: var(--dark);
@@ -104,5 +146,15 @@ export const Categories = styled.div`
     line-height: 100%;
 
     text-transform: uppercase;
+  }
+
+  // mobile
+  @media screen and (max-width: 768px) {
+    padding: 10px;
+    row-gap: 15px;
+
+    & > .title {
+      font-size: 1.25rem;
+    }
   }
 `;

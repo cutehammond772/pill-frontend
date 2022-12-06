@@ -16,6 +16,7 @@ export const useValidation = <T extends { [key: string]: any }>(
   data: T
 ) => {
   const dependency = useRef<T>(data);
+  const init = useRef<boolean>(false);
 
   useEffect(() => {
     const modified = Object.keys(dependency.current).reduce((modified, key) => {
@@ -30,9 +31,11 @@ export const useValidation = <T extends { [key: string]: any }>(
       return modified;
     }, false);
 
-    if (modified) {
+    if (modified || !init.current) {
       validateFn(data);
       dependency.current = data;
+
+      !init.current && (init.current = true);
     }
   });
 };

@@ -17,6 +17,11 @@ export const Container = styled.div`
 
   padding-top: 256px;
   padding-bottom: 512px;
+
+  @media screen and (max-width: 768px) {
+    padding-top: 128px;
+    padding-bottom: 256px;
+  }
 `;
 
 export const Title = styled.div`
@@ -86,6 +91,27 @@ export const Title = styled.div`
       }
     }
   }
+
+  // mobile
+  @media screen and (max-width: 768px) {
+    & > .title {
+      font-size: 3rem;
+    }
+
+    & > .info {
+      & > .user {
+        font-size: 1.75rem;
+      }
+
+      & > .categories {
+        column-gap: 10px;
+
+        & > .category {
+          font-size: 1.25rem;
+        }
+      }
+    }
+  }
 `;
 
 export const Index = styled.div`
@@ -123,13 +149,17 @@ export const Index = styled.div`
   }
 
   & > .index-list {
+    padding-left: 10px;
+
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: stretch;
-    padding-left: 10px;
+
+    row-gap: 10px;
     & > .index {
       font-size: 1.5rem;
+      letter-spacing: 0.1rem;
       font-weight: 700;
 
       cursor: pointer;
@@ -141,6 +171,34 @@ export const Index = styled.div`
 
       & {
         transition: padding-left 300ms, text-shadow 300ms;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    margin: 100px 0px 20px 0px;
+    padding: 10px 10px 15px 10px;
+    row-gap: 10px;
+
+    & > .index-title {
+      column-gap: 10px;
+
+      & > .icon {
+        font-size: 2.25rem;
+      }
+
+      & > .title {
+        font-size: 1.5rem;
+      }
+    }
+
+    & > .index-list {
+      & > .index {
+        font-size: 1.25rem;
+
+        :hover {
+          padding-left: 5px;
+        }
       }
     }
   }
@@ -168,7 +226,7 @@ export const Content = styled.div`
 
   background-color: var(--light);
 
-  & > .title_container {
+  & > .title-container {
     padding: 20px 20px 20px 0px;
 
     background-color: var(--dark);
@@ -181,14 +239,13 @@ export const Content = styled.div`
     column-gap: 20px;
 
     & > .order {
-      padding: 5px 15px 5px 15px;
-      border-radius: 0px 10px 10px 0px;
-      font-weight: 700;
+      padding: 5px 15px 5px 20px;
+
       font-size: 2.25rem;
+      font-weight: 700;
       line-height: 100%;
 
-      color: var(--dark);
-      background: var(--pink);
+      color: var(--light);
     }
 
     & > .title {
@@ -205,33 +262,26 @@ export const Content = styled.div`
     }
   }
 
-  & > .content_container {
+  & > .content-container {
     width: auto;
     height: auto;
-    margin: 40px 30px 30px 30px;
+    margin: 2rem 30px 30px 30px;
 
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: stretch;
 
-    row-gap: 40px;
+    row-gap: 4rem;
 
     & > .text {
       word-wrap: break-word;
       white-space: pre-line;
 
-      font-size: 1.5rem;
-      font-weight: 700;
-      line-height: 150%;
+      font-size: 1.25rem;
+      font-weight: 500;
 
-      letter-spacing: 1px;
-      word-spacing: 3px;
       user-select: text;
-
-      :hover {
-        font-size: 1.75rem;
-      }
     }
 
     & > .image {

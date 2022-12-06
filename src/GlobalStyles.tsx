@@ -8,16 +8,17 @@ import "@fontsource/noto-sans-kr/500.css";
 export const ColorAttributes = {
   LIGHT: "var(--light)",
   DARK: "var(--dark)",
+  PANEL: "var(--white)",
   SHADOW: "var(--shadow)",
-
-  SUB: "var(--sub)",
 
   RED: "var(--red)",
   PINK: "var(--pink)",
   BLUE: "var(--blue)",
-  PANEL: "var(--white)",
-
+  PURPLE: "var(--purple)",
+  
+  SUCCESS: "var(--success)",
   PRIMARY: "var(--primary)",
+  SUB: "var(--sub)",
   WARNING: "var(--warning)",
   DANGER: "var(--danger)",
 } as const;
@@ -32,19 +33,20 @@ const style = css`
 
   :root {
     // Default Colors
+    --panel: white;
     --light: white;
     --dark: #303030;
 
     --shadow: #aaaaaa;
-    --sub: grey;
-
+    
     --red: red;
     --pink: pink;
     --blue: skyblue;
-
-    --panel: white;
-
-    --primary: #3939be;
+    --purple: #9a19b4;
+    
+    --success: #17ac1e;
+    --primary: #4141dd;
+    --sub: #707070;
     --warning: #ffae00;
     --danger: #9c0000;
 
@@ -218,8 +220,8 @@ const style = css`
   }
 
   html, body {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     margin: 0;
 
     position: relative;

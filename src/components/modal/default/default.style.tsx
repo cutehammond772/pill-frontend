@@ -1,15 +1,17 @@
 /** @jsxImportSource '@emotion/react' */
 import { css } from "@emotion/react";
+
 import styled from "@emotion/styled";
+import { ModalTransitionType, TransitionProps } from "..";
 
 export const Layout = css`
   z-index: var(--z-header-tab);
-  background: var(--dark);
+  background: var(--panel);
   border-radius: 20px;
 
   position: absolute;
   box-sizing: border-box;
-  box-shadow: 0px 0px 20px var(--dark);
+  box-shadow: 0px 0px 10px var(--shadow);
   overflow: hidden;
 
   & > .container {
@@ -28,7 +30,7 @@ export const Layout = css`
     transform: translateY(-50%);
 
     & > .container {
-      max-height: 600px;
+      max-height: 700px;
     }
   }
 
@@ -61,7 +63,7 @@ export const Layout = css`
     width: calc(100% - 72px);
 
     & > .container {
-      max-height: 400px;
+      max-height: 800px;
     }
   }
 `;
@@ -95,3 +97,34 @@ export const Pill = styled.div`
     left: -90px;
   }
 `;
+
+const ModalOpenTransition = css`
+  opacity: 1;
+
+  @media screen and (max-width: 768px) {
+    opacity: 1;
+    transform: none;
+  }
+`;
+
+const ModalCloseTransition = css`
+  opacity: 0;
+
+  @media screen and (max-width: 768px) {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+`;
+
+export const Transition = (): TransitionProps => ({
+  transitions: {
+    [ModalTransitionType.ENTERING]: ModalOpenTransition,
+    [ModalTransitionType.ENTERED]: ModalOpenTransition,
+    [ModalTransitionType.EXITING]: ModalCloseTransition,
+    [ModalTransitionType.EXITED]: ModalCloseTransition,
+  },
+
+  durations: css`
+    transition: opacity 300ms, transform 500ms;
+  `,
+});

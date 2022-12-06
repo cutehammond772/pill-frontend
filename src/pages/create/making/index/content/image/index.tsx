@@ -14,7 +14,7 @@ import { ImageContentLayout, ImageContentTitleLayout } from "./image.style";
 import * as React from "react";
 import { useState, useCallback } from "react";
 import { AddContentButton } from "../add";
-import ImageContentModal from "./modal";
+import ImageContentModal from "../../../../../../components/modal/image";
 
 import ImageValidator from "../../../../../../utils/validators/create/content/image";
 import { PillContentType } from "../../../../../../utils/pill/pill.type";
@@ -29,6 +29,13 @@ import {
 } from "../../../../../../utils/hooks/validation";
 import { useI18n } from "../../../../../../utils/hooks/i18n";
 import { I18N } from "../../../../../../utils/i18n";
+import {
+  DeleteButton,
+  DownButton,
+  EditButton,
+  MenuButton,
+  UpButton,
+} from "../buttons";
 
 interface AddImageButtonProps {
   id: string;
@@ -71,6 +78,7 @@ export const ImageContent = (props: IndexContentProps) => {
   const validator = useValidator(ImageValidator(props.contentId, props.id));
 
   const [open, setOpen] = useState<boolean>(false);
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const handleUpdateImage = (link: string, description: string) => {
     editor.update(link, description);
@@ -96,68 +104,43 @@ export const ImageContent = (props: IndexContentProps) => {
         <div className="container">
           <ImageIcon className="icon" />
           <span className="title">{text(I18N.PAGE_CREATE_25)}</span>
+          <div className="description">{editor.content.subContent}</div>
         </div>
 
-        <Chip
-          size="md"
-          color="primary"
-          variant="soft"
-          sx={{
-            userSelect: "none",
-          }}
-        >
-          {editor.content.subContent}
-        </Chip>
-
-        <div className="buttons">
+        <Style.MenuButtons open={menuOpen}>
+          <MenuButton
+            open={menuOpen}
+            onClick={() => setMenuOpen(!menuOpen)}
+            disabled={props.removed}
+          />
           {props.order !== 0 && (
-            <Tooltip title={text(I18N.PAGE_CREATE_27)}>
-              <IconButton
-                variant="outlined"
-                color="primary"
-                onClick={() => handleExchange(-1)}
-                disabled={props.removed}
-              >
-                <KeyboardArrowUpIcon />
-              </IconButton>
-            </Tooltip>
+            <UpButton
+              text={text}
+              disabled={props.removed}
+              onClick={() => handleExchange(-1)}
+            />
           )}
 
           {!props.isEnd && (
-            <Tooltip title={text(I18N.PAGE_CREATE_28)}>
-              <IconButton
-                variant="outlined"
-                color="primary"
-                onClick={() => handleExchange(+1)}
-                disabled={props.removed}
-              >
-                <KeyboardArrowDownIcon />
-              </IconButton>
-            </Tooltip>
+            <DownButton
+              text={text}
+              disabled={props.removed}
+              onClick={() => handleExchange(+1)}
+            />
           )}
 
-          <Tooltip title={text(I18N.PAGE_CREATE_29)}>
-            <IconButton
-              variant="solid"
-              color="info"
-              onClick={() => setOpen(true)}
-              disabled={props.removed}
-            >
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
+          <EditButton
+            text={text}
+            disabled={props.removed}
+            onClick={() => setOpen(true)}
+          />
 
-          <Tooltip title={text(I18N.PAGE_CREATE_30)}>
-            <IconButton
-              variant="soft"
-              color="danger"
-              onClick={handleRemove}
-              disabled={props.removed}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
+          <DeleteButton
+            text={text}
+            disabled={props.removed}
+            onClick={handleRemove}
+          />
+        </Style.MenuButtons>
       </Style.Title>
       <img
         src={editor.content.content}

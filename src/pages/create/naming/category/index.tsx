@@ -1,47 +1,14 @@
 import * as React from "react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useSnackbar } from "notistack";
-
-import * as Style from "./category.style";
-import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Close";
 import { usePillDefaultEditor } from "../../../../utils/hooks/editor";
 import { I18N } from "../../../../utils/i18n";
 import { useI18n } from "../../../../utils/hooks/i18n";
 
-const validateContent = (value: string) => {
-  if (value.trim() !== value) {
-    return "공백이 들어갈 수 없습니다.";
-  }
-
-  if (!!value && !value.match("^(([a-zA-Z]+)|([ㅏ-ㅣㄱ-ㅎ가-힣]+))$")) {
-    return "카테고리는 영어와 한글 중 한 언어로만 입력할 수 있습니다.";
-  }
-
-  if (value.length > 10) {
-    return "카테고리의 글자 수는 10자를 넘길 수 없습니다.";
-  }
-
-  return null;
-};
-
-export interface CategoryProps {
-  category: string;
-  onRemove: () => void;
-  disabled?: boolean;
-}
-
-export const CategoryButton = React.memo((props: CategoryProps) => {
-  return (
-    <Style.Button
-      onClick={props.onRemove}
-      disabled={props.disabled}
-    >
-      <span className="title">{props.category}</span>
-      <CloseIcon />
-    </Style.Button>
-  );
-});
+import * as Style from "./category.style";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import { validateCategory } from "../validation";
 
 interface AddCategoryButtonProps {
   onAdd: (category: string) => void;
@@ -57,18 +24,20 @@ export const AddCategoryButton = (props: AddCategoryButtonProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { enqueueSnackbar } = useSnackbar();
-  const toggleEdit = () => {
-    setEdit(!edit);
+
+  const toggleEdit = useCallback(() => {
+    setEdit((edit) => !edit);
     setContent("");
-  };
+  }, []);
 
   const handleContent = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = event.target;
-      const validateMsg = validateContent(value);
+
+      const validateMsg = validateCategory(value);
 
       if (!!validateMsg) {
-        enqueueSnackbar(validateMsg, {
+        enqueueSnackbar(text(validateMsg), {
           variant: "error",
           preventDuplicate: true,
         });
@@ -77,28 +46,31 @@ export const AddCategoryButton = (props: AddCategoryButtonProps) => {
 
       setContent(value);
     },
-    [enqueueSnackbar]
+    [text, enqueueSnackbar]
   );
 
   const handleEnter = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (event.key === "Enter") {
-        if (editor.categories.find((category) => category.category === content)) {
-          enqueueSnackbar("이미 존재하는 카테고리입니다.", {
+        if (
+          editor.categories.find((category) => category.category === content)
+        ) {
+          enqueueSnackbar(text(I18N.PAGE_CREATE_37), {
             variant: "error",
             preventDuplicate: true,
           });
 
           return;
         }
+
         setEdit(false);
         !!content && props.onAdd(content);
       }
     },
-    [editor, content, enqueueSnackbar, props]
+    [editor, content, text, enqueueSnackbar, props]
   );
 
-  // toggle transition
+  // 카테고리 추가 Animation
   useEffect(() => {
     if (!containerRef?.current) {
       return;
@@ -114,7 +86,7 @@ export const AddCategoryButton = (props: AddCategoryButtonProps) => {
   return (
     <Style.Container ref={containerRef}>
       {edit ? (
-        <Style.InputField
+        <Style.Input
           onChange={handleContent}
           onBlur={toggleEdit}
           onKeyDown={handleEnter}
@@ -131,3 +103,18 @@ export const AddCategoryButton = (props: AddCategoryButtonProps) => {
     </Style.Container>
   );
 };
+
+export interface CategoryProps {
+  category: string;
+  onRemove: () => void;
+  disabled?: boolean;
+}
+
+export const CategoryButton = React.memo((props: CategoryProps) => {
+  return (
+    <Style.Button onClick={props.onRemove} disabled={props.disabled}>
+      <span className="title">{props.category}</span>
+      <CloseIcon />
+    </Style.Button>
+  );
+});

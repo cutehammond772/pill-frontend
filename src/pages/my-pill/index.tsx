@@ -19,6 +19,15 @@ const MyPillPage = () => {
   return (
     <Page>
       <Style.Container>
+        <Style.UserCard>
+          <div className="profile"></div>
+          <div className="title">CUTEHAMMOND</div>
+          <div className="content">
+            <div>작성한 Pill</div>
+            <div>작성한 댓글</div>
+            <div>추천한 Pill</div>
+          </div>
+        </Style.UserCard>
         <Typography
           sx={{
             fontSize: "24px",

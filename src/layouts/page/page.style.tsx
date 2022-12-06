@@ -28,7 +28,8 @@ export const DefaultPageLayout = css`
 `;
 
 export const Page = styled.div<{ layout?: SerializedStyles }>`
-  // 트랜지션을 위해 필요하다.
+  // Transition 형태가 Fade-In, Fade-Out이므로
+  // 페이지가 서로 겹쳐지기 위해서는 absolute로 설정해야 한다.
   position: absolute;
   width: 100%;
   box-sizing: border-box;

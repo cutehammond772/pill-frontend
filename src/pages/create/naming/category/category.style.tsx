@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { TransitionGroup as TransitionGroupComponent } from "react-transition-group";
+import { ColorAttributes } from "../../../../GlobalStyles";
 
 export const EDIT_WIDTH = "160px";
 export const BUTTON_WIDTH = "80px";
@@ -57,12 +58,13 @@ export const Button = styled.button<{
 
   border: none;
 
-  color: ${(props) => (!!props.addButton ? "var(--light)" : "var(--dark)")};
+  color: ${(props) =>
+    !!props.addButton ? ColorAttributes.LIGHT : ColorAttributes.DARK};
   background: ${(props) =>
-    !!props.addButton ? "var(--dark)" : "var(--bg-h-br-t-a)"};
+    !!props.addButton ? ColorAttributes.DARK : "var(--bg-h-br-t-a)"};
 `;
 
-export const InputField = styled.input`
+export const Input = styled.input`
   width: 100%;
   height: auto;
 

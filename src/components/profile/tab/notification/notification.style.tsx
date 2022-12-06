@@ -13,6 +13,16 @@ export const Notification = styled.div`
   grid-template-columns: 1fr 9fr;
   grid-gap: 1rem;
 
+  cursor: pointer;
+
+  background: rgba(0, 0, 0, 0.2);
+
+  :hover {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  transition: background 300ms;
+
   & > .icon {
     grid-row: 1 / 4;
 
@@ -22,6 +32,7 @@ export const Notification = styled.div`
 
     & > * {
       font-size: 4rem;
+      color: var(--dark);
     }
   }
 
@@ -33,11 +44,15 @@ export const Notification = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    color: var(--dark);
   }
 
   & > .content {
     font-size: 1.25rem;
     word-break: keep-all;
+
+    color: var(--dark);
   }
 
   & > .remove {
@@ -54,15 +69,6 @@ export const Notification = styled.div`
 
     color: var(--dark);
   }
-
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.3);
-
-  :hover {
-    background: rgba(255, 255, 255, 0.6);
-  }
-
-  transition: background 300ms;
 
   @media screen and (max-width: 768px) {
     & > .icon {

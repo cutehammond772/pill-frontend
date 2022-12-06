@@ -5,12 +5,10 @@ import { RootState } from "../reducers";
 import { Actions as actions } from "../reducers/editor";
 import { PillContent } from "../pill/pill.type";
 import { AnyAction } from "redux";
-import { usePageNavigate } from "./page-navigate";
 
-// 현재 편집 가능한 여부를 확인한다.
+// 편집 모드의 활성화 여부를 확인한다.
 export const useEditorAvailable = () => {
   const dispatch = useDispatch();
-  const { setLocked } = usePageNavigate();
   const available = useSelector((state: RootState) => state.editor.available);
 
   const check = <T>(callbackFn: T) => {
@@ -23,8 +21,9 @@ export const useEditorAvailable = () => {
     return callbackFn;
   };
 
-  // 편집 모드를 종료한다.
-  // => 이때 편집 창이 완전히 다른 페이지로 넘어간 뒤에 편집 데이터가 초기화된다.
+  // 편집 모드를 비활성화한다.
+  // => 이때 편집 페이지에서 다른 페이지로 이동한 뒤에 편집 데이터가 초기화된다.
+  // => 다른 페이지로 이동하기 전에 호출해야 한다.
   const finishEditor = useCallback(() => {
     if (!available) {
       throw new Error(
@@ -35,7 +34,8 @@ export const useEditorAvailable = () => {
     dispatch(actions.finish());
   }, [dispatch, available]);
 
-  // 편집 모드를 시작한다.
+  // 편집 모드를 활성화한다.
+  // => 실질적으로 편집 페이지로 이동(transition)이 완전히 완료되어야 활성화된다.
   const beginEditor = useCallback(() => {
     if (available) {
       throw new Error(

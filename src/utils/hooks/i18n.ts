@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   DEFUALT_LANGUAGE,
   I18NText,
+  I18NTextFunction,
   Language,
   LanguageType,
 } from "../i18n";
@@ -37,7 +38,7 @@ export const useI18n = () => {
 
   // 현재 설정된 언어에 따른 텍스트를 반환한다.
   // 만약 대응되는 텍스트가 해당 언어에 존재하지 않으면 기본 언어에서 가져온다.
-  const text = useCallback(
+  const text: I18NTextFunction = useCallback(
     (message: I18NText) =>
     I18NMap[language][message] || I18NMap[DEFUALT_LANGUAGE][message],
     [language]

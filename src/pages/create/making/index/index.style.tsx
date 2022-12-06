@@ -10,5 +10,10 @@ export const IndexContainer = styled.div`
   display: flex;
   flex-flow: column;
 
+  overflow: hidden;
   background-color: var(--panel);
+
+  @media screen and (max-width: 992px){
+    border-radius: 15px;
+  }
 `;

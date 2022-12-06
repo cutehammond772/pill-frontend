@@ -1,12 +1,10 @@
-import { IconButton, TextField } from "@mui/joy";
-import { Tooltip } from "@mui/material";
-
-import DeleteIcon from "@mui/icons-material/Delete";
+import { TextField } from "@mui/joy";
 
 import * as React from "react";
 import * as Style from "./title.style";
 import { useI18n } from "../../../../../utils/hooks/i18n";
 import { I18N } from "../../../../../utils/i18n";
+import { DeleteButton } from "../content/buttons";
 
 interface TitleProps {
   order: number;
@@ -33,24 +31,20 @@ const Title = (props: TitleProps) => {
             style: {
               backgroundColor: "rgba(255, 255, 255, 0)",
               border: "none",
-              fontWeight: "700",
+              fontWeight: "500",
               fontSize: "20px",
               alignSelf: "center",
+              color: "var(--light)",
             },
           },
         }}
       />
 
-      <Tooltip title={text(I18N.PAGE_CREATE_30)}>
-        <IconButton
-          variant="soft"
-          color="danger"
-          onClick={props.onRemove}
-          {...(!!props.removed && { disabled: true })}
-        >
-          <DeleteIcon className="remove" />
-        </IconButton>
-      </Tooltip>
+      <DeleteButton
+        text={text}
+        disabled={props.removed}
+        onClick={props.onRemove}
+      />
     </Style.Title>
   );
 };
