@@ -139,4 +139,4 @@ const Header = <E extends Menus>(props: HeaderProps<E>) => {
   );
 };
 
-export { Header };
+export default Header;

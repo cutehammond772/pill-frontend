@@ -6,6 +6,7 @@ import authSaga from "./auth";
 import editorSaga from "./editor";
 import profileSaga from "./profile";
 import validationSaga from "./validation";
+import modalSaga from "./modal";
 
 export const sagaMiddleware = createSagaMiddleware();
 
@@ -17,5 +18,6 @@ export default function* rootSaga() {
     fork(editorSaga),
     fork(profileSaga),
     fork(validationSaga),
+    fork(modalSaga),
   ]);
 }

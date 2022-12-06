@@ -20,8 +20,7 @@ import DefaultHeader from "./components/header/default";
 import CreateHeader from "./components/header/create";
 import EmptyHeader from "./components/header/empty";
 
-import { Footer } from "./layouts/footer";
-import { DynamicPageProvider } from "./layouts/page";
+import Footer from "./layouts/footer";
 import { Actions as actions } from "./utils/reducers/page/transition";
 import { Actions as events } from "./utils/reducers/page/event";
 
@@ -44,7 +43,7 @@ const App = () => {
   }, [handleLoad]);
 
   return (
-    <DynamicPageProvider>
+    <>
       {/* Header */}
       <Routes location={location}>
         {/* DefaultHeader */}
@@ -94,7 +93,7 @@ const App = () => {
 
       {/* Footer */}
       <Footer />
-    </DynamicPageProvider>
+    </>
   );
 };
 

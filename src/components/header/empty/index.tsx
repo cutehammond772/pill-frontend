@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Header } from "../../../layouts/header";
+import Header from "../../../layouts/header";
 import { I18N } from "../../../utils/i18n";
 import { useHeader } from "../../../utils/hooks/header";
 import { Menus } from "../../../utils/hooks/header/header.type";

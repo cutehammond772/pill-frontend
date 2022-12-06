@@ -4,10 +4,27 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { SerializedStyles } from "@emotion/react";
 
-import { ModalTransition, ModalTransitionType, TransitionProps } from ".";
+import { ModalTransition, ModalTransitions, TransitionProps } from "./modal.type";
+
+export const Container = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
+export const Dialog = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: var(--z-modal);
+`;
 
 export const Backdrop = styled.div<{
-  dialogMode?: boolean;
+  noBackdrop: boolean;
   duration: number;
   state: ModalTransition;
 }>`
@@ -23,18 +40,18 @@ export const Backdrop = styled.div<{
 
   backdrop-filter: ${(props) => {
     switch (props.state) {
-      case ModalTransitionType.ENTERING:
-      case ModalTransitionType.ENTERED:
-        return !props.dialogMode ? "blur(4px)" : "none";
+      case ModalTransitions.ENTERING:
+      case ModalTransitions.ENTERED:
+        return !props.noBackdrop ? "blur(4px)" : "none";
 
-      case ModalTransitionType.EXITING:
-      case ModalTransitionType.EXITED:
+      case ModalTransitions.EXITING:
+      case ModalTransitions.EXITED:
         return "none";
     }
   }};
 
   visibility: ${(props) =>
-    props.state === ModalTransitionType.EXITED ? "hidden" : "visible"};
+    props.state === ModalTransitions.EXITED ? "hidden" : "visible"};
 `;
 
 export const Modal = styled.div<{
@@ -48,21 +65,21 @@ export const Modal = styled.div<{
   ${(props) => props.customTransition.durations};
 
   visibility: ${(props) =>
-    props.state === ModalTransitionType.EXITED ? "hidden" : "visible"};
+    props.state === ModalTransitions.EXITED ? "hidden" : "visible"};
 `;
 
 export const DefaultTransition = (): TransitionProps => ({
   transitions: {
-    [ModalTransitionType.ENTERING]: css`
+    [ModalTransitions.ENTERING]: css`
       opacity: 1;
     `,
-    [ModalTransitionType.ENTERED]: css`
+    [ModalTransitions.ENTERED]: css`
       opacity: 1;
     `,
-    [ModalTransitionType.EXITING]: css`
+    [ModalTransitions.EXITING]: css`
       opacity: 0;
     `,
-    [ModalTransitionType.EXITED]: css`
+    [ModalTransitions.EXITED]: css`
       opacity: 0;
     `,
   },

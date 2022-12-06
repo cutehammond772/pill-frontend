@@ -48,6 +48,8 @@ import { CommonColors } from "@mui/material/styles/createPalette";
 import { TypeBackground } from "@mui/material";
 import { SnackbarProvider } from "notistack";
 import rootSaga, { sagaMiddleware } from "./utils/sagas";
+import { DynamicPageProvider } from "./layouts/page";
+import { GlobalModalProvider } from "./layouts/modal";
 
 // extends Joy theme to include tokens from Material UI
 declare module "@mui/joy/styles" {
@@ -189,15 +191,19 @@ const createStore = () => {
 root.render(
   <BrowserRouter>
     <CssVarsProvider theme={theme}>
-      <SnackbarProvider
-        maxSnack={3}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
+      <Provider store={createStore()}>
         <GlobalStyles />
-        <Provider store={createStore()}>
-          <App />
-        </Provider>
-      </SnackbarProvider>
+        <SnackbarProvider
+          maxSnack={3}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <GlobalModalProvider>
+            <DynamicPageProvider>
+              <App />
+            </DynamicPageProvider>
+          </GlobalModalProvider>
+        </SnackbarProvider>
+      </Provider>
     </CssVarsProvider>
   </BrowserRouter>
 );

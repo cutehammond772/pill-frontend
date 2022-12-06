@@ -1,13 +1,10 @@
-import { Header } from "../../../layouts/header";
 
 import * as React from "react";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 
+import Header from "../../../layouts/header";
 import { useHeader } from "../../../utils/hooks/header";
-import { ConfirmModal } from "./modal";
-
 import { useSnackbar } from "notistack";
-import { usePillDefaultEditor } from "../../../utils/hooks/editor";
 import { Menus } from "../../../utils/hooks/header/header.type";
 import { I18N } from "../../../utils/i18n";
 import { useI18n } from "../../../utils/hooks/i18n";
@@ -15,6 +12,8 @@ import { useGetValidation } from "../../../utils/hooks/validation";
 
 import PillValidator from "../../../utils/validators/create/pill";
 import { usePageNavigate } from "../../../utils/hooks/page-navigate";
+import { useModal } from "../../../utils/hooks/modal";
+import { ModalTypes } from "../../../layouts/modal/modal.type";
 
 export const CreateHeaderSignature = "CreateHeader";
 
@@ -28,16 +27,14 @@ type CreateMenu = typeof CreateMenus[keyof typeof CreateMenus];
 
 const CreateHeader = () => {
   const { text } = useI18n();
+  const { navigate } = usePageNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const create = useModal(ModalTypes.CREATE_CONFIRM, {});
+
   const header = useHeader<typeof CreateMenus>(
     CreateHeaderSignature,
     CreateMenus.EDITOR
   );
-
-  const { navigate } = usePageNavigate();
-  const { enqueueSnackbar } = useSnackbar();
-
-  const editor = usePillDefaultEditor();
-  const [exitConfirm, setExitConfirm] = useState<boolean>(false);
 
   const validation = useGetValidation(PillValidator());
   const valid = validation.validated && validation.validation.valid;
@@ -87,36 +84,17 @@ const CreateHeader = () => {
     return () => window.removeEventListener("beforeunload", preventClose);
   }, [preventClose]);
 
-  const handleHomeClick = useCallback(() => {
-    setExitConfirm(true);
-  }, []);
-
-  const handleHomeConfirm = useCallback(() => {
-    editor.finishEditor();
-    
-    // 뒤로가기를 통해 다시 되돌아가지 않도록 한다.
-    navigate("/", true);
-  }, [editor, navigate]);
-
   return (
-    <>
-      <Header
-        menu={{
-          enum: CreateMenus,
-          selected: header.selectedMenu,
-          disabled: header.disabledMenus,
-          onClick: handleClick,
-        }}
-        onHomeClick={handleHomeClick}
-        homeMenuOnDropdown
-      />
-
-      <ConfirmModal
-        open={exitConfirm}
-        onClose={() => setExitConfirm(false)}
-        onConfirm={handleHomeConfirm}
-      />
-    </>
+    <Header
+      menu={{
+        enum: CreateMenus,
+        selected: header.selectedMenu,
+        disabled: header.disabledMenus,
+        onClick: handleClick,
+      }}
+      onHomeClick={create}
+      homeMenuOnDropdown
+    />
   );
 };
 

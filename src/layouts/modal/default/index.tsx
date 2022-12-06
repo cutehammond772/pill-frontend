@@ -1,26 +1,21 @@
 import * as React from "react";
-import { useRef } from "react";
 
 import * as Style from "./default.style";
-import Modal, { TransitionProps } from "../../modal";
+import Modal from "..";
+import { CustomModalProps } from "../modal.type";
 
-interface DefaultModalProps extends React.PropsWithChildren {
-  open: boolean;
-  onClose: () => void;
-
-  transition?: TransitionProps;
+interface DefaultModalProps extends React.PropsWithChildren, CustomModalProps {
   excludeBackgroundPill?: boolean;
 }
 
 export const DefaultModal = (props: DefaultModalProps) => {
-  const modalRef = useRef<HTMLDivElement>(null);
   return (
     <Modal
-      onClose={props.onClose}
       open={props.open}
+      onClose={props.onClose}
       layout={Style.Layout}
-      ref={modalRef}
-      transition={props.transition || Style.Transition()}
+      transition={Style.Transition()}
+      modalID={props.modalID}
     >
       {!props.excludeBackgroundPill && <Style.Pill />}
       <div className="container">{props.children}</div>

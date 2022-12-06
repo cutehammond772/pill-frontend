@@ -5,21 +5,16 @@ import { useRef, useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../utils/reducers";
 import { useI18n } from "../../../utils/hooks/i18n";
-import { DefaultModal } from "../../modal/default";
+import { DefaultModal } from "../../../layouts/modal/default";
 import { GuestBanner, NotificationBanner, UserBanner } from "./banner";
 
 import { GuestMenu } from "./menu";
 import { I18N } from "../../../utils/i18n";
+import { CustomModalProps } from "../../../layouts/modal/modal.type";
 
-interface ProfileTabProps {
-  open: boolean;
-  onClose: () => void;
-}
-
-const ProfileTab = (props: ProfileTabProps) => {
+export const ProfileTabModal = (props: CustomModalProps) => {
   const { text } = useI18n();
   const profile = useSelector((state: RootState) => state.profile);
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -29,7 +24,11 @@ const ProfileTab = (props: ProfileTabProps) => {
   }, [props.open]);
 
   return (
-    <DefaultModal {...props}>
+    <DefaultModal
+      open={props.open}
+      onClose={props.onClose}
+      modalID={props.modalID}
+    >
       <Style.Container ref={containerRef}>
         {!profile.userName ? (
           <>
@@ -50,5 +49,3 @@ const ProfileTab = (props: ProfileTabProps) => {
     </DefaultModal>
   );
 };
-
-export { ProfileTab };

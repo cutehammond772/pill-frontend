@@ -14,7 +14,7 @@ import { ImageContentLayout, ImageContentTitleLayout } from "./image.style";
 import * as React from "react";
 import { useState, useCallback } from "react";
 import { AddContentButton } from "../add";
-import ImageContentModal from "../../../../../../components/modal/image";
+import ImageContentModal from "../../../../../../components/modal/image/edit";
 
 import ImageValidator from "../../../../../../utils/validators/create/content/image";
 import { PillContentType } from "../../../../../../utils/pill/pill.type";
@@ -36,6 +36,8 @@ import {
   MenuButton,
   UpButton,
 } from "../buttons";
+import { useModal } from "../../../../../../utils/hooks/modal";
+import { ModalTypes } from "../../../../../../layouts/modal/modal.type";
 
 interface AddImageButtonProps {
   id: string;
@@ -43,32 +45,15 @@ interface AddImageButtonProps {
 
 export const AddImageButton = (props: AddImageButtonProps) => {
   const { text } = useI18n();
-  const editor = usePillIndexEditor(props.id);
-
-  const [open, setOpen] = useState<boolean>(false);
-  const handleOpen = () => setOpen(true);
-
-  const handleAddImage = useCallback(
-    (link: string, description: string) => {
-      editor.addContent(PillContentType.IMAGE, link, description);
-    },
-    [editor]
-  );
+  const create = useModal(ModalTypes.ADD_IMAGE_CONTENT, { id: props.id });
 
   return (
-    <>
-      <AddContentButton
-        icon={ImageIcon}
-        title={text(I18N.PAGE_CREATE_11)}
-        description={text(I18N.PAGE_CREATE_12)}
-        onClick={handleOpen}
-      />
-      <ImageContentModal
-        open={open}
-        onClose={() => setOpen(false)}
-        onAdd={handleAddImage}
-      />
-    </>
+    <AddContentButton
+      icon={ImageIcon}
+      title={text(I18N.PAGE_CREATE_11)}
+      description={text(I18N.PAGE_CREATE_12)}
+      onClick={create}
+    />
   );
 };
 
@@ -76,13 +61,12 @@ export const ImageContent = (props: IndexContentProps) => {
   const { text } = useI18n();
   const editor = usePillContentEditor(props.id, props.contentId);
   const validator = useValidator(ImageValidator(props.contentId, props.id));
+  const create = useModal(ModalTypes.EDIT_IMAGE_CONTENT, {
+    id: props.id,
+    contentId: props.contentId,
+  });
 
   const [open, setOpen] = useState<boolean>(false);
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
-
-  const handleUpdateImage = (link: string, description: string) => {
-    editor.update(link, description);
-  };
 
   const handleExchange = (relation: number) => {
     props.onExchange(relation);
@@ -107,10 +91,10 @@ export const ImageContent = (props: IndexContentProps) => {
           <div className="description">{editor.content.subContent}</div>
         </div>
 
-        <Style.MenuButtons open={menuOpen}>
+        <Style.MenuButtons open={open}>
           <MenuButton
-            open={menuOpen}
-            onClick={() => setMenuOpen(!menuOpen)}
+            open={open}
+            onClick={() => setOpen(!open)}
             disabled={props.removed}
           />
           {props.order !== 0 && (
@@ -129,11 +113,7 @@ export const ImageContent = (props: IndexContentProps) => {
             />
           )}
 
-          <EditButton
-            text={text}
-            disabled={props.removed}
-            onClick={() => setOpen(true)}
-          />
+          <EditButton text={text} disabled={props.removed} onClick={create} />
 
           <DeleteButton
             text={text}
@@ -142,23 +122,12 @@ export const ImageContent = (props: IndexContentProps) => {
           />
         </Style.MenuButtons>
       </Style.Title>
+
       <img
         src={editor.content.content}
         alt={editor.content.subContent}
         className="image"
       />
-
-      {!props.removed && (
-        <ImageContentModal
-          open={open}
-          edit={{
-            link: editor.content.content,
-            description: editor.content.subContent,
-          }}
-          onUpdate={handleUpdateImage}
-          onClose={() => setOpen(false)}
-        />
-      )}
     </Style.Container>
   );
 };

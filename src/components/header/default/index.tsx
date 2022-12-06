@@ -1,4 +1,4 @@
-import { Header } from "../../../layouts/header";
+import Header from "../../../layouts/header";
 
 import * as React from "react";
 import { useHeader } from "../../../utils/hooks/header";

@@ -6,7 +6,7 @@ import {
   CreateMenus,
 } from "../../components/header/create";
 
-import { Page } from "../../layouts/page";
+import Page from "../../layouts/page";
 import { usePageSelect } from "../../utils/hooks/header/page-select";
 
 import { useSelector } from "react-redux";

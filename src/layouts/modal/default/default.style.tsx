@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 
 import styled from "@emotion/styled";
-import { ModalTransitionType, TransitionProps } from "..";
+import { ModalTransitions, TransitionProps } from "../modal.type";
 
 export const Layout = css`
   z-index: var(--z-header-tab);
@@ -118,10 +118,10 @@ const ModalCloseTransition = css`
 
 export const Transition = (): TransitionProps => ({
   transitions: {
-    [ModalTransitionType.ENTERING]: ModalOpenTransition,
-    [ModalTransitionType.ENTERED]: ModalOpenTransition,
-    [ModalTransitionType.EXITING]: ModalCloseTransition,
-    [ModalTransitionType.EXITED]: ModalCloseTransition,
+    [ModalTransitions.ENTERING]: ModalOpenTransition,
+    [ModalTransitions.ENTERED]: ModalOpenTransition,
+    [ModalTransitions.EXITING]: ModalCloseTransition,
+    [ModalTransitions.EXITED]: ModalCloseTransition,
   },
 
   durations: css`

@@ -2,7 +2,7 @@ import { Button } from "@mui/joy";
 
 import * as Style from "./not-found.style";
 
-import { Page } from "../../../layouts/page";
+import Page from "../../../layouts/page";
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HomeIcon from "@mui/icons-material/Home";

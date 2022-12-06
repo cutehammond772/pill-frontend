@@ -15,7 +15,6 @@ export const ActionTypes = {
 } as const;
 
 export const Actions = {
-  // For Reducer
   setToUser: createAction<{
     userName: string;
     profileUrl: string;

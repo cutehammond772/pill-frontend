@@ -35,7 +35,7 @@ export const DynamicPageProvider = (props: React.PropsWithChildren) => {
   return <Style.Container ref={ref}>{props.children}</Style.Container>;
 };
 
-export const Page = (props: PageProps) => {
+const Page = (props: PageProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
@@ -68,3 +68,5 @@ export const Page = (props: PageProps) => {
     </Style.Page>
   );
 };
+
+export default Page;

@@ -11,6 +11,7 @@ import validationReducer from "./validation";
 import pageTransitionReducer from "./page/transition";
 import pageNavigateReducer from "./page/navigate";
 import pageEventReducer from "./page/event";
+import modalReducer from "./modal";
 
 const rootReducer = combineReducers({
     profile: profileReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
     pageTransition: pageTransitionReducer,
     pageNavigate: pageNavigateReducer,
     pageEvent: pageEventReducer,
+    modal: modalReducer,
 });
 
 type RootState = ReturnType<typeof rootReducer>;
