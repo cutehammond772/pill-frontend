@@ -16,7 +16,7 @@ import { RootState } from "../reducers";
 import {
   InternalActions as internal,
   Actions as actions,
-  ActionTypes,
+  ReducerActionTypes, SagaActionTypes,
 } from "../reducers/validation";
 import {
   resolvePattern,
@@ -42,9 +42,9 @@ type Response = Validation | undefined;
 type RegisterValidatorAction = ReturnType<typeof actions.registerValidator>;
 type RemoveValidatorAction = ReturnType<typeof actions.removeValidator>;
 type UpdateValidationAction = ReturnType<typeof actions.updateValidation>;
-type AddSubValidatorAction = ReturnType<typeof internal.sagaAddSubValidator>;
+type AddSubValidatorAction = ReturnType<typeof internal.requestAddSubValidator>;
 type RemoveSubValidatorAction = ReturnType<
-  typeof internal.sagaRemoveSubValidator
+  typeof internal.requestRemoveSubValidator
 >;
 
 // 디스패치 액션을 나타낸다.
@@ -90,35 +90,35 @@ const waitDispatch = function* <T>(
 const waitRegisterValidator = (validatorID: string) =>
   waitDispatch<RegisterValidatorDispatch>(
     validatorID,
-    ActionTypes.REGISTER_VALIDATOR,
+    ReducerActionTypes.REGISTER_VALIDATOR,
     (action) => action.payload.data.validatorID
   );
 
 const waitSetValidation = (validatorID: string) =>
   waitDispatch<SetValidationDispatch>(
     validatorID,
-    ActionTypes.SET_VALIDATION,
+    ReducerActionTypes.SET_VALIDATION,
     (action) => action.payload.validatorID
   );
 
 const waitRemoveValidator = (validatorID: string) =>
   waitDispatch<RemoveValidatorDispatch>(
     validatorID,
-    ActionTypes.REMOVE_VALIDATOR,
+    ReducerActionTypes.REMOVE_VALIDATOR,
     (action) => action.payload.validatorID
   );
 
 const waitAddSubValidator = (validatorID: string) =>
   waitDispatch<AddSubValidatorDispatch>(
     validatorID,
-    ActionTypes.ADD_SUB_VALIDATOR,
+    ReducerActionTypes.ADD_SUB_VALIDATOR,
     (action) => action.payload.validatorID
   );
 
 const waitRemoveSubValidator = (validatorID: string) =>
   waitDispatch<RemoveSubValidatorDispatch>(
     validatorID,
-    ActionTypes.REMOVE_SUB_VALIDATOR,
+    ReducerActionTypes.REMOVE_SUB_VALIDATOR,
     (action) => action.payload.validatorID
   );
 
@@ -158,7 +158,7 @@ const handleTopValidator = function* (action: RegisterValidatorAction) {
   }
 
   yield put(
-    internal.sagaAddSubValidator({
+    internal.requestAddSubValidator({
       validatorID: top,
       subValidatorID: action.payload.data.validatorID,
     })
@@ -286,10 +286,10 @@ const validatorFlow = function* (action: RegisterValidatorAction) {
 
   // 네 가지 요청을 받는다.
   const channel: Channel<ValidatorActions> = yield actionChannel([
-    ActionTypes.SAGA_UPDATE_VALIDATION,
-    ActionTypes.SAGA_REMOVE_VALIDATOR,
-    ActionTypes.SAGA_ADD_SUB_VALIDATOR,
-    ActionTypes.SAGA_REMOVE_SUB_VALIDATOR,
+    SagaActionTypes.SAGA_UPDATE_VALIDATION,
+    SagaActionTypes.SAGA_REMOVE_VALIDATOR,
+    SagaActionTypes.SAGA_ADD_SUB_VALIDATOR,
+    SagaActionTypes.SAGA_REMOVE_SUB_VALIDATOR,
   ]);
 
   // 1. Validator를 추가한다.
@@ -312,7 +312,7 @@ const validatorFlow = function* (action: RegisterValidatorAction) {
     const validatorAction: ValidatorActions = yield take(channel);
 
     // 3-1. 검증 결과 갱신 요청
-    if (validatorAction.type === ActionTypes.SAGA_UPDATE_VALIDATION) {
+    if (validatorAction.type === SagaActionTypes.SAGA_UPDATE_VALIDATION) {
       const action: UpdateValidationAction = validatorAction;
       // 다른 Validator 요청이면 건너뛴다.
       if (action.payload.validatorID !== validatorID) {
@@ -337,7 +337,7 @@ const validatorFlow = function* (action: RegisterValidatorAction) {
     }
 
     // 3-2. Validator 삭제 요청
-    if (validatorAction.type === ActionTypes.SAGA_REMOVE_VALIDATOR) {
+    if (validatorAction.type === SagaActionTypes.SAGA_REMOVE_VALIDATOR) {
       const action: RemoveValidatorAction = validatorAction;
 
       // 다른 Validator 요청이면 건너뛴다.
@@ -361,7 +361,7 @@ const validatorFlow = function* (action: RegisterValidatorAction) {
     }
 
     // 3-3. 하위 Validator 추가 요청
-    if (validatorAction.type === ActionTypes.SAGA_ADD_SUB_VALIDATOR) {
+    if (validatorAction.type === SagaActionTypes.SAGA_ADD_SUB_VALIDATOR) {
       const action = validatorAction as AddSubValidatorAction;
 
       // 다른 Validator 요청이면 건너뛴다.
@@ -386,7 +386,7 @@ const validatorFlow = function* (action: RegisterValidatorAction) {
     }
 
     // 3-4. 하위 Validator 삭제 요청
-    if (validatorAction.type === ActionTypes.SAGA_REMOVE_SUB_VALIDATOR) {
+    if (validatorAction.type === SagaActionTypes.SAGA_REMOVE_SUB_VALIDATOR) {
       const action = validatorAction as RemoveSubValidatorAction;
 
       // 다른 Validator 요청이면 건너뛴다.
@@ -411,5 +411,5 @@ const validatorFlow = function* (action: RegisterValidatorAction) {
 };
 
 export default function* validationSaga() {
-  yield all([takeEvery(ActionTypes.SAGA_REGISTER_VALIDATOR, validatorFlow)]);
+  yield all([takeEvery(SagaActionTypes.SAGA_REGISTER_VALIDATOR, validatorFlow)]);
 }

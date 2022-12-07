@@ -17,3 +17,5 @@ export type DeepCopy = Copy<typeof CopyOptionSignatures.DEEP_COPY> & {
 export type CopyOption = SwallowCopy | CopyNothing | DeepCopy;
 
 export type Filter<T> = (element: T) => boolean;
+
+export const COPY_NOTHING: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };

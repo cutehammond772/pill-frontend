@@ -1,4 +1,6 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
+import { RootState } from ".";
+import { identity } from "../other/identity";
 
 export const REDUCER_NAME = "profile";
 
@@ -9,25 +11,33 @@ export interface ProfileState {
 
 const initialState: ProfileState = {};
 
-export const ActionTypes = {
+// Reducer 요청
+export const ReducerActionTypes = {
   SET_TO_USER: `${REDUCER_NAME}/SET_TO_USER`,
   SET_TO_ANONYMOUS: `${REDUCER_NAME}/SET_TO_ANONYMOUS`,
 } as const;
 
-export const Actions = {
+// saga 로직 등 내부 로직에서의 요청
+export const InternalActions = {
   setToUser: createAction<{
     userName: string;
     profileUrl: string;
-  }>(ActionTypes.SET_TO_USER),
+  }>(ReducerActionTypes.SET_TO_USER),
 
-  setToAnonymous: createAction(ActionTypes.SET_TO_ANONYMOUS),
+  setToAnonymous: createAction(ReducerActionTypes.SET_TO_ANONYMOUS),
+} as const;
+
+const profileSelector = (state: RootState) => state.profile;
+
+export const StaticSelectors = {
+  PROFILE: createSelector([profileSelector], identity),
 } as const;
 
 const profileReducer = createReducer(initialState, {
-  [ActionTypes.SET_TO_ANONYMOUS]: () => initialState,
-  [ActionTypes.SET_TO_USER]: (
+  [ReducerActionTypes.SET_TO_ANONYMOUS]: () => initialState,
+  [ReducerActionTypes.SET_TO_USER]: (
     _,
-    action: ReturnType<typeof Actions.setToUser>
+    action: ReturnType<typeof InternalActions.setToUser>
   ) => action.payload,
 });
 

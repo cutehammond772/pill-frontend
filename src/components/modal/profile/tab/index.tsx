@@ -3,18 +3,18 @@ import * as Style from "./tab.style";
 
 import { useRef, useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../utils/reducers";
-import { useI18n } from "../../../utils/hooks/i18n";
-import { DefaultModal } from "../../../layouts/modal/default";
+import { useI18n } from "../../../../utils/hooks/i18n";
+import { DefaultModal } from "../../../../layouts/modal/default";
 import { GuestBanner, NotificationBanner, UserBanner } from "./banner";
 
 import { GuestMenu } from "./menu";
-import { I18N } from "../../../utils/i18n";
-import { CustomModalProps } from "../../../layouts/modal/modal.type";
+import { I18N } from "../../../../utils/i18n";
+import { CustomModalProps } from "../../../../layouts/modal/modal.type";
+import { StaticSelectors as selectors } from "../../../../utils/reducers/profile";
 
 export const ProfileTabModal = (props: CustomModalProps) => {
   const { text } = useI18n();
-  const profile = useSelector((state: RootState) => state.profile);
+  const profile = useSelector(selectors.PROFILE);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {

@@ -1,26 +1,10 @@
-import * as Style from "../content.style";
-import { IconButton, Chip } from "@mui/joy";
-import { Tooltip } from "@mui/material";
-
-import ImageIcon from "@mui/icons-material/Image";
-import DeleteIcon from "@mui/icons-material/Delete";
-
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import EditIcon from "@mui/icons-material/Edit";
-
-import { ImageContentLayout, ImageContentTitleLayout } from "./image.style";
-
 import * as React from "react";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { AddContentButton } from "../add";
-import ImageContentModal from "../../../../../../components/modal/image/edit";
 
 import ImageValidator from "../../../../../../utils/validators/create/content/image";
-import { PillContentType } from "../../../../../../utils/pill/pill.type";
 import {
   usePillContentEditor,
-  usePillIndexEditor,
 } from "../../../../../../utils/hooks/editor";
 import { IndexContentProps } from "../content.type";
 import {
@@ -38,6 +22,10 @@ import {
 } from "../buttons";
 import { useModal } from "../../../../../../utils/hooks/modal";
 import { ModalTypes } from "../../../../../../layouts/modal/modal.type";
+
+import * as Style from "../content.style";
+import ImageIcon from "@mui/icons-material/Image";
+import { ImageContentLayout, ImageContentTitleLayout } from "./image.style";
 
 interface AddImageButtonProps {
   id: string;

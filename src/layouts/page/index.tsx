@@ -4,9 +4,8 @@ import { SerializedStyles } from "@emotion/react";
 
 import { useRef, useLayoutEffect, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../utils/reducers";
 import useResizeObserver from "@react-hook/resize-observer";
-import { Actions as actions } from "../../utils/reducers/page/size";
+import { Actions as actions, StaticSelectors as selectors } from "../../utils/reducers/page/size";
 
 interface PageProps extends React.PropsWithChildren {
   layout?: SerializedStyles;
@@ -20,7 +19,7 @@ interface PageProps extends React.PropsWithChildren {
 // 이때 absolute로 설정해야 서로 겹쳐지기 때문이다.
 export const DynamicPageProvider = (props: React.PropsWithChildren) => {
   const ref = useRef<HTMLDivElement>(null);
-  const attributes = useSelector((state: RootState) => state.page);
+  const attributes = useSelector(selectors.PAGE);
 
   // (Container의 Height) = Header + Page + Footer
   useLayoutEffect(() => {

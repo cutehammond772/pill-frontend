@@ -7,7 +7,6 @@ import { Profile } from "../../components/profile";
 import { Actions as actions } from "../../utils/reducers/page/size";
 import { Menus, MenuProps } from "../../utils/hooks/header/header.type";
 import HeaderMenu from "./menu/default";
-import { RootState } from "../../utils/reducers";
 
 import * as Style from "./header.style";
 import Logo from "./logo";
@@ -15,6 +14,7 @@ import PillMenu from "./menu/pill";
 import { useI18n } from "../../utils/hooks/i18n";
 import { I18N } from "../../utils/i18n";
 import { usePageNavigate } from "../../utils/hooks/page-navigate";
+import { StaticSelectors as selectors } from "../../utils/reducers/header";
 
 interface HeaderProps<E extends Menus> {
   onHomeClick?: () => void;
@@ -36,9 +36,7 @@ const Header = <E extends Menus>(props: HeaderProps<E>) => {
   );
 
   // Page 간 트랜지션 과정에서 아이템의 클릭 이벤트를 막기 위해 필요하다.
-  const preventClick = useSelector(
-    (state: RootState) => state.header.preventClick
-  );
+  const preventClick = useSelector(selectors.PREVENT_CLICK);
 
   // 특정 함수를 호출하기 전에 아이템의 클릭 이벤트 허용 여부를 확인한다.
   const checkPrevention = useCallback(

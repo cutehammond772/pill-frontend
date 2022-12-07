@@ -10,24 +10,28 @@ import {
 import {
   Actions as actions,
   InternalActions as internal,
-  ActionTypes,
+  SagaActionTypes,
 } from "../reducers/editor";
 import { InternalActions as rollbackActions } from "../reducers/rollback";
 import { InternalActions as validationActions } from "../reducers/validation";
 
-import { PAGE_EVENT_FIRST_PAGE } from "../reducers/page/event";
-import { ActionTypes as PageTransitionActionTypes } from "../reducers/page/transition";
+import { StaticSelectors as editorSelectors } from "../reducers/editor";
+import { StaticSelectors as pageEventSelectors } from "../reducers/page/event";
+import { ReducerActionTypes as PageTransitionActionTypes } from "../reducers/page/transition";
 import { PillContentData, PillIndexData } from "../pill/pill.type";
 import { RootState } from "../reducers";
 import { Channel } from "redux-saga";
+
+const indexSelector = (id: string) => (state: RootState) =>
+  state.editor.indexes.find((index) => index.id === id);
 
 // 편집 모드의 시퀀스를 나타낸다.
 const editorFlow = function* () {
   while (true) {
     // 편집 모드 시작을 기다린다.
-    yield take(ActionTypes.SAGA_BEGIN);
+    yield take(SagaActionTypes.SAGA_BEGIN);
 
-    const firstPage: boolean = yield select(PAGE_EVENT_FIRST_PAGE);
+    const firstPage: boolean = yield select(pageEventSelectors.FIRST_PAGE);
 
     if (firstPage) {
       alert("유효하지 않은 접근입니다.");
@@ -43,7 +47,7 @@ const editorFlow = function* () {
     // 다른 페이지로 완전히 이동한 뒤에 편집 모드를 비활성화한다.
     // => 페이지 이동(transition) 구조상, 이동하는 과정에서 두 페이지가 공존하는데
     // 이때 편집 데이터를 삭제하면 기존 편집 페이지에서 오류가 발생하기 때문이다.
-    yield take(ActionTypes.SAGA_FINISH);
+    yield take(SagaActionTypes.SAGA_FINISH);
     yield take(PageTransitionActionTypes.END_TRANSITION);
 
     // 편집을 비활성화한다.
@@ -62,9 +66,7 @@ const editorFlow = function* () {
 
 // 편집 모드가 활성화되었는지 확인한다.
 const editorAvaliableCheck = function* () {
-  const available: boolean = yield select(
-    (state: RootState) => state.editor.available
-  );
+  const available: boolean = yield select(editorSelectors.AVAILABLE);
 
   if (!available) {
     throw new Error(
@@ -77,7 +79,7 @@ const editorAvaliableCheck = function* () {
 const watchIndexRemove = function* () {
   // 삭제 요청을 누적시킨다.
   const channel: Channel<ReturnType<typeof actions.removeIndex>> =
-    yield actionChannel(ActionTypes.SAGA_REMOVE_INDEX);
+    yield actionChannel(SagaActionTypes.SAGA_REMOVE_INDEX);
 
   while (true) {
     // 위에서 요청을 하나씩 가져온다.
@@ -87,9 +89,7 @@ const watchIndexRemove = function* () {
     yield call(editorAvaliableCheck);
 
     // redux store로부터 인덱스 데이터를 가져온다.
-    const data: PillIndexData = yield select((state: RootState) =>
-      state.editor.indexes.find((index) => index.id === action.payload.id)
-    );
+    const data: PillIndexData = yield select(indexSelector(action.payload.id));
 
     if (!data) {
       throw new Error("[watchIndexRemove] 유효하지 않은 인덱스 ID입니다.");
@@ -107,7 +107,7 @@ const watchIndexRemove = function* () {
 const watchContentRemove = function* () {
   // 삭제 요청을 누적시킨다.
   const channel: Channel<ReturnType<typeof actions.removeContent>> =
-    yield actionChannel(ActionTypes.SAGA_REMOVE_CONTENT);
+    yield actionChannel(SagaActionTypes.SAGA_REMOVE_CONTENT);
 
   while (true) {
     // 위에서 요청을 하나씩 가져온다.
@@ -119,8 +119,8 @@ const watchContentRemove = function* () {
     yield call(editorAvaliableCheck);
 
     // redux store로부터 컨텐츠 데이터를 가져온다.
-    const index: PillIndexData | undefined = yield select((state: RootState) =>
-      state.editor.indexes.find((index) => index.id === action.payload.id)
+    const index: PillIndexData | undefined = yield select(
+      indexSelector(action.payload.id)
     );
 
     if (!index) {

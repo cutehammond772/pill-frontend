@@ -1,7 +1,9 @@
 import { useCallback, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../reducers";
-import { Actions as actions } from "../reducers/validation";
+import { useDispatch } from "react-redux";
+import {
+  Actions as actions,
+  DynamicSelectors as dynamic,
+} from "../reducers/validation";
 
 import {
   Validator,
@@ -10,6 +12,7 @@ import {
   initialValidatorResponse,
   Validation,
 } from "../validators/validator.type";
+import { useParamSelector } from "./param-selector";
 
 export const useValidation = <T extends { [key: string]: any }>(
   validateFn: (element: T) => void,
@@ -45,14 +48,10 @@ export const useGetValidation = <T>(validator: Validator<T>) => {
   const { validatorID } = validator;
 
   // Redux store에 저장된 검증 데이터이다.
-  const validation = useSelector(
-    (state: RootState) => state.validation.data[validatorID]
-  );
+  const validation = useParamSelector(dynamic.DATA, validatorID);
 
   // Validator의 정보를 나타낸다. Validator가 초기화될 시 생성된다.
-  const validatorInfo = useSelector(
-    (state: RootState) => state.validation.validators[validatorID]
-  );
+  const validatorInfo = useParamSelector(dynamic.INFO, validatorID);
 
   return {
     registered: !!validatorInfo,
@@ -74,14 +73,10 @@ export const useValidator = <T>(validator: Validator<T>) => {
   const { validatorID } = validator;
 
   // Redux store에 저장된 검증 데이터이다.
-  const validation = useSelector(
-    (state: RootState) => state.validation.data[validatorID]
-  );
+  const validation = useParamSelector(dynamic.DATA, validatorID);
 
   // Validator의 정보를 나타낸다. Validator가 초기화될 시 생성된다.
-  const validatorInfo = useSelector(
-    (state: RootState) => state.validation.validators[validatorID]
-  );
+  const validatorInfo = useParamSelector(dynamic.INFO, validatorID);
 
   // 각 요소의 검증 결과를 캐시한다.
   // 디스패치 시에는 각 요소의 검증 결과를 합산한다.

@@ -18,17 +18,19 @@ import {
   ImagePreview,
   Title,
 } from "../image.components";
+
 import { CustomModalProps } from "../../../../layouts/modal/modal.type";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../utils/reducers";
+import { DynamicSelectors as dynamic } from "../../../../utils/reducers/modal";
+import { useParamSelector } from "../../../../utils/hooks/param-selector";
 
 export interface AddImageContentModalProps {
   id: string;
 }
 
 const AddImageContentModal = (props: CustomModalProps) => {
-  const { id } = useSelector(
-    (state: RootState) => state.modal.data[props.modalID]
+  const { id } = useParamSelector(
+    dynamic.DATA,
+    props.modalID
   ) as AddImageContentModalProps;
 
   const { text } = useI18n();

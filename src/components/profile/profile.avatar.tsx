@@ -5,7 +5,7 @@ import { Tooltip } from "@mui/material";
 import { useI18n } from "../../utils/hooks/i18n";
 import { I18N } from "../../utils/i18n";
 import { useSelector } from "react-redux";
-import { RootState } from "../../utils/reducers";
+import { StaticSelectors as selectors } from "../../utils/reducers/profile";
 
 export interface ProfileData {
   userName?: string;
@@ -23,7 +23,7 @@ interface ProfileAvatarProps {
 
 const ProfileAvatar = (props: ProfileAvatarProps) => {
   const { text } = useI18n();
-  const profile = useSelector((state: RootState) => state.profile);
+  const profile = useSelector(selectors.PROFILE);
 
   return (
     <Tooltip title={profile.userName || text(I18N.PROFILE_01)} disableInteractive>

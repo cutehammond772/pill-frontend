@@ -1,10 +1,8 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
 import { PillContentData, PillIndexData } from "../pill/pill.type";
 import * as Array from "../other/data-structure/optional-array";
-import {
-  CopyNothing,
-  CopyOptionSignatures,
-} from "../other/data-structure/options";
+import { COPY_NOTHING } from "../other/data-structure/options";
+import { RootState } from ".";
 
 export const REDUCER_NAME = "rollback";
 
@@ -23,9 +21,8 @@ const copyIndex = (data: PillIndexData) => ({
   contents: data.contents.map((content) => ({ ...content })),
 });
 
-const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
-
-export const ActionTypes = {
+// Reducer 요청
+export const ReducerActionTypes = {
   RESET: `${REDUCER_NAME}/RESET`,
   CAPTURE_INDEX: `${REDUCER_NAME}/CAPTURE_INDEX`,
   REMOVE_INDEX: `${REDUCER_NAME}/REMOVE_INDEX`,
@@ -34,58 +31,76 @@ export const ActionTypes = {
   REMOVE_CONTENT: `${REDUCER_NAME}/REMOVE_CONTENT`,
 } as const;
 
+// saga 로직 등 내부 로직에서의 요청
 export const InternalActions = {
-  reset: createAction(ActionTypes.RESET),
+  reset: createAction(ReducerActionTypes.RESET),
 
   captureIndex: createAction<{ data: PillIndexData }>(
-    ActionTypes.CAPTURE_INDEX
+    ReducerActionTypes.CAPTURE_INDEX
   ),
-  removeIndex: createAction<{ id: string }>(ActionTypes.REMOVE_INDEX),
+  removeIndex: createAction<{ id: string }>(ReducerActionTypes.REMOVE_INDEX),
 
   captureContent: createAction<{ data: PillContentData }>(
-    ActionTypes.CAPTURE_CONTENT
+    ReducerActionTypes.CAPTURE_CONTENT
   ),
   removeContent: createAction<{ contentId: string }>(
-    ActionTypes.REMOVE_CONTENT
+    ReducerActionTypes.REMOVE_CONTENT
   ),
 } as const;
 
+const idFn = (_: RootState, id: string) => id;
+const contentIdFn = (_: RootState, contentId: string) => contentId;
+
+const indexSelector = (state: RootState) => state.rollback.indexes;
+const contentSelector = (state: RootState) => state.rollback.contents;
+
+export const DynamicSelectors = {
+  INDEX: () =>
+    createSelector([indexSelector, idFn], (indexes, id) =>
+      indexes.find((index) => index.id === id)
+    ),
+  CONTENT: () =>
+    createSelector([contentSelector, contentIdFn], (contents, contentId) =>
+      contents.find((content) => content.contentId === contentId)
+    ),
+} as const;
+
 const rollbackReducer = createReducer(initialState, {
-  [ActionTypes.RESET]: () => initialState,
-  
-  [ActionTypes.CAPTURE_INDEX]: (
+  [ReducerActionTypes.RESET]: () => initialState,
+
+  [ReducerActionTypes.CAPTURE_INDEX]: (
     state,
     action: ReturnType<typeof InternalActions.captureIndex>
   ) => {
-    Array.push(copyIndex(action.payload.data), state.indexes, option);
+    Array.push(copyIndex(action.payload.data), state.indexes, COPY_NOTHING);
   },
 
-  [ActionTypes.REMOVE_INDEX]: (
+  [ReducerActionTypes.REMOVE_INDEX]: (
     state,
     action: ReturnType<typeof InternalActions.removeIndex>
   ) => {
     Array.removeAll(
       (index) => index.id === action.payload.id,
       state.indexes,
-      option
+      COPY_NOTHING
     );
   },
 
-  [ActionTypes.CAPTURE_CONTENT]: (
+  [ReducerActionTypes.CAPTURE_CONTENT]: (
     state,
     action: ReturnType<typeof InternalActions.captureContent>
   ) => {
-    Array.push({ ...action.payload.data }, state.contents, option);
+    Array.push({ ...action.payload.data }, state.contents, COPY_NOTHING);
   },
 
-  [ActionTypes.REMOVE_CONTENT]: (
+  [ReducerActionTypes.REMOVE_CONTENT]: (
     state,
     action: ReturnType<typeof InternalActions.removeContent>
   ) => {
     Array.removeAll(
       (content) => content.contentId === action.payload.contentId,
       state.contents,
-      option
+      COPY_NOTHING
     );
   },
 });

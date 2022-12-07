@@ -1,13 +1,13 @@
 import * as React from "react";
 import * as Style from "./menu.style";
-import * as config from "../../../../config";
+import * as config from "../../../../../config";
 
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 
-import { I18N, I18nProps } from "../../../../utils/i18n";
-import { usePageNavigate } from "../../../../utils/hooks/page-navigate";
+import { I18N, I18nProps } from "../../../../../utils/i18n";
+import { usePageNavigate } from "../../../../../utils/hooks/page-navigate";
 
 export const UserMenu = React.memo((props: I18nProps) => (
   <Style.Menu>

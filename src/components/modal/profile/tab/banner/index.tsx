@@ -7,8 +7,8 @@ import LoginIcon from "@mui/icons-material/Login";
 import TagFacesIcon from "@mui/icons-material/TagFaces";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { UserMenu } from "../menu";
-import { I18N, I18nProps } from "../../../../utils/i18n";
-import { format } from "../../../../utils/other/format";
+import { I18N, I18nProps } from "../../../../../utils/i18n";
+import { format } from "../../../../../utils/other/format";
 import { Notification } from "../notification";
 
 interface UserBannerProps {

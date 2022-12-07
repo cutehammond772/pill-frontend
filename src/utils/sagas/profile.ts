@@ -1,8 +1,8 @@
 import { all, fork, put, race, take } from "redux-saga/effects";
 import { apiGet } from "../other/request";
 
-import { ActionTypes as AuthActionTypes } from "../reducers/auth";
-import { Actions as actions } from "../reducers/profile";
+import { ReducerActionTypes as AuthActionTypes } from "../reducers/auth";
+import { InternalActions as internal } from "../reducers/profile";
 
 import { instance } from "./auth";
 import * as config from "../../config";
@@ -17,7 +17,7 @@ const profileFlow = function* () {
     });
 
     if (!!reset || !!unauthorize) {
-      yield put(actions.setToAnonymous());
+      yield put(internal.setToAnonymous());
     }
 
     if (!!authorize) {
@@ -27,10 +27,10 @@ const profileFlow = function* () {
           config.API_USER_PROFILE
         );
 
-        yield put(actions.setToUser({ ...user }));
+        yield put(internal.setToUser({ ...user }));
         console.log("[Profile] Loaded profile successfully.");
       } catch (ex) {
-        yield put(actions.setToAnonymous());
+        yield put(internal.setToAnonymous());
         console.log("[Profile] Failed loading profile.");
       }
     }

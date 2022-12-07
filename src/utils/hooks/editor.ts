@@ -1,15 +1,21 @@
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../reducers";
 
-import { Actions as actions } from "../reducers/editor";
+import {
+  Actions as actions,
+  StaticSelectors as selectors,
+  DynamicSelectors as dynamic,
+} from "../reducers/editor";
+import { DynamicSelectors as rollbackDynamic } from "../reducers/rollback";
+
 import { PillContent } from "../pill/pill.type";
 import { AnyAction } from "redux";
+import { useParamSelector } from "./param-selector";
 
 // 편집 모드의 활성화 여부를 확인한다.
 export const useEditorAvailable = () => {
   const dispatch = useDispatch();
-  const available = useSelector((state: RootState) => state.editor.available);
+  const available = useSelector(selectors.AVAILABLE);
 
   const check = <T>(callbackFn: T) => {
     if (!available) {
@@ -46,16 +52,18 @@ export const useEditorAvailable = () => {
     dispatch(actions.begin());
   }, [dispatch, available]);
 
-  return { available, check, finishEditor, beginEditor, dispatch: (argument: AnyAction) => check(dispatch(argument)) };
+  return {
+    available,
+    check,
+    finishEditor,
+    beginEditor,
+    dispatch: (argument: AnyAction) => check(dispatch(argument)),
+  };
 };
 
 export const useEditorIndex = (id: string) => {
-  const rollbackIndex = useSelector((state: RootState) =>
-    state.rollback.indexes.find((index) => index.id === id)
-  );
-  const index = useSelector((state: RootState) =>
-    state.editor.indexes.find((index) => index.id === id)
-  );
+  const rollbackIndex = useParamSelector(rollbackDynamic.INDEX, id);
+  const index = useParamSelector(dynamic.INDEX, id);
 
   // 인덱스를 수정하기 전 삭제된 인덱스인지 확인한다.
   const modify = useCallback(<T>(callbackFn: T, removed: boolean) => {
@@ -89,9 +97,7 @@ export const useEditorIndex = (id: string) => {
 
 export const useEditorContent = (id: string, contentId: string) => {
   const { index, removed } = useEditorIndex(id);
-  const rollbackContent = useSelector((state: RootState) =>
-    state.rollback.contents.find((content) => content.contentId === contentId)
-  );
+  const rollbackContent = useParamSelector(rollbackDynamic.CONTENT, contentId);
 
   // 컨텐츠를 수정하기 전 삭제된 컨텐츠인지 확인한다.
   const modify = useCallback(<T>(callbackFn: T, removed: boolean) => {
@@ -130,12 +136,11 @@ export const useEditorContent = (id: string, contentId: string) => {
 // 기본 설정을 담당한다.
 // (ex. Pill 제목, 카테고리, 새 인덱스 추가, 편집 활성화 등)
 export const usePillDefaultEditor = () => {
-  const { available, beginEditor, finishEditor, dispatch } = useEditorAvailable();
+  const { available, beginEditor, finishEditor, dispatch } =
+    useEditorAvailable();
 
-  const title = useSelector((state: RootState) => state.editor.title);
-  const categories = useSelector(
-    (state: RootState) => state.editor.categories
-  );
+  const title = useSelector(selectors.PILL_TITLE);
+  const categories = useSelector(selectors.CATEGORIES);
 
   // 인덱스를 추가한다.
   const addIndex = useCallback(
@@ -202,7 +207,7 @@ export const usePillDefaultEditor = () => {
 
 // 인덱스 또는 카테고리의 순서(=위치)를 구하는 데 사용한다.
 export const usePillOrder = () => {
-  const indexes = useSelector((state: RootState) => state.editor.indexes);
+  const indexes = useSelector(selectors.INDEXES);
 
   // id를 가진 인덱스의 순서를 구한다.
   const index = useCallback(

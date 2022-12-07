@@ -1,11 +1,10 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
+import { RootState } from ".";
 import { ModalType } from "../../layouts/modal/modal.type";
 
 import * as Map from "../other/data-structure/index-signature-map";
-import {
-  CopyNothing,
-  CopyOptionSignatures,
-} from "../other/data-structure/options";
+import { COPY_NOTHING } from "../other/data-structure/options";
+import { identity } from "../other/identity";
 
 export const REDUCER_NAME = "modal";
 
@@ -72,7 +71,19 @@ export const InternalActions = {
   ),
 } as const;
 
-const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
+const modalIDFn = (_: RootState, modalID: string) => modalID;
+
+const dataSelector = (state: RootState) => state.modal.data;
+const infoSelector = (state: RootState) => state.modal.info;
+
+export const DynamicSelectors = {
+  DATA: () =>
+    createSelector([dataSelector, modalIDFn], (data, modalID) => data[modalID]),
+} as const;
+
+export const StaticSelectors = {
+  INFOS: createSelector([infoSelector], identity),
+} as const;
 
 const modalReducer = createReducer(initialState, {
   [ReducerActionTypes.CREATE]: (
@@ -81,8 +92,8 @@ const modalReducer = createReducer(initialState, {
   ) => {
     const { type, props, modalID } = action.payload;
 
-    Map.put(state.data, modalID, props, option);
-    Map.put(state.info, modalID, { type: type, open: true }, option);
+    Map.put(state.data, modalID, props, COPY_NOTHING);
+    Map.put(state.info, modalID, { type: type, open: true }, COPY_NOTHING);
   },
 
   [ReducerActionTypes.CLOSE]: (
@@ -103,7 +114,7 @@ const modalReducer = createReducer(initialState, {
 
         return { ...info, open: false };
       },
-      option
+      COPY_NOTHING
     );
   },
 
@@ -111,8 +122,8 @@ const modalReducer = createReducer(initialState, {
     state,
     action: ReturnType<typeof InternalActions.removeModal>
   ) => {
-    Map.remove(state.data, action.payload.modalID, option);
-    Map.remove(state.info, action.payload.modalID, option);
+    Map.remove(state.data, action.payload.modalID, COPY_NOTHING);
+    Map.remove(state.info, action.payload.modalID, COPY_NOTHING);
   },
 });
 

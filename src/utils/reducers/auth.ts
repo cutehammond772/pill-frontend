@@ -14,38 +14,50 @@ const initialState: AuthState = {
   authorized: false,
 };
 
-export const ActionTypes = {
-  RESET: `${REDUCER_NAME}/RESET`,
-  AUTHORIZE: `${REDUCER_NAME}/AUTHORIZE`,
-  UNAUTHORIZE: `${REDUCER_NAME}/UNAUTHORIZE`,
+// Saga 로직에서 받는 요청
+export const SagaActionTypes = {
   SAGA_LOGOUT: `${REDUCER_NAME}/SAGA_LOGOUT`,
 } as const;
 
+// Reducer 요청
+export const ReducerActionTypes = {
+  RESET: `${REDUCER_NAME}/RESET`,
+  AUTHORIZE: `${REDUCER_NAME}/AUTHORIZE`,
+  UNAUTHORIZE: `${REDUCER_NAME}/UNAUTHORIZE`,
+} as const;
+
+// hook 또는 외부 로직에서의 요청
 export const Actions = {
-  reset: createAction(ActionTypes.RESET),
-  authorize: createAction(ActionTypes.AUTHORIZE),
-  unauthorize: createAction(ActionTypes.UNAUTHORIZE),
-  logout: createAction(ActionTypes.SAGA_LOGOUT),
+  reset: createAction(ReducerActionTypes.RESET),
+  logout: createAction(SagaActionTypes.SAGA_LOGOUT),
+} as const;
+
+// saga 로직 등 내부 로직에서의 요청
+export const InternalActions = {
+  authorize: createAction(ReducerActionTypes.AUTHORIZE),
+  unauthorize: createAction(ReducerActionTypes.UNAUTHORIZE),
 } as const;
 
 const loadedSelector = (state: RootState) => state.auth.loaded;
 const authorizedSelector = (state: RootState) => state.auth.authorized;
 
-export const AUTH_LOADED = createSelector([loadedSelector], identity);
-export const AUTH_AUTHORIZED = createSelector([authorizedSelector], identity);
+export const StaticSelectors = {
+  LOADED: createSelector([loadedSelector], identity),
+  AUTHORIZED: createSelector([authorizedSelector], identity),
+} as const;
 
 const authReducer = createReducer(initialState, {
-  [ActionTypes.AUTHORIZE]: (state) => {
+  [ReducerActionTypes.AUTHORIZE]: (state) => {
     state.loaded = true;
     state.authorized = true;
   },
 
-  [ActionTypes.UNAUTHORIZE]: (state) => {
+  [ReducerActionTypes.UNAUTHORIZE]: (state) => {
     state.loaded = true;
     state.authorized = false;
   },
 
-  [ActionTypes.RESET]: () => initialState,
+  [ReducerActionTypes.RESET]: () => initialState,
 });
 
 export default authReducer;

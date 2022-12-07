@@ -12,25 +12,30 @@ const initialState: PageNavigateState = {
   locked: false,
 };
 
-export const ActionTypes = {
+// Reducer 요청
+export const ReducerActionTypes = {
   LOCK_NAVIGATE: `${REDUCER_NAME}/LOCK_NAVIGATE`,
   UNLOCK_NAVIGATE: `${REDUCER_NAME}/UNLOCK_NAVIGATE`,
 } as const;
 
+// hook 또는 외부 로직에서의 요청
 export const Actions = {
-  lockNavigate: createAction(ActionTypes.LOCK_NAVIGATE),
-  unlockNavigate: createAction(ActionTypes.UNLOCK_NAVIGATE),
+  lockNavigate: createAction(ReducerActionTypes.LOCK_NAVIGATE),
+  unlockNavigate: createAction(ReducerActionTypes.UNLOCK_NAVIGATE),
 };
 
-const selector = (state: RootState) => state.pageNavigate.locked;
-export const PAGE_NAVIGATION_LOCKED = createSelector([selector], identity);
+const lockedSelector = (state: RootState) => state.pageNavigate.locked;
+
+export const StaticSelectors = {
+  LOCKED: createSelector([lockedSelector], identity),
+} as const;
 
 const pageNavigateReducer = createReducer(initialState, {
-    [ActionTypes.LOCK_NAVIGATE]: (state) => {
+    [ReducerActionTypes.LOCK_NAVIGATE]: (state) => {
         state.locked = true;
     },
 
-    [ActionTypes.UNLOCK_NAVIGATE]: (state) => {
+    [ReducerActionTypes.UNLOCK_NAVIGATE]: (state) => {
         state.locked = false;
     },
 });

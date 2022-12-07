@@ -4,7 +4,6 @@ import { SerializedStyles } from "@emotion/react";
 
 import * as Style from "./modal.style";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../utils/reducers";
 import {
   CustomModalProps,
   DEFAULT_DURATION,
@@ -15,13 +14,14 @@ import {
 } from "./modal.type";
 
 import {
+  StaticSelectors as selectors,
   Actions as actions,
   InternalActions as internal,
 } from "../../utils/reducers/modal";
 
 export const GlobalModalProvider = (props: React.PropsWithChildren) => {
   const dispatch = useDispatch();
-  const info = useSelector((state: RootState) => state.modal.info);
+  const info = useSelector(selectors.INFOS);
   const mapper = ModalMapper();
 
   const handleClose = useCallback(

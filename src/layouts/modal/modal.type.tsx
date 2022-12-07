@@ -2,7 +2,7 @@ import { SerializedStyles } from "@emotion/react";
 import { ConfirmModal } from "../../components/modal/create/confirm";
 import AddImageContentModal from "../../components/modal/image/add";
 import EditImageContentModal from "../../components/modal/image/edit";
-import { ProfileTabModal } from "../../components/profile/tab";
+import { ProfileTabModal } from "../../components/modal/profile/tab";
 
 // 모달 Transition의 기본 지속 시간이다. (밀리초)
 export const DEFAULT_DURATION = 500;

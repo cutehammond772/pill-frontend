@@ -9,13 +9,16 @@ import {
   select,
 } from "redux-saga/effects";
 
-import * as auth from "../reducers/auth";
-import { Actions as actions, ActionTypes } from "../reducers/auth";
+import { StaticSelectors as selectors } from "../reducers/auth";
+import {
+  InternalActions as internal,
+  ReducerActionTypes,
+  SagaActionTypes,
+} from "../reducers/auth";
 
 import axios, { AxiosInstance } from "axios";
 import * as config from "../../config";
 import * as RequestError from "../hooks/auth/auth.error";
-import { RootState } from "../reducers";
 
 // Axios 인스턴스 객체이다.
 export const instance: AxiosInstance = axios.create({
@@ -48,7 +51,7 @@ const authorize = function* () {
 
     // Access Token이 존재하면 Header에 추가한다.
     instance.defaults.headers.common["Authorization"] = `Bearer ${token.data}`;
-    yield put(actions.authorize());
+    yield put(internal.authorize());
   } catch (ex) {
     RequestError.resolve(
       ex instanceof Error
@@ -56,14 +59,14 @@ const authorize = function* () {
         : RequestError.Type.UNKNOWN
     );
 
-    yield put(actions.unauthorize());
+    yield put(internal.unauthorize());
   }
 };
 
 const checkToken = function* () {
-  const state: auth.AuthState = yield select((state: RootState) => state.auth);
+  const loaded: boolean = yield select(selectors.LOADED);
 
-  if (!state.loaded) {
+  if (!loaded) {
     yield call(authorize);
   }
 };
@@ -77,14 +80,12 @@ const checkExpiration = function* () {
     yield fork(authorize);
 
     // 인증 결과 응답이 올 때까지 기다린다.
-    yield take([ActionTypes.AUTHORIZE, ActionTypes.UNAUTHORIZE]);
-    const state: auth.AuthState = yield select(
-      (state: RootState) => state.auth
-    );
+    yield take([ReducerActionTypes.AUTHORIZE, ReducerActionTypes.UNAUTHORIZE]);
+    const authorized: boolean = yield select(selectors.AUTHORIZED);
 
     // 만약 다른 이유로 인해 인증에 실패하면, 타이머를 멈춘다.
-    if (!state.authorized) {
-        break;
+    if (!authorized) {
+      break;
     }
   }
 };
@@ -109,17 +110,17 @@ const userFlow = function* () {
   yield fork(checkToken);
 
   // 인증 결과 응답이 올 때까지 기다린다.
-  yield take([ActionTypes.AUTHORIZE, ActionTypes.UNAUTHORIZE]);
-  const state: auth.AuthState = yield select((state: RootState) => state.auth);
+  yield take([ReducerActionTypes.AUTHORIZE, ReducerActionTypes.UNAUTHORIZE]);
+  const authorized: boolean = yield select(selectors.AUTHORIZED);
 
   // 성공적으로 AT를 가져온 경우
-  if (state.authorized) {
+  if (authorized) {
     // 만료 기한을 체크할 수 있도록 따로 타이머를 돌린다.
     yield fork(checkExpiration);
 
     // 로그아웃 요청이 올 때까지 기다린다.
-    yield take(ActionTypes.SAGA_LOGOUT);
-    yield put(actions.unauthorize());
+    yield take(SagaActionTypes.SAGA_LOGOUT);
+    yield put(internal.unauthorize());
   }
 };
 

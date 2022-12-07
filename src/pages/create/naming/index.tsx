@@ -16,9 +16,9 @@ import { useValidation, useValidator } from "../../../utils/hooks/validation";
 import { useI18n } from "../../../utils/hooks/i18n";
 import { I18N } from "../../../utils/i18n";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../utils/reducers";
 import { validateTitle } from "./validation";
 import { useSnackbar } from "notistack";
+import { StaticSelectors as selectors } from "../../../utils/reducers/profile";
 
 export const Content = () => {
   const { text } = useI18n();
@@ -28,7 +28,7 @@ export const Content = () => {
   const validation = validator.validation;
 
   const editor = usePillDefaultEditor();
-  const profile = useSelector((state: RootState) => state.profile);
+  const profile = useSelector(selectors.PROFILE);
 
   const handleTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;

@@ -1,11 +1,10 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
 
 import * as Array from "../other/data-structure/optional-array";
-import {
-  CopyNothing,
-  CopyOptionSignatures,
-} from "../other/data-structure/options";
+import { COPY_NOTHING } from "../other/data-structure/options";
 import { DisabledMenus, SelectedMenu } from "../hooks/header/header.type";
+import { RootState } from ".";
+import { identity } from "../other/identity";
 
 export const REDUCER_NAME = "header";
 
@@ -22,7 +21,8 @@ const initialState: HeaderState = {
   preventClick: false,
 };
 
-export const ActionTypes = {
+// Reducer 요청
+export const ReducerActionTypes = {
   RESET: `${REDUCER_NAME}/RESET`,
 
   SELECT: `${REDUCER_NAME}/SELECT`,
@@ -35,63 +35,94 @@ export const ActionTypes = {
   UNLOCK_INTERACTION: `${REDUCER_NAME}/UNLOCK_INTERACTION`,
 } as const;
 
+// hook 또는 외부 로직에서의 요청
 export const Actions = {
-  // For Reducer
-  reset: createAction(ActionTypes.RESET),
+  reset: createAction(ReducerActionTypes.RESET),
 
-  select: createAction<{ header: string; menu: string }>(ActionTypes.SELECT),
+  select: createAction<{ header: string; menu: string }>(
+    ReducerActionTypes.SELECT
+  ),
   resetHeaderSelection: createAction<{ header: string }>(
-    ActionTypes.RESET_HEADER_SELECTION
+    ReducerActionTypes.RESET_HEADER_SELECTION
   ),
 
-  disable: createAction<{ header: string; menu: string }>(ActionTypes.DISABLE),
+  disable: createAction<{ header: string; menu: string }>(
+    ReducerActionTypes.DISABLE
+  ),
   resetHeaderDisabled: createAction<{ header: string }>(
-    ActionTypes.RESET_HEADER_DISABLED
+    ReducerActionTypes.RESET_HEADER_DISABLED
   ),
-
-  lockInteraction: createAction(ActionTypes.LOCK_INTERACTION),
-  unlockInteraction: createAction(ActionTypes.UNLOCK_INTERACTION),
 } as const;
 
-const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
+// saga 로직 등 내부 로직에서의 요청
+export const InternalActions = {
+  lockInteraction: createAction(ReducerActionTypes.LOCK_INTERACTION),
+  unlockInteraction: createAction(ReducerActionTypes.UNLOCK_INTERACTION),
+} as const;
+
+const headerFn = (_: RootState, header: string) => header;
+
+const preventClickSelector = (state: RootState) => state.header.preventClick;
+const selectedSelector = (state: RootState) => state.header.selected;
+const disabledSelector = (state: RootState) => state.header.disabled;
+
+export const StaticSelectors = {
+  PREVENT_CLICK: createSelector([preventClickSelector], identity),
+} as const;
+
+export const DynamicSelectors = {
+  SELECTED_MENU: () =>
+    createSelector(
+      [selectedSelector, headerFn],
+      (headers, header) => headers[header]
+    ),
+  DISABLED_MENUS: () =>
+    createSelector(
+      [disabledSelector, headerFn],
+      (headers, header) => headers[header]
+    ),
+} as const;
 
 const headerReducer = createReducer(initialState, {
-  [ActionTypes.RESET]: () => initialState,
+  [ReducerActionTypes.RESET]: () => initialState,
 
-  [ActionTypes.SELECT]: (state, action: ReturnType<typeof Actions.select>) => {
+  [ReducerActionTypes.SELECT]: (
+    state,
+    action: ReturnType<typeof Actions.select>
+  ) => {
     state.selected[action.payload.header] = action.payload.menu;
   },
 
-  [ActionTypes.RESET_HEADER_SELECTION]: (
+  [ReducerActionTypes.RESET_HEADER_SELECTION]: (
     state,
     action: ReturnType<typeof Actions.resetHeaderSelection>
   ) => {
     delete state.selected[action.payload.header];
   },
 
-  [ActionTypes.DISABLE]: (
+  [ReducerActionTypes.DISABLE]: (
     state,
     action: ReturnType<typeof Actions.disable>
   ) => {
     Array.removeAll(
       (item) => item === action.payload.menu,
       state.disabled[action.payload.header],
-      option
+      COPY_NOTHING
     );
   },
 
-  [ActionTypes.RESET_HEADER_DISABLED]: (
+  [ReducerActionTypes.RESET_HEADER_DISABLED]: (
     state,
     action: ReturnType<typeof Actions.resetHeaderDisabled>
   ) => {
     state.disabled[action.payload.header] = [];
   },
 
-  [ActionTypes.LOCK_INTERACTION]: (state) => {
+  [ReducerActionTypes.LOCK_INTERACTION]: (state) => {
     state.preventClick = true;
   },
 
-  [ActionTypes.UNLOCK_INTERACTION]: (state) => {
+  [ReducerActionTypes.UNLOCK_INTERACTION]: (state) => {
     state.preventClick = false;
   },
 });

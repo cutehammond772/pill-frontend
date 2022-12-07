@@ -2,15 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  PAGE_NAVIGATION_LOCKED,
   Actions as actions,
+  StaticSelectors as selectors,
 } from "../reducers/page/navigate";
 import { Actions as events } from "../reducers/page/event";
 
 export const usePageNavigate = () => {
   const navigateFn = useNavigate();
   const dispatch = useDispatch();
-  const lock = useSelector(PAGE_NAVIGATION_LOCKED);
+  const lock = useSelector(selectors.LOCKED);
 
   const setLocked = useCallback(
     (locked: boolean) => {

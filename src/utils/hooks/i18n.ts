@@ -9,9 +9,8 @@ import {
 } from "../i18n";
 import ENGTexts from "../i18n/eng";
 import KORTexts from "../i18n/kor";
-import { RootState } from "../reducers";
 
-import { Actions as actions } from "../reducers/i18n";
+import { Actions as actions, StaticSelectors as selectors } from "../reducers/i18n";
 
 // 각 LanguageType 당 언어 데이터를 매핑한 데이터이다.
 export const I18NMap = {
@@ -21,7 +20,7 @@ export const I18NMap = {
 
 // 특정 언어 설정에 따라 텍스트를 달리 하기 위해 사용한다.
 export const useI18n = () => {
-  const language = useSelector((state: RootState) => state.i18n.language);
+  const language = useSelector(selectors.I18N_LANGUAGE);
   const dispatch = useDispatch();
 
   // 언어를 변경한다.

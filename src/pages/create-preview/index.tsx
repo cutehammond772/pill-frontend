@@ -10,7 +10,6 @@ import Page from "../../layouts/page";
 import { usePageSelect } from "../../utils/hooks/header/page-select";
 
 import { useSelector } from "react-redux";
-import { RootState } from "../../utils/reducers";
 import { PillContentData, PillContentType } from "../../utils/pill/pill.type";
 
 import LikeButton from "./buttons/like";
@@ -21,14 +20,20 @@ import { format } from "../../utils/other/format";
 import * as Style from "./create-preview.style";
 import ListIcon from "@mui/icons-material/List";
 import useResizeObserver from "@react-hook/resize-observer";
+import { StaticSelectors as pageSizeSelectors } from "../../utils/reducers/page/size";
+import { StaticSelectors as profileSelectors } from "../../utils/reducers/profile";
+import { StaticSelectors as selectors } from "../../utils/reducers/editor";
 
 const CreatePreviewPage = () => {
   const { text } = useI18n();
   usePageSelect(CreateHeaderSignature, CreateMenus.PREVIEW);
 
-  const pill = useSelector((state: RootState) => state.editor);
-  const profile = useSelector((state: RootState) => state.profile);
-  const headerHeight = useSelector((state: RootState) => state.page.headerHeight);
+  const profile = useSelector(profileSelectors.PROFILE);
+  const headerHeight = useSelector(pageSizeSelectors.HEADER_HEIGHT);
+
+  const title = useSelector(selectors.PILL_TITLE);
+  const categories = useSelector(selectors.CATEGORIES);
+  const indexes = useSelector(selectors.INDEXES);
 
   const [width, setWidth] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,13 +46,13 @@ const CreatePreviewPage = () => {
   }, []);
 
   useEffect(() => {
-    pill.indexes.forEach((index) => {
+    indexes.forEach((index) => {
       const ref = refs.current[index.id];
       !!ref &&
         (offsets.current[index.id] =
           window.scrollY + ref.getBoundingClientRect().top - headerHeight - 20);
     });
-  }, [pill.indexes, width, headerHeight]);
+  }, [indexes, width, headerHeight]);
 
   useResizeObserver(
     containerRef,
@@ -62,7 +67,7 @@ const CreatePreviewPage = () => {
         <Style.Title>
           <LikeButton />
           <span className="title">
-            {pill.title || text(I18N.PAGE_PREVIEW_03)}
+            {title || text(I18N.PAGE_PREVIEW_03)}
           </span>
           <div className="info">
             <span className="user">
@@ -72,7 +77,7 @@ const CreatePreviewPage = () => {
               )}
             </span>
             <div className="categories">
-              {pill.categories.map((category) => (
+              {categories.map((category) => (
                 <div className="category" key={category.categoryId}>
                   {category.category}
                 </div>
@@ -87,7 +92,7 @@ const CreatePreviewPage = () => {
             <span className="title">{text(I18N.PAGE_PREVIEW_02)}</span>
           </div>
           <div className="index-list">
-            {pill.indexes.map((index, order) => (
+            {indexes.map((index, order) => (
               <div
                 className="index"
                 onClick={() => handleMoveIndex(index.id)}
@@ -100,7 +105,7 @@ const CreatePreviewPage = () => {
         </Style.Index>
 
         <Style.ContentContainer>
-          {pill.indexes.map((index, order) => (
+          {indexes.map((index, order) => (
             <Style.Content
               id={`${order + 1}`}
               key={index.id}

@@ -1,11 +1,10 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
 
-import {
-  CopyNothing,
-  CopyOptionSignatures,
-} from "../other/data-structure/options";
+import { COPY_NOTHING } from "../other/data-structure/options";
 import * as Array from "../other/data-structure/optional-array";
 import { CategoryData, PillContent, PillIndexData } from "../pill/pill.type";
+import { RootState } from ".";
+import { identity } from "../other/identity";
 
 export interface EditorState {
   title: string;
@@ -25,7 +24,17 @@ const initialState: EditorState = {
 
 export const REDUCER_NAME = "editor";
 
-export const ActionTypes = {
+// Saga 로직에서 받는 요청
+export const SagaActionTypes = {
+  SAGA_BEGIN: `${REDUCER_NAME}/SAGA_BEGIN`,
+  SAGA_FINISH: `${REDUCER_NAME}/SAGA_FINISH`,
+  
+  SAGA_REMOVE_INDEX: `${REDUCER_NAME}/SAGA_REMOVE_INDEX`,
+  SAGA_REMOVE_CONTENT: `${REDUCER_NAME}/SAGA_REMOVE_CONTENT`,
+} as const; 
+
+// Reducer 요청
+export const ReducerActionTypes = {
   RESET: `${REDUCER_NAME}/RESET`,
   UPDATE_TITLE: `${REDUCER_NAME}/UPDATE_TITLE`,
 
@@ -43,29 +52,24 @@ export const ActionTypes = {
   REMOVE_CONTENT_IMMEDIATELY: `${REDUCER_NAME}/REMOVE_CONTENT_IMMEDIATELY`,
 
   SET_AVAILABLE: `${REDUCER_NAME}/SET_AVAILABLE`,
-
-  SAGA_BEGIN: `${REDUCER_NAME}/SAGA_BEGIN`,
-  SAGA_FINISH: `${REDUCER_NAME}/SAGA_FINISH`,
-
-  SAGA_REMOVE_INDEX: `${REDUCER_NAME}/SAGA_REMOVE_INDEX`,
-  SAGA_REMOVE_CONTENT: `${REDUCER_NAME}/SAGA_REMOVE_CONTENT`,
 } as const;
 
+// hook 또는 외부 로직에서의 요청
 export const Actions = {
-  updateTitle: createAction<{ title: string }>(ActionTypes.UPDATE_TITLE),
+  updateTitle: createAction<{ title: string }>(ReducerActionTypes.UPDATE_TITLE),
 
-  addCategory: createAction<{ category: string }>(ActionTypes.ADD_CATEGORY),
+  addCategory: createAction<{ category: string }>(ReducerActionTypes.ADD_CATEGORY),
 
   removeCategory: createAction<{ categoryId: string }>(
-    ActionTypes.REMOVE_CATEGORY
+    ReducerActionTypes.REMOVE_CATEGORY
   ),
 
-  resetCategories: createAction(ActionTypes.RESET_CATEGORIES),
+  resetCategories: createAction(ReducerActionTypes.RESET_CATEGORIES),
 
-  createIndex: createAction(ActionTypes.CREATE_INDEX),
+  createIndex: createAction(ReducerActionTypes.CREATE_INDEX),
 
   updateIndexTitle: createAction<{ id: string; title: string }>(
-    ActionTypes.UPDATE_INDEX_TITLE
+    ReducerActionTypes.UPDATE_INDEX_TITLE
   ),
 
   addContent: createAction<{
@@ -73,59 +77,89 @@ export const Actions = {
     contentType: PillContent;
     content: string;
     subContent?: string;
-  }>(ActionTypes.ADD_CONTENT),
+  }>(ReducerActionTypes.ADD_CONTENT),
 
   updateContent: createAction<{
     id: string;
     contentId: string;
     content?: string;
     subContent?: string;
-  }>(ActionTypes.UPDATE_CONTENT),
+  }>(ReducerActionTypes.UPDATE_CONTENT),
 
   exchangeContent: createAction<{
     id: string;
     contentId: string;
     exchangeId: string;
-  }>(ActionTypes.EXCHANGE_CONTENT),
+  }>(ReducerActionTypes.EXCHANGE_CONTENT),
 
-  begin: createAction(ActionTypes.SAGA_BEGIN),
+  begin: createAction(SagaActionTypes.SAGA_BEGIN),
 
-  finish: createAction(ActionTypes.SAGA_FINISH),
+  finish: createAction(SagaActionTypes.SAGA_FINISH),
 
-  removeIndex: createAction<{ id: string }>(ActionTypes.SAGA_REMOVE_INDEX),
+  removeIndex: createAction<{ id: string }>(SagaActionTypes.SAGA_REMOVE_INDEX),
 
   removeContent: createAction<{ id: string; contentId: string }>(
-    ActionTypes.SAGA_REMOVE_CONTENT
+    SagaActionTypes.SAGA_REMOVE_CONTENT
   ),
 } as const;
 
+// saga 로직 등 내부 로직에서의 요청
 export const InternalActions = {
-  reset: createAction(ActionTypes.RESET),
+  reset: createAction(ReducerActionTypes.RESET),
 
-  setAvailable: createAction<{ available: boolean }>(ActionTypes.SET_AVAILABLE),
+  setAvailable: createAction<{ available: boolean }>(ReducerActionTypes.SET_AVAILABLE),
 
   removeContentImmadiately: createAction<{ id: string; contentId: string }>(
-    ActionTypes.REMOVE_CONTENT_IMMEDIATELY
+    ReducerActionTypes.REMOVE_CONTENT_IMMEDIATELY
   ),
 
   removeIndexImmadiately: createAction<{ id: string }>(
-    ActionTypes.REMOVE_INDEX_IMMEDIATELY
+    ReducerActionTypes.REMOVE_INDEX_IMMEDIATELY
   ),
 } as const;
 
-const option: CopyNothing = { type: CopyOptionSignatures.COPY_NOTHING };
+const idFn = (_: RootState, id: string) => id;
+const contentFn = (_: RootState, __: string, contentId: string) => contentId;
+
+const availableSelector = (state: RootState) => state.editor.available;
+const titleSelector = (state: RootState) => state.editor.title;
+const categoriesSelector = (state: RootState) => state.editor.categories;
+const indexesSelector = (state: RootState) => state.editor.indexes;
+
+export const StaticSelectors = {
+  AVAILABLE: createSelector([availableSelector], identity),
+  PILL_TITLE: createSelector([titleSelector], identity),
+  CATEGORIES: createSelector([categoriesSelector], identity),
+  INDEXES: createSelector([indexesSelector], identity),
+} as const;
+
+export const DynamicSelectors = {
+  INDEX: () =>
+    createSelector([indexesSelector, idFn], (indexes, id) =>
+      indexes.find((index) => index.id === id)
+    ),
+
+  CONTENT: () =>
+    createSelector(
+      [indexesSelector, idFn, contentFn],
+      (indexes, id, contentId) =>
+        indexes
+          ?.find((index) => index.id === id)
+          ?.contents?.find((content) => content.contentId === contentId)
+    ),
+} as const;
 
 const editorReducer = createReducer(initialState, {
-  [ActionTypes.RESET]: () => initialState,
+  [ReducerActionTypes.RESET]: () => initialState,
 
-  [ActionTypes.UPDATE_TITLE]: (
+  [ReducerActionTypes.UPDATE_TITLE]: (
     state,
     action: ReturnType<typeof Actions.updateTitle>
   ) => {
     state.title = action.payload.title;
   },
 
-  [ActionTypes.ADD_CATEGORY]: (
+  [ReducerActionTypes.ADD_CATEGORY]: (
     state,
     action: ReturnType<typeof Actions.addCategory>
   ) => {
@@ -135,26 +169,26 @@ const editorReducer = createReducer(initialState, {
         category: action.payload.category,
       },
       state.categories,
-      option
+      COPY_NOTHING
     );
   },
 
-  [ActionTypes.REMOVE_CATEGORY]: (
+  [ReducerActionTypes.REMOVE_CATEGORY]: (
     state,
     action: ReturnType<typeof Actions.removeCategory>
   ) => {
     Array.removeAll(
       (category) => category.categoryId === action.payload.categoryId,
       state.categories,
-      option
+      COPY_NOTHING
     );
   },
 
-  [ActionTypes.RESET_CATEGORIES]: (state) => {
+  [ReducerActionTypes.RESET_CATEGORIES]: (state) => {
     state.categories = [];
   },
 
-  [ActionTypes.CREATE_INDEX]: (state) => {
+  [ReducerActionTypes.CREATE_INDEX]: (state) => {
     Array.push(
       {
         id: crypto.randomUUID(),
@@ -162,11 +196,11 @@ const editorReducer = createReducer(initialState, {
         contents: [],
       },
       state.indexes,
-      option
+      COPY_NOTHING
     );
   },
 
-  [ActionTypes.UPDATE_INDEX_TITLE]: (
+  [ReducerActionTypes.UPDATE_INDEX_TITLE]: (
     state,
     action: ReturnType<typeof Actions.updateIndexTitle>
   ) => {
@@ -174,18 +208,18 @@ const editorReducer = createReducer(initialState, {
     !!index && (index.title = action.payload.title);
   },
 
-  [ActionTypes.REMOVE_INDEX_IMMEDIATELY]: (
+  [ReducerActionTypes.REMOVE_INDEX_IMMEDIATELY]: (
     state,
     action: ReturnType<typeof InternalActions.removeIndexImmadiately>
   ) => {
     Array.removeAll(
       (index) => index.id === action.payload.id,
       state.indexes,
-      option
+      COPY_NOTHING
     );
   },
 
-  [ActionTypes.ADD_CONTENT]: (
+  [ReducerActionTypes.ADD_CONTENT]: (
     state,
     action: ReturnType<typeof Actions.addContent>
   ) => {
@@ -199,11 +233,11 @@ const editorReducer = createReducer(initialState, {
         subContent: action.payload.subContent || "",
       },
       index?.contents,
-      option
+      COPY_NOTHING
     );
   },
 
-  [ActionTypes.UPDATE_CONTENT]: (
+  [ReducerActionTypes.UPDATE_CONTENT]: (
     state,
     action: ReturnType<typeof Actions.updateContent>
   ) => {
@@ -221,7 +255,7 @@ const editorReducer = createReducer(initialState, {
       ));
   },
 
-  [ActionTypes.REMOVE_CONTENT_IMMEDIATELY]: (
+  [ReducerActionTypes.REMOVE_CONTENT_IMMEDIATELY]: (
     state,
     action: ReturnType<typeof InternalActions.removeContentImmadiately>
   ) => {
@@ -230,11 +264,11 @@ const editorReducer = createReducer(initialState, {
     Array.removeAll(
       (content) => content.contentId === action.payload.contentId,
       index?.contents,
-      option
+      COPY_NOTHING
     );
   },
 
-  [ActionTypes.EXCHANGE_CONTENT]: (
+  [ReducerActionTypes.EXCHANGE_CONTENT]: (
     state,
     action: ReturnType<typeof Actions.exchangeContent>
   ) => {
@@ -260,7 +294,7 @@ const editorReducer = createReducer(initialState, {
       ));
   },
 
-  [ActionTypes.SET_AVAILABLE]: (
+  [ReducerActionTypes.SET_AVAILABLE]: (
     state,
     action: ReturnType<typeof InternalActions.setAvailable>
   ) => {

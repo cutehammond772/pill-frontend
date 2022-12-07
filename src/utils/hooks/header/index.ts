@@ -1,9 +1,12 @@
 import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../utils/reducers";
-import { Actions as actions } from "../../reducers/header";
+import { useDispatch } from "react-redux";
+import {
+  Actions as actions,
+  DynamicSelectors as dynamic,
+} from "../../reducers/header";
 import { Menus } from "./header.type";
 import { usePageNavigate } from "../page-navigate";
+import { useParamSelector } from "../param-selector";
 
 // Header 설정을 간편하게 할 수 있는 커스텀 Hook이다.
 // 특정 Header의 최상단에만 위치할 수 있다.
@@ -13,12 +16,14 @@ export const useHeader = <E extends Menus>(
 ) => {
   type Menu = E[keyof E];
 
-  const selectedMenu = useSelector(
-    (state: RootState) => state.header.selected[header]
+  const selectedMenu = useParamSelector(
+    dynamic.SELECTED_MENU,
+    header
   ) as Menu;
 
-  const disabledMenus = useSelector(
-    (state: RootState) => state.header.disabled[header]
+  const disabledMenus = useParamSelector(
+    dynamic.DISABLED_MENUS,
+    header
   ) as Menu[];
 
   const dispatch = useDispatch();
