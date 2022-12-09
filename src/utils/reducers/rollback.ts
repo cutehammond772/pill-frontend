@@ -1,8 +1,8 @@
 import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
 import { PillContentData, PillIndexData } from "../pill/pill.type";
-import * as Array from "../other/data-structure/optional-array";
-import { COPY_NOTHING } from "../other/data-structure/options";
+import * as array from "../other/data-structure/smart-array";
 import { RootState } from ".";
+import { CopyOptions } from "../other/data-structure/options";
 
 export const REDUCER_NAME = "rollback";
 
@@ -59,6 +59,7 @@ export const DynamicSelectors = {
     createSelector([indexSelector, idFn], (indexes, id) =>
       indexes.find((index) => index.id === id)
     ),
+
   CONTENT: () =>
     createSelector([contentSelector, contentIdFn], (contents, contentId) =>
       contents.find((content) => content.contentId === contentId)
@@ -71,38 +72,36 @@ const rollbackReducer = createReducer(initialState, {
   [ReducerActionTypes.CAPTURE_INDEX]: (
     state,
     action: ReturnType<typeof InternalActions.captureIndex>
-  ) => {
-    Array.push(copyIndex(action.payload.data), state.indexes, COPY_NOTHING);
-  },
+  ) =>
+    void array.push(
+      state.indexes,
+      CopyOptions.COPY_NOTHING
+    )(copyIndex(action.payload.data)),
 
   [ReducerActionTypes.REMOVE_INDEX]: (
     state,
     action: ReturnType<typeof InternalActions.removeIndex>
-  ) => {
-    Array.removeAll(
-      (index) => index.id === action.payload.id,
-      state.indexes,
-      COPY_NOTHING
-    );
-  },
+  ) =>
+    void (state.indexes = array.remove(state.indexes)(
+      (index) => index.id === action.payload.id
+    )),
 
   [ReducerActionTypes.CAPTURE_CONTENT]: (
     state,
     action: ReturnType<typeof InternalActions.captureContent>
-  ) => {
-    Array.push({ ...action.payload.data }, state.contents, COPY_NOTHING);
-  },
+  ) =>
+    void array.push(
+      state.contents,
+      CopyOptions.COPY_NOTHING
+    )({ ...action.payload.data }),
 
   [ReducerActionTypes.REMOVE_CONTENT]: (
     state,
     action: ReturnType<typeof InternalActions.removeContent>
-  ) => {
-    Array.removeAll(
-      (content) => content.contentId === action.payload.contentId,
-      state.contents,
-      COPY_NOTHING
-    );
-  },
+  ) =>
+    void (state.contents = array.remove(state.contents)(
+      (content) => content.contentId === action.payload.contentId
+    )),
 });
 
 export default rollbackReducer;

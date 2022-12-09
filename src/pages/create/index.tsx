@@ -28,22 +28,21 @@ const CreatePage = () => {
 
   const inited = useRef<boolean>(false);
 
-  // Guest 권한으로 접근할 경우 돌려보낸다.
   useEffect(() => {
-    if (!auth.authorized) {
-      /* For Test */
-      //navigate("/", { replace: true });
-    }
-  }, [auth, navigate]);
+    // Guest 권한으로 접근할 경우 돌려보낸다.
+    // if (!auth.authorized) {
+    //   navigate("/", true);
+    //   return;
+    // }
 
-  useEffect(() => {
+    // 편집을 활성화한다.
     if (!inited.current) {
       if (!editor.available) {
         editor.beginEditor();
       }
       inited.current = true;
     }
-  }, [editor]);
+  }, [editor, auth.authorized, navigate]);
 
   return (
     <Page layout={Style.Background}>

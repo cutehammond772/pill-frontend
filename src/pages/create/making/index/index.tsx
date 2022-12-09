@@ -37,13 +37,11 @@ export const IndexContainer = (props: IndexContainerProps) => {
   const order = usePillOrder();
 
   const validator = useValidator(IndexValidator(props.id));
-  const [title, setTitle] = useState<string>(editor.index.title);
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
 
     if (value.length <= 40) {
-      setTitle(value);
       editor.updateTitle(value);
     }
   };
@@ -71,7 +69,7 @@ export const IndexContainer = (props: IndexContainerProps) => {
     <Style.IndexContainer>
       <Title
         order={props.order}
-        title={title}
+        title={editor.index.title}
         onRemove={handleRemove}
         onTextChange={handleTitleChange}
         removed={editor.removed}

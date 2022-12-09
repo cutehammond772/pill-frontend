@@ -1,10 +1,15 @@
 import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
 import { RootState } from ".";
-import * as Map from "../other/data-structure/index-signature-map";
 
-import * as Array from "../other/data-structure/optional-array";
-import { COPY_NOTHING } from "../other/data-structure/options";
-import { Validation, ValidatorInfo } from "../validators/validator.type";
+import * as map from "../other/data-structure/index-signature-map";
+import { CopyOptions } from "../other/data-structure/options";
+import * as array from "../other/data-structure/smart-array";
+
+import {
+  Validation,
+  ValidationResult,
+  ValidatorInfo,
+} from "../validators/validator.type";
 
 export const REDUCER_NAME = "validation";
 
@@ -30,14 +35,15 @@ export const SagaActionTypes = {
 
   SAGA_ADD_SUB_VALIDATOR: `${REDUCER_NAME}/SAGA_ADD_SUB_VALIDATOR`,
   SAGA_REMOVE_SUB_VALIDATOR: `${REDUCER_NAME}/SAGA_REMOVE_SUB_VALIDATOR`,
-  SAGA_UPDATE_VALIDATION: `${REDUCER_NAME}/SAGA_UPDATE_VALIDATION`,
   SAGA_REMOVE_VALIDATOR: `${REDUCER_NAME}/SAGA_REMOVE_VALIDATOR`,
+
+  SAGA_UPDATE_DOMAIN_VALIDATION: `${REDUCER_NAME}/SAGA_UPDATE_DOMAIN_VALIDATION`,
+  SAGA_UPDATE_SUB_VALIDATION: `${REDUCER_NAME}/SAGA_UPDATE_SUB_VALIDATION`,
 } as const;
 
 // Reducer 요청
 export const ReducerActionTypes = {
   CLEAR: `${REDUCER_NAME}/CLEAR`,
-  SET_VALIDATION: `${REDUCER_NAME}/SET_VALIDATION`,
   REMOVE_VALIDATION: `${REDUCER_NAME}/REMOVE_VALIDATION`,
 
   ADD_SUB_VALIDATOR: `${REDUCER_NAME}/ADD_SUB_VALIDATOR`,
@@ -46,19 +52,27 @@ export const ReducerActionTypes = {
 
   REGISTER_VALIDATOR: `${REDUCER_NAME}/REGISTER_VALIDATOR`,
   REMOVE_VALIDATOR: `${REDUCER_NAME}/REMOVE_VALIDATOR`,
+
+  SET_DOMAIN_VALIDATION: `${REDUCER_NAME}/SET_DOMAIN_VALIDATION`,
+  SET_SUB_VALIDATION: `${REDUCER_NAME}/SET_SUB_VALIDATION`,
+  
+  COMBINE_VALIDATION: `${REDUCER_NAME}/COMBINE_VALIDATION`,
 } as const;
 
 // hook 또는 외부 로직에서의 요청
 export const Actions = {
-  updateValidation: createAction<{
+  // DomainValidator의 검증 결과 갱신 요청
+  updateDomainValidation: createAction<{
     validatorID: string;
-    validation?: Validation;
-  }>(SagaActionTypes.SAGA_UPDATE_VALIDATION),
+    result: ValidationResult;
+  }>(SagaActionTypes.SAGA_UPDATE_DOMAIN_VALIDATION),
 
+  // Validator 등록 요청
   registerValidator: createAction<{ validatorID: string; data: ValidatorInfo }>(
     SagaActionTypes.SAGA_REGISTER_VALIDATOR
   ),
 
+  // Validator 삭제 요청
   removeValidator: createAction<{ validatorID: string }>(
     SagaActionTypes.SAGA_REMOVE_VALIDATOR
   ),
@@ -68,10 +82,25 @@ export const Actions = {
 export const InternalActions = {
   clear: createAction<{ prefix: string }>(ReducerActionTypes.CLEAR),
 
-  setValidation: createAction<{
+  // 하위 Validator의 검증 결과 갱신 요청
+  updateSubValidation: createAction<{
     validatorID: string;
-    validation: Validation;
-  }>(ReducerActionTypes.SET_VALIDATION),
+  }>(SagaActionTypes.SAGA_UPDATE_SUB_VALIDATION),
+
+  setDomainValidation: createAction<{
+    validatorID: string;
+    result: ValidationResult;
+  }>(ReducerActionTypes.SET_DOMAIN_VALIDATION),
+
+  setSubValidation: createAction<{
+    validatorID: string;
+    result: ValidationResult;
+  }>(ReducerActionTypes.SET_SUB_VALIDATION),
+
+  combineValidation: createAction<{
+    validatorID: string;
+    result: ValidationResult;
+  }>(ReducerActionTypes.COMBINE_VALIDATION),
 
   removeValidation: createAction<{
     validatorID: string;
@@ -144,83 +173,103 @@ const validationReducer = createReducer(initialState, {
       validatorID.startsWith(action.payload.prefix)
     );
 
-    Map.removeAll(state.data, validatorIDs, COPY_NOTHING);
-    Map.removeAll(state.subs, validatorIDs, COPY_NOTHING);
-    Map.removeAll(state.validators, validatorIDs, COPY_NOTHING);
+    state.data = map.remove(state.data)(...validatorIDs);
+    state.subs = map.remove(state.subs)(...validatorIDs);
+    state.validators = map.remove(state.validators)(...validatorIDs);
   },
-  [ReducerActionTypes.SET_VALIDATION]: (
+
+  [ReducerActionTypes.SET_DOMAIN_VALIDATION]: (
     state,
-    action: ReturnType<typeof InternalActions.setValidation>
-  ) => {
-    Map.put(
-      state.data,
-      action.payload.validatorID,
-      action.payload.validation,
-      COPY_NOTHING
-    );
-  },
+    action: ReturnType<typeof InternalActions.setDomainValidation>
+  ) =>
+    void map.replace(state.data, CopyOptions.COPY_NOTHING)((result) => {
+      if (!result) {
+        return { valid: false, messages: [] };
+      }
+
+      result.domain = action.payload.result;
+
+      return result;
+    }, action.payload.validatorID),
+
+  [ReducerActionTypes.SET_SUB_VALIDATION]: (
+    state,
+    action: ReturnType<typeof InternalActions.setSubValidation>
+  ) =>
+    void map.replace(state.data, CopyOptions.COPY_NOTHING)((result) => {
+      if (!result) {
+        return { valid: false, messages: [] };
+      }
+
+      result.sub = action.payload.result;
+
+      return result;
+    }, action.payload.validatorID),
+
+  [ReducerActionTypes.COMBINE_VALIDATION]: (
+    state,
+    action: ReturnType<typeof InternalActions.combineValidation>
+  ) =>
+    void map.replace(state.data, CopyOptions.COPY_NOTHING)((result) => {
+      if (!result) {
+        return { valid: false, messages: [] };
+      }
+
+      result.valid = action.payload.result.valid;
+      result.messages = action.payload.result.messages;
+
+      return result;
+    }, action.payload.validatorID),
 
   [ReducerActionTypes.REMOVE_VALIDATION]: (
     state,
     action: ReturnType<typeof InternalActions.removeValidation>
-  ) => {
-    Map.removeAll(state.data, [action.payload.validatorID], COPY_NOTHING);
-  },
+  ) => void (state.data = map.remove(state.data)(action.payload.validatorID)),
 
   [ReducerActionTypes.REGISTER_VALIDATOR]: (
     state,
     action: ReturnType<typeof InternalActions.registerValidator>
-  ) => {
-    Map.put(
-      state.validators,
+  ) =>
+    void map.put(state.validators, CopyOptions.COPY_NOTHING)(
       action.payload.data.validatorID,
-      action.payload.data,
-      COPY_NOTHING
-    );
-  },
+      action.payload.data
+    ),
 
   [ReducerActionTypes.REMOVE_VALIDATOR]: (
     state,
     action: ReturnType<typeof InternalActions.removeValidator>
-  ) => {
-    Map.remove(state.validators, action.payload.validatorID, COPY_NOTHING);
-  },
+  ) =>
+    void (state.validators = map.remove(state.validators)(
+      action.payload.validatorID
+    )),
 
   [ReducerActionTypes.ADD_SUB_VALIDATOR]: (
     state,
     action: ReturnType<typeof InternalActions.addSubValidator>
-  ) => {
-    Map.replace(
-      state.subs,
-      action.payload.validatorID,
-      (subs) => Array.push(action.payload.subValidatorID, subs, COPY_NOTHING),
-      COPY_NOTHING
-    );
-  },
+  ) =>
+    void map.replace(state.subs, CopyOptions.COPY_NOTHING)(
+      (subs) =>
+        array.push(
+          subs,
+          CopyOptions.COPY_NOTHING
+        )(action.payload.subValidatorID),
+      action.payload.validatorID
+    ),
 
   [ReducerActionTypes.REMOVE_SUB_VALIDATOR]: (
     state,
     action: ReturnType<typeof InternalActions.removeSubValidator>
-  ) => {
-    Map.replace(
-      state.subs,
-      action.payload.validatorID,
+  ) =>
+    void map.replace(state.subs, CopyOptions.COPY_NOTHING)(
       (subs) =>
-        Array.removeAll(
-          (sub) => action.payload.subValidatorID === sub,
-          subs,
-          COPY_NOTHING
-        ),
-      COPY_NOTHING
-    );
-  },
+        array.remove(subs)((sub) => action.payload.subValidatorID === sub),
+      action.payload.validatorID
+    ),
 
   [ReducerActionTypes.CLEAR_SUB_VALIDATORS]: (
     state,
     action: ReturnType<typeof InternalActions.clearSubValidators>
-  ) => {
-    Map.remove(state.subs, action.payload.validatorID, COPY_NOTHING);
-  },
+  ) => void (state.subs = map.remove(state.subs)(action.payload.validatorID)),
 });
 
 export default validationReducer;

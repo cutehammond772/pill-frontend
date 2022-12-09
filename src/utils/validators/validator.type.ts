@@ -11,25 +11,29 @@ export const ElementValidationTypes = {
 export type ElementValidationType =
   typeof ElementValidationTypes[keyof typeof ElementValidationTypes];
 
-export type ElementValidationResponses = {
-  [validatorName: string]: ElementValidationResponse;
+export type ElementValidations = {
+  [validatorName: string]: ElementValidation;
 };
 
-// Validator의 검증 결과이다.
-export interface ValidationResponse {
-  valid: boolean;
-  elements: ElementValidationResponses;
-}
-
-// Redux store에 저장되는 검증 데이터이다.
-export interface Validation {
-  valid: boolean;
+// ElementValidator 각각의 검증 결과이다.
+export interface ElementValidation {
+  type: ElementValidationType;
   messages: Array<string>;
 }
 
-// ElementValidator 각각의 검증 결과이다.
-export interface ElementValidationResponse {
-  type: ElementValidationType;
+// Redux store에 저장되는 검증 데이터이다.
+export interface Validation extends ValidationResult {
+
+  // DomainValidator의 검증 결과이다.
+  domain?: ValidationResult;
+
+  // 하위 Validator의 검증 결과이다.
+  sub?: ValidationResult;
+}
+
+// 가공된 검증 결과를 나타낸다.
+export interface ValidationResult {
+  valid: boolean;
   messages: Array<string>;
 }
 
@@ -39,7 +43,7 @@ export const DEFAULT_ID = "DEFAULT_ID";
 // 특정 요소(데이터)에 대한 Validator이다.
 // 검증이 필요한 요소가 많아 세분화할 필요가 있을 때 여러 ElementValidator로 나눌 수 있지만,
 // 굳이 세분화할 필요가 없을 때에는 하나의 ElementValidator에서 연속 검증으로구현할 수 있다.
-export type ElementValidator<T> = (t: T) => ElementValidationResponse;
+export type ElementValidator<T> = (t: T) => ElementValidation;
 
 export interface Validator<T> {
   // Validator의 고유 ID이다. validatorID 함수를 이용해 생성한다.
@@ -59,6 +63,7 @@ export interface Validator<T> {
   subPattern?: SubValidatorPattern;
 }
 
+// Validator의 정보이다.
 export interface ValidatorInfo {
   validatorID: string;
   top?: string;
@@ -99,21 +104,15 @@ export type ValidatorQuantifier =
 export const validatorID = (signature: string, id?: string) =>
   `${signature}:${id || DEFAULT_ID}`;
 
-export const initialValidatorResponse = (
-  validator: Validator<any>
-): ValidationResponse => {
-  return {
-    valid: false,
-    elements: Object.keys(validator.validators).reduce((acc, signature) => {
-      acc[signature] = {
-        type: ElementValidationTypes.EMPTY,
-        messages: [],
-      };
+export const initialValidatorResponse = (validator: Validator<any>) =>
+  Object.keys(validator.validators).reduce((acc, signature) => {
+    acc[signature] = {
+      type: ElementValidationTypes.EMPTY,
+      messages: [],
+    };
 
-      return acc;
-    }, {} as ElementValidationResponses),
-  };
-};
+    return acc;
+  }, {} as ElementValidations);
 
 // 하위 Validator가 현재 패턴에 잘 부합하는지 확인한다.
 export const resolvePattern = (

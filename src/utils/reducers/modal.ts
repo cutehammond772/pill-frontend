@@ -2,8 +2,8 @@ import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
 import { RootState } from ".";
 import { ModalType } from "../../layouts/modal/modal.type";
 
-import * as Map from "../other/data-structure/index-signature-map";
-import { COPY_NOTHING } from "../other/data-structure/options";
+import * as map from "../other/data-structure/index-signature-map";
+import { CopyOptions } from "../other/data-structure/options";
 import { identity } from "../other/identity";
 
 export const REDUCER_NAME = "modal";
@@ -92,38 +92,33 @@ const modalReducer = createReducer(initialState, {
   ) => {
     const { type, props, modalID } = action.payload;
 
-    Map.put(state.data, modalID, props, COPY_NOTHING);
-    Map.put(state.info, modalID, { type: type, open: true }, COPY_NOTHING);
+    map.put(state.data, CopyOptions.COPY_NOTHING)(modalID, props);
+    map.put(state.info, CopyOptions.COPY_NOTHING)(modalID, {
+      type: type,
+      open: true,
+    });
   },
 
   [ReducerActionTypes.CLOSE]: (
     state,
     action: ReturnType<typeof InternalActions.closeModal>
-  ) => {
-    const { modalID } = action.payload;
+  ) =>
+    void map.replace(state.info, CopyOptions.COPY_NOTHING)((info) => {
+      if (!info) {
+        throw new Error(
+          "[modalReducer] 존재하지 않는 modal에 대해 close를 요청했습니다."
+        );
+      }
 
-    Map.replace(
-      state.info,
-      modalID,
-      (info) => {
-        if (!info) {
-          throw new Error(
-            "[modalReducer] 존재하지 않는 modal에 대해 close를 요청했습니다."
-          );
-        }
-
-        return { ...info, open: false };
-      },
-      COPY_NOTHING
-    );
-  },
-
+      return { ...info, open: false };
+    }, action.payload.modalID),
+    
   [ReducerActionTypes.REMOVE]: (
     state,
     action: ReturnType<typeof InternalActions.removeModal>
   ) => {
-    Map.remove(state.data, action.payload.modalID, COPY_NOTHING);
-    Map.remove(state.info, action.payload.modalID, COPY_NOTHING);
+    state.data = map.remove(state.data)(action.payload.modalID);
+    state.info = map.remove(state.info)(action.payload.modalID);
   },
 });
 

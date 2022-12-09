@@ -1,5 +1,5 @@
 import {
-  ElementValidationResponse,
+  ElementValidation,
   ElementValidationTypes as type,
 } from "./validator.type";
 
@@ -53,7 +53,7 @@ const next = <T extends {}>(sequence: ValidationSequence<T>) => ({
 const validator = <T extends {}>(
   element: T,
   sequence: ValidationSequence<T>
-): ElementValidationResponse => {
+): ElementValidation => {
   let isPassed = false;
 
   const response = sequence.functions.reduce(
@@ -82,7 +82,7 @@ const validator = <T extends {}>(
     {
       type: type.VALID,
       messages: [],
-    } as ElementValidationResponse
+    } as ElementValidation
   );
 
   return isPassed ? { type: type.EMPTY, messages: [] } : response;

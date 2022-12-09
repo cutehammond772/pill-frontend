@@ -1,7 +1,7 @@
 import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
 
-import { COPY_NOTHING } from "../other/data-structure/options";
-import * as Array from "../other/data-structure/optional-array";
+import { CopyOptions } from "../other/data-structure/options";
+import * as array from "../other/data-structure/smart-array";
 import { CategoryData, PillContent, PillIndexData } from "../pill/pill.type";
 import { RootState } from ".";
 import { identity } from "../other/identity";
@@ -28,10 +28,10 @@ export const REDUCER_NAME = "editor";
 export const SagaActionTypes = {
   SAGA_BEGIN: `${REDUCER_NAME}/SAGA_BEGIN`,
   SAGA_FINISH: `${REDUCER_NAME}/SAGA_FINISH`,
-  
+
   SAGA_REMOVE_INDEX: `${REDUCER_NAME}/SAGA_REMOVE_INDEX`,
   SAGA_REMOVE_CONTENT: `${REDUCER_NAME}/SAGA_REMOVE_CONTENT`,
-} as const; 
+} as const;
 
 // Reducer 요청
 export const ReducerActionTypes = {
@@ -58,7 +58,9 @@ export const ReducerActionTypes = {
 export const Actions = {
   updateTitle: createAction<{ title: string }>(ReducerActionTypes.UPDATE_TITLE),
 
-  addCategory: createAction<{ category: string }>(ReducerActionTypes.ADD_CATEGORY),
+  addCategory: createAction<{ category: string }>(
+    ReducerActionTypes.ADD_CATEGORY
+  ),
 
   removeCategory: createAction<{ categoryId: string }>(
     ReducerActionTypes.REMOVE_CATEGORY
@@ -107,7 +109,9 @@ export const Actions = {
 export const InternalActions = {
   reset: createAction(ReducerActionTypes.RESET),
 
-  setAvailable: createAction<{ available: boolean }>(ReducerActionTypes.SET_AVAILABLE),
+  setAvailable: createAction<{ available: boolean }>(
+    ReducerActionTypes.SET_AVAILABLE
+  ),
 
   removeContentImmadiately: createAction<{ id: string; contentId: string }>(
     ReducerActionTypes.REMOVE_CONTENT_IMMEDIATELY
@@ -162,43 +166,35 @@ const editorReducer = createReducer(initialState, {
   [ReducerActionTypes.ADD_CATEGORY]: (
     state,
     action: ReturnType<typeof Actions.addCategory>
-  ) => {
-    Array.push(
-      {
-        categoryId: crypto.randomUUID(),
-        category: action.payload.category,
-      },
+  ) =>
+    void array.push(
       state.categories,
-      COPY_NOTHING
-    );
-  },
+      CopyOptions.COPY_NOTHING
+    )({
+      categoryId: crypto.randomUUID(),
+      category: action.payload.category,
+    }),
 
   [ReducerActionTypes.REMOVE_CATEGORY]: (
     state,
     action: ReturnType<typeof Actions.removeCategory>
-  ) => {
-    Array.removeAll(
-      (category) => category.categoryId === action.payload.categoryId,
-      state.categories,
-      COPY_NOTHING
-    );
-  },
+  ) =>
+    void (state.categories = array.remove(state.categories)(
+      (category) => category.categoryId === action.payload.categoryId
+    )),
 
-  [ReducerActionTypes.RESET_CATEGORIES]: (state) => {
-    state.categories = [];
-  },
+  [ReducerActionTypes.RESET_CATEGORIES]: (state) =>
+    void (state.categories = []),
 
-  [ReducerActionTypes.CREATE_INDEX]: (state) => {
-    Array.push(
-      {
-        id: crypto.randomUUID(),
-        title: "",
-        contents: [],
-      },
+  [ReducerActionTypes.CREATE_INDEX]: (state) =>
+    void array.push(
       state.indexes,
-      COPY_NOTHING
-    );
-  },
+      CopyOptions.COPY_NOTHING
+    )({
+      id: crypto.randomUUID(),
+      title: "",
+      contents: [],
+    }),
 
   [ReducerActionTypes.UPDATE_INDEX_TITLE]: (
     state,
@@ -211,13 +207,10 @@ const editorReducer = createReducer(initialState, {
   [ReducerActionTypes.REMOVE_INDEX_IMMEDIATELY]: (
     state,
     action: ReturnType<typeof InternalActions.removeIndexImmadiately>
-  ) => {
-    Array.removeAll(
-      (index) => index.id === action.payload.id,
-      state.indexes,
-      COPY_NOTHING
-    );
-  },
+  ) =>
+    void (state.indexes = array.remove(state.indexes)(
+      (index) => index.id === action.payload.id
+    )),
 
   [ReducerActionTypes.ADD_CONTENT]: (
     state,
@@ -225,16 +218,15 @@ const editorReducer = createReducer(initialState, {
   ) => {
     const index = state.indexes.find((index) => index.id === action.payload.id);
 
-    Array.push(
-      {
-        contentId: crypto.randomUUID(),
-        type: action.payload.contentType,
-        content: action.payload.content,
-        subContent: action.payload.subContent || "",
-      },
+    array.push(
       index?.contents,
-      COPY_NOTHING
-    );
+      CopyOptions.COPY_NOTHING
+    )({
+      contentId: crypto.randomUUID(),
+      type: action.payload.contentType,
+      content: action.payload.content,
+      subContent: action.payload.subContent || "",
+    });
   },
 
   [ReducerActionTypes.UPDATE_CONTENT]: (
@@ -261,11 +253,10 @@ const editorReducer = createReducer(initialState, {
   ) => {
     const index = state.indexes.find((index) => index.id === action.payload.id);
 
-    Array.removeAll(
-      (content) => content.contentId === action.payload.contentId,
-      index?.contents,
-      COPY_NOTHING
-    );
+    !!index &&
+      (index.contents = array.remove(index.contents)(
+        (content) => content.contentId === action.payload.contentId
+      ));
   },
 
   [ReducerActionTypes.EXCHANGE_CONTENT]: (

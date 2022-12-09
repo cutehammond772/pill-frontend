@@ -8,9 +8,9 @@ import {
 import {
   Validator,
   ElementValidationTypes,
-  ValidationResponse,
   initialValidatorResponse,
-  Validation,
+  ElementValidations,
+  ValidationResult,
 } from "../validators/validator.type";
 import { useParamSelector } from "./param-selector";
 
@@ -26,14 +26,14 @@ export const useValidation = <T extends { [key: string]: any }>(
       if (!(key in data)) {
         throw new Error("[useValidation] 기존에 저장된 데이터와 다릅니다.");
       }
-
+      
       if (data[key] !== dependency.current[key]) {
-        modified = true;
+        return true;
       }
-
+      
       return modified;
     }, false);
-
+    
     if (modified || !init.current) {
       validateFn(data);
       dependency.current = data;
@@ -80,7 +80,7 @@ export const useValidator = <T>(validator: Validator<T>) => {
 
   // 각 요소의 검증 결과를 캐시한다.
   // 디스패치 시에는 각 요소의 검증 결과를 합산한다.
-  const cache = useRef<ValidationResponse>(initialValidatorResponse(validator));
+  const cache = useRef<ElementValidations>(initialValidatorResponse(validator));
 
   // 이 Validator를 삭제한다. 컴포넌트가 삭제될 때 같이 호출되도록 한다.
   const remove = useCallback(() => {
@@ -89,7 +89,7 @@ export const useValidator = <T>(validator: Validator<T>) => {
     }
 
     // 이 Validator의 모든 정보를 삭제한다.
-    dispatch(actions.removeValidator({ validatorID: validatorID }));
+    dispatch(actions.removeValidator({ validatorID }));
     removed.current = true;
   }, [dispatch, validatorID]);
 
@@ -99,18 +99,20 @@ export const useValidator = <T>(validator: Validator<T>) => {
       return;
     }
 
-    const validation: Validation = {
-      valid: cache.current.valid,
-      messages: Object.values(cache.current.elements)
-        .map((response) => response.messages)
-        .flat(),
+    const values = Object.values(cache.current);
+
+    const result: ValidationResult = {
+      valid: values.every(
+        (response) => response.type === ElementValidationTypes.VALID
+      ),
+      messages: values.map((response) => response.messages).flat(),
     };
 
     // 검증 결과를 저장한다.
     dispatch(
-      actions.updateValidation({
-        validation: validation,
-        validatorID: validatorID,
+      actions.updateDomainValidation({
+        validatorID,
+        result,
       })
     );
   }, [dispatch, validatorID]);
@@ -122,32 +124,28 @@ export const useValidator = <T>(validator: Validator<T>) => {
         return;
       }
 
+      
       // 모든 ElementValidator에 대해 검증을 시도한다.
-      const responses = Object.keys(validator.validators).map((key) => ({
+      const responses = Object.keys(validator.validators)
+      .map((key) => ({
         signature: key,
-        ...validator.validators[key](element),
-      }));
+          ...validator.validators[key](element),
+        }))
+        .filter((response) => response.type !== ElementValidationTypes.EMPTY);
 
-      // 요소 검증 결과를 나타낸다.
-      const response = responses.find(
-        (response) => response.type !== ElementValidationTypes.EMPTY
-      );
-
-      if (!response) {
+      if (!responses || responses.length === 0) {
         throw new Error(
           "[useValidator] 검증 요청 대상인 특정한 요소를 검증하는 ElementValidator가 존재하지 않습니다."
         );
       }
 
       // 특정 요소에 대해 검증 결과를 캐시에 갱신한다.
-      cache.current.elements[response.signature] = {
-        type: response.type,
-        messages: response.messages,
-      };
-
-      cache.current.valid = Object.values(cache.current.elements).every(
-        (response) => response.type === ElementValidationTypes.VALID
-      );
+      responses.forEach((response) => {
+        cache.current[response.signature] = {
+          type: response.type,
+          messages: response.messages,
+        };
+      });
 
       // 캐시된 검증 결과를 Redux store에 반영한다.
       commit();

@@ -1,10 +1,12 @@
 import { createAction, createReducer, createSelector } from "@reduxjs/toolkit";
 
-import * as Array from "../other/data-structure/optional-array";
-import { COPY_NOTHING } from "../other/data-structure/options";
+import * as array from "../other/data-structure/smart-array";
+import * as map from "../other/data-structure/index-signature-map";
+
 import { DisabledMenus, SelectedMenu } from "../hooks/header/header.type";
 import { RootState } from ".";
 import { identity } from "../other/identity";
+import { CopyOptions } from "../other/data-structure/options";
 
 export const REDUCER_NAME = "header";
 
@@ -104,10 +106,10 @@ const headerReducer = createReducer(initialState, {
     state,
     action: ReturnType<typeof Actions.disable>
   ) => {
-    Array.removeAll(
-      (item) => item === action.payload.menu,
-      state.disabled[action.payload.header],
-      COPY_NOTHING
+    map.replace(state.disabled, CopyOptions.COPY_NOTHING)(
+      (disabled) =>
+        array.remove(disabled)((item) => item === action.payload.menu),
+      action.payload.header
     );
   },
 

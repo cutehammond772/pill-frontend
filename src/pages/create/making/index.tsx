@@ -6,7 +6,7 @@ import AddIndex from "./add-index/index";
 import { Collapse } from "@mui/material";
 import { useSelector } from "react-redux";
 import { usePillDefaultEditor } from "../../../utils/hooks/editor";
-import { useValidator } from "../../../utils/hooks/validation";
+import { useValidation, useValidator } from "../../../utils/hooks/validation";
 
 import IndexContainerValidator from "../../../utils/validators/create/index-container";
 import { useI18n } from "../../../utils/hooks/i18n";
@@ -19,6 +19,8 @@ export const Content = () => {
   const indexes = useSelector(selectors.INDEXES);
   const validator = useValidator(IndexContainerValidator());
   const validation = validator.validation;
+
+  useValidation(validator.validate, { indexCount: indexes.length });
 
   return (
     <Container

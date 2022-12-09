@@ -1,116 +1,69 @@
-// 인덱스 시그니처를 맵으로 사용할 수 있도록 돕는다.
-
-import { CopyOption, CopyOptionSignatures } from "./options";
+import { CopyOption, CopyOptions } from "./options";
 
 export type IndexSignatureMap<T> = { [key: string]: T };
-
-const copy = <T>(copyOption: CopyOption, map: IndexSignatureMap<T>) => {
-  if (copyOption.type === CopyOptionSignatures.COPY_NOTHING) {
-    // 복사를 하지 않을 경우
-    return map;
-  }
-
-  if (copyOption.type === CopyOptionSignatures.SWALLOW_COPY) {
-    // 얕은 복사를 진행할 경우
-    return { ...map };
-  }
-
-  if (copyOption.type === CopyOptionSignatures.DEEP_COPY) {
-    // 깊은 복사를 진행할 경우
-    return Object.keys(map).reduce((acc, key) => {
-      acc[key] = copyOption.copyFn(map[key]);
-      return acc;
-    }, {} as IndexSignatureMap<T>);
-  }
-
-  throw new Error("유효하지 않은 CopyOption입니다.");
-};
-
-const resolve = <T>(
-  copyOption: CopyOption,
-  map: IndexSignatureMap<T>,
-  exclude?: Array<string>,
-  include?: Array<{ key: string; value: T }>
-) => {
-  const resolved = copy(copyOption, map);
-  !!exclude && exclude.forEach((key) => delete resolved[key]);
-  !!include && include.forEach(({ key, value }) => (resolved[key] = value));
-
-  return resolved;
-};
+type ReplaceFunction<T> = (value?: T) => T;
 
 // 특정한 원소를 수정합니다. 이때, 존재하지 않는 경우 put과 동일한 기능을 가집니다.
-const replace = <T>(
-  map: IndexSignatureMap<T>,
-  key: string,
-  replaceFn: (value?: T) => T,
-  copyOption?: CopyOption
-) => {
-  const resolved = resolve(
-    copyOption || { type: CopyOptionSignatures.SWALLOW_COPY },
-    map
-  );
+export const replace =
+  <T>(map: IndexSignatureMap<T>, copyOption?: CopyOption) =>
+  (replaceFn: ReplaceFunction<T>, ...keys: string[]) => {
+    const initialValue = (() => {
+      switch (copyOption || CopyOptions.SWALLOW_COPY) {
+        case CopyOptions.COPY_NOTHING:
+          return map;
 
-  resolved[key] = replaceFn(resolved[key]);
-  return resolved;
-};
+        case CopyOptions.SWALLOW_COPY:
+          return Object.keys(map).reduce((acc, key) => {
+            acc[key] = map[key];
+            return acc;
+          }, {} as IndexSignatureMap<T>);
 
-const replaceAll = <T>(
-  map: IndexSignatureMap<T>,
-  keys: Array<string>,
-  replaceFn: (value?: T) => T,
-  copyOption?: CopyOption
-) => {
-  const resolved = resolve(
-    copyOption || { type: CopyOptionSignatures.SWALLOW_COPY },
-    map
-  );
-  keys.forEach((key) => (resolved[key] = replaceFn(resolved[key])));
+        default:
+          throw new Error("[IndexSignatureMap] 유효하지 않은 복사 옵션입니다.");
+      }
+    })();
 
-  return resolved;
-};
+    return keys.reduce((acc, key) => {
+      acc[key] = replaceFn(map[key]);
+      
+      return acc;
+    }, initialValue);
+  };
 
 // 맵에 (key, value) 쌍을 추가합니다.
-const put = <T>(
-  map: IndexSignatureMap<T>,
-  key: string,
-  value: T,
-  copyOption?: CopyOption
-) =>
-  resolve(
-    copyOption || { type: CopyOptionSignatures.SWALLOW_COPY },
-    map,
-    undefined,
-    [{ key, value }]
-  );
+export const put =
+  <T>(map: IndexSignatureMap<T>, copyOption?: CopyOption) =>
+  (key: string, value: T) => {
+    switch (copyOption || CopyOptions.SWALLOW_COPY) {
+      case CopyOptions.COPY_NOTHING:
+        map[key] = value;
+        return map;
 
-const putAll = <T>(
-  map: IndexSignatureMap<T>,
-  entries: Array<{ key: string; value: T }>,
-  copyOption?: CopyOption
-) =>
-  resolve(
-    copyOption || { type: CopyOptionSignatures.SWALLOW_COPY },
-    map,
-    undefined,
-    entries
-  );
+      case CopyOptions.SWALLOW_COPY:
+        const copied = Object.keys(map).reduce((acc, key) => {
+          acc[key] = map[key];
+          return acc;
+        }, {} as IndexSignatureMap<T>);
+        copied[key] = value;
+        return copied;
+
+      default:
+        throw new Error("[IndexSignatureMap] 유효하지 않은 복사 옵션입니다.");
+    }
+  };
 
 // 맵의 특정한 원소를 삭제합니다.
-const remove = <T>(
-  map: IndexSignatureMap<T>,
-  key: string,
-  copyOption?: CopyOption
-) =>
-  resolve(copyOption || { type: CopyOptionSignatures.SWALLOW_COPY }, map, [
-    key,
-  ]);
+export const remove =
+  <T>(map: IndexSignatureMap<T>, copyOption?: CopyOption) =>
+  (...keys: string[]) => {
+    switch (copyOption || CopyOptions.SWALLOW_COPY) {
+      case CopyOptions.SWALLOW_COPY:
+        return Object.keys(map).reduce((acc, key) => {
+          !keys.includes(key) && (acc[key] = map[key]);
+          return acc;
+        }, {} as IndexSignatureMap<T>);
 
-const removeAll = <T>(
-  map: IndexSignatureMap<T>,
-  keys: Array<string>,
-  copyOption?: CopyOption
-) =>
-  resolve(copyOption || { type: CopyOptionSignatures.SWALLOW_COPY }, map, keys);
-
-export { copy, replace, replaceAll, put, putAll, remove, removeAll };
+      default:
+        throw new Error("[IndexSignatureMap] 유효하지 않은 복사 옵션입니다.");
+    }
+  };
